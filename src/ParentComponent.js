@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import ExcelReader from './ExcelReader'; // Adjust the path as needed
+import ExcelReader from './utils/ExcelReader'; // Adjust the path as needed
 
 const ParentComponent = () => {
   const [columns, setColumns] = useState([]);

@@ -9,8 +9,8 @@ function App() {
   return (
     <div className="App">
       {/* <ExcelTable></ExcelTable> */}
-      <FullFeaturedCrudGrid></FullFeaturedCrudGrid>
-      {/* <Exec /> */}
+      {/* <FullFeaturedCrudGrid></FullFeaturedCrudGrid> */}
+      <Exec />
       {/* <Temp /> */}
       {/* <ParentComponent></ParentComponent> */}
       

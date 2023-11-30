@@ -1,11 +1,11 @@
 import "./App.css";
-import CustomToolbarGrid from "./CustomToolbarGrid";
-import EventTable from "./components/event table/EventTable";
+import DesignedEventTable from "./components/event table/DesignedEventTable";
+// import EventTable from "./temp_codes/EventTable";
 function App() {
   return (
     <div className="App">
       {/* <EventTable /> */}
-      <CustomToolbarGrid></CustomToolbarGrid>
+      <DesignedEventTable></DesignedEventTable>
     </div>
   );
 }

@@ -13,7 +13,7 @@ import { useDemoData } from "@mui/x-data-grid-generator";
 import { heIL } from "@mui/x-data-grid";
 import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
-import ExcelReader from "./utils/ExcelReader";
+import ExcelReader from "../utils/ExcelReader";
 import { randomId } from "@mui/x-data-grid-generator";
 import Button from "@mui/material/Button";
 import AddIcon from "@mui/icons-material/Add";
@@ -31,8 +31,8 @@ function CustomToolbar(props) {
   const { setRows, setRowModesModel } = props;
 
   const handleClick = () => {
-    const id = 10;
-    setRows((oldRows) => [...oldRows, { id, name: "", age: "", isNew: true }]);
+    const id = randomId();
+    setRows((oldRows) => [...oldRows, { id }]);
     setRowModesModel((oldModel) => ({
       ...oldModel,
       [id]: { mode: GridRowModes.Edit, fieldToFocus: "name" },
@@ -257,20 +257,20 @@ export default function CustomToolbarGrid() {
     let backgroundColor, textColor;
 
     switch (status) {
-      case "approved":
-        backgroundColor = "green";
+      case "מאושר":
+        backgroundColor = "#05bf3e";
         textColor = "white";
         break;
-      case "declined":
-        backgroundColor = "red";
+      case "נדחה":
+        backgroundColor = "#ff0000";
         textColor = "white";
         break;
-      case "pending":
-        backgroundColor = "orange";
+      case "ממתין להחלטת רמח":
+        backgroundColor = "#ffa200";
         textColor = "black";
         break;
       default:
-        backgroundColor = "orange";
+        backgroundColor = "#ffa200";
         textColor = "black";
         break;
     }
@@ -278,6 +278,40 @@ export default function CustomToolbarGrid() {
     return {
       backgroundColor,
       color: textColor,
+      width: "100%",
+      height: "100%",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+    };
+  };
+
+  const getPresentsCellStyle = (value) => {
+    let backgroundColorPresents, textColorPresents;
+    console.log(value);
+
+    switch (value) {
+      case "כן":
+        backgroundColorPresents = "#05bf3e";
+        textColorPresents = "white";
+        break;
+      case "לא":
+        backgroundColorPresents = "#ff0000";
+        textColorPresents = "white";
+        break;
+      case "ממתין להחלטת רמח":
+        backgroundColorPresents = "#ffa200";
+        textColorPresents = "black";
+        break;
+      default:
+        backgroundColorPresents = "#ffa200";
+        textColorPresents = "black";
+        break;
+    }
+
+    return {
+      backgroundColor: backgroundColorPresents,
+      color: textColorPresents,
       width: "100%",
       height: "100%",
       display: "flex",
@@ -303,7 +337,7 @@ export default function CustomToolbarGrid() {
       align: "flex-end",
       type: "string",
       width: 80,
-      editable: true,
+      editable: false,
     },
     {
       field: "2",
@@ -312,7 +346,7 @@ export default function CustomToolbarGrid() {
       align: "flex-end",
       type: "string",
       width: 100,
-      editable: true,
+      editable: false,
     },
     {
       field: "3",
@@ -321,7 +355,7 @@ export default function CustomToolbarGrid() {
       align: "flex-end",
       type: "string",
       width: 100,
-      editable: true,
+      editable: false,
     },
     {
       field: "4",
@@ -330,7 +364,7 @@ export default function CustomToolbarGrid() {
       align: "flex-end",
       type: "string",
       width: 80,
-      editable: true,
+      editable: false,
     },
     {
       field: "5",
@@ -339,7 +373,7 @@ export default function CustomToolbarGrid() {
       align: "flex-end",
       type: "string",
       width: 80,
-      editable: true,
+      editable: false,
     },
     {
       field: "6",
@@ -348,7 +382,7 @@ export default function CustomToolbarGrid() {
       align: "flex-end",
       type: "string",
       width: 80,
-      editable: true,
+      editable: false,
     },
     {
       field: "7",
@@ -357,7 +391,7 @@ export default function CustomToolbarGrid() {
       align: "flex-end",
       type: "string",
       width: 50,
-      editable: true,
+      editable: false,
     },
     {
       field: "8",
@@ -366,7 +400,7 @@ export default function CustomToolbarGrid() {
       align: "flex-end",
       type: "string",
       width: 80,
-      editable: true,
+      editable: false,
     },
     {
       field: "9",
@@ -375,7 +409,7 @@ export default function CustomToolbarGrid() {
       align: "flex-end",
       type: "string",
       width: 80,
-      editable: true,
+      editable: false,
     },
     {
       field: "10",
@@ -384,69 +418,97 @@ export default function CustomToolbarGrid() {
       align: "flex-end",
       type: "string",
       width: 130,
-      editable: true,
+      editable: false,
     },
     {
-      field: "status",
-      headerName: "סטטאוס בקשה",
+      field: "11",
+      headerName: "אישור רמח",
       headerAlign: "center",
       width: 100,
-      editable: true,
+      editable: false,
       renderCell: (params) => (
         <div style={getStatusCellStyle(params.value)}>
-          {params.value === "approved" && "Approved"}
-          {params.value === "declined" && "Declined"}
-          {params.value === "pending" && "Pending"}
+          {params.value === "מאושר" && "מאושר"}
+          {params.value === "נדחה" && "נדחה"}
+          {params.value === "ממתין להחלטת רמח" && "ממתין להחלטת רמח"}
         </div>
       ),
     },
     {
-      field: "actions",
-      type: "actions",
-      headerName: "פעולות",
+      field: "12",
+      headerName: "נוכחות באירוע",
       headerAlign: "center",
       width: 100,
-      cellClassName: "actions",
-      getActions: ({ id }) => {
-        const isInEditMode = rowModesModel[id]?.mode === GridRowModes.Edit;
-
-        if (isInEditMode) {
-          return [
-            <GridActionsCellItem
-              icon={<SaveIcon />}
-              label="Save"
-              sx={{
-                color: "primary.main",
-              }}
-              onClick={handleSaveClick(id)}
-            />,
-            <GridActionsCellItem
-              icon={<CancelIcon />}
-              label="Cancel"
-              className="textPrimary"
-              onClick={handleCancelClick(id)}
-              color="inherit"
-            />,
-          ];
-        }
-
-        return [
-          <GridActionsCellItem
-            icon={<EditIcon />}
-            label="Edit"
-            className="textPrimary"
-            onClick={handleEditClick(id)}
-            color="inherit"
-          />,
-          <GridActionsCellItem
-            icon={<DeleteIcon />}
-            label="Delete"
-            onClick={handleDeleteClick(id)}
-            color="inherit"
-          />,
-        ];
-      },
+      editable: false,
+      renderCell: (params) => (
+        <div style={getPresentsCellStyle(params.value)}>
+          {params.value === "כן" && "כן"}
+          {params.value === "לא" && "לא"}
+          {params.value === "ממתין להחלטת רמח" && "ממתין להחלטת רמח"}
+        </div>
+      ),
     },
+    {
+      field: "13",
+      headerName: "עמידה בפקודה",
+      headerAlign: "center",
+      width: 100,
+      editable: false,
+      renderCell: (params) => (
+        <div style={getPresentsCellStyle(params.value)}>
+          {params.value === "כן" && "כן"}
+          {params.value === "לא" && "לא"}
+          {params.value === "ממתין להחלטת רמח" && "ממתין להחלטת רמח"}
+        </div>
+      ),
+    },
+    // {
+    //   field: "actions",
+    //   type: "actions",
+    //   headerName: "פעולות",
+    //   headerAlign: "center",
+    //   width: 100,
+    //   cellClassName: "actions",
+    //   getActions: ({ id }) => {
+    //     const isInEditMode = rowModesModel[id]?.mode === GridRowModes.Edit;
+
+    //     if (isInEditMode) {
+    //       return [
+    //         <GridActionsCellItem
+    //           icon={<SaveIcon />}
+    //           label="Save"
+    //           sx={{
+    //             color: "primary.main",
+    //           }}
+    //           onClick={handleSaveClick(id)}
+    //         />,
+    //         <GridActionsCellItem
+    //           icon={<CancelIcon />}
+    //           label="Cancel"
+    //           className="textPrimary"
+    //           onClick={handleCancelClick(id)}
+    //           color="inherit"
+    //         />,
+    //       ];
+    //     }
+
+    //     return [
+    //       <GridActionsCellItem
+    //         icon={<EditIcon />}
+    //         label="Edit"
+    //         className="textPrimary"
+    //         onClick={handleEditClick(id)}
+    //         color="inherit"
+    //       />,
+    //       <GridActionsCellItem
+    //         icon={<DeleteIcon />}
+    //         label="Delete"
+    //         onClick={handleDeleteClick(id)}
+    //         color="inherit"
+    //       />,
+    //     ];
+    //   },
+    // },
   ];
 
   return (
@@ -465,8 +527,8 @@ export default function CustomToolbarGrid() {
     >
       <Box
         sx={{
-          height: 550,
-          width: 1100,
+          height: 700,
+          width: 1220,
           direction: "ltr",
           background: "white",
         }}

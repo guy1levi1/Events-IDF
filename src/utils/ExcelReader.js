@@ -5,7 +5,7 @@ import "./ExcelReader.css";
 
 // ExcelReader component
 const ExcelReader = ({ onRowsChange }) => {
-  const [rows, setRows] = useState([]);
+  // const [rows, setRows] = useState([]);
   const fileInputRef = useRef(null);
   const [errorMessage, setErrorMessage] = useState("");
   const [uploadFileInfo, setUploadFileInfo] = useState("");
@@ -55,7 +55,7 @@ const ExcelReader = ({ onRowsChange }) => {
             return newRow;
           });
 
-        setRows(newRows);
+        // setRows(newRows);
 
         // Call the callback with the extracted rows
         onRowsChange(newRows);

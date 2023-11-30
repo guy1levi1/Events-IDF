@@ -1,0 +1,18 @@
+.rounded-button {
+  width: "731px";
+  height: "157px";
+  padding: 10px 20px;
+  border-radius: 10px;
+  background-color: #3069be; /* Green background color */
+  color: white; /* White text color */
+  border: none; /* Remove border */
+  text-align: center; /* Center text */
+  text-decoration: none; /* Remove underline */
+  display: inline-block; /* Make it an inline element */
+  font-size: 16px; /* Set font size */
+  cursor: pointer; /* Add a pointer cursor on hover */
+}
+
+p {
+  font-size: 0.7rem;
+}

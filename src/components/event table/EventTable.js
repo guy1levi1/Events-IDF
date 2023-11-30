@@ -13,10 +13,8 @@ import {
   GridActionsCellItem,
   GridRowEditStopReasons,
 } from "@mui/x-data-grid";
-import {
-  randomId} from "@mui/x-data-grid-generator";
+import { randomId } from "@mui/x-data-grid-generator";
 import ExcelReader from "../../utils/ExcelReader";
-
 
 function EditToolbar(props) {
   const { setRows, setRowModesModel } = props;
@@ -43,8 +41,9 @@ export default function EventTable() {
   const [rows, setRows] = React.useState([]);
   const [rowModesModel, setRowModesModel] = React.useState({});
 
-
-React.useEffect(() => {console.log(rows)}, [rows])
+  React.useEffect(() => {
+    console.log(rows);
+  }, [rows]);
 
   const handleRowsChange = (newRows) => {
     setRows(newRows);

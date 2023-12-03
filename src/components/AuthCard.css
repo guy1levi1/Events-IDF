@@ -7,3 +7,23 @@
     width: 25%;
     margin: auto;
 }
+
+.MuiInputBase-root {
+    border-radius: 5000px !important;
+    background-color: #6290D4 !important;
+    color: white !important;
+}
+
+.MuiInputLabel-root {
+    color: white !important;
+}
+.MuiOutlinedInput-input {
+    color: white !important;
+}
+.MuiFormHelperText-root {
+    color: rgb(0, 0, 0) !important;
+}
+
+.MuiButtonBase-root {
+    border-radius: 5000px !important;
+}

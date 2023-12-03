@@ -1,13 +1,22 @@
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./App.css";
-import DesignedEventTable from "./components/event table/DesignedEventTable";
-// import EventTable from "./temp_codes/EventTable";
+import RootLayout from "./pages/RootLayOut";
+import TablePage from "./pages/TablePage";
+import LoginPage from "./pages/LoginPage";
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <RootLayout />,
+    children: [
+      { path: "/", element: <LoginPage /> },
+      { path: "/Table", element: <TablePage /> },
+    ],
+  },
+]);
+
 function App() {
-  return (
-    <div className="App">
-      {/* <EventTable /> */}
-      <DesignedEventTable></DesignedEventTable>
-    </div>
-  );
+  return <RouterProvider router={router} />;
 }
 
 export default App;

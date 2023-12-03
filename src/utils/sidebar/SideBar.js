@@ -7,6 +7,7 @@ const SideBar = ({ isOpen, onClose }) => {
 
   return (
     <div className={sidebarClass}>
+      
       <button className="close-button" onClick={onClose}>
         Close
       </button>

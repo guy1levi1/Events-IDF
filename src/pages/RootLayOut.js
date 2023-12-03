@@ -3,6 +3,7 @@ import { Outlet } from "react-router-dom";
 import SideBar from "../utils/sidebar/SideBar";
 import { useState } from "react";
 import "./RootLayOut.css";
+import Menu from "../utils/codepen_sidebat/Menu"
 
 export default function RootLayout() {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
@@ -20,13 +21,9 @@ export default function RootLayout() {
 
   return (
     <>
-      <div className={wrapperToggle}>
-        <button className="toggle" onClick={handleSidebarToggle}>
-          Toggle Sidebar
-        </button>
-      </div>
-      <SideBar isOpen={isSidebarOpen} onClose={handleSidebarClose} />
-      <Outlet />
+      {/* <SideBar wrapperToggle= {wrapperToggle} isOpen={isSidebarOpen} onClose={handleSidebarClose} />
+      <Outlet /> */}
+      <Menu />
     </>
   );
 }

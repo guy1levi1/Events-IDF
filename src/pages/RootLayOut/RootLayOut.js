@@ -4,10 +4,11 @@ import "./RootLayOut.css";
 import Menu from "../../utils/sideBar/Menu";
 import mekalarLogo from "../../images/mekalar.png";
 import logiCorpLogo from "../../images/logi_corp.png";
-
+import TryTextFieldRTL from "../../utils/auth/TryTextFieldRTL"
 export default function RootLayout({ children }) {
   return (
     <>
+      <TryTextFieldRTL></TryTextFieldRTL>
       <div style={{ display: "flex", flexDirection: "row" }}>
         <div style={{ position: "absolute", top: "1rem", left: "1rem" }}>
           <img

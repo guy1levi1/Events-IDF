@@ -6,6 +6,8 @@ import DesignedTextField from "../../../utils/auth/DesignedTextField";
 
 export default function Login() {
 
+
+
   return (
     <div className="authWarraper">
       <label className="loginLabel">התחברות</label>
@@ -27,11 +29,14 @@ export default function Login() {
         <Button
           variant="contained"
           color="primary"
-          sx={{ mt: "50px", mb: "5px", borderRadius: "5000px"}}
+          sx={{ mt: "50px", mb: "5px", borderRadius: "5000px" }}
         >
           התחבר/י
         </Button>
-        <NavLink className="linkToSignup">ליצירת חשבון חדש</NavLink>
+
+        <NavLink className="linkToSignup" to="/signup">
+          ליצירת חשבון חדש
+        </NavLink>
       </div>
     </div>
   );

@@ -17,47 +17,53 @@ export default function DesignedTextField({
     setShowPassword(!showPassword);
   };
 
-  return (
-    <TextField
-      error={error}
-      size="small"
-      sx={{
-        width: "100%",
-        mb: "1rem",
-        "& .MuiInputBase-root": {
-          color: "white",
-          borderRadius: "5000px",
-          backgroundColor: "#6290D4",
-        },
-        "& .MuiInputLabel-root": {
-          color: "white",
-          backgroundColor: "rgba(0,0,0,0.3)",
-          borderRadius: "500px",
-          px: 1
-        },
-        "& .MuiOutlinedInput-input": {
-          color: "white",
 
-        },
-        "& .MuiFormHelperText-root": {
-          color: "rgb(0, 0, 0)",
-        },
-      }}
-      id="outlined-error-helper-text"
-      label={labelTextField}
-      helperText={helperText}
-      type={isPassword && showPassword ? "text" : "password"}
-      InputProps={
-        isPassword && {
-          endAdornment: (
-            <InputAdornment position="end">
-              <IconButton onClick={handleTogglePasswordVisibility}>
-                {showPassword ? <Visibility /> : <VisibilityOff />}
-              </IconButton>
-            </InputAdornment>
-          ),
+
+  return (
+    <>
+      <TextField
+        error={error}
+        size="small"
+        sx={{
+          width: "100%",
+          mb: "1rem",
+
+          "& .MuiInputBase-root": {
+            color: "white !important",
+            borderRadius: "5000px",
+            backgroundColor: "#6290D4",
+          },
+          "& .MuiInputLabel-root": {
+            color: "white !important",
+            backgroundColor: "#6290D4",
+            borderRadius: "500px",
+            px: 1,
+          },
+
+          "& .MuiOutlinedInput-input": {
+            color: "white !important",
+          },
+          "& .MuiFormHelperText-root": {
+            textAlign: "right",
+          },
+
+        }}
+        id="outlined-error-helper-text"
+        label={labelTextField}
+        helperText={helperText}
+        type={isPassword && showPassword ? "text" : "password"}
+        InputProps={
+          isPassword && {
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton onClick={handleTogglePasswordVisibility}>
+                  {showPassword ? <Visibility /> : <VisibilityOff />}
+                </IconButton>
+              </InputAdornment>
+            ),
+          }
         }
-      }
-    />
+      />
+    </>
   );
 }

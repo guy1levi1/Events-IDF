@@ -1,6 +1,8 @@
 import React from "react";
-import AuthCard from "../components/AuthCard";
+import Login from "../components/auth/login auth/Login";
+
+
 
 export default function LoginPage() {
-  return <AuthCard></AuthCard>;
+    return <Login />;
 }

@@ -1,0 +1,39 @@
+.authWarraperSignup {
+    display: flex;
+    position: relative;
+    background-color: #D9D9D9;
+    border-radius: 50px;
+    flex-direction: column;
+    align-items: center;
+    width: 25vw;
+    height: 67vh;
+    margin: auto;
+}
+
+.SignupLabel {
+    display: inline-block;
+    margin-top: 2rem;
+    font-size: 2.25rem;
+}
+.textsFieldsSignup {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 5rem;
+    width: 80%;
+}
+
+.authActionsSignup {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: absolute;
+    bottom: 0;
+}
+
+
+.linkToLogin {
+    color: #3069BE;
+    margin-bottom: 15px;
+}

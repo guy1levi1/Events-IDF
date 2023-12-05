@@ -1,18 +1,26 @@
 import React, { useState } from "react";
 import "./Menu.css"; // Import your CSS file
 import profile_img from "../../images/logo_image_example.png";
+import { useNavigate } from "react-router";
+
 const Menu = () => {
   const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
 
   const toggleMenu = () => {
     setOpen(!open);
   };
 
   const linksArray = [
-    { name: "אודות המערכת", url: "#" },
-    { name: "ניהול אירועים", url: "#" },
-    { name: "יצירת אירוע", url: "#" },
+    { name: "אודות המערכת", url: "/about" },
+    { name: "ניהול אירועים", url: "/manageEventes" },
+    { name: "יצירת אירוע", url: "/createEvent" },
   ];
+
+  const navigateHandler = (url) => {
+    // <Navigate to="/dashboard" replace={true} />
+    navigate(url);
+  };
 
   return (
     <div>
@@ -56,23 +64,31 @@ const Menu = () => {
         >
           <ul className="link-list">
             {linksArray.map((link, index) => (
-              <li key={index} className="link">
-                <a href={link.url}>{link.name}</a>
+              <li
+                key={index}
+                className="link"
+                onClick={() => navigateHandler(link.url)}
+                style={{ fontSize: "1rem" }}
+              >
+                {link.name}
               </li>
             ))}
           </ul>
         </div>
 
         <a
+        className="signoutbutton"
           style={{
             display: "flex",
-            marginTop: "220px",
             marginRight: "10px",
+            position: "absolute",
+            bottom: 0,
+            marginBottom: "0.5rem",
+            color: "black",
+            cursor: "pointer"
           }}
-          href={
-            "https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley"
-          }
-        >
+          href={`/login`}
+          >
           התנתק/י
         </a>
       </div>
@@ -85,7 +101,15 @@ const Menu = () => {
           alignItems: "center",
         }}
       >
-        <i className="fa" style={{ fontSize: "1.75rem" }}>
+        <i
+          className="fa"
+          style={{
+            fontSize: "1.75rem",
+            color: "white",
+            marginRight: "0.3rem",
+            marginBottom: "0.15rem",
+          }}
+        >
           &#9776;
         </i>
       </button>

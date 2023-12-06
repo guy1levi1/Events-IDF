@@ -1,5 +1,5 @@
-body {
-  /* background: -moz-linear-gradient(
+/* body {
+  background: -moz-linear-gradient(
     -45deg,
     rgba(241, 206, 184, 1) 0%,
     rgba(142, 186, 163, 1) 100%
@@ -16,9 +16,9 @@ body {
   margin: 0;
   padding: 0;
   height: 100vh;
-  width: 100vw; */
+  width: 100vw; 
   background: rgba(98, 144, 212, 1);
-}
+} */
 
 .menu-wrapper {
   position: relative;

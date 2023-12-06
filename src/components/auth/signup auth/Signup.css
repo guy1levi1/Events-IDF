@@ -12,7 +12,7 @@
 
 .SignupLabel {
     display: inline-block;
-    margin-top: 2rem;
+    margin-top: 1rem;
     font-size: 2.25rem;
 }
 .textsFieldsSignup {
@@ -20,7 +20,6 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin-top: 5rem;
     width: 80%;
 }
 
@@ -36,4 +35,5 @@
 .linkToLogin {
     color: #3069BE;
     margin-bottom: 15px;
+    font-size: 0.8rem;
 }

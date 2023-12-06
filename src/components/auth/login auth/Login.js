@@ -2,27 +2,26 @@ import React from "react";
 import Button from "@mui/material/Button";
 import "./Login.css";
 import { NavLink } from "react-router-dom";
-import DesignedTextField from "../../../utils/auth/DesignedTextField";
+import TryTextFieldRTL from "../../../utils/auth/TryTextFieldRTL";
 
 export default function Login() {
-
-
-
   return (
     <div className="authWarraper">
       <label className="loginLabel">התחברות</label>
       <div className="textsFields">
-        <DesignedTextField
+        <TryTextFieldRTL
+          id="outlined-error-helper-text"
           error={false}
-          labelTextField="מ'ס אישי"
+          labelTextField="מס' אישי"
           helperText="בעל 9 ספרות"
-          isPassword={false}
+          typeofTextField="regular"
         />
-        <DesignedTextField
+        <TryTextFieldRTL
+          id="outlined-error-helper-text"
           error={false}
           labelTextField="סיסמא"
           helperText="מינימום 6 ספרות"
-          isPassword={true}
+          typeofTextField="password"
         />
       </div>
       <div className="authActions">

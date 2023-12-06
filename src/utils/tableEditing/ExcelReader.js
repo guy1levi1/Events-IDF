@@ -79,10 +79,11 @@ const ExcelReader = ({ onRowsChange }) => {
         style={{ display: "none" }}
       />
       <button onClick={handleButtonClick} className="rounded-button">
-        העלה/י קובץ
+        להעלאת קובץ חדש
       </button>
       {errorMessage && <p className="error-message">{errorMessage}</p>}
-      {<p className="upload-file-info">{uploadFileInfo}</p>}
+    <div style={{marginTop: "-0.6rem"}}>
+      {<p className="upload-file-info">{uploadFileInfo}</p>}</div>
     </div>
   );
 };

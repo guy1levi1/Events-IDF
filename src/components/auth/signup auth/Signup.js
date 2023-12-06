@@ -8,16 +8,20 @@ import { MenuItem } from "@mui/material";
 const commands = [
   {
     commandId: 1,
-    commandName: "פיקוד מרכז"
+    commandName: "מרכז"
   },
   {
     commandId: 2,
-    commandName: "פיקוד צפון"
+    commandName: "צפון"
   },
   {
     commandId: 3,
-    commandName: "פיקוד דרום"
-  }
+    commandName: "דרום"
+  },
+  {
+    commandId: 4,
+    commandName: `פקע"ר`
+  },
 
 ]
 
@@ -76,7 +80,10 @@ export default function Signup() {
         >
           התחבר/י
         </Button>
-        <NavLink className="linkToLogin">להתחברות עם משתמש קיים</NavLink>
+        <NavLink className="linkToLogin" to="/login">להתחברות עם משתמש קיים</NavLink>
+
+
+        
       </div>
     </div>
   );

@@ -87,7 +87,8 @@ const Menu = () => {
             color: "black",
             cursor: "pointer"
           }}
-          href={`/login`}
+          // href={`/login`}
+          href={"https://www.youtube.com/watch?v=dQw4w9WgXcQ&pp=ygUJcmljayByb2xs"}
           >
           התנתק/י
         </a>

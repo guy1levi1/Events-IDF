@@ -24,16 +24,36 @@ import {
   GridActionsCellItem,
   GridRowEditStopReasons,
 } from "@mui/x-data-grid";
+import "./DesignedEventTable.css";
+import { Link } from "react-router-dom";
 
 function CustomToolbar(props) {
   const { setRows, setRowModesModel } = props;
 
-  const handleClick = () => {
+  const handleNewRowClick = () => {
     const id = randomId();
-    setRows((oldRows) => [...oldRows, { id }]);
+    setRows((oldRows) => [
+      ...oldRows,
+      {
+        id,
+        0: "",
+        1: "",
+        2: "",
+        3: "",
+        4: "",
+        5: "",
+        6: "",
+        7: "",
+        8: "",
+        9: "",
+        10: "",
+        status: "pending",
+      },
+    ]);
     setRowModesModel((oldModel) => ({
       ...oldModel,
-      [id]: { mode: GridRowModes.Edit, fieldToFocus: "name" },
+      [id]: { mode: GridRowModes.Edit },
+      // [id]: { mode: GridRowModes.Edit, fieldToFocus: "name" },
     }));
   };
 
@@ -42,18 +62,27 @@ function CustomToolbar(props) {
       <Button
         color="primary"
         startIcon={<AddIcon />}
-        onClick={handleClick}
+        onClick={handleNewRowClick}
         sx={{
+
+          borderRadius: "5000px 5000px 0 0", // Apply border radius to top corners
+
           "& .MuiButton-startIcon": {
             marginLeft: "-85px",
           },
+          "&:hover": {
+            backgroundColor: "#EDF3F8",
+            // Add any other styles you want to apply on hover
+          },
         }}
-        style={{
-          borderRadius: "10px",
-          border: "10px red",
-          direction: "rtl",
-          color: "#3069BE",
-        }}
+        style={
+          {
+            // borderRadius: "10px",
+            // border: "10px red",
+            // direction: "rtl",
+            // color: "#3069BE",
+          }
+        }
       >
         הוסף שורה
       </Button>
@@ -99,7 +128,7 @@ function CustomToolbar(props) {
             // InputProps={{ disableUnderline: true }}
             placeholder="חיפוש"
             style={{
-              marginRight: "563px",
+              marginRight: "36rem",
             }}
             sx={{
               "& .MuiInputBase-root": {
@@ -241,38 +270,19 @@ export default function DesignedEventTable() {
     setRowModesModel(newRowModesModel);
   };
 
-  const getStatusCellStyle = (status) => {
-    let backgroundColor, textColor;
-
-    switch (status) {
-      case "approved":
-        backgroundColor = "green";
-        textColor = "white";
-        break;
-      case "declined":
-        backgroundColor = "red";
-        textColor = "white";
-        break;
-      case "pending":
-        backgroundColor = "orange";
-        textColor = "black";
-        break;
-      default:
-        backgroundColor = "orange";
-        textColor = "black";
-        break;
-    }
-
-    return {
-      backgroundColor,
-      color: textColor,
-      width: "100%",
-      height: "100%",
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-    };
+  const handleSaveButtonClick = () => {
+    console.log("save/upadte table clicked");
   };
+
+  const handleCancelButtonClick = () => {
+    console.log("cancel table clicked");
+  };
+
+  const statusOptions = [
+    { value: "declined", label: "נדחה" },
+    { value: "approved", label: "מאושר" },
+    { value: "pending", label: 'ממתין להחלטת רמ"ח' },
+  ];
 
   const columns = [
     {
@@ -378,15 +388,33 @@ export default function DesignedEventTable() {
       field: "status",
       headerName: "סטטאוס בקשה",
       headerAlign: "center",
-      width: 100,
+      width: 140,
+      tfontColor: "white",
       editable: true,
-      renderCell: (params) => (
-        <div style={getStatusCellStyle(params.value)}>
-          {params.value === "approved" && "Approved"}
-          {params.value === "declined" && "Declined"}
-          {params.value === "pending" && "Pending"}
-        </div>
-      ),
+      type: "singleSelect",
+      valueOptions: statusOptions,
+      valueFormatter: ({ id, value, field }) => {
+        const option = statusOptions.find(
+          ({ value: optionValue }) => optionValue === value
+        );
+        return option.label;
+      },
+      cellClassName: (params) => {
+        const option = statusOptions.find(
+          ({ value: optionValue }) => optionValue === params.value
+        );
+
+        switch (option.value) {
+          case "declined":
+            return "red-background";
+          case "approved":
+            return "green-background";
+          case "pending":
+            return "orange-background";
+          default:
+            return "";
+        }
+      },
     },
     {
       field: "actions",
@@ -442,21 +470,33 @@ export default function DesignedEventTable() {
       className="app"
       style={{
         display: "flex",
-        flexDirection: "row",
+        flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
         height: "100%",
         width: "100%",
-        marginTop: "40px",
-        background: "#BAB9B9",
+        margin: "1rem",
+
       }}
     >
+      <h1>פריסת שחרור לאור, תל השומר מקל”ר, 10:00 13.12.23</h1>
+      {/* h1 will be get from lst page (create new event/edit an exisiting) */}
       <Box
         sx={{
-          height: 550,
-          width: 1100,
+          height: "32rem",
+          width: "70rem",
           direction: "ltr",
           background: "white",
+          alignItems: "center",
+          justifyContent: "center",
+          borderRadius: "2rem",
+          border: 0,
+          boxShadow: "5px 5px 31px 5px rgba(0, 0, 0, 0.75)",
+
+
+          "& .MuiDataGrid-root": {
+            border: "none",
+          },
         }}
       >
         <DataGrid
@@ -470,6 +510,7 @@ export default function DesignedEventTable() {
           localeText={heIL.components.MuiDataGrid.defaultProps.localeText}
           sx={{
             direction: "rtl",
+            // fontSize: "0.8rem",
             "& .MuiDataGrid-virtualScroller": {
               overflow: "unset !important",
               mt: "0 !important",
@@ -522,6 +563,7 @@ export default function DesignedEventTable() {
           // getEstimatedRowHeight={() => 150}
           rowsPerPageOptions={[10]}
           pagination
+          pageSizeOptions={[5, 10, 25]}
           // scrollbarSize={[1]}
           // scrollArea={(color = "red")}
           // checkboxSelection
@@ -534,7 +576,64 @@ export default function DesignedEventTable() {
             toolbar: { setRows, setRowModesModel },
           }}
         />
-        <ExcelReader onRowsChange={handleRowsChange} />
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            margin: "auto",
+            // marginTop: "0.4rem",
+            // alignItems: "center",
+          }}
+        >
+          <div
+            style={{
+              display: "flex",
+              flex: 1,
+              marginTop: "0.7rem",
+              textAlign: "center",
+            }}
+          >
+            <ExcelReader onRowsChange={handleRowsChange} />
+          </div>
+          <div
+            style={{
+              display: "flex",
+              marginTop: "0.7rem",
+              // marginTop: "0.4rem",
+              // alignItems: "center",
+              right: 0,
+            }}
+          >
+            {" "}
+            <Link
+              to="/manageEventes" // need to close the popup
+              style={{ color: "white", textDecoration: "none" }}
+            >
+              <button
+                onClick={handleCancelButtonClick}
+                className="roundedButton"
+                style={{
+                  backgroundColor: "#F94A4A",
+                  marginRight: "0.5rem",
+                }}
+              >
+                בטל
+              </button>
+            </Link>
+            <Link
+              to="/createEvent" // need to save the updated/new table and close the popup
+              style={{ color: "white", textDecoration: "none" }}
+            >
+              <button
+                onClick={handleSaveButtonClick}
+                className="roundedButton"
+                style={{ backgroundColor: "#4DCC74" }}
+              >
+                שמור
+              </button>
+            </Link>
+          </div>
+        </div>
       </Box>
     </div>
   );

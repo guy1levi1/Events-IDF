@@ -8,16 +8,20 @@ import { MenuItem } from "@mui/material";
 const commands = [
   {
     commandId: 1,
-    commandName: "פיקוד מרכז"
+    commandName: "מרכז"
   },
   {
     commandId: 2,
-    commandName: "פיקוד צפון"
+    commandName: "צפון"
   },
   {
     commandId: 3,
-    commandName: "פיקוד דרום"
-  }
+    commandName: "דרום"
+  },
+  {
+    commandId: 4,
+    commandName: `פקע"ר`
+  },
 
 ]
 

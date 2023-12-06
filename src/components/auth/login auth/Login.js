@@ -1,26 +1,81 @@
-import React from "react";
+import React, { useState } from "react";
 import Button from "@mui/material/Button";
 import "./Login.css";
 import { NavLink } from "react-router-dom";
 import TryTextFieldRTL from "../../../utils/auth/TryTextFieldRTL";
 
 export default function Login() {
+  const [loginFormData, setLoginFormData] = useState({
+    privateNumber: { value: "", isValid: false, error: false },
+    password: { value: "", isValid: false, error: false },
+  });
+
+  const handlePrivateNumberChange = (e) => {
+    const newPrivateNumber = e.target.value;
+    setLoginFormData({
+      ...loginFormData,
+      privateNumber: {
+        value: newPrivateNumber,
+        isValid: newPrivateNumber.length === 9,
+        error: false // Reset error when the user types
+      },
+    });
+  };
+
+  const handlePrivateNumberBlur = () => {
+    setLoginFormData((prevFormData) => ({
+      ...prevFormData,
+      privateNumber: {
+        ...prevFormData.privateNumber,
+        error: !prevFormData.privateNumber.isValid,
+      },
+    }));
+  };
+
+  const handlePasswordChange = (e) => {
+    const newPassword = e.target.value;
+    setLoginFormData({
+      ...loginFormData,
+      password: {
+        value: newPassword,
+        isValid: newPassword.length >= 6,
+        error: false, // Reset error when the user types
+      },
+    });
+  };
+
+  const handlePasswordBlur = () => {
+    setLoginFormData((prevFormData) => ({
+      ...prevFormData,
+      password: {
+        ...prevFormData.password,
+        error: !prevFormData.password.isValid,
+      },
+    }));
+  };
+
   return (
     <div className="authWarraper">
       <label className="loginLabel">התחברות</label>
       <div className="textsFields">
         <TryTextFieldRTL
-          id="outlined-error-helper-text"
-          error={false}
+          id="private-number"
+          error={loginFormData.privateNumber.error}
+          value={loginFormData.privateNumber.value}
+          onChange={handlePrivateNumberChange}
+          onBlur={handlePrivateNumberBlur}
           labelTextField="מס' אישי"
-          helperText="בעל 9 ספרות"
+          helperText={!loginFormData.privateNumber.error ? "בעל 9 ספרות" : "הכנס תשע ספרות בלבד"}
           typeofTextField="regular"
         />
         <TryTextFieldRTL
-          id="outlined-error-helper-text"
-          error={false}
+          id="password"
+          error={loginFormData.password.error}
+          value={loginFormData.password.value}
+          onChange={handlePasswordChange}
+          onBlur={handlePasswordBlur}
           labelTextField="סיסמא"
-          helperText="מינימום 6 ספרות"
+          helperText={!loginFormData.password.error? "מינימום 6 ספרות": "הכנס סיסמא בעלת 6 ומעלה"}
           typeofTextField="password"
         />
       </div>

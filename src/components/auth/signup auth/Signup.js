@@ -29,7 +29,7 @@ export default function Signup() {
         <TryTextFieldRTL
           id="outlined-error-helper-text"
           error={false}
-          labelTextField="מ'ס אישי"
+          labelTextField="מס' אישי"
           helperText="בעל 9 ספרות"
           typeofTextField="regular"
         />
@@ -60,7 +60,7 @@ export default function Signup() {
           labelTextField="פיקוד"
           helperText="בחר פיקוד"
           typeofTextField="select"
-        >
+          >
           {commands.map((option) => (
             <MenuItem key={option.commandId} value={option.commandName}>
               {option.commandName}
@@ -76,7 +76,7 @@ export default function Signup() {
         >
           התחבר/י
         </Button>
-        <NavLink className="linkToLogin">להתחברות עם משתמש קיים</NavLink>
+        <NavLink className="linkToLogin" to="/login">להתחברות עם משתמש קיים</NavLink>
       </div>
     </div>
   );

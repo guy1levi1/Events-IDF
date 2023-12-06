@@ -24,6 +24,8 @@ export default function TryTextFieldRTL({
   labelTextField,
   helperText,
   typeofTextField,
+  onChange,
+  onBlur,
   ...props
 }) {
   const [showPassword, setShowPassword] = React.useState(false);
@@ -40,6 +42,8 @@ export default function TryTextFieldRTL({
           <TextField
             error={error}
             size="small"
+            onChange={onChange}
+            onBlur={onBlur}
             sx={{
               width: "20rem",
               mb: "0.3rem",
@@ -47,17 +51,17 @@ export default function TryTextFieldRTL({
               "& .MuiInputBase-root": {
                 color: "white !important",
                 borderRadius: "5000px",
-                backgroundColor: "#6290D4",
+                backgroundColor: !error ? "#6290D4" : "#d9d9d9",
               },
               "& .MuiInputLabel-root": {
-                color: "white !important",
-                backgroundColor: "#6290D4",
+                color: !error ? "white !important" : "red !important",
+                backgroundColor: !error ? "#6290D4" : "#d9d9d9",
                 borderRadius: "500px",
                 px: 1,
               },
 
               "& .MuiOutlinedInput-input": {
-                color: "white !important",
+                color: !error ? "white !important" : "red !important",
               },
             }}
             id={id}

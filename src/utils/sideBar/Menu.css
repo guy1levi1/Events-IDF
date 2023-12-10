@@ -165,6 +165,13 @@
   color: white;
 }
 
+
+.link:active {
+
+  background-color: #737272;
+  color: white;
+}
+
 .link-list a {
   text-decoration: none;
   /* color: rgba(0, 0, 0, 0.5); */
@@ -173,4 +180,10 @@
 
 .link-list a:hover {
   color: rgba(0, 0, 0, 0.3);
+}
+
+
+.link.active {
+  background-color: #8f8e8e;
+  color: #fff; /* Change this color to the desired active text color */
 }

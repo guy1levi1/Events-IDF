@@ -5,6 +5,7 @@ import { useNavigate } from "react-router";
 
 const Menu = () => {
   const [open, setOpen] = useState(false);
+  const [activeLink, setActiveLink] = useState(null); // State to track the active link
   const navigate = useNavigate();
 
   const toggleMenu = () => {
@@ -15,10 +16,12 @@ const Menu = () => {
     { name: "אודות המערכת", url: "/about" },
     { name: "ניהול אירועים", url: "/manageEventes" },
     { name: "יצירת אירוע", url: "/createEvent" },
+    { name: "ניהול משתמשים", url: "/manageUsers" },
+
   ];
 
-  const navigateHandler = (url) => {
-    // <Navigate to="/dashboard" replace={true} />
+  const navigateHandler = (url, index) => {
+    setActiveLink(index); // Update the active link index
     navigate(url);
   };
 
@@ -72,8 +75,8 @@ const Menu = () => {
             {linksArray.map((link, index) => (
               <li
                 key={index}
-                className="link"
-                onClick={() => navigateHandler(link.url)}
+                className={index === activeLink ? "link active" : "link"}
+                onClick={() => navigateHandler(link.url, index)}
                 style={{ fontSize: "1rem" }}
               >
                 {link.name}

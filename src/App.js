@@ -8,6 +8,7 @@ import SignUpPage from "./pages/SignUp/SignUpPage";
 import CreateEventPage from "./pages/CreateEvent/CreateEventPage";
 import ManageEventsPage from "./pages/ManageEvents/ManageEventsPage";
 import CrossInformationPage from "./pages/CrossInformation/CrossInformationPage";
+import ManageUsersPage from "./pages/ManageUsers/ManageUsersPage";
 
 const router = createBrowserRouter([
   {
@@ -26,6 +27,8 @@ const router = createBrowserRouter([
       },
       { path: "/table", element: <TablePage /> },
       { path: "/crossInformation", element: <CrossInformationPage /> },
+      { path: "/manageUsers", element: <ManageUsersPage /> },
+
     ],
   },
 ]);

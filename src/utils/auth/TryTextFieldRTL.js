@@ -44,6 +44,7 @@ export default function TryTextFieldRTL({
             size="small"
             onChange={onChange}
             onBlur={onBlur}
+            required
             sx={{
               width: "20rem",
               mb: "0.3rem",
@@ -74,16 +75,19 @@ export default function TryTextFieldRTL({
                 : "text"
             }
             InputProps={
-              typeofTextField === "password" && {
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton onClick={handleTogglePasswordVisibility}>
-                      {showPassword ? <Visibility /> : <VisibilityOff />}
-                    </IconButton>
-                  </InputAdornment>
-                ),
-              }
+              typeofTextField === "password"
+                ? {
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton onClick={handleTogglePasswordVisibility}>
+                          {showPassword ? <Visibility /> : <VisibilityOff />}
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                  }
+                : undefined
             }
+            {...props}
           >
             {props.children}
           </TextField>

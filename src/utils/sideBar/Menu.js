@@ -31,16 +31,18 @@ const Menu = () => {
             display: "flex",
             flexDirection: "row",
             alignItems: "center",
+            // justifyContent: "center",
+            // margin: "auto",
           }}
         >
           <img
             src={profile_img}
             alt="progile_logo"
             style={{
-              width: "60px",
-              maxWidth: "60px",
-              marginTop: "20px",
-              marginRight: "10px",
+              width: "4.5rem",
+              maxWidth: "4.5rem",
+              marginTop: "1.2rem",
+              marginRight: "0.6rem",
             }}
           />
           <div
@@ -48,12 +50,16 @@ const Menu = () => {
             style={{
               display: "flex",
               flexDirection: "column",
-              marginTop: "20px",
-              marginRight: "5px",
+              marginTop: "1.2rem",
+              marginRight: "0.3rem",
             }}
           >
-            <h3 style={{ padding: 0, margin: 0 }}>אייל אנגל</h3>
-            <h6 style={{ padding: 0, margin: 0 }}> פיקוד מרכז</h6>
+            <h3 className="FullNameMenu" style={{ padding: 0, margin: 0 }}>
+              אייל אנגל
+            </h3>
+            <h6 className="CommandMenu" style={{ padding: 0, margin: 0 }}>
+              פיקוד מרכז
+            </h6>
           </div>
         </div>
 
@@ -77,19 +83,21 @@ const Menu = () => {
         </div>
 
         <a
-        className="signoutbutton"
+          className="signoutbutton"
           style={{
             display: "flex",
-            marginRight: "10px",
+            marginRight: "0.6rem",
             position: "absolute",
             bottom: 0,
             marginBottom: "0.5rem",
             color: "black",
-            cursor: "pointer"
+            cursor: "pointer",
           }}
-          // href={`/login`}
-          href={"https://www.youtube.com/watch?v=dQw4w9WgXcQ&pp=ygUJcmljayByb2xs"}
-          >
+          href={`/login`}
+          // href={
+          //   "https://www.youtube.com/watch?v=dQw4w9WgXcQ&pp=ygUJcmljayByb2xs"
+          // }
+        >
           התנתק/י
         </a>
       </div>

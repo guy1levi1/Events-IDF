@@ -64,7 +64,6 @@ function CustomToolbar(props) {
         startIcon={<AddIcon />}
         onClick={handleNewRowClick}
         sx={{
-
           borderRadius: "5000px 5000px 0 0", // Apply border radius to top corners
 
           "& .MuiButton-startIcon": {
@@ -476,15 +475,15 @@ export default function DesignedEventTable() {
         height: "100%",
         width: "100%",
         margin: "1rem",
-
       }}
     >
       <h1>פריסת שחרור לאור, תל השומר מקל”ר, 10:00 13.12.23</h1>
       {/* h1 will be get from lst page (create new event/edit an exisiting) */}
+
       <Box
         sx={{
           height: "32rem",
-          width: "70rem",
+          width: "72rem",
           direction: "ltr",
           background: "white",
           alignItems: "center",
@@ -492,7 +491,6 @@ export default function DesignedEventTable() {
           borderRadius: "2rem",
           border: 0,
           boxShadow: "5px 5px 31px 5px rgba(0, 0, 0, 0.75)",
-
 
           "& .MuiDataGrid-root": {
             border: "none",
@@ -611,9 +609,8 @@ export default function DesignedEventTable() {
             >
               <button
                 onClick={handleCancelButtonClick}
-                className="roundedButton"
+                className="CancelButtonTablePage"
                 style={{
-                  backgroundColor: "#F94A4A",
                   marginRight: "0.5rem",
                 }}
               >
@@ -626,8 +623,7 @@ export default function DesignedEventTable() {
             >
               <button
                 onClick={handleSaveButtonClick}
-                className="roundedButton"
-                style={{ backgroundColor: "#4DCC74" }}
+                className="SaveButtonTablePage"
               >
                 שמור
               </button>

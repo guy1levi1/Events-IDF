@@ -7,7 +7,15 @@ import logiCorpLogo from "../../images/logi_corp.png";
 export default function RootLayout({ children }) {
   return (
     <>
-      <div style={{ display: "flex", flexDirection: "row", backgroundColor: "rgba(98, 144, 212, 1)"}}>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          backgroundColor: "rgba(98, 144, 212, 1)",
+          // width: "100%",
+          // height: "100%",
+        }}
+      >
         <div style={{ position: "absolute", top: "1rem", left: "1rem" }}>
           <img
             src={logiCorpLogo}
@@ -29,6 +37,12 @@ export default function RootLayout({ children }) {
 
         <Menu />
         <Outlet />
+
+        <div style={{ position: "absolute", bottom: "0", left: "1rem" }}>
+          <h5 style={{ color: "rgba(225,225,225,0.8)" }}>
+            פותח ע”י בית התוכנה - חיל הלוגיסטיקה
+          </h5>
+        </div>
       </div>
     </>
   );

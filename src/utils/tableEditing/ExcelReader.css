@@ -14,6 +14,14 @@
   line-height: 2rem;
 }
 
+.rounded-button:hover {
+  background-color: #195dc4;
+}
+
+.rounded-button:active {
+  background-color: #05419c;
+}
+
 p {
   font-size: 0.7rem;
 }

@@ -13,7 +13,7 @@ import { useDemoData } from "@mui/x-data-grid-generator";
 import { heIL } from "@mui/x-data-grid";
 import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
-import ExcelReader from "../utils/ExcelReader";
+import ExcelReader from "../../utils/tableEditing/ExcelReader";
 import { randomId } from "@mui/x-data-grid-generator";
 import Button from "@mui/material/Button";
 import AddIcon from "@mui/icons-material/Add";

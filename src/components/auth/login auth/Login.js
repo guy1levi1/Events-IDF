@@ -4,6 +4,7 @@ import "./Login.css";
 import { NavLink } from "react-router-dom";
 import TryTextFieldRTL from "../../../utils/auth/TryTextFieldRTL";
 import useForm from "../../../utils/hooks/useForm";
+import { Box } from "@mui/material";
 
 const formStates = {
   privateNumber: {
@@ -29,12 +30,10 @@ export default function Login() {
     handleBlur(e.target.id);
   };
 
-
-
   return (
-    <div className="authWarraper">
-      <label className="loginLabel">התחברות</label>
-      <div className="textsFields">
+    <Box className="authWarraperLogin">
+      <label className="loginLabelLogin">התחברות</label>
+      <Box className="textsFieldsLogin">
         <TryTextFieldRTL
           id="privateNumber"
           required={true}
@@ -45,8 +44,8 @@ export default function Login() {
           labelTextField="מס' אישי"
           helperText={
             !formData.initialInputs.privateNumber.error
-              ? "בעל 9 ספרות"
-              : "הכנס 9 ספרות בלבד"
+              ? "בעל 7 ספרות"
+              : "הכנס 7 ספרות בלבד"
           }
           typeofTextField="regular"
         />
@@ -60,13 +59,13 @@ export default function Login() {
           labelTextField="סיסמא"
           helperText={
             !formData.initialInputs.password.error
-              ? "מינימום 6 ספרות"
-              : "הכנס סיסמא בעלת 6 ומעלה"
+            ? "סיסמא עם מינימום 6 תווים, אותיות באנגלית וספרות בלבד"
+            : "סיסמא לא תקינה"
           }
           typeofTextField="password"
         />
-      </div>
-      <div className="authActions">
+      </Box>
+      <Box className="authActionsLogin">
         <Button
           variant="contained"
           color="primary"
@@ -79,7 +78,7 @@ export default function Login() {
         <NavLink className="linkToSignup" to="/signup">
           ליצירת חשבון חדש
         </NavLink>
-      </div>
-    </div>
+      </Box>
+    </Box>
   );
 }

@@ -59,7 +59,7 @@ function CustomToolbar(props) {
 
   return (
     <>
-      <Button
+      <Button 
         color="primary"
         startIcon={<AddIcon />}
         onClick={handleNewRowClick}

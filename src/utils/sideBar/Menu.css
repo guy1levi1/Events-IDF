@@ -79,14 +79,14 @@
 
 .close-button {
   cursor: pointer;
-  transform: rotate(0deg) translateX(-16.4rem);
+  transform: rotate(0deg) translateX(-13vw);   
   background-color: rgb(77, 121, 188);
   -webkit-box-shadow: 10px 2px 8px -8px rgba(179, 164, 139, 0.6);
   box-shadow: 10px 10px 6px -8px rgba(161, 136, 119, 0.7);
 }
 
 .close-button:hover {
-  transform: scale(1) rotate(0deg) translateX(-16.4rem);
+  transform: scale(1) rotate(0deg) translateX(-13vw);
   background-color: rgb(49, 92, 157);
 }
 

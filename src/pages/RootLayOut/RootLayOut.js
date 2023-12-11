@@ -12,8 +12,6 @@ export default function RootLayout({ children }) {
           display: "flex",
           flexDirection: "row",
           backgroundColor: "rgba(98, 144, 212, 1)",
-          // width: "100%",
-          // height: "100%",
         }}
       >
         <div style={{ position: "absolute", top: "1rem", left: "1rem" }}>

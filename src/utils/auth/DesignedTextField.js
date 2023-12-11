@@ -31,11 +31,11 @@ export default function DesignedTextField({
           "& .MuiInputBase-root": {
             color: "white !important",
             borderRadius: "5000px",
-            backgroundColor: "#6290D4",
+            backgroundColor: "#8EAEDE",
           },
           "& .MuiInputLabel-root": {
             color: "white !important",
-            backgroundColor: "#6290D4",
+            backgroundColor: "#8EAEDE",
             borderRadius: "500px",
             px: 1,
           },

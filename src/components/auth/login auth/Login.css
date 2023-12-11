@@ -1,31 +1,32 @@
-.authWarraper {
+.authWarraperLogin {
   display: flex;
-  position: relative;
+  /* position: relative; */
   background-color: #d9d9d9;
   border-radius: 50px;
   flex-direction: column;
   align-items: center;
-  width: 25vw;
-  height: 67vh;
+  width: 25rem;
+  height: 30rem;
   margin: auto;
 }
 
-.loginLabel {
-  display: inline-block;
+.loginLabelLogin {
+  /* display: inline-block; */
   margin-top: 1rem;
   font-size: 2.4rem;
 }
-.textsFields {
+.textsFieldsLogin {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-top: 0rem;
-  width: 80%;
+  /* margin-top: 0rem; */
+  width: 100%;
   height: 80%;
 }
 
-.authActions {
+
+.authActionsLogin {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -34,6 +35,6 @@
 
 .linkToSignup {
   color: #6b8dc0;
-  margin-bottom: 15px;
-  font-size: 24;
+  margin-bottom: 8px;
+  font-size: 0.8rem;
 }

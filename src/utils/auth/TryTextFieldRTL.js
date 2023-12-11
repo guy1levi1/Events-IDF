@@ -38,7 +38,7 @@ export default function TryTextFieldRTL({
     <div dir="rtl">
       <CacheProvider value={cacheRtl}>
         <ThemeProvider theme={theme}>
-          <CssBaseline />
+          <CssBaseline /> 
           <TextField
             error={error}
             size="small"
@@ -52,11 +52,11 @@ export default function TryTextFieldRTL({
               "& .MuiInputBase-root": {
                 color: "white !important",
                 borderRadius: "5000px",
-                backgroundColor: !error ? "#6290D4" : "#d9d9d9",
+                backgroundColor: !error ? "#8EAEDE" : "#d9d9d9",
               },
               "& .MuiInputLabel-root": {
                 color: !error ? "white !important" : "red !important",
-                backgroundColor: !error ? "#6290D4" : "#d9d9d9",
+                backgroundColor: !error ? "#8EAEDE" : "#d9d9d9",
                 borderRadius: "500px",
                 px: 1,
               },

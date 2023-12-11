@@ -9,7 +9,7 @@ import CreateEventPage from "./pages/CreateEvent/CreateEventPage";
 import ManageEventsPage from "./pages/ManageEvents/ManageEventsPage";
 import CrossInformationPage from "./pages/CrossInformation/CrossInformationPage";
 import ManageUsersPage from "./pages/ManageUsers/ManageUsersPage";
-
+import TableViewMerge from "./pages/CrossInformation/TableViewMerge"
 const router = createBrowserRouter([
   {
     path: "/",
@@ -26,7 +26,9 @@ const router = createBrowserRouter([
         element: <ManageEventsPage componentCount={4} />,
       },
       { path: "/table", element: <TablePage /> },
-      { path: "/crossInformation", element: <CrossInformationPage /> },
+      // { path: "/crossInformation", element: <CrossInformationPage /> },
+      { path: "/crossInformation", element: <TableViewMerge /> },
+
       { path: "/manageUsers", element: <ManageUsersPage /> },
 
     ],

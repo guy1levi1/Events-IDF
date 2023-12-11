@@ -100,7 +100,7 @@ export default function Signup() {
           labelTextField="שם מלא"
           helperText={
             !formData.initialInputs.fullName.error
-              ? "שדה חובה"
+              ? " שדה חובה"
               : "מקסימום 50 תווים"
           }
           typeofTextField="regular"
@@ -115,8 +115,8 @@ export default function Signup() {
           labelTextField="סיסמא"
           helperText={
             !formData.initialInputs.password.error
-              ? "מינימום 6 ספרות"
-              : "הכנס סיסמא בעלת 6 ומעלה"
+              ? "סיסמא עם מינימום 6 תווים, אותיות באנגלית וספרות בלבד"
+              : "סיסמא לא תקינה"
           }
           typeofTextField="password"
         />
@@ -127,11 +127,11 @@ export default function Signup() {
           value={formData.initialInputs.secPassword.value}
           onChange={handleInputChange}
           onBlur={handleBlurChange}
-          labelTextField="וידוא סיסמא"
+          labelTextField="אימות סיסמא"
           helperText={
             !formData.initialInputs.secPassword.error
-              ? "הכנס סיסמא שוב"
-              : "הסיסמאות לא זהות"
+              ? "הזן שנית את הסיסמא"
+              : "הסיסמאות אינן לא זהות"
           }
           typeofTextField="password"
         />

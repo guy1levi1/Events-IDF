@@ -7,7 +7,7 @@ import AboutPage from "./pages/About/AboutPage";
 import SignUpPage from "./pages/SignUp/SignUpPage";
 import CreateEventPage from "./pages/CreateEvent/CreateEventPage";
 import ManageEventsPage from "./pages/ManageEvents/ManageEventsPage";
-import CrossInformationPage from "./pages/CrossInformation/CrossInformationPage";
+// import CrossInformationPage from "./pages/CrossInformation/CrossInformationPage";
 import ManageUsersPage from "./pages/ManageUsers/ManageUsersPage";
 import TableViewMerge from "./pages/CrossInformation/TableViewMerge"
 const router = createBrowserRouter([

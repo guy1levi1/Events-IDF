@@ -18,8 +18,9 @@ const cacheRtl = createCache({
   stylisPlugins: [rtlPlugin],
 });
 
-export default function TryTextFieldRTL({
+export default function DesignedTextFieldRTL({
   id,
+  width,
   error,
   labelTextField,
   helperText,
@@ -40,13 +41,13 @@ export default function TryTextFieldRTL({
         <ThemeProvider theme={theme}>
           <CssBaseline /> 
           <TextField
-            error={error}
+            error={error} 
             size="small"
             onChange={onChange}
             onBlur={onBlur}
             required
             sx={{
-              width: "20rem",
+              width: {width},
               mb: "0.3rem",
 
               "& .MuiInputBase-root": {

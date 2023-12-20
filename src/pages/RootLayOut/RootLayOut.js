@@ -1,7 +1,7 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
 import "./RootLayOut.css";
-import Menu from "../../utils/sideBar/Menu";
+import Menu from "../../components/sideBar/Menu";
 import mekalarLogo from "../../images/mekalar.png";
 import logiCorpLogo from "../../images/logi_corp.png";
 export default function RootLayout({ children }) {

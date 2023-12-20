@@ -2,9 +2,14 @@ import React, { useState } from "react";
 import Button from "@mui/material/Button";
 import "./Signup.css";
 import { NavLink } from "react-router-dom";
-import TryTextFieldRTL from "../../../utils/auth/TryTextFieldRTL";
 import { MenuItem } from "@mui/material";
 import useForm from "../../../utils/hooks/useForm";
+import { Box, TextField } from "@mui/material";
+import InputsWrapper from "../../../utils/InputsWrapper";
+import InputAdornment from "@mui/material/InputAdornment";
+import IconButton from "@mui/material/IconButton";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
 const commands = [
   {
@@ -50,14 +55,25 @@ const formStates = {
     isValid: false,
     error: false,
   },
+  commandsSelector: {
+    value: "",
+    isValid: false,
+    error: false,
+  },
 };
 
 export default function Signup() {
   const { formData, handleInput, handleBlur } = useForm(formStates, false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showSecPassword, setShowSecPassword] = useState(false);
 
-  const [selectedCommand, setSelectedCommand] = useState(
-    commands[0].commandName
-  );
+  const handleTogglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
+  const handleToggleSecPasswordVisibility = () => {
+    setShowSecPassword(!showSecPassword);
+  };
 
   const handleInputChange = (e) => {
     handleInput(e);
@@ -67,91 +83,247 @@ export default function Signup() {
     handleBlur(e.target.id);
   };
 
-  const handleSelctedCommand = (e) => {
-    setSelectedCommand((prevSelectedCommand) => e.target.value);
-  };
 
   return (
-    <div className="authWarraperSignup">
+    <Box className="authWarraperSignup">
       <label className="SignupLabel">הרשמה</label>
-      <div className="textsFieldsSignup">
-        <TryTextFieldRTL
+      <InputsWrapper className="textsFieldsLogin">
+        <TextField
           id="privateNumber"
+          size="small"
+          sx={{
+            width: "20rem",
+            mb: "0.3rem",
+
+            "& .MuiInputBase-root": {
+              color: "white !important",
+              borderRadius: "5000px",
+              backgroundColor: !formData.initialInputs.privateNumber.error
+                ? "#8EAEDE"
+                : "#d9d9d9",
+            },
+            "& .MuiInputLabel-root": {
+              color: !formData.initialInputs.privateNumber.error
+                ? "white !important"
+                : "red !important",
+              backgroundColor: !formData.initialInputs.privateNumber.error
+                ? "#8EAEDE"
+                : "#d9d9d9",
+              borderRadius: "500px",
+              px: 1,
+            },
+
+            "& .MuiOutlinedInput-input": {
+              color: !formData.initialInputs.privateNumber.error
+                ? "white !important"
+                : "red !important",
+            },
+          }}
           required={true}
           error={formData.initialInputs.privateNumber.error}
           value={formData.initialInputs.privateNumber.value}
           onChange={handleInputChange}
           onBlur={handleBlurChange}
-          labelTextField="מס' אישי"
+          label="מס' אישי"
           helperText={
             !formData.initialInputs.privateNumber.error
               ? "בעל 7 ספרות"
               : "הכנס 7 ספרות בלבד"
           }
-          typeofTextField="regular"
         />
-        <TryTextFieldRTL
+        <TextField
           id="fullName"
+          size="small"
+          sx={{
+            width: "20rem",
+            mb: "0.3rem",
+
+            "& .MuiInputBase-root": {
+              color: "white !important",
+              borderRadius: "5000px",
+              backgroundColor: !formData.initialInputs.fullName.error
+                ? "#8EAEDE"
+                : "#d9d9d9",
+            },
+            "& .MuiInputLabel-root": {
+              color: !formData.initialInputs.fullName.error
+                ? "white !important"
+                : "red !important",
+              backgroundColor: !formData.initialInputs.fullName.error
+                ? "#8EAEDE"
+                : "#d9d9d9",
+              borderRadius: "500px",
+              px: 1,
+            },
+
+            "& .MuiOutlinedInput-input": {
+              color: !formData.initialInputs.fullName.error
+                ? "white !important"
+                : "red !important",
+            },
+          }}
           required={true}
           error={formData.initialInputs.fullName.error}
           value={formData.initialInputs.fullName.value}
           onChange={handleInputChange}
           onBlur={handleBlurChange}
-          labelTextField="שם מלא"
+          label="שם מלא"
           helperText={
             !formData.initialInputs.fullName.error
-              ? " שדה חובה"
-              : "מקסימום 50 תווים"
+              ? "הכנס שם מלא בעברית"
+              : "שם מלא לא תקין"
           }
-          typeofTextField="regular"
         />
-        <TryTextFieldRTL
+        <TextField
           id="password"
+          size="small"
+          sx={{
+            width: "20rem",
+            mb: "0.3rem",
+
+            "& .MuiInputBase-root": {
+              color: "white !important",
+              borderRadius: "5000px",
+              backgroundColor: !formData.initialInputs.password.error
+                ? "#8EAEDE"
+                : "#d9d9d9",
+            },
+            "& .MuiInputLabel-root": {
+              color: !formData.initialInputs.password.error
+                ? "white !important"
+                : "red !important",
+              backgroundColor: !formData.initialInputs.password.error
+                ? "#8EAEDE"
+                : "#d9d9d9",
+              borderRadius: "500px",
+              px: 1,
+            },
+
+            "& .MuiOutlinedInput-input": {
+              color: !formData.initialInputs.password.error
+                ? "white !important"
+                : "red !important",
+            },
+          }}
           required={true}
           error={formData.initialInputs.password.error}
           value={formData.initialInputs.password.value}
           onChange={handleInputChange}
           onBlur={handleBlurChange}
-          labelTextField="סיסמא"
+          label="סיסמא"
           helperText={
             !formData.initialInputs.password.error
               ? "סיסמא עם מינימום 6 תווים, אותיות באנגלית וספרות בלבד"
               : "סיסמא לא תקינה"
           }
-          typeofTextField="password"
+          type={!showPassword ? "password" : "text"}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton onClick={handleTogglePasswordVisibility}>
+                  {showPassword ? <Visibility /> : <VisibilityOff />}
+                </IconButton>
+              </InputAdornment>
+            ),
+          }}
         />
-        <TryTextFieldRTL
+        <TextField
           id="secPassword"
+          size="small"
+          sx={{
+            width: "20rem",
+            mb: "0.3rem",
+
+            "& .MuiInputBase-root": {
+              color: "white !important",
+              borderRadius: "5000px",
+              backgroundColor: !formData.initialInputs.secPassword.error
+                ? "#8EAEDE"
+                : "#d9d9d9",
+            },
+            "& .MuiInputLabel-root": {
+              color: !formData.initialInputs.secPassword.error
+                ? "white !important"
+                : "red !important",
+              backgroundColor: !formData.initialInputs.secPassword.error
+                ? "#8EAEDE"
+                : "#d9d9d9",
+              borderRadius: "500px",
+              px: 1,
+            },
+
+            "& .MuiOutlinedInput-input": {
+              color: !formData.initialInputs.secPassword.error
+                ? "white !important"
+                : "red !important",
+            },
+          }}
           required={true}
           error={formData.initialInputs.secPassword.error}
           value={formData.initialInputs.secPassword.value}
           onChange={handleInputChange}
           onBlur={handleBlurChange}
-          labelTextField="אימות סיסמא"
+          label="אימות סיסמא"
           helperText={
             !formData.initialInputs.secPassword.error
               ? "הזן שנית את הסיסמא"
-              : "הסיסמאות אינן לא זהות"
+              : "הסיסמאות אינן זהות"
           }
-          typeofTextField="password"
+          type={!showSecPassword ? "password" : "text"}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton onClick={handleToggleSecPasswordVisibility}>
+                  {showSecPassword ? <Visibility /> : <VisibilityOff />}
+                </IconButton>
+              </InputAdornment>
+            ),
+          }}
         />
-        <TryTextFieldRTL
+        <TextField
           id="outlined-select-currency"
+          name="commandsSelector"
+          size="small"
+          sx={{
+            width: "20rem",
+            mb: "0.3rem",
+
+            "& .MuiInputBase-root": {
+              color: "white !important",
+              borderRadius: "5000px",
+              backgroundColor: "#8EAEDE",
+            },
+            "& .MuiInputLabel-root": {
+              color: "white !important",
+              backgroundColor: "#8EAEDE",
+              borderRadius: "500px",
+              px: 1,
+            },
+
+            "& .MuiOutlinedInput-input": {
+              color: "white !important",
+            },
+          }}
           required={true}
-          error={false}
-          labelTextField="פיקוד"
+          // error={formData.initialInputs.commandsSelector.error}
+          value={formData.initialInputs.commandsSelector.value}
+          label="פיקוד"
           helperText="בחר פיקוד"
-          typeofTextField="select"
-          value={selectedCommand}
-          onChange={handleSelctedCommand}
+          select={true}
+          onChange={handleInputChange}
+          // onBlur={handleBlurChange}
         >
-          {commands.map((option) => (
-            <MenuItem key={option.commandId} value={option.commandName}>
-              {option.commandName}
-            </MenuItem>
-          ))}
-        </TryTextFieldRTL>
-      </div>
+          {commands.map(
+            (option) =>
+              option.commandId !== 0 && (
+                <MenuItem key={option.commandId} value={option.commandName}>
+                  {option.commandName}
+                </MenuItem>
+              )
+          )}
+        </TextField>
+      </InputsWrapper>
+
       <div className="authActionsSignup">
         <Button
           variant="contained"
@@ -165,6 +337,6 @@ export default function Signup() {
           להתחברות עם משתמש קיים
         </NavLink>
       </div>
-    </div>
+    </Box>
   );
 }

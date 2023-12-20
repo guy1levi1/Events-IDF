@@ -2,9 +2,13 @@ import React from "react";
 import Button from "@mui/material/Button";
 import "./Login.css";
 import { NavLink } from "react-router-dom";
-import TryTextFieldRTL from "../../../utils/auth/TryTextFieldRTL";
 import useForm from "../../../utils/hooks/useForm";
-import { Box } from "@mui/material";
+import { Box, TextField } from "@mui/material";
+import InputsWrapper from "../../../utils/InputsWrapper";
+import InputAdornment from "@mui/material/InputAdornment";
+import IconButton from "@mui/material/IconButton";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
 const formStates = {
   privateNumber: {
@@ -21,6 +25,11 @@ const formStates = {
 
 export default function Login() {
   const { formData, handleInput, handleBlur } = useForm(formStates, false);
+  const [showPassword, setShowPassword] = React.useState(false);
+
+  const handleTogglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
 
   const handleInputChange = (e) => {
     handleInput(e);
@@ -33,15 +42,44 @@ export default function Login() {
   return (
     <Box className="authWarraperLogin">
       <label className="loginLabelLogin">התחברות</label>
-      <Box className="textsFieldsLogin">
-        <TryTextFieldRTL
+      <InputsWrapper className="textsFieldsLogin">
+        <TextField
           id="privateNumber"
+          size="small"
+          sx={{
+            width: "20rem",
+            mb: "0.3rem",
+
+            "& .MuiInputBase-root": {
+              color: "white !important",
+              borderRadius: "5000px",
+              backgroundColor: !formData.initialInputs.privateNumber.error
+                ? "#8EAEDE"
+                : "#d9d9d9",
+            },
+            "& .MuiInputLabel-root": {
+              color: !formData.initialInputs.privateNumber.error
+                ? "white !important"
+                : "red !important",
+              backgroundColor: !formData.initialInputs.privateNumber.error
+                ? "#8EAEDE"
+                : "#d9d9d9",
+              borderRadius: "500px",
+              px: 1,
+            },
+
+            "& .MuiOutlinedInput-input": {
+              color: !formData.initialInputs.privateNumber.error
+                ? "white !important"
+                : "red !important",
+            },
+          }}
           required={true}
           error={formData.initialInputs.privateNumber.error}
           value={formData.initialInputs.privateNumber.value}
           onChange={handleInputChange}
           onBlur={handleBlurChange}
-          labelTextField="מס' אישי"
+          label="מס' אישי"
           helperText={
             !formData.initialInputs.privateNumber.error
               ? "בעל 7 ספרות"
@@ -49,22 +87,60 @@ export default function Login() {
           }
           typeofTextField="regular"
         />
-        <TryTextFieldRTL
+        <TextField
           id="password"
+          size="small"
+          sx={{
+            width: "20rem",
+            mb: "0.3rem",
+
+            "& .MuiInputBase-root": {
+              color: "white !important",
+              borderRadius: "5000px",
+              backgroundColor: !formData.initialInputs.password.error
+                ? "#8EAEDE"
+                : "#d9d9d9",
+            },
+            "& .MuiInputLabel-root": {
+              color: !formData.initialInputs.password.error
+                ? "white !important"
+                : "red !important",
+              backgroundColor: !formData.initialInputs.password.error
+                ? "#8EAEDE"
+                : "#d9d9d9",
+              borderRadius: "500px",
+              px: 1,
+            },
+
+            "& .MuiOutlinedInput-input": {
+              color: !formData.initialInputs.password.error
+                ? "white !important"
+                : "red !important",
+            },
+          }}
           required={true}
           error={formData.initialInputs.password.error}
           value={formData.initialInputs.password.value}
           onChange={handleInputChange}
           onBlur={handleBlurChange}
-          labelTextField="סיסמא"
+          label="סיסמא"
           helperText={
             !formData.initialInputs.password.error
-            ? "סיסמא עם מינימום 6 תווים, אותיות באנגלית וספרות בלבד"
-            : "סיסמא לא תקינה"
+              ? "סיסמא עם מינימום 6 תווים, אותיות באנגלית וספרות בלבד"
+              : "סיסמא לא תקינה"
           }
-          typeofTextField="password"
+          type={!showPassword ? "password" : "text"}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton onClick={handleTogglePasswordVisibility}>
+                  {showPassword ? <Visibility /> : <VisibilityOff />}
+                </IconButton>
+              </InputAdornment>
+            ),
+          }}
         />
-      </Box>
+      </InputsWrapper>
       <Box className="authActionsLogin">
         <Button
           variant="contained"

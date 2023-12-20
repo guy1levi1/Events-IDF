@@ -1,17 +1,16 @@
 .authWarraperLogin {
   display: flex;
-  /* position: relative; */
   background-color: #d9d9d9;
   border-radius: 50px;
   flex-direction: column;
   align-items: center;
+  justify-content: space-between;
   width: 25rem;
   height: 30rem;
   margin: auto;
 }
 
 .loginLabelLogin {
-  /* display: inline-block; */
   margin-top: 1rem;
   font-size: 2.4rem;
 }
@@ -20,9 +19,8 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  /* margin-top: 0rem; */
   width: 100%;
-  height: 80%;
+  height: 100%;
 }
 
 

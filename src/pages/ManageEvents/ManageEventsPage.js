@@ -1,5 +1,5 @@
 import React from "react";
-import EventCard from "../../utils/eventCard/EventCard";
+import CardEvent from "../../components/cardEvent/CardEvent";
 import "./ManageEventsPage.css";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Unstable_Grid2";
@@ -71,7 +71,7 @@ export default function ManageEventsPage({ componentCount }) {
                 key={index}
                 style={{ marginRight: "1rem" }}
               >
-                <EventCard
+                <CardEvent
                   // key={index}
                   eventName={eventName}
                   eventDatetime={eventDatetime}

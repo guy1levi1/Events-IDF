@@ -1,6 +1,8 @@
 import { useState } from "react";
 import {
+  VALIDATOR_DATE_EVENT,
   VALIDATOR_FULLNAME,
+  VALIDATOR_MAXLENGTH,
   VALIDATOR_PASSWORD,
   VALIDATOR_PRIVATE_NUMBER,
 } from "../validators";
@@ -21,14 +23,33 @@ export default function useForm(initialInputs, isValid) {
         return VALIDATOR_FULLNAME(value);
       case "secPassword":
         return value === formData.initialInputs["password"].value;
+      case "commandsSelector":
+        return value !== "";
+      case "eventName":
+        return VALIDATOR_MAXLENGTH(value, 50);
+      case "eventDate":
+        return VALIDATOR_DATE_EVENT(value);
+      case "eventLocation":
+        return VALIDATOR_MAXLENGTH(value, 50);
+      case "description":
+        return VALIDATOR_MAXLENGTH(value, 1000);
       default:
-        return false;
+        return true;
     }
   };
 
   const handleInput = (e) => {
-    const newValue = e.target.value;
-    const inputId = e.target.id;
+    console.log(e.$d);
+    let newValue;
+    let inputId;
+    if (e.$d) {
+      newValue = e.$d;
+      inputId = "eventDate";
+    } else {
+      newValue = e.target.value;
+      inputId = e.target.id || e.target.name;
+    }
+
     // Validate the input using the validation functions
 
     const isValidAfterChange = validateInput(inputId, newValue);
@@ -70,15 +91,6 @@ export default function useForm(initialInputs, isValid) {
       },
     }));
   };
-
-  // const formIsValid = useCallback((formData) => {
-  //   const keyArray = Object.keys(formData);
-  //   let hasError = false;
-  //   keyArray.forEach((key) => {
-  //     hasError = !formData[key].isValid;
-  //   });
-  //   return !hasError;
-  // }, []);
 
   return { formData, handleInput, handleBlur };
 }

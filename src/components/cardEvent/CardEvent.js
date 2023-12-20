@@ -5,7 +5,7 @@ import DeleteIcon from "../../images/DeleteIcon.png";
 import EditTextsIcon from "../../images/EditTextsIcon.png";
 import TableModeIcon from "../../images/tableModeIcon.png";
 
-export default function EventCard({
+export default function CardEvent({
   eventName,
   eventDatetime,
   eventPlace,

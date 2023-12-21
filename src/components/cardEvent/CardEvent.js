@@ -64,6 +64,7 @@ export default function CardEvent({
               style={{
                 width: "3.268rem",
                 height: "3.5rem",
+                cursor: "pointer",
               }}
             />
           </div>
@@ -129,6 +130,7 @@ export default function CardEvent({
                 style={{
                   width: "3.268rem",
                   height: "3.5rem",
+                  cursor: "pointer",
                 }}
               />
               <img
@@ -137,6 +139,7 @@ export default function CardEvent({
                 style={{
                   width: "3.268rem",
                   height: "3.5rem",
+                  cursor: "pointer",
                 }}
               />
               <img
@@ -145,52 +148,11 @@ export default function CardEvent({
                 style={{
                   width: "3.268rem",
                   height: "3.6rem",
+                  cursor: "pointer",
                 }}
               />{" "}
             </div>
           </div>
-        </div>
-        <div
-          className="TopButton"
-          style={{ position: "absolute", top: "0.5rem", left: "0.5rem" }}
-        >
-          {/* <img
-            src={CompareIcon}
-            alt=""
-            style={{
-              width: "3.268rem",
-              height: "3.5rem",
-            }}
-          /> */}
-        </div>
-        <div
-          className="ButtonsBottom"
-          style={{ position: "absolute", bottom: 0, left: "0.5rem" }}
-        >
-          {/* <img
-            src={TableModeIcon}
-            alt=""
-            style={{
-              width: "3.268rem",
-              height: "3.5rem",
-            }}
-          />
-          <img
-            src={EditTextsIcon}
-            alt=""
-            style={{
-              width: "3.268rem",
-              height: "3.5rem",
-            }}
-          />
-          <img
-            src={DeleteIcon}
-            alt=""
-            style={{
-              width: "3.268rem",
-              height: "3.6rem",
-            }}
-          /> */}
         </div>
       </Box>
     </div>

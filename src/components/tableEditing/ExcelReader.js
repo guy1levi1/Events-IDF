@@ -4,7 +4,8 @@ import * as XLSX from "xlsx";
 import "./ExcelReader.css";
 
 // ExcelReader component
-const ExcelReader = ({ onRowsChange }) => {
+const ExcelReader = ({ onRowsChange, isCrossInformationTable }) => {
+  console.log("isCrossInformationTable: " + isCrossInformationTable);
   // const [rows, setRows] = useState([]);
   const fileInputRef = useRef(null);
   const [errorMessage, setErrorMessage] = useState("");
@@ -78,12 +79,17 @@ const ExcelReader = ({ onRowsChange }) => {
         ref={fileInputRef}
         style={{ display: "none" }}
       />
-      <button onClick={handleButtonClick} className="rounded-button">
-        להעלאת קובץ חדש
+      <button
+        onClick={handleButtonClick}
+        className="rounded-button"
+        style={{ width: isCrossInformationTable ? "13rem" : "10rem" }}
+      >
+        {isCrossInformationTable ? "להעלאת טופס נוכחות חדש" : "להעלאת קובץ חדש"}
       </button>
       {errorMessage && <p className="error-message">{errorMessage}</p>}
-    <div style={{marginTop: "-0.6rem"}}>
-      {<p className="upload-file-info">{uploadFileInfo}</p>}</div>
+      <div style={{ marginTop: "-0.6rem" }}>
+        {<p className="upload-file-info">{uploadFileInfo}</p>}
+      </div>
     </div>
   );
 };

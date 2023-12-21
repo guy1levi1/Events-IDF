@@ -59,7 +59,7 @@ function CustomToolbar(props) {
 
   return (
     <>
-      <Button 
+      <Button
         color="primary"
         startIcon={<AddIcon />}
         onClick={handleNewRowClick}
@@ -71,7 +71,6 @@ function CustomToolbar(props) {
           },
           "&:hover": {
             backgroundColor: "#EDF3F8",
-            // Add any other styles you want to apply on hover
           },
         }}
         style={
@@ -591,7 +590,10 @@ export default function DesignedEventTable() {
               textAlign: "center",
             }}
           >
-            <ExcelReader onRowsChange={handleRowsChange} />
+            <ExcelReader
+              onRowsChange={handleRowsChange}
+              isCrossInformationTable={false}
+            />
           </div>
           <div
             style={{
@@ -602,7 +604,6 @@ export default function DesignedEventTable() {
               right: 0,
             }}
           >
-            {" "}
             <Link
               to="/manageEventes" // need to close the popup
               style={{ color: "white", textDecoration: "none" }}

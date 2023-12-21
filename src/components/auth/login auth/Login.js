@@ -9,6 +9,7 @@ import InputAdornment from "@mui/material/InputAdornment";
 import IconButton from "@mui/material/IconButton";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import { Link } from "react-router-dom";
 
 const formStates = {
   privateNumber: {
@@ -142,15 +143,19 @@ export default function Login() {
         />
       </InputsWrapper>
       <Box className="authActionsLogin">
-        <Button
-          variant="contained"
-          color="primary"
-          disabled={!formData.isValid}
-          sx={{ mt: "50px", mb: "5px", borderRadius: "5000px" }}
+        <Link
+          to={!formData.isValid ? "/login" : "/manageEventes"} // of course we have to check if user exists and password is correct
+          style={{ color: "white", textDecoration: "none" }}
         >
-          התחבר/י
-        </Button>
-
+          <Button
+            variant="contained"
+            color="primary"
+            disabled={!formData.isValid}
+            sx={{ mt: "50px", mb: "5px", borderRadius: "5000px" }}
+          >
+            התחבר/י
+          </Button>
+        </Link>
         <NavLink className="linkToSignup" to="/signup">
           ליצירת חשבון חדש
         </NavLink>

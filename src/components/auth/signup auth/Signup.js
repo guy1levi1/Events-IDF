@@ -10,6 +10,7 @@ import InputAdornment from "@mui/material/InputAdornment";
 import IconButton from "@mui/material/IconButton";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import { Link } from "react-router-dom";
 
 const commands = [
   {
@@ -82,7 +83,6 @@ export default function Signup() {
   const handleBlurChange = (e) => {
     handleBlur(e.target.id);
   };
-
 
   return (
     <Box className="authWarraperSignup">
@@ -325,14 +325,22 @@ export default function Signup() {
       </InputsWrapper>
 
       <div className="authActionsSignup">
-        <Button
-          variant="contained"
-          color="primary"
-          disabled={!formData.isValid}
-          sx={{ mt: "50px", mb: "5px", borderRadius: "500px" }}
+        <Link
+          to={!formData.isValid ? "/signup" : "/manageEventes"} // of course we have to check if input is valid
+          style={{
+            color: "white",
+            textDecoration: "none",
+          }}
         >
-          הירשם/י
-        </Button>
+          <Button
+            variant="contained"
+            color="primary"
+            disabled={!formData.isValid}
+            sx={{ mt: "50px", mb: "5px", borderRadius: "500px" }}
+          >
+            הירשם/י
+          </Button>
+        </Link>
         <NavLink className="linkToLogin" to="/login">
           להתחברות עם משתמש קיים
         </NavLink>

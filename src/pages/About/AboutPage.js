@@ -47,8 +47,8 @@ export default function AboutPage() {
             fontSize: "2rem",
           }}
         >
-          <p> {about}</p>
-          <p> {aboutSecondP}</p>
+          <p className="paragraph"> {about}</p>
+          <p className="paragraph"> {aboutSecondP}</p>
         </div>
       </Box>
     </div>

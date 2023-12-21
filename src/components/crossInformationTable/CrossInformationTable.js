@@ -8,57 +8,17 @@ import {
   GridToolbarDensitySelector,
   GridToolbarQuickFilter,
 } from "@mui/x-data-grid";
-// import { useDemoData } from "@mui/x-data-grid-generator";
-// import SearchIcon from "@mui/icons-material/Search";
 import { heIL } from "@mui/x-data-grid";
 import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
-import ExcelReader from "../../components/tableEditing/ExcelReader";
-import { randomId } from "@mui/x-data-grid-generator";
-import Button from "@mui/material/Button";
-import AddIcon from "@mui/icons-material/Add";
-// import EditIcon from "@mui/icons-material/Edit";
-// import DeleteIcon from "@mui/icons-material/DeleteOutlined";
-// import SaveIcon from "@mui/icons-material/Save";
-// import CancelIcon from "@mui/icons-material/Close";
-import {
-  GridRowModes,
-  // GridActionsCellItem,
-  GridRowEditStopReasons,
-} from "@mui/x-data-grid";
+import ExcelReader from "../tableEditing/ExcelReader";
+import { GridRowEditStopReasons } from "@mui/x-data-grid";
+import "./CrossInformationTable.css";
+import { Link } from "react-router-dom";
 
 function CustomToolbar(props) {
-  const { setRows, setRowModesModel } = props;
-
-  const handleClick = () => {
-    const id = randomId();
-    setRows((oldRows) => [...oldRows, { id }]);
-    setRowModesModel((oldModel) => ({
-      ...oldModel,
-      [id]: { mode: GridRowModes.Edit, fieldToFocus: "name" },
-    }));
-  };
-
   return (
     <>
-      <Button
-        color="primary"
-        startIcon={<AddIcon />}
-        onClick={handleClick}
-        sx={{
-          "& .MuiButton-startIcon": {
-            marginLeft: "-85px",
-          },
-        }}
-        style={{
-          borderRadius: "10px",
-          border: "10px red",
-          direction: "rtl",
-          color: "#3069BE",
-        }}
-      >
-        הוסף שורה
-      </Button>
       <GridToolbarContainer
         style={{
           direction: "rtl",
@@ -101,7 +61,7 @@ function CustomToolbar(props) {
             // InputProps={{ disableUnderline: true }}
             placeholder="חיפוש"
             style={{
-              marginRight: "563px",
+              marginRight: "36rem",
             }}
             sx={{
               "& .MuiInputBase-root": {
@@ -191,17 +151,7 @@ function CustomNoRowsOverlay() {
   );
 }
 
-export default function CustomToolbarGrid() {
-  // const { data } = useDemoData({
-  //   dataSet: "Commodity",
-  //   rowLength: 10,
-  //   maxColumns: 6,
-  // });
-
-  //
-  //
-  //
-  //
+export default function CrossInformationTable() {
   const [rows, setRows] = React.useState([]);
   const [rowModesModel, setRowModesModel] = React.useState({});
 
@@ -209,60 +159,16 @@ export default function CustomToolbarGrid() {
     console.log(rows);
   }, [rows]);
 
-  const handleRowsChange = (newRows) => {
-    setRows(newRows);
-  };
-
-  const handleRowEditStop = (params, event) => {
-    if (params.reason === GridRowEditStopReasons.rowFocusOut) {
-      event.defaultMuiPrevented = true;
-    }
-  };
-
-  // const handleEditClick = (id) => () => {
-  //   setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.Edit } });
-  // };
-
-  // const handleSaveClick = (id) => () => {
-  //   setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.View } });
-  // };
-
-  // const handleDeleteClick = (id) => () => {
-  //   setRows(rows.filter((row) => row.id !== id));
-  // };
-
-  // const handleCancelClick = (id) => () => {
-  //   setRowModesModel({
-  //     ...rowModesModel,
-  //     [id]: { mode: GridRowModes.View, ignoreModifications: true },
-  //   });
-
-  //   const editedRow = rows.find((row) => row.id === id);
-  //   if (editedRow.isNew) {
-  //     setRows(rows.filter((row) => row.id !== id));
-  //   }
-  // };
-
-  const processRowUpdate = (newRow) => {
-    const updatedRow = { ...newRow, isNew: false };
-    setRows(rows.map((row) => (row.id === newRow.id ? updatedRow : row)));
-    return updatedRow;
-  };
-
-  const handleRowModesModelChange = (newRowModesModel) => {
-    setRowModesModel(newRowModesModel);
-  };
-
   const getStatusCellStyle = (status) => {
     let backgroundColor, textColor;
 
     switch (status) {
       case "מאושר":
-        backgroundColor = "#05bf3e";
+        backgroundColor = "#32c55f";
         textColor = "white";
         break;
       case "נדחה":
-        backgroundColor = "#ff0000";
+        backgroundColor = "#fd3535";
         textColor = "white";
         break;
       case "ממתין להחלטת רמח":
@@ -292,14 +198,14 @@ export default function CustomToolbarGrid() {
 
     switch (value) {
       case "כן":
-        backgroundColorPresents = "#05bf3e";
+        backgroundColorPresents = "#32c55f";
         textColorPresents = "white";
         break;
       case "לא":
-        backgroundColorPresents = "#ff0000";
+        backgroundColorPresents = "#fd3535";
         textColorPresents = "white";
         break;
-      case "ממתין להחלטת רמח":
+      case "חריג":
         backgroundColorPresents = "#ffa200";
         textColorPresents = "black";
         break;
@@ -319,6 +225,40 @@ export default function CustomToolbarGrid() {
       justifyContent: "center",
     };
   };
+
+  const handleRowsChange = (newRows) => {
+    setRows(newRows);
+  };
+
+  const handleRowEditStop = (params, event) => {
+    if (params.reason === GridRowEditStopReasons.rowFocusOut) {
+      event.defaultMuiPrevented = true;
+    }
+  };
+
+  const processRowUpdate = (newRow) => {
+    const updatedRow = { ...newRow, isNew: false };
+    setRows(rows.map((row) => (row.id === newRow.id ? updatedRow : row)));
+    return updatedRow;
+  };
+
+  const handleRowModesModelChange = (newRowModesModel) => {
+    setRowModesModel(newRowModesModel);
+  };
+
+  const handleSaveButtonClick = () => {
+    console.log("save/upadte table clicked");
+  };
+
+  const handleCancelButtonClick = () => {
+    console.log("cancel table clicked");
+  };
+
+  // const statusOptions = [
+  //   { value: "declined", label: "נדחה" },
+  //   { value: "approved", label: "מאושר" },
+  //   { value: "pending", label: 'ממתין להחלטת רמ"ח' },
+  // ];
 
   const columns = [
     {
@@ -424,13 +364,16 @@ export default function CustomToolbarGrid() {
       field: "11",
       headerName: "אישור רמח",
       headerAlign: "center",
-      width: 100,
+      width: 150,
       editable: false,
+
+      // should be taken from db instead of hard coded
       renderCell: (params) => (
         <div style={getStatusCellStyle(params.value)}>
-          {params.value === "מאושר" && "מאושר"}
+          {/* {params.value === "מאושר" && "מאושר"}
           {params.value === "נדחה" && "נדחה"}
-          {params.value === "ממתין להחלטת רמח" && "ממתין להחלטת רמח"}
+          {params.value === "ממתין להחלטת רמח" && "ממתין להחלטת רמח"} */}
+          {params.value}
         </div>
       ),
     },
@@ -441,11 +384,7 @@ export default function CustomToolbarGrid() {
       width: 100,
       editable: false,
       renderCell: (params) => (
-        <div style={getPresentsCellStyle(params.value)}>
-          {params.value === "כן" && "כן"}
-          {params.value === "לא" && "לא"}
-          {params.value === "ממתין להחלטת רמח" && "ממתין להחלטת רמח"}
-        </div>
+        <div style={getPresentsCellStyle(params.value)}>{params.value} </div>
       ),
     },
     {
@@ -454,61 +393,11 @@ export default function CustomToolbarGrid() {
       headerAlign: "center",
       width: 100,
       editable: false,
+      // should be a calcuklated field  if !field: "11" && !field: "12" return לא else כן (case "ממתין להחלטת רצח" should be a case to)
       renderCell: (params) => (
-        <div style={getPresentsCellStyle(params.value)}>
-          {params.value === "כן" && "כן"}
-          {params.value === "לא" && "לא"}
-          {params.value === "ממתין להחלטת רמח" && "ממתין להחלטת רמח"}
-        </div>
+        <div style={getPresentsCellStyle(params.value)}>{params.value} </div>
       ),
     },
-    // {
-    //   field: "actions",
-    //   type: "actions",
-    //   headerName: "פעולות",
-    //   headerAlign: "center",
-    //   width: 100,
-    //   cellClassName: "actions",
-    //   getActions: ({ id }) => {
-    //     const isInEditMode = rowModesModel[id]?.mode === GridRowModes.Edit;
-
-    //     if (isInEditMode) {
-    //       return [
-    //         <GridActionsCellItem
-    //           icon={<SaveIcon />}
-    //           label="Save"
-    //           sx={{
-    //             color: "primary.main",
-    //           }}
-    //           onClick={handleSaveClick(id)}
-    //         />,
-    //         <GridActionsCellItem
-    //           icon={<CancelIcon />}
-    //           label="Cancel"
-    //           className="textPrimary"
-    //           onClick={handleCancelClick(id)}
-    //           color="inherit"
-    //         />,
-    //       ];
-    //     }
-
-    //     return [
-    //       <GridActionsCellItem
-    //         icon={<EditIcon />}
-    //         label="Edit"
-    //         className="textPrimary"
-    //         onClick={handleEditClick(id)}
-    //         color="inherit"
-    //       />,
-    //       <GridActionsCellItem
-    //         icon={<DeleteIcon />}
-    //         label="Delete"
-    //         onClick={handleDeleteClick(id)}
-    //         color="inherit"
-    //       />,
-    //     ];
-    //   },
-    // },
   ];
 
   return (
@@ -516,21 +405,32 @@ export default function CustomToolbarGrid() {
       className="app"
       style={{
         display: "flex",
-        flexDirection: "row",
+        flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
         height: "100%",
         width: "100%",
-        marginTop: "40px",
-        background: "#BAB9B9",
+        margin: "1rem",
       }}
     >
+      <h1>פריסת שחרור לאור, תל השומר מקל”ר, 10:00 13.12.23</h1>
+      {/* h1 will be get from lst page (create new event/edit an exisiting) */}
+
       <Box
         sx={{
-          height: 700,
-          width: 1220,
+          height: "36rem",
+          width: "79rem",
           direction: "ltr",
           background: "white",
+          alignItems: "center",
+          justifyContent: "center",
+          borderRadius: "2rem",
+          border: 0,
+          boxShadow: "5px 5px 31px 5px rgba(0, 0, 0, 0.75)",
+
+          "& .MuiDataGrid-root": {
+            border: "none",
+          },
         }}
       >
         <DataGrid
@@ -544,6 +444,7 @@ export default function CustomToolbarGrid() {
           localeText={heIL.components.MuiDataGrid.defaultProps.localeText}
           sx={{
             direction: "rtl",
+            // fontSize: "0.8rem",
             "& .MuiDataGrid-virtualScroller": {
               overflow: "unset !important",
               mt: "0 !important",
@@ -596,6 +497,7 @@ export default function CustomToolbarGrid() {
           // getEstimatedRowHeight={() => 150}
           rowsPerPageOptions={[10]}
           pagination
+          pageSizeOptions={[5, 10, 25]}
           // scrollbarSize={[1]}
           // scrollArea={(color = "red")}
           // checkboxSelection
@@ -608,10 +510,64 @@ export default function CustomToolbarGrid() {
             toolbar: { setRows, setRowModesModel },
           }}
         />
-        <ExcelReader
-          onRowsChange={handleRowsChange}
-          isCrossInformationTable={false}
-        />
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            margin: "auto",
+            // marginTop: "0.4rem",
+            // alignItems: "center",
+          }}
+        >
+          <div
+            style={{
+              display: "flex",
+              flex: 1,
+              marginTop: "0.7rem",
+              textAlign: "center",
+            }}
+          >
+            <ExcelReader
+              onRowsChange={handleRowsChange}
+              isCrossInformationTable={true}
+            />
+          </div>
+          <div
+            style={{
+              display: "flex",
+              marginTop: "0.7rem",
+              // marginTop: "0.4rem",
+              // alignItems: "center",
+              right: 0,
+            }}
+          >
+            <Link
+              to="/manageEventes" // need to close the popup
+              style={{ color: "white", textDecoration: "none" }}
+            >
+              <button
+                onClick={handleCancelButtonClick}
+                className="CancelButtonTablePage"
+                style={{
+                  marginRight: "0.5rem",
+                }}
+              >
+                בטל
+              </button>
+            </Link>
+            <Link
+              to="/createEvent" // need to save the updated/new table and close the popup
+              style={{ color: "white", textDecoration: "none" }}
+            >
+              <button
+                onClick={handleSaveButtonClick}
+                className="SaveButtonTablePage"
+              >
+                שמור
+              </button>
+            </Link>
+          </div>
+        </div>
       </Box>
     </div>
   );

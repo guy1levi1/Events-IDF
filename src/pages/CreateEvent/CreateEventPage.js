@@ -9,6 +9,7 @@ import InputsWrapper from "../../utils/InputsWrapper";
 import TableModeIcon from "../../images/tableModeIcon.png";
 import { DateTimePicker, renderTimeViewClock } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
+import { Link } from "react-router-dom";
 
 const commands = [
   {
@@ -334,14 +335,23 @@ export default function CreateEventPage() {
           />
         </InputsWrapper>
         <Box className="createEventActions">
-          <Button
-            variant="contained"
-            color="primary"
-            disabled={!formData.isValid}
-            sx={{ mt: "20px", mb: "15px", borderRadius: "5000px" }}
+          <Link
+            to={!formData.isValid ? "/createEvent" : "/manageEventes"} // of course we have to check if input is valid
+            style={{
+              color: "white",
+              textDecoration: "none",
+            }}
           >
-            יצירת אירוע
-          </Button>
+            <Button
+              href="/manageEventes" // need to close the popup
+              variant="contained"
+              color="primary"
+              disabled={!formData.isValid}
+              sx={{ mt: "20px", mb: "15px", borderRadius: "5000px" }}
+            >
+              יצירת אירוע
+            </Button>
+          </Link>
         </Box>
         <img
           src={TableModeIcon}
@@ -352,6 +362,7 @@ export default function CreateEventPage() {
             position: "absolute",
             left: "1.5rem",
             bottom: "0.4rem",
+            cursor: "pointer",
           }}
         />
       </Box>

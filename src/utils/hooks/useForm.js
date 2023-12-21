@@ -1,5 +1,6 @@
 import { useState } from "react";
 import {
+  VALIDATOR_COMMAND,
   VALIDATOR_DATE_EVENT,
   VALIDATOR_FULLNAME,
   VALIDATOR_MAXLENGTH,
@@ -24,7 +25,7 @@ export default function useForm(initialInputs, isValid) {
       case "secPassword":
         return value === formData.initialInputs["password"].value;
       case "commandsSelector":
-        return value !== "";
+        return VALIDATOR_COMMAND(value);
       case "eventName":
         return VALIDATOR_MAXLENGTH(value, 50);
       case "eventDate":

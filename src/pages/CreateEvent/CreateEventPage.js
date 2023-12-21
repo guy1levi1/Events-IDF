@@ -1,12 +1,12 @@
 import { Box, MenuItem, TextField } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
 import Button from "@mui/material/Button";
 import "./CreateEvent.css";
 import useForm from "../../utils/hooks/useForm";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import InputsWrapper from "../../utils/InputsWrapper";
-
+import TableModeIcon from "../../images/tableModeIcon.png";
 import { DateTimePicker, renderTimeViewClock } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
 
@@ -65,7 +65,7 @@ const CHARACTER_LIMIT = 1000;
 
 export default function CreateEventPage() {
   const { formData, handleInput, handleBlur } = useForm(formStates, false);
-  // const [dateError, setDateError] = useState(false);
+  const [dateError, setDateError] = useState(false);
 
   const handleInputChange = (e) => {
     handleInput(e);
@@ -74,6 +74,24 @@ export default function CreateEventPage() {
   const handleBlurChange = (e) => {
     handleBlur(e.target.id);
   };
+
+  // const errorMessage = React.useMemo(() => {
+  //   switch (dateError) {
+  //     case "maxDate":
+  //     case "minDate": {
+  //       return "Please select a date in the first quarter of 2022";
+  //     }
+
+  //     case "invalidDate": {
+  //       return "Your date is not valid";
+  //     }
+
+  //     default: {
+  //       return "";
+  //     }
+  //   }
+  // }, [dateError]);
+
   return (
     <div
       className="ManageUserPage"
@@ -142,8 +160,6 @@ export default function CreateEventPage() {
                 hours: renderTimeViewClock,
                 minutes: renderTimeViewClock,
               }}
-              // onError={(dateError) => setDateError(dateError)}
-
               value={formData.initialInputs.eventDate.value}
               onChange={handleInputChange}
               onBlur={handleBlurChange}
@@ -154,27 +170,17 @@ export default function CreateEventPage() {
                 "& .MuiInputBase-root": {
                   color: "white !important",
                   borderRadius: "5000px",
-                  backgroundColor: !formData.initialInputs.eventDate.error
-                    ? "#8EAEDE"
-                    : "#d9d9d9 !important",
+                  backgroundColor: !dateError ? "#8EAEDE" : "#d9d9d9",
                 },
-    
-                
                 "& .MuiInputLabel-root": {
-                  color: !formData.initialInputs.eventDate.error
-                    ? "white !important"
-                    : "red !important",
-                  backgroundColor: !formData.initialInputs.eventDate.error
-                    ? "#8EAEDE"
-                    : "#d9d9d9",
+                  color: !dateError ? "white !important" : "red !important",
+                  backgroundColor: !dateError ? "#8EAEDE" : "#d9d9d9",
                   borderRadius: "500px",
                   px: 1,
                 },
 
                 "& .MuiOutlinedInput-input": {
-                  color: !formData.initialInputs.eventDate.error
-                    ? "white !important"
-                    : "red !important",
+                  color: !dateError ? "white !important" : "red !important",
                 },
               }}
               slotProps={{
@@ -182,18 +188,15 @@ export default function CreateEventPage() {
                   id: "eventDate",
                   size: "small",
                   label: "תאריך האירוע",
-                  helperText: !formData.initialInputs.eventDate.error
+                  helperText: !dateError
                     ? "הכנס את תאריך האירוע"
                     : "תאריך אינו תקין, הכנס תאריך עדכני",
-                    
                 },
               }}
-              minDate={dayjs()}
+              minDateTime={dayjs().subtract(1, "minute")}
+              onError={(newError) => setDateError(newError)}
             />
           </LocalizationProvider>
-          {console.log(formData)}
-          {console.log(formData.initialInputs.eventDate.error)}
-
           <TextField
             id="eventLocation"
             size="small"
@@ -306,9 +309,11 @@ export default function CreateEventPage() {
                 color: "white !important",
               },
               "& .MuiFormHelperText-root": {
-                color: formData.initialInputs.description.isValid || formData.initialInputs.description.value === ""
-                  ? "rgba(0, 0, 0, 0.6)"
-                  : "red",
+                color:
+                  formData.initialInputs.description.isValid ||
+                  formData.initialInputs.description.value === ""
+                    ? "rgba(0, 0, 0, 0.6)"
+                    : "red",
                 textAlign: "right",
               },
             }}
@@ -333,11 +338,22 @@ export default function CreateEventPage() {
             variant="contained"
             color="primary"
             disabled={!formData.isValid}
-            sx={{ mt: "50px", mb: "15px", borderRadius: "5000px" }}
+            sx={{ mt: "20px", mb: "15px", borderRadius: "5000px" }}
           >
             יצירת אירוע
           </Button>
         </Box>
+        <img
+          src={TableModeIcon}
+          alt=""
+          style={{
+            width: "3rem",
+            height: "3.213rem",
+            position: "absolute",
+            left: "1.5rem",
+            bottom: "0.4rem",
+          }}
+        />
       </Box>
     </div>
   );

@@ -2,7 +2,7 @@ import React, { useRef, useState } from "react";
 import * as XLSX from "xlsx";
 import "./ExcelReader.css";
 
-const ExcelReader = ({ onRowsChange, isCrossInformationTable }) => {
+const ExcelReader = ({ onRowsChange, isCrossInformationTable, imageSrc }) => {
   console.log("isCrossInformationTable: " + isCrossInformationTable);
   const fileInputRef = useRef(null);
   const [errorMessage, setErrorMessage] = useState("");
@@ -68,13 +68,33 @@ const ExcelReader = ({ onRowsChange, isCrossInformationTable }) => {
         ref={fileInputRef}
         style={{ display: "none" }}
       />
-      <button
-        onClick={handleButtonClick}
-        className="rounded-button"
-        style={{ width: isCrossInformationTable ? "13rem" : "10rem" }}
-      >
-        {isCrossInformationTable ? "להעלאת טופס נוכחות חדש" : "להעלאת קובץ חדש"}
-      </button>
+      {imageSrc ? (
+        <button
+          onClick={handleButtonClick}
+          className="rounded-button"
+          style={{
+            width: "3.268rem",
+            height:  "3.5rem",
+            backgroundImage: `url(${imageSrc})`,
+            backgroundSize: "cover",
+            backgroundRepeat: "no-repeat",
+          }}
+        >
+          {/* You can choose to include text or not */}
+          {/* {isCrossInformationTable ? "להעלאת טופס נוכחות חדש" : "להעלאת קובץ חדש"} */}
+        </button>
+      ) : (
+        <button
+          onClick={handleButtonClick}
+          className="rounded-button"
+          style={{ width: isCrossInformationTable ? "13rem" : "10rem" }}
+        >
+          {isCrossInformationTable
+            ? "להעלאת טופס נוכחות חדש"
+            : "להעלאת קובץ חדש"}
+        </button>
+      )}
+
       {errorMessage && <p className="error-message">{errorMessage}</p>}
       <div style={{ marginTop: "-0.6rem" }}>
         {<p className="upload-file-info">{uploadFileInfo}</p>}

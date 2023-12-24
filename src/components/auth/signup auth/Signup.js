@@ -305,13 +305,11 @@ export default function Signup() {
             },
           }}
           required={true}
-          // error={formData.initialInputs.commandsSelector.error}
           value={formData.initialInputs.commandsSelector.value}
           label="פיקוד"
           helperText="בחר פיקוד"
           select={true}
           onChange={handleInputChange}
-          // onBlur={handleBlurChange}
         >
           {commands.map(
             (option) =>

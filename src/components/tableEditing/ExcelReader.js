@@ -1,12 +1,9 @@
-// Import necessary dependencies
 import React, { useRef, useState } from "react";
 import * as XLSX from "xlsx";
 import "./ExcelReader.css";
 
-// ExcelReader component
 const ExcelReader = ({ onRowsChange, isCrossInformationTable }) => {
   console.log("isCrossInformationTable: " + isCrossInformationTable);
-  // const [rows, setRows] = useState([]);
   const fileInputRef = useRef(null);
   const [errorMessage, setErrorMessage] = useState("");
   const [uploadFileInfo, setUploadFileInfo] = useState("");
@@ -23,13 +20,10 @@ const ExcelReader = ({ onRowsChange, isCrossInformationTable }) => {
         file.type ===
           "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
       ) {
-        // Handle the valid Excel file
         setErrorMessage("");
-        // setUploadFileInfo(`גודל ${file.size} ביטים  ,${file.name} שם קובץ`);
         setUploadFileInfo(`הועלה ${file.name}  קובץ`);
         console.log(`File selected: ${file.name}, size: ${file.size} bytes`);
       } else {
-        // Display an error message for unsupported file types
         setErrorMessage(
           "Invalid file type. Please upload a valid Excel file (xlsx or xls)."
         );
@@ -42,12 +36,10 @@ const ExcelReader = ({ onRowsChange, isCrossInformationTable }) => {
         const sheetName = workbook.SheetNames[0];
         const sheet = workbook.Sheets[sheetName];
 
-        // Extract rows and add serial numbers
         const newRows = XLSX.utils
           .sheet_to_json(sheet, { header: 1 })
           .slice(1)
           .map((row) => {
-            // Add a new property to each row with a serial number
             const newRow = {
               id: serialNumberCounter++,
               status: "pending",
@@ -56,9 +48,6 @@ const ExcelReader = ({ onRowsChange, isCrossInformationTable }) => {
             return newRow;
           });
 
-        // setRows(newRows);
-
-        // Call the callback with the extracted rows
         onRowsChange(newRows);
       };
 

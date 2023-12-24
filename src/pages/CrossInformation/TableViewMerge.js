@@ -8,8 +8,6 @@ import {
   GridToolbarDensitySelector,
   GridToolbarQuickFilter,
 } from "@mui/x-data-grid";
-// import { useDemoData } from "@mui/x-data-grid-generator";
-// import SearchIcon from "@mui/icons-material/Search";
 import { heIL } from "@mui/x-data-grid";
 import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
@@ -17,15 +15,7 @@ import ExcelReader from "../../components/tableEditing/ExcelReader";
 import { randomId } from "@mui/x-data-grid-generator";
 import Button from "@mui/material/Button";
 import AddIcon from "@mui/icons-material/Add";
-// import EditIcon from "@mui/icons-material/Edit";
-// import DeleteIcon from "@mui/icons-material/DeleteOutlined";
-// import SaveIcon from "@mui/icons-material/Save";
-// import CancelIcon from "@mui/icons-material/Close";
-import {
-  GridRowModes,
-  // GridActionsCellItem,
-  GridRowEditStopReasons,
-} from "@mui/x-data-grid";
+import { GridRowModes, GridRowEditStopReasons } from "@mui/x-data-grid";
 
 function CustomToolbar(props) {
   const { setRows, setRowModesModel } = props;
@@ -98,7 +88,6 @@ function CustomToolbar(props) {
         />
         <div>
           <GridToolbarQuickFilter
-            // InputProps={{ disableUnderline: true }}
             placeholder="חיפוש"
             style={{
               marginRight: "563px",
@@ -192,16 +181,6 @@ function CustomNoRowsOverlay() {
 }
 
 export default function CustomToolbarGrid() {
-  // const { data } = useDemoData({
-  //   dataSet: "Commodity",
-  //   rowLength: 10,
-  //   maxColumns: 6,
-  // });
-
-  //
-  //
-  //
-  //
   const [rows, setRows] = React.useState([]);
   const [rowModesModel, setRowModesModel] = React.useState({});
 
@@ -218,30 +197,6 @@ export default function CustomToolbarGrid() {
       event.defaultMuiPrevented = true;
     }
   };
-
-  // const handleEditClick = (id) => () => {
-  //   setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.Edit } });
-  // };
-
-  // const handleSaveClick = (id) => () => {
-  //   setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.View } });
-  // };
-
-  // const handleDeleteClick = (id) => () => {
-  //   setRows(rows.filter((row) => row.id !== id));
-  // };
-
-  // const handleCancelClick = (id) => () => {
-  //   setRowModesModel({
-  //     ...rowModesModel,
-  //     [id]: { mode: GridRowModes.View, ignoreModifications: true },
-  //   });
-
-  //   const editedRow = rows.find((row) => row.id === id);
-  //   if (editedRow.isNew) {
-  //     setRows(rows.filter((row) => row.id !== id));
-  //   }
-  // };
 
   const processRowUpdate = (newRow) => {
     const updatedRow = { ...newRow, isNew: false };
@@ -462,53 +417,6 @@ export default function CustomToolbarGrid() {
         </div>
       ),
     },
-    // {
-    //   field: "actions",
-    //   type: "actions",
-    //   headerName: "פעולות",
-    //   headerAlign: "center",
-    //   width: 100,
-    //   cellClassName: "actions",
-    //   getActions: ({ id }) => {
-    //     const isInEditMode = rowModesModel[id]?.mode === GridRowModes.Edit;
-
-    //     if (isInEditMode) {
-    //       return [
-    //         <GridActionsCellItem
-    //           icon={<SaveIcon />}
-    //           label="Save"
-    //           sx={{
-    //             color: "primary.main",
-    //           }}
-    //           onClick={handleSaveClick(id)}
-    //         />,
-    //         <GridActionsCellItem
-    //           icon={<CancelIcon />}
-    //           label="Cancel"
-    //           className="textPrimary"
-    //           onClick={handleCancelClick(id)}
-    //           color="inherit"
-    //         />,
-    //       ];
-    //     }
-
-    //     return [
-    //       <GridActionsCellItem
-    //         icon={<EditIcon />}
-    //         label="Edit"
-    //         className="textPrimary"
-    //         onClick={handleEditClick(id)}
-    //         color="inherit"
-    //       />,
-    //       <GridActionsCellItem
-    //         icon={<DeleteIcon />}
-    //         label="Delete"
-    //         onClick={handleDeleteClick(id)}
-    //         color="inherit"
-    //       />,
-    //     ];
-    //   },
-    // },
   ];
 
   return (
@@ -555,7 +463,6 @@ export default function CustomToolbarGrid() {
               left: 1,
               zIndex: 1,
               top: 0,
-              // bgcolor: "#3069BE",
             },
             "& .MuiDataGrid-columnHeadersInner > div": {
               direction: "rtl !important",
@@ -573,33 +480,16 @@ export default function CustomToolbarGrid() {
               color: "#3069BE",
             },
             "& .MuiDataGrid-columnHeadersInner": {
-              // borderBottom: "1px solid 6290D4",
               bgcolor: "#3069BE",
             },
 
             "& .MuiDataGrid-columnHeaderTitle": {
               color: "white",
             },
-
-            // "& .MuiDataGrid-iconSeparator": {
-            //   color: "white",
-            // },
-            // "& .MuiDataGrid-menuIconButton > .MuiSvgIcon-root , .MuiDataGrid-sortIcon":
-            //   {
-            //     color: "white !important",
-            //     opacity: 1,
-            //   },
           }}
           pageSize={10}
-          // rowHeight={52}
-          // getRowHeight={() => "auto"}
-          // getEstimatedRowHeight={() => 150}
           rowsPerPageOptions={[10]}
           pagination
-          // scrollbarSize={[1]}
-          // scrollArea={(color = "red")}
-          // checkboxSelection
-          // disableSelectionOnClick
           slots={{
             toolbar: CustomToolbar,
             noRowsOverlay: CustomNoRowsOverlay,

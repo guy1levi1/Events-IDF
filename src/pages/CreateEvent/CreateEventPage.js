@@ -76,23 +76,6 @@ export default function CreateEventPage() {
     handleBlur(e.target.id);
   };
 
-  // const errorMessage = React.useMemo(() => {
-  //   switch (dateError) {
-  //     case "maxDate":
-  //     case "minDate": {
-  //       return "Please select a date in the first quarter of 2022";
-  //     }
-
-  //     case "invalidDate": {
-  //       return "Your date is not valid";
-  //     }
-
-  //     default: {
-  //       return "";
-  //     }
-  //   }
-  // }, [dateError]);
-
   return (
     <div
       className="ManageUserPage"
@@ -155,7 +138,6 @@ export default function CreateEventPage() {
             <DateTimePicker
               label="With Time Clock"
               ampm={false}
-              // disablePast - ima shelcha be geves achushiling
               format="HH:mm DD/MM/YYYY"
               viewRenderers={{
                 hours: renderTimeViewClock,
@@ -267,13 +249,11 @@ export default function CreateEventPage() {
               },
             }}
             required={true}
-            // error={formData.initialInputs.commandsSelector.error}
             value={formData.initialInputs.commandsSelector.value}
             label="פיקוד"
             helperText="בחר פיקוד"
             select={true}
             onChange={handleInputChange}
-            // onBlur={handleBlurChange}
           >
             {commands.map(
               (option) =>
@@ -325,25 +305,20 @@ export default function CreateEventPage() {
             onBlur={handleBlurChange}
             label="תיאור האירוע"
             helperText={`${formData.initialInputs.description.value.length}/${CHARACTER_LIMIT}`}
-            inputProps={
-              {
-                // maxlength: CHARACTER_LIMIT,
-              }
-            }
             multiline
             rows={5}
           />
         </InputsWrapper>
         <Box className="createEventActions">
           <Link
-            to={!formData.isValid ? "/createEvent" : "/manageEventes"} // of course we have to check if input is valid
+            to={!formData.isValid ? "/createEvent" : "/manageEventes"}
             style={{
               color: "white",
               textDecoration: "none",
             }}
           >
             <Button
-              href="/manageEventes" // need to close the popup
+              href="/manageEventes"
               variant="contained"
               color="primary"
               disabled={!formData.isValid}

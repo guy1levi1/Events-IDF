@@ -16,7 +16,7 @@ import CheckIcon from "@mui/icons-material/Check";
 
 import { GridActionsCellItem, GridRowEditStopReasons } from "@mui/x-data-grid";
 
-function CustomToolbar(props) {
+function CustomToolbar() {
   return (
     <>
       <GridToolbarContainer
@@ -59,7 +59,6 @@ function CustomToolbar(props) {
         />
         <div>
           <GridToolbarQuickFilter
-            // InputProps={{ disableUnderline: true }}
             placeholder="חיפוש"
             style={{
               marginRight: "1rem",

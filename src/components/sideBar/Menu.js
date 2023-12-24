@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import "./Menu.css"; // Import your CSS file
+import "./Menu.css";
 import profile_img from "../../images/logo_image_example.png";
 import { useNavigate } from "react-router";
 
 const Menu = () => {
   const [open, setOpen] = useState(false);
-  const [activeLink, setActiveLink] = useState(null); // State to track the active link
+  const [activeLink, setActiveLink] = useState(null);
   const navigate = useNavigate();
 
   const toggleMenu = () => {
@@ -17,11 +17,10 @@ const Menu = () => {
     { name: "ניהול אירועים", url: "/manageEventes" },
     { name: "יצירת אירוע", url: "/createEvent" },
     { name: "ניהול משתמשים", url: "/manageUsers" },
-
   ];
 
   const navigateHandler = (url, index) => {
-    setActiveLink(index); // Update the active link index
+    setActiveLink(index);
     navigate(url);
   };
 
@@ -34,8 +33,6 @@ const Menu = () => {
             display: "flex",
             flexDirection: "row",
             alignItems: "center",
-            // justifyContent: "center",
-            // margin: "auto",
           }}
         >
           <img

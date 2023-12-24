@@ -82,8 +82,6 @@ export default function ManageUsersPage() {
   ]);
 
   const updateApprovedUser = (newApprovedUser) => {
-    // Update the state with the new data
-    // setApprovedUser(newApprovedUser);
     const [rows, setRows] = rowsState;
     setRows([{ ...newApprovedUser, id: generateUuid() }, ...rows]);
     console.log("New Data in Parent Component:", {

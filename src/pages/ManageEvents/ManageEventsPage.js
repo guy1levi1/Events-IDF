@@ -72,7 +72,6 @@ export default function ManageEventsPage({ componentCount }) {
                 style={{ marginRight: "1rem" }}
               >
                 <CardEvent
-                  // key={index}
                   eventName={eventName}
                   eventDatetime={eventDatetime}
                   eventPlace={eventPlace}

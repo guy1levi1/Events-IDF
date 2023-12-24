@@ -1,12 +1,12 @@
 .rounded-button {
   height: 2.3rem;
   border-radius: 10px;
-  background-color: #3069be; /* Green background color */
-  color: white; /* White text color */
-  border: none; /* Remove border */
-  text-align: center; /* Center text */
-  font-size: 1rem; /* Set font size */
-  cursor: pointer; /* Add a pointer cursor on hover */
+  background-color: #3069be;
+  color: white;
+  border: none;
+  text-align: center;
+  font-size: 1rem;
+  cursor: pointer;
   border-radius: 5000px;
   align-items: center;
   justify-content: center;

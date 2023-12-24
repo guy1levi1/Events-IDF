@@ -58,7 +58,7 @@ function CustomToolbar(props) {
         />
         <div>
           <GridToolbarQuickFilter
-            // InputProps={{ disableUnderline: true }}
+            // InputProps={{ disableUnderline: true }} // משאיר במידה ונרצה בעתיד להוריד את הקו שנדע כבר
             placeholder="חיפוש"
             style={{
               marginRight: "36rem",
@@ -254,12 +254,6 @@ export default function CrossInformationTable() {
     console.log("cancel table clicked");
   };
 
-  // const statusOptions = [
-  //   { value: "declined", label: "נדחה" },
-  //   { value: "approved", label: "מאושר" },
-  //   { value: "pending", label: 'ממתין להחלטת רמ"ח' },
-  // ];
-
   const columns = [
     {
       field: "0",
@@ -393,7 +387,7 @@ export default function CrossInformationTable() {
       headerAlign: "center",
       width: 100,
       editable: false,
-      // should be a calcuklated field  if !field: "11" && !field: "12" return לא else כן (case "ממתין להחלטת רצח" should be a case to)
+      // should be a calculated field  if !field: "11" && !field: "12" return לא else כן (case "ממתין להחלטת רצח" should be a case to)
       renderCell: (params) => (
         <div style={getPresentsCellStyle(params.value)}>{params.value} </div>
       ),
@@ -444,7 +438,6 @@ export default function CrossInformationTable() {
           localeText={heIL.components.MuiDataGrid.defaultProps.localeText}
           sx={{
             direction: "rtl",
-            // fontSize: "0.8rem",
             "& .MuiDataGrid-virtualScroller": {
               overflow: "unset !important",
               mt: "0 !important",
@@ -456,7 +449,6 @@ export default function CrossInformationTable() {
               left: 1,
               zIndex: 1,
               top: 0,
-              // bgcolor: "#3069BE",
             },
             "& .MuiDataGrid-columnHeadersInner > div": {
               direction: "rtl !important",
@@ -474,34 +466,17 @@ export default function CrossInformationTable() {
               color: "#3069BE",
             },
             "& .MuiDataGrid-columnHeadersInner": {
-              // borderBottom: "1px solid 6290D4",
               bgcolor: "#3069BE",
             },
 
             "& .MuiDataGrid-columnHeaderTitle": {
               color: "white",
             },
-
-            // "& .MuiDataGrid-iconSeparator": {
-            //   color: "white",
-            // },
-            // "& .MuiDataGrid-menuIconButton > .MuiSvgIcon-root , .MuiDataGrid-sortIcon":
-            //   {
-            //     color: "white !important",
-            //     opacity: 1,
-            //   },
           }}
           pageSize={10}
-          // rowHeight={52}
-          // getRowHeight={() => "auto"}
-          // getEstimatedRowHeight={() => 150}
           rowsPerPageOptions={[10]}
           pagination
           pageSizeOptions={[5, 10, 25]}
-          // scrollbarSize={[1]}
-          // scrollArea={(color = "red")}
-          // checkboxSelection
-          // disableSelectionOnClick
           slots={{
             toolbar: CustomToolbar,
             noRowsOverlay: CustomNoRowsOverlay,
@@ -515,8 +490,6 @@ export default function CrossInformationTable() {
             display: "flex",
             justifyContent: "space-between",
             margin: "auto",
-            // marginTop: "0.4rem",
-            // alignItems: "center",
           }}
         >
           <div
@@ -536,13 +509,11 @@ export default function CrossInformationTable() {
             style={{
               display: "flex",
               marginTop: "0.7rem",
-              // marginTop: "0.4rem",
-              // alignItems: "center",
               right: 0,
             }}
           >
             <Link
-              to="/manageEventes" // need to close the popup
+              to="/manageEventes"
               style={{ color: "white", textDecoration: "none" }}
             >
               <button

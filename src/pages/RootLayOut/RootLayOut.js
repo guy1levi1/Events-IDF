@@ -1,6 +1,5 @@
 import React from "react";
 import { Link, Outlet } from "react-router-dom";
-import "./RootLayOut.css";
 import Menu from "../../components/sideBar/Menu";
 import mekalarLogo from "../../images/mekalar.png";
 import logiCorpLogo from "../../images/logi_corp.png";

@@ -64,7 +64,6 @@ function CustomToolbar(props) {
         />
         <div>
           <GridToolbarQuickFilter
-            // InputProps={{ disableUnderline: true }}
             placeholder="חיפוש"
             style={{
               marginRight: "1rem",
@@ -158,7 +157,6 @@ function CustomNoRowsOverlay() {
 }
 
 export default function ManageExistsUsers({ newApprovedUser, rowsState }) {
-  // const [rows, setRows] = React.useState(initialRows);
   const [rows, setRows] = rowsState;
   const [rowModesModel, setRowModesModel] = React.useState({});
 
@@ -335,7 +333,6 @@ export default function ManageExistsUsers({ newApprovedUser, rowsState }) {
           localeText={heIL.components.MuiDataGrid.defaultProps.localeText}
           sx={{
             direction: "rtl",
-            // fontSize: "0.8rem",
             "& .MuiDataGrid-virtualScroller": {
               overflow: "unset !important",
               mt: "0 !important",
@@ -347,7 +344,6 @@ export default function ManageExistsUsers({ newApprovedUser, rowsState }) {
               left: 1,
               zIndex: 1,
               top: 0,
-              // bgcolor: "#3069BE",
             },
             "& .MuiDataGrid-columnHeadersInner > div": {
               direction: "rtl !important",
@@ -365,7 +361,6 @@ export default function ManageExistsUsers({ newApprovedUser, rowsState }) {
               color: "#3069BE",
             },
             "& .MuiDataGrid-columnHeadersInner": {
-              // borderBottom: "1px solid 6290D4",
               bgcolor: "#3069BE",
             },
 

@@ -1,16 +1,5 @@
-/* .GridContainer {
-  display: grid;
-  grid-template-columns: auto auto;
-  overflow-y: hidden;
-}
-
-.GridItem {
-  margin: 20px;
-} */
-
-/* ManageEventsPage.css */
 ::-webkit-scrollbar {
-  width: 1rem; /* Adjust as needed */
+  width: 1rem;
 }
 
 ::-webkit-scrollbar-thumb {

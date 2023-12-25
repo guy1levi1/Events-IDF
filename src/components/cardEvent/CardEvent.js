@@ -18,7 +18,7 @@ export default function CardEvent({
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        margin: "auto",
+        // margin: "auto",
         direction: "rtl",
       }}
     >
@@ -31,7 +31,7 @@ export default function CardEvent({
           background: "#D9D9D9",
           borderRadius: "2rem",
           padding: 0,
-          margin: 0,
+          margin: "5px",
         }}
       >
         <div

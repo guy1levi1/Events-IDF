@@ -2,7 +2,6 @@ import React from "react";
 import CardEvent from "../../components/cardEvent/CardEvent";
 import "./ManageEventsPage.css";
 import Box from "@mui/material/Box";
-import Grid from "@mui/material/Unstable_Grid2";
 import createCache from "@emotion/cache";
 import rtlPlugin from "stylis-plugin-rtl";
 import { CacheProvider } from "@emotion/react";
@@ -34,53 +33,46 @@ export default function ManageEventsPage({ componentCount }) {
   return (
     <div
       style={{
-        display: "grid",
+        display: "flex",
+        flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
         margin: "auto",
+        marginRight: "10%",
       }}
     >
-      <h1 style={{ fontSize: "3rem", color: "white" }}>ניהול אירועים</h1>
+      <div style={{ alignSelf: "flex-start" }}>
+      <h1 style={{ color: "white" }}>ניהול אירועים</h1>
+      </div>
+
       <CacheProvider value={cacheRtl}>
         <Box
           sx={{
-            flexGrow: 1,
-            width: "93rem",
-            height: "31rem",
+            direction: "rtl",
+            display: "flex",
+            
+            flexWrap: "wrap",
+            alignContent: "start",
+            justifyContent: "flex-end",
+            paddingLeft: "1.5rem",
+            width: "auto",
+            height: "63vh",
+            columnGap: "1.5rem",
+            rowGap: "1.5rem",
             overflowX: "hidden",
             overflowY: "scroll",
-            direction: "rtl",
           }}
         >
-          <Grid
-            sx={{
-              "& .MuiGrid2-root": {
-                width: "30rem",
-              },
-              direction: "ltr",
-            }}
-            container
-            spacing={{ xs: 1, md: 2 }}
-            columns={{ xs: 4, sm: 8, md: 12 }}
-          >
-            {Array.from(Array(8)).map((_, index) => (
-              <Grid
-                xs={2}
-                sm={4}
-                md={6}
-                key={index}
-                style={{ marginRight: "1rem" }}
-              >
-                <CardEvent
-                  eventName={eventName}
-                  eventDatetime={eventDatetime}
-                  eventPlace={eventPlace}
-                  eventDescription={eventDescription}
-                  eventCreator={eventCreator}
-                />
-              </Grid>
-            ))}
-          </Grid>
+          {Array.from(Array(8)).map((_, index) => (
+            <CardEvent
+              // key={index}
+              eventName={eventName}
+              eventDatetime={eventDatetime}
+              eventPlace={eventPlace}
+              eventDescription={eventDescription}
+              eventCreator={eventCreator}
+            />
+          ))}
         </Box>
       </CacheProvider>
     </div>

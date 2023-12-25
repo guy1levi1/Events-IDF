@@ -85,7 +85,7 @@ export default function LoginPage() {
               ? "בעל 7 ספרות"
               : "הכנס 7 ספרות בלבד"
           }
-          typeofTextField="regular"
+          
         />
         <TextField
           id="password"

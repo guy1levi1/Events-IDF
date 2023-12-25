@@ -85,6 +85,7 @@ export default function CreateEventPage() {
         justifyContent: "center",
         alignItems: "start",
         margin: "auto",
+        padding: "10px"
       }}
     >
       <label className="createEventLabel">יצירת אירוע</label>
@@ -95,7 +96,8 @@ export default function CreateEventPage() {
             id="eventName"
             size="small"
             sx={{
-              width: "55rem",
+              width: "90%",
+              margin: "auto",
               mb: "0.3rem",
 
               "& .MuiInputBase-root": {
@@ -147,7 +149,8 @@ export default function CreateEventPage() {
               onChange={handleInputChange}
               onBlur={handleBlurChange}
               sx={{
-                width: "55rem",
+                width: "90%",
+                margin: "auto",
                 mb: "0.3rem",
 
                 "& .MuiInputBase-root": {
@@ -184,7 +187,8 @@ export default function CreateEventPage() {
             id="eventLocation"
             size="small"
             sx={{
-              width: "55rem",
+              width: "90%",
+              margin: "auto",
               mb: "0.3rem",
 
               "& .MuiInputBase-root": {
@@ -229,7 +233,8 @@ export default function CreateEventPage() {
             name="commandsSelector"
             size="small"
             sx={{
-              width: "55rem",
+              width: "90%",
+              margin: "auto",
               mb: "0.3rem",
 
               "& .MuiInputBase-root": {
@@ -269,7 +274,8 @@ export default function CreateEventPage() {
             id="description"
             size="small"
             sx={{
-              width: "55rem",
+              width: "90%",
+              margin: "auto",
               mb: "0.3rem",
 
               "& .MuiInputBase-root": {
@@ -318,7 +324,6 @@ export default function CreateEventPage() {
             }}
           >
             <Button
-              href="/manageEventes"
               variant="contained"
               color="primary"
               disabled={!formData.isValid}

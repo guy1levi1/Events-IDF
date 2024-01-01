@@ -1,11 +1,11 @@
 import { Box } from "@mui/material";
 import React, { useRef } from "react";
 import { Link } from "react-router-dom";
-import CompareIcon from "../../images/compareIcon.png";
+// import CompareIcon from "../../images/compareIcon.png";
 import DeleteIcon from "../../images/DeleteIcon.png";
 import EditTextsIcon from "../../images/EditTextsIcon.png";
 import TableModeIcon from "../../images/tableModeIcon.png";
-import ExcelReader from "../../components/tableEditing/ExcelReader";
+// import ExcelReader from "../../components/tableEditing/ExcelReader";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 
@@ -72,11 +72,9 @@ export default function CardEvent({
           display: "flex",
           position: "relative",
           width: "30.1rem",
-          height: "14.7rem",
           background: "#D9D9D9",
           borderRadius: "2rem",
           padding: 0,
-          margin: "5px",
         }}
       >
         <div

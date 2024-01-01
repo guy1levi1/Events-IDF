@@ -460,13 +460,13 @@ export default function DesignedEventTable() {
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        justifyContent: "center",
+        justifyContent: "flex-start",
         height: "100%",
         width: "100%",
-        margin: "1rem",
+        marginTop: "2rem"
       }}
     >
-      <h1>פריסת שחרור לאור, תל השומר מקל”ר, 10:00 13.12.23</h1>
+      <h1 style={{marginTop: "0"}}>פריסת שחרור לאור, תל השומר מקל”ר, 10:00 13.12.23</h1>
       {/* h1 will be get from lst page (create new event/edit an exisiting) */}
 
       <Box

@@ -22,8 +22,10 @@ export default function AboutPage() {
           justifyContent: "center",
           alignItems: "center",
           margin: "auto",
-          height: "35rem",
-          width: "70rem",
+          // height: "35rem",
+          // width: "70rem",
+          height: "75vh",
+          width: "70vw",
           background: "#CCCBCB",
           borderRadius: "1rem",
           direction: "rtl",
@@ -33,9 +35,12 @@ export default function AboutPage() {
           "& .textPrimary": {
             color: "text.primary",
           },
+          "& p": {
+            fontSize: ["small", "medium", "large" , "large", "x-large"], // Responsive font size
+          },
         }}
       >
-        <h1 style={{ fontSize: "2.5rem" }}>אודות המערכת</h1>
+        <h1 style={{ fontSize: "xxx-large" }}>אודות המערכת</h1>
         <div
           style={{
             display: "flex",
@@ -44,11 +49,12 @@ export default function AboutPage() {
             height: "100%",
             justifyContent: "right",
             alignItems: "right",
-            fontSize: "2rem",
+  
           }}
+          
         >
           <p className="paragraph"> {about}</p>
-          <p className="paragraph"> {aboutSecondP}</p>
+          <p className="paragraph" style={{marginTop: "25px"}}> {aboutSecondP}</p>
         </div>
       </Box>
     </div>

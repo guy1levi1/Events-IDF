@@ -74,7 +74,9 @@ const Menu = () => {
                 key={index}
                 className={index === activeLink ? "link active" : "link"}
                 onClick={() => navigateHandler(link.url, index)}
-                style={{ fontSize: "1rem" }}
+                style={{
+                  fontSize: ["small", "medium", "large", "large", "x-large"],
+                }}
               >
                 {link.name}
               </li>
@@ -92,6 +94,8 @@ const Menu = () => {
             marginBottom: "0.5rem",
             color: "black",
             cursor: "pointer",
+            fontSize: ["1rem", "1.5rem", "2rem", "2.5rem", "3rem"],
+
           }}
           href={`/login`}
           // href={
@@ -108,6 +112,7 @@ const Menu = () => {
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
+          margin: "1.2rem",
         }}
       >
         <i

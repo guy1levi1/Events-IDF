@@ -1,19 +1,18 @@
 .authWarraperSignup {
     display: flex;
-    position: relative;
     background-color: #D9D9D9;
     border-radius: 50px;
     flex-direction: column;
     align-items: center;
-    width: 25rem;
-    height: 30rem;
+    width: 27.5vw;
+    height: 69vh;
     margin: auto;
-    padding: 10px;
+    padding: 10px 0;
 }
 
 .SignupLabel {
-    display: inline-block;
-    margin-top: 1rem;
+    /* display: inline-block;
+    margin-top: 1rem; */
     font-size: 2.25rem;
 }
 .textsFieldsSignup {
@@ -21,20 +20,19 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: 80%;
+    width: inherit;
+    height: inherit;
 }
 
 .authActionsSignup {
     display: flex;
     flex-direction: column;
     align-items: center;
-    position: absolute;
-    bottom: 0;
+    width: inherit;
 }
 
 
 .linkToLogin {
     color: #6b8dc0;
-    margin-bottom: 8px;
     font-size: 0.8rem;
 }

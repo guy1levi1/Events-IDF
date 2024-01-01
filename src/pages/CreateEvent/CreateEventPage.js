@@ -1,7 +1,7 @@
 import { Box, MenuItem, TextField } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Button from "@mui/material/Button";
-import "./CreateEvent.css";
+import "./CreateEventPage.css";
 import useForm from "../../utils/hooks/useForm";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
@@ -67,6 +67,8 @@ const CHARACTER_LIMIT = 1000;
 export default function CreateEventPage() {
   const { formData, handleInput, handleBlur } = useForm(formStates, false);
   const [dateError, setDateError] = useState(false);
+  const [vhAsPixels, setVhAsPixels] = useState(0);
+  const [initialFontSize, setInitialFontSize] = useState(0); // Add initialFontSize state
 
   const handleInputChange = (e) => {
     handleInput(e);
@@ -76,19 +78,34 @@ export default function CreateEventPage() {
     handleBlur(e.target.id);
   };
 
+  useEffect(() => {
+    const handleResize = () => {
+      if (typeof window !== "undefined") {
+        const vh = window.innerHeight;
+        const pixelValue = (vh * 0.06).toFixed(2);
+        setVhAsPixels(pixelValue);
+
+        const initialFontSizeValue = (vh * 0.026).toFixed(2);
+        setInitialFontSize(initialFontSizeValue);
+      }
+    };
+
+    handleResize();
+
+    if (typeof window !== "undefined") {
+      window.addEventListener("resize", handleResize);
+
+      return () => {
+        window.removeEventListener("resize", handleResize);
+      };
+    }
+  }, []);
+
   return (
-    <div
-      className="ManageUserPage"
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        alignItems: "start",
-        margin: "auto",
-        padding: "10px"
-      }}
-    >
-      <label className="createEventLabel">יצירת אירוע</label>
+    <div className="CreateEventPage">
+      <div style={{ width: "60vw" }}>
+        <h1 style={{ color: "white" }}>יצירת אירוע</h1>
+      </div>
 
       <Box className="createEventWarraper">
         <InputsWrapper className="textsFieldscreateEvent">
@@ -98,9 +115,11 @@ export default function CreateEventPage() {
             sx={{
               width: "90%",
               margin: "auto",
+
               mb: "0.3rem",
 
               "& .MuiInputBase-root": {
+                height: `${vhAsPixels}px`,
                 color: "white !important",
                 borderRadius: "5000px",
                 backgroundColor: !formData.initialInputs.eventName.error
@@ -116,12 +135,18 @@ export default function CreateEventPage() {
                   : "#d9d9d9",
                 borderRadius: "500px",
                 px: 1,
+                fontSize: `${initialFontSize}px`,
+                // fontSize: "16.2px",
+              },
+              "& .MuiFormHelperText-root": {
+                fontSize: `${initialFontSize - 5}px`,
               },
 
               "& .MuiOutlinedInput-input": {
                 color: !formData.initialInputs.eventName.error
                   ? "white !important"
                   : "red !important",
+                fontSize: `${initialFontSize}px`,
               },
             }}
             required={true}
@@ -135,6 +160,9 @@ export default function CreateEventPage() {
                 ? "הכנס את שם האירוע"
                 : "מקסימום 50 תווים"
             }
+            inputProps={{
+              style: {},
+            }}
           />
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DateTimePicker
@@ -154,6 +182,7 @@ export default function CreateEventPage() {
                 mb: "0.3rem",
 
                 "& .MuiInputBase-root": {
+                  height: `${vhAsPixels}px`,
                   color: "white !important",
                   borderRadius: "5000px",
                   backgroundColor: !dateError ? "#8EAEDE" : "#d9d9d9",
@@ -163,10 +192,18 @@ export default function CreateEventPage() {
                   backgroundColor: !dateError ? "#8EAEDE" : "#d9d9d9",
                   borderRadius: "500px",
                   px: 1,
+                  fontSize: `${initialFontSize}px`,
+                },
+                "& .MuiInputBase-input": {
+                  fontSize: `${initialFontSize - 5}px`,
+                },
+                "& .MuiFormHelperText-root": {
+                  fontSize: `${initialFontSize - 5}px`,
                 },
 
                 "& .MuiOutlinedInput-input": {
                   color: !dateError ? "white !important" : "red !important",
+                  fontSize: `${initialFontSize}px`,
                 },
               }}
               slotProps={{
@@ -192,6 +229,8 @@ export default function CreateEventPage() {
               mb: "0.3rem",
 
               "& .MuiInputBase-root": {
+                height: `${vhAsPixels}px`,
+
                 color: "white !important",
                 borderRadius: "5000px",
                 backgroundColor: !formData.initialInputs.eventLocation.error
@@ -207,12 +246,18 @@ export default function CreateEventPage() {
                   : "#d9d9d9",
                 borderRadius: "500px",
                 px: 1,
+                fontSize: `${initialFontSize}px`,
+              },
+
+              "& .MuiFormHelperText-root": {
+                fontSize: `${initialFontSize - 5}px`,
               },
 
               "& .MuiOutlinedInput-input": {
                 color: !formData.initialInputs.eventLocation.error
                   ? "white !important"
                   : "red !important",
+                fontSize: `${initialFontSize}px`,
               },
             }}
             required={true}
@@ -238,6 +283,8 @@ export default function CreateEventPage() {
               mb: "0.3rem",
 
               "& .MuiInputBase-root": {
+                height: `${vhAsPixels}px`,
+
                 color: "white !important",
                 borderRadius: "5000px",
                 backgroundColor: "#8EAEDE",
@@ -247,10 +294,15 @@ export default function CreateEventPage() {
                 backgroundColor: "#8EAEDE",
                 borderRadius: "500px",
                 px: 1,
+                fontSize: `${initialFontSize}px`,
+              },
+              "& .MuiFormHelperText-root": {
+                fontSize: `${initialFontSize - 5}px`,
               },
 
               "& .MuiOutlinedInput-input": {
                 color: "white !important",
+                fontSize: `${initialFontSize}px`,
               },
             }}
             required={true}
@@ -279,8 +331,10 @@ export default function CreateEventPage() {
               mb: "0.3rem",
 
               "& .MuiInputBase-root": {
+                height: `${vhAsPixels * 3}px`,
                 color: "white !important",
                 borderRadius: "35px",
+
                 backgroundColor: "#8EAEDE",
               },
               "& .MuiInputLabel-root": {
@@ -290,10 +344,13 @@ export default function CreateEventPage() {
 
                 borderRadius: "500px",
                 px: 1,
+                fontSize: `${initialFontSize}px`,
               },
 
               "& .MuiOutlinedInput-input": {
                 color: "white !important",
+                fontSize: `${initialFontSize}px`,
+                // paddingTop: "5px"
               },
               "& .MuiFormHelperText-root": {
                 color:
@@ -302,6 +359,7 @@ export default function CreateEventPage() {
                     ? "rgba(0, 0, 0, 0.6)"
                     : "red",
                 textAlign: "right",
+                fontSize: `${initialFontSize - 5}px`,
               },
             }}
             required={true}
@@ -315,36 +373,75 @@ export default function CreateEventPage() {
             rows={5}
           />
         </InputsWrapper>
-        <Box className="createEventActions">
-          <Link
+        <Box className="createEventActions" sx={{height: `${vhAsPixels * 1.35}px`}}>
+          <Box
+            sx={{
+              width: "10%",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          ></Box>
+          <Box
+            sx={{
+              width: "28%",
+              height: "80%",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <Link
+              to={!formData.isValid ? "/createEvent" : "/manageEventes"} // of course we have to check if user exists and password is correct
+              style={{
+                color: "white",
+                textDecoration: "none",
+                width: "100%",
+                height: "100%",
+              }}
+            >
+              <Button
+                variant="contained"
+                color="primary"
+                disabled={!formData.isValid}
+                sx={{ borderRadius: "5000px", fontSize: ["1.2rem", "1.4rem", "1.6rem"]}}
+                style={{ width: "100%", height: "100%" }}
+              >
+                יצירת אירוע
+              </Button>
+            </Link>
+          </Box>
+          {/* <Link
             to={!formData.isValid ? "/createEvent" : "/manageEventes"}
             style={{
               color: "white",
               textDecoration: "none",
             }}
+          ></Link> */}
+          <Box
+            sx={{
+              width: "10%",
+              height: "100%",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
           >
-            <Button
-              variant="contained"
-              color="primary"
-              disabled={!formData.isValid}
-              sx={{ mt: "20px", mb: "15px", borderRadius: "5000px" }}
-            >
-              יצירת אירוע
-            </Button>
-          </Link>
+            <img
+              src={TableModeIcon}
+              alt=""
+              style={{
+                width: `${(vhAsPixels * 1.35) * 0.95}px`,
+                height: "100%",
+                // position: "absolute",
+                // left: "1.5rem",
+                // bottom: "0.4rem",
+                cursor: "pointer",
+                // marginLeft: "12px"
+              }}
+            />
+          </Box>
         </Box>
-        <img
-          src={TableModeIcon}
-          alt=""
-          style={{
-            width: "3rem",
-            height: "3.213rem",
-            position: "absolute",
-            left: "1.5rem",
-            bottom: "0.4rem",
-            cursor: "pointer",
-          }}
-        />
       </Box>
     </div>
   );

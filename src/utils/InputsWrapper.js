@@ -1,5 +1,4 @@
 import React from "react";
-import { Box, CssBaseline } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import rtlPlugin from "stylis-plugin-rtl";
 import { CacheProvider } from "@emotion/react";
@@ -16,11 +15,11 @@ const cacheRtl = createCache({
 
 export default function InputsWrapper(props) {
   return (
-    <div dir="rtl" style={{width: "inherit"}}>
+    <div dir="rtl" style={{width: "inherit", height: "92%"}} className={props.className}>
       <CacheProvider value={cacheRtl}>
         <ThemeProvider theme={theme}>
-          <CssBaseline />
-          <Box className={props.className}>{props.children}</Box>
+          {/* <CssBaseline /> */}
+          {props.children}
         </ThemeProvider>
       </CacheProvider>
     </div>

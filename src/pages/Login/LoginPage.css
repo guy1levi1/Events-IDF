@@ -4,31 +4,32 @@
   border-radius: 50px;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
-  width: 25rem;
-  height: 30rem;
+  /* justify-content: space-between; */
+  width: 27.5vw;
+  height: 69vh;
   margin: auto;
-  padding: 10px;
+  padding: 10px 0;
 }
 
 .loginLabelLogin {
-  margin-top: 1rem;
-  font-size: 2.4rem;
+  /* margin-top: 1rem; */
+  font-size: 2.25rem;
 }
 .textsFieldsLogin {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 100%;
-  height: 100%;
+  width: inherit;
+  height: inherit;
 }
 
 .authActionsLogin {
   display: flex;
   flex-direction: column;
   align-items: center;
-  bottom: 0;
+  justify-content: center;
+  width: inherit;
 }
 
 .linkToSignup {

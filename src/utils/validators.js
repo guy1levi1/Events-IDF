@@ -32,6 +32,7 @@ export const VALIDATOR_COMMAND = (data) => {
 export const VALIDATOR_MINLENGTH = (data, lng) => {
   return data.length >= lng;
 };
+
 export const VALIDATOR_MAXLENGTH = (data, lng) => {
   return data.length <= lng;
 };

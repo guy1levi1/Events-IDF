@@ -11,6 +11,7 @@ export default function RootLayout({ children }) {
           display: "flex",
           flexDirection: "row",
           backgroundColor: "rgba(98, 144, 212, 1)",
+          height: "100%"
         }}
       >
         <div style={{ position: "absolute", top: "1rem", left: "1rem" }}>
@@ -43,7 +44,7 @@ export default function RootLayout({ children }) {
         <Outlet />
 
         <div style={{ position: "absolute", bottom: "0", left: "1rem" }}>
-          <h5 style={{ color: "rgba(225,225,225,0.8)" }}>
+          <h5 style={{ color: "rgba(225,225,225,0.8)", marginTop: "0", marginBottom: "0.5rem" }}>
             פותח ע”י בית התוכנה - חיל הלוגיסטיקה
           </h5>
         </div>

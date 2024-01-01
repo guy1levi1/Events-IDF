@@ -247,7 +247,7 @@ export default function ManageUnapprovedUsers({
       align: "flex-end",
       type: "string",
       width: 80,
-      editable: true,
+      editable: false,
     },
     {
       field: "lastName",
@@ -256,7 +256,7 @@ export default function ManageUnapprovedUsers({
       align: "flex-end",
       type: "string",
       width: 80,
-      editable: true,
+      editable: false,
     },
     {
       field: "firstName",
@@ -265,7 +265,7 @@ export default function ManageUnapprovedUsers({
       align: "flex-end",
       type: "string",
       width: 80,
-      editable: true,
+      editable: false,
     },
 
     {
@@ -275,7 +275,7 @@ export default function ManageUnapprovedUsers({
       align: "flex-end",
       type: "string",
       width: 80,
-      editable: true,
+      editable: false,
     },
     {
       field: "actions",

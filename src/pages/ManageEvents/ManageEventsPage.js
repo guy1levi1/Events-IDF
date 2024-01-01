@@ -37,12 +37,12 @@ export default function ManageEventsPage({ componentCount }) {
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
+        width: "80%",
         margin: "auto",
-        marginRight: "10%",
       }}
     >
       <div style={{ alignSelf: "flex-start" }}>
-      <h1 style={{ color: "white" }}>ניהול אירועים</h1>
+        <h1 style={{ color: "white" }}>ניהול אירועים</h1>
       </div>
 
       <CacheProvider value={cacheRtl}>
@@ -50,7 +50,7 @@ export default function ManageEventsPage({ componentCount }) {
           sx={{
             direction: "rtl",
             display: "flex",
-            
+
             flexWrap: "wrap",
             alignContent: "start",
             justifyContent: "flex-end",

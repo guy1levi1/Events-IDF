@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import ManageExistsUsers from "./ManageExistsUsers";
 import ManageUnapprovedUsers from "./ManageUnapprovedUsers";
 import generateUuid from "../../utils/GenereateUUID";
+import "./ManageUsersPage.css"
 
 export default function ManageUsersPage() {
   const [approvedUser] = useState({}); // State to hold the JSON object
@@ -98,13 +99,26 @@ export default function ManageUsersPage() {
         justifyContent: "center",
         alignItems: "center",
         margin: "auto",
+        flexDirection: "column",
       }}
     >
-      <ManageExistsUsers rowsState={rowsState}></ManageExistsUsers>
-      <ManageUnapprovedUsers
-        approvedUser={approvedUser}
-        updateApprovedUser={updateApprovedUser}
-      ></ManageUnapprovedUsers>
+      <h1>ניהול משתמשים</h1>
+
+      <div className="tablesManageUsers" style={{ display: "flex"}}>
+        <div className= "existUsersTable" style={{ display: "flex", flexDirection: "column", textAlign: "center"}}>
+        <h3>משתמשים קיימים</h3>
+
+          <ManageExistsUsers rowsState={rowsState}></ManageExistsUsers>
+        </div>
+        <div className= "waitingForBeingApprovedUsersTable" style={{ display: "flex", flexDirection: "column", textAlign: "center"}}>
+        <h3>משתמשים שממתינים לאישור</h3>
+
+          <ManageUnapprovedUsers
+            approvedUser={approvedUser}
+            updateApprovedUser={updateApprovedUser}
+          ></ManageUnapprovedUsers>
+        </div>
+      </div>
     </div>
   );
 }

@@ -212,8 +212,9 @@ export default function ManageExistsUsers({ newApprovedUser, rowsState }) {
       headerAlign: "center",
       align: "flex-end",
       type: "string",
-      width: 80,
+      // width: 80,
       editable: true,
+      flex: 1,
     },
     {
       field: "lastName",
@@ -221,8 +222,9 @@ export default function ManageExistsUsers({ newApprovedUser, rowsState }) {
       headerAlign: "center",
       align: "flex-end",
       type: "string",
-      width: 80,
+      // width: 80,
       editable: true,
+      flex: 1,
     },
     {
       field: "firstName",
@@ -230,8 +232,9 @@ export default function ManageExistsUsers({ newApprovedUser, rowsState }) {
       headerAlign: "center",
       align: "flex-end",
       type: "string",
-      width: 80,
+      // width: 80,
       editable: true,
+      flex: 1,
     },
 
     {
@@ -240,15 +243,18 @@ export default function ManageExistsUsers({ newApprovedUser, rowsState }) {
       headerAlign: "center",
       align: "flex-end",
       type: "string",
-      width: 80,
+      // width: 80,
       editable: true,
+      flex: 1,
     },
     {
       field: "actions",
       type: "actions",
       headerName: "פעולות",
       headerAlign: "center",
-      width: 100,
+      // width: 100,
+      flex: 1,
+
       cellClassName: "actions",
       getActions: ({ id }) => {
         const isInEditMode = rowModesModel[id]?.mode === GridRowModes.Edit;
@@ -307,8 +313,18 @@ export default function ManageExistsUsers({ newApprovedUser, rowsState }) {
     >
       <Box
         sx={{
-          height: "32rem",
-          width: "27rem",
+          // height: "32rem",
+          // width: "27rem",
+          width: "35vw",
+          height: "70vh",
+          maxHeight: "40rem",
+          maxWidth: "40rem",
+          "@media screen and (max-width: 1200px)": {
+            width: "50vw",
+            height: "70vh",
+            maxHeight: "40rem",
+            maxWidth: "60rem",
+          },
           direction: "ltr",
           background: "white",
           alignItems: "center",
@@ -333,14 +349,15 @@ export default function ManageExistsUsers({ newApprovedUser, rowsState }) {
           localeText={heIL.components.MuiDataGrid.defaultProps.localeText}
           sx={{
             direction: "rtl",
+
             "& .MuiDataGrid-virtualScroller": {
-              overflow: "unset !important",
+              // overflow: "unset !important",
               mt: "0 !important",
             },
 
             "& .MuiDataGrid-columnHeaders": {
               overflow: "unset",
-              position: "sticky",
+              position: "sticky !important",
               left: 1,
               zIndex: 1,
               top: 0,

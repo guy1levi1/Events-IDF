@@ -3,6 +3,7 @@ import { Link, Outlet } from "react-router-dom";
 import Menu from "../../components/sideBar/Menu";
 import mekalarLogo from "../../images/mekalar.png";
 import logiCorpLogo from "../../images/logi_corp.png";
+import "./RootLayOut.css"
 export default function RootLayout({ children }) {
   return (
     <>
@@ -43,7 +44,7 @@ export default function RootLayout({ children }) {
         <Menu />
         <Outlet />
 
-        <div style={{ position: "absolute", bottom: "0", left: "1rem" }}>
+        <div className="developerCredits" style={{ position: "absolute", bottom: "0", left: "1rem" }}>
           <h5 style={{ color: "rgba(225,225,225,0.8)", marginTop: "0", marginBottom: "0.5rem" }}>
             פותח ע”י בית התוכנה - חיל הלוגיסטיקה
           </h5>

@@ -248,6 +248,7 @@ export default function ManageUnapprovedUsers({
       type: "string",
       width: 80,
       editable: false,
+      flex: 1,
     },
     {
       field: "lastName",
@@ -257,6 +258,7 @@ export default function ManageUnapprovedUsers({
       type: "string",
       width: 80,
       editable: false,
+      flex: 1,
     },
     {
       field: "firstName",
@@ -266,6 +268,7 @@ export default function ManageUnapprovedUsers({
       type: "string",
       width: 80,
       editable: false,
+      flex: 1,
     },
 
     {
@@ -276,6 +279,7 @@ export default function ManageUnapprovedUsers({
       type: "string",
       width: 80,
       editable: false,
+      flex: 1,
     },
     {
       field: "actions",
@@ -284,6 +288,8 @@ export default function ManageUnapprovedUsers({
       headerAlign: "center",
       width: 100,
       cellClassName: "actions",
+      flex: 1,
+
       getActions: ({ id }) => {
         return [
           <GridActionsCellItem
@@ -320,8 +326,19 @@ export default function ManageUnapprovedUsers({
     >
       <Box
         sx={{
-          height: "32rem",
-          width: "27rem",
+          // height: "32rem",
+          // width: "27rem",
+
+          width: "35vw",
+          height: "70vh",
+          maxHeight: "40rem",
+          maxWidth: "40rem",
+          "@media screen and (max-width: 1200px)": {
+            width: "50vw",
+            height: "70vh",
+            maxHeight: "40rem",
+            maxWidth: "60rem",
+          },
           direction: "ltr",
           background: "white",
           alignItems: "center",
@@ -347,7 +364,7 @@ export default function ManageUnapprovedUsers({
           sx={{
             direction: "rtl",
             "& .MuiDataGrid-virtualScroller": {
-              overflow: "unset !important",
+              // overflow: "unset !important",
               mt: "0 !important",
             },
 

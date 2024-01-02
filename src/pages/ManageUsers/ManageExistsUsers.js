@@ -27,41 +27,47 @@ function CustomToolbar(props) {
       <GridToolbarContainer
         style={{
           direction: "rtl",
-          marginTop: "1rem",
+          marginTop: "0.5vh",
+          marginRight: "0.5vw",
+
+          justifyContent: "space-between",
         }}
       >
-        <GridToolbarColumnsButton
-          sx={{
-            "& .MuiButton-startIcon": {
-              marginLeft: "2px",
-              color: "#3069BE",
-            },
-          }}
-        />
-        <GridToolbarFilterButton
-          sx={{
-            "& .MuiButton-startIcon": {
-              marginLeft: "2px",
-              color: "#3069BE",
-            },
-          }}
-        />
-        <GridToolbarDensitySelector
-          sx={{
-            "& .MuiButton-startIcon": {
-              marginLeft: "2px",
-              color: "#3069BE",
-            },
-          }}
-        />
-        <GridToolbarExport
-          sx={{
-            "& .MuiButton-startIcon": {
-              marginLeft: "2px",
-              color: "#3069BE",
-            },
-          }}
-        />
+        {" "}
+        <div>
+          <GridToolbarColumnsButton
+            sx={{
+              "& .MuiButton-startIcon": {
+                marginLeft: "2px",
+                color: "#3069BE",
+              },
+            }}
+          />
+          <GridToolbarFilterButton
+            sx={{
+              "& .MuiButton-startIcon": {
+                marginLeft: "2px",
+                color: "#3069BE",
+              },
+            }}
+          />
+          <GridToolbarDensitySelector
+            sx={{
+              "& .MuiButton-startIcon": {
+                marginLeft: "2px",
+                color: "#3069BE",
+              },
+            }}
+          />
+          <GridToolbarExport
+            sx={{
+              "& .MuiButton-startIcon": {
+                marginLeft: "2px",
+                color: "#3069BE",
+              },
+            }}
+          />
+        </div>
         <div>
           <GridToolbarQuickFilter
             placeholder="חיפוש"

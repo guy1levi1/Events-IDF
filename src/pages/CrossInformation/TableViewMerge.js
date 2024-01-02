@@ -52,40 +52,45 @@ function CustomToolbar(props) {
       <GridToolbarContainer
         style={{
           direction: "rtl",
+          marginTop: "0.5vh",
+          justifyContent: "space-between",
         }}
       >
-        <GridToolbarColumnsButton
-          sx={{
-            "& .MuiButton-startIcon": {
-              marginLeft: "2px",
-              color: "#3069BE",
-            },
-          }}
-        />
-        <GridToolbarFilterButton
-          sx={{
-            "& .MuiButton-startIcon": {
-              marginLeft: "2px",
-              color: "#3069BE",
-            },
-          }}
-        />
-        <GridToolbarDensitySelector
-          sx={{
-            "& .MuiButton-startIcon": {
-              marginLeft: "2px",
-              color: "#3069BE",
-            },
-          }}
-        />
-        <GridToolbarExport
-          sx={{
-            "& .MuiButton-startIcon": {
-              marginLeft: "2px",
-              color: "#3069BE",
-            },
-          }}
-        />
+        {" "}
+        <div>
+          <GridToolbarColumnsButton
+            sx={{
+              "& .MuiButton-startIcon": {
+                marginLeft: "2px",
+                color: "#3069BE",
+              },
+            }}
+          />
+          <GridToolbarFilterButton
+            sx={{
+              "& .MuiButton-startIcon": {
+                marginLeft: "2px",
+                color: "#3069BE",
+              },
+            }}
+          />
+          <GridToolbarDensitySelector
+            sx={{
+              "& .MuiButton-startIcon": {
+                marginLeft: "2px",
+                color: "#3069BE",
+              },
+            }}
+          />
+          <GridToolbarExport
+            sx={{
+              "& .MuiButton-startIcon": {
+                marginLeft: "2px",
+                color: "#3069BE",
+              },
+            }}
+          />
+        </div>
         <div>
           <GridToolbarQuickFilter
             placeholder="חיפוש"
@@ -489,6 +494,7 @@ export default function CustomToolbarGrid() {
           }}
           pageSize={10}
           rowsPerPageOptions={[10]}
+          pageSizeOptions={[5, 10, 25]}
           pagination
           slots={{
             toolbar: CustomToolbar,

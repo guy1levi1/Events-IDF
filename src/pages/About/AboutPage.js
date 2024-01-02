@@ -19,42 +19,23 @@ export default function AboutPage() {
         sx={{
           display: "flex",
           flexDirection: "column",
-          justifyContent: "center",
           alignItems: "center",
-          margin: "auto",
-          // height: "35rem",
-          // width: "70rem",
           height: "75vh",
           width: "70vw",
           background: "#CCCBCB",
           borderRadius: "1rem",
-          direction: "rtl",
-          "& .actions": {
-            color: "text.secondary",
-          },
-          "& .textPrimary": {
-            color: "text.primary",
-          },
-          "& p": {
-            fontSize: ["small", "medium", "large" , "large", "x-large"], // Responsive font size
-          },
         }}
       >
-        <h1 style={{ fontSize: "xxx-large" }}>אודות המערכת</h1>
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            width: "90%",
-            height: "100%",
-            justifyContent: "right",
-            alignItems: "right",
-  
-          }}
-          
-        >
-          <p className="paragraph"> {about}</p>
-          <p className="paragraph" style={{marginTop: "25px"}}> {aboutSecondP}</p>
+        <h1 className="headerAbout">אודות המערכת</h1>
+        <div className="textAbout">
+          <div>
+            <p className="paragraph"> {about}</p>
+          </div>
+          <div>
+            <p className="paragraph" style={{ marginTop: "25px" }}>
+              {aboutSecondP}
+            </p>
+          </div>
         </div>
       </Box>
     </div>

@@ -248,7 +248,6 @@ export default function CustomToolbarGrid() {
 
   const getPresentsCellStyle = (value) => {
     let backgroundColorPresents, textColorPresents;
-    console.log(value);
 
     switch (value) {
       case "כן":

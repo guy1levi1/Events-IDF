@@ -249,10 +249,6 @@ export default function CrossInformationTable() {
     setRowModesModel(newRowModesModel);
   };
 
-  const handleSaveButtonClick = () => {
-    console.log("save/upadte table clicked");
-  };
-
   const handleCancelButtonClick = () => {
     console.log("cancel table clicked");
   };

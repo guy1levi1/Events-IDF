@@ -2,9 +2,6 @@
 
 .tablesManageUsers {
   height: 80vh;
-  overflow-y: auto;
-  overflow-x: hidden;
-  direction: ltr;
 
   /* &::-webkit-scrollbar {
       : 100px;
@@ -14,7 +11,7 @@
 .ManageUserPage h1 {
   font-size: clamp(2rem, 2rem + 1.5vw, 5rem);
   color: white;
-  margin-top: 1rem;
+  margin: 0;
   margin-bottom: 0;
 }
 
@@ -28,6 +25,10 @@
 @media (max-width: 1200px) {
   .tablesManageUsers {
     flex-direction: column;
+    overflow-y: auto;
+    overflow-x: hidden;
+    direction: ltr;
+  
   }
   .existUsersTable {
     margin-right: 2vw;

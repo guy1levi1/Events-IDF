@@ -279,8 +279,9 @@ export default function DesignedEventTable() {
       headerAlign: "center",
       align: "flex-end",
       type: "number",
-      width: 50,
+      // width: 50,
       editable: false,
+      flex: 1,
     },
     {
       field: "1",
@@ -288,8 +289,9 @@ export default function DesignedEventTable() {
       headerAlign: "center",
       align: "flex-end",
       type: "string",
-      width: 80,
-      editable: true,
+      // width: 80,
+      editable: true,      flex: 1.4,
+
     },
     {
       field: "2",
@@ -297,8 +299,9 @@ export default function DesignedEventTable() {
       headerAlign: "center",
       align: "flex-end",
       type: "string",
-      width: 100,
-      editable: true,
+      // width: 100,
+      editable: true,      flex: 1.6,
+
     },
     {
       field: "3",
@@ -306,8 +309,9 @@ export default function DesignedEventTable() {
       headerAlign: "center",
       align: "flex-end",
       type: "string",
-      width: 100,
-      editable: true,
+      // width: 100,
+      editable: true,      flex: 1.6,
+
     },
     {
       field: "4",
@@ -315,8 +319,9 @@ export default function DesignedEventTable() {
       headerAlign: "center",
       align: "flex-end",
       type: "string",
-      width: 80,
-      editable: true,
+      // width: 80,
+      editable: true,      flex: 1.4,
+
     },
     {
       field: "5",
@@ -324,8 +329,9 @@ export default function DesignedEventTable() {
       headerAlign: "center",
       align: "flex-end",
       type: "string",
-      width: 80,
-      editable: true,
+      // width: 80,
+      editable: true,      flex: 1,
+
     },
     {
       field: "6",
@@ -333,8 +339,9 @@ export default function DesignedEventTable() {
       headerAlign: "center",
       align: "flex-end",
       type: "string",
-      width: 80,
-      editable: true,
+      // width: 80,
+      editable: true,      flex: 1,
+
     },
     {
       field: "7",
@@ -342,8 +349,9 @@ export default function DesignedEventTable() {
       headerAlign: "center",
       align: "flex-end",
       type: "string",
-      width: 50,
-      editable: true,
+      // width: 50,
+      editable: true,      flex: 1,
+
     },
     {
       field: "8",
@@ -351,8 +359,9 @@ export default function DesignedEventTable() {
       headerAlign: "center",
       align: "flex-end",
       type: "string",
-      width: 80,
-      editable: true,
+      // width: 80,
+      editable: true,      flex: 1.2,
+
     },
     {
       field: "9",
@@ -361,7 +370,8 @@ export default function DesignedEventTable() {
       align: "flex-end",
       type: "string",
       width: 80,
-      editable: true,
+      editable: true,      flex: 1.4,
+
     },
     {
       field: "10",
@@ -369,8 +379,9 @@ export default function DesignedEventTable() {
       headerAlign: "center",
       align: "flex-end",
       type: "string",
-      width: 130,
-      editable: true,
+      width: 250,
+      editable: true,      flex: 2,
+
     },
     {
       field: "status",
@@ -380,6 +391,7 @@ export default function DesignedEventTable() {
       tfontColor: "white",
       editable: true,
       type: "singleSelect",
+      flex: 2.5,
       valueOptions: statusOptions,
       valueFormatter: ({ id, value, field }) => {
         const option = statusOptions.find(
@@ -471,8 +483,12 @@ export default function DesignedEventTable() {
 
       <Box
         sx={{
-          height: "32rem",
-          width: "72rem",
+          // height: "32rem",
+          // width: "72rem",
+          width: "75vw",
+          height: "73vh",
+          maxHeight: "80rem",
+          // maxWidth: "80rem",
           direction: "ltr",
           background: "white",
           alignItems: "center",

@@ -1,10 +1,10 @@
 import React from "react";
 import CardEvent from "../../components/cardEvent/CardEvent";
-import "./ManageEventsPage.css";
 import Box from "@mui/material/Box";
 import createCache from "@emotion/cache";
 import rtlPlugin from "stylis-plugin-rtl";
 import { CacheProvider } from "@emotion/react";
+import "./ManageEventsPage.css";
 
 export default function ManageEventsPage({ componentCount }) {
   const options = {
@@ -32,6 +32,7 @@ export default function ManageEventsPage({ componentCount }) {
 
   return (
     <div
+      className="manageEventPage"
       style={{
         display: "flex",
         flexDirection: "column",
@@ -41,40 +42,40 @@ export default function ManageEventsPage({ componentCount }) {
         margin: "auto",
       }}
     >
-      <div style={{ alignSelf: "flex-start" }}>
-        <h1 style={{ color: "white" }}>ניהול אירועים</h1>
+      <div className="headerManageEvent">
+        <h1>ניהול אירועים</h1>
       </div>
-
-      <CacheProvider value={cacheRtl}>
-        <Box
-          sx={{
-            direction: "rtl",
-            display: "flex",
-
-            flexWrap: "wrap",
-            alignContent: "start",
-            justifyContent: "flex-end",
-            paddingLeft: "1.5rem",
-            width: "auto",
-            height: "63vh",
-            columnGap: "1.5rem",
-            rowGap: "1.5rem",
-            overflowX: "hidden",
-            overflowY: "scroll",
-          }}
-        >
-          {Array.from(Array(8)).map((_, index) => (
-            <CardEvent
-              // key={index}
-              eventName={eventName}
-              eventDatetime={eventDatetime}
-              eventPlace={eventPlace}
-              eventDescription={eventDescription}
-              eventCreator={eventCreator}
-            />
-          ))}
-        </Box>
-      </CacheProvider>
+      <div className="eventsList">
+        <CacheProvider value={cacheRtl}>
+          <Box
+            sx={{
+              direction: "rtl",
+              display: "flex",
+              flexWrap: "wrap",
+              alignContent: "start",
+              justifyContent: "flex-end",
+              paddingLeft: "1.5rem",
+              width: "auto",
+              height: "63vh",
+              columnGap: "1.5rem",
+              rowGap: "1.5rem",
+              overflowX: "hidden",
+              overflowY: "scroll",
+            }}
+          >
+            {Array.from(Array(8)).map((_, index) => (
+              <CardEvent
+                // key={index}
+                eventName={eventName}
+                eventDatetime={eventDatetime}
+                eventPlace={eventPlace}
+                eventDescription={eventDescription}
+                eventCreator={eventCreator}
+              />
+            ))}
+          </Box>
+        </CacheProvider>{" "}
+      </div>
     </div>
   );
 }

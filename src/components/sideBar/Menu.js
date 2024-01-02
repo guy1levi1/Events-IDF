@@ -36,13 +36,14 @@ const Menu = () => {
           }}
         >
           <img
+          className="profileImage"
             src={profile_img}
             alt="progile_logo"
             style={{
-              width: "4.5rem",
-              maxWidth: "4.5rem",
-              marginTop: "1.2rem",
-              marginRight: "0.6rem",
+              // width: "4.5rem",
+              // maxWidth: "4.5rem",
+              // marginTop: "1.2rem",
+              // marginRight: "0.6rem",
             }}
           />
           <div
@@ -50,8 +51,9 @@ const Menu = () => {
             style={{
               display: "flex",
               flexDirection: "column",
-              marginTop: "1.2rem",
-              marginRight: "0.3rem",
+              marginTop: "2vh",
+              marginRight: "0.5vw",
+              paddingBottom: "0.5vh"
             }}
           >
             <h3 className="FullNameMenu" style={{ padding: 0, margin: 0 }}>
@@ -94,7 +96,8 @@ const Menu = () => {
             marginBottom: "0.5rem",
             color: "black",
             cursor: "pointer",
-            fontSize: ["1rem", "1.5rem", "2rem", "2.5rem", "3rem"],
+            // fontSize: ["1rem", "1.5rem", "2rem", "2.5rem", "3rem"],
+
 
           }}
           href={`/login`}

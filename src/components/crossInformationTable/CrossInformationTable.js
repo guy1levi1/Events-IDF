@@ -253,6 +253,10 @@ export default function CrossInformationTable() {
     console.log("cancel table clicked");
   };
 
+  const clamp = (min, value, max) => {
+    return `clamp(${min}, ${value}, ${max})`;
+  }
+
   const columns = [
     {
       field: "0",
@@ -260,9 +264,9 @@ export default function CrossInformationTable() {
       headerAlign: "center",
 
       type: "number",
-      width: 50,
+      // width: 50,
       editable: false,
-      // flex: 1,
+      flex: 1,
     },
     {
       field: "1",
@@ -272,7 +276,7 @@ export default function CrossInformationTable() {
       type: "string",
       // width: 80,
       editable: false,
-      // flex: 1.4,
+      flex: 1.4,
     },
     {
       field: "2",
@@ -282,7 +286,7 @@ export default function CrossInformationTable() {
       type: "string",
       // width: 100,
       editable: false,
-      // flex: 1.6,
+      flex: 1.6,
     },
     {
       field: "3",
@@ -292,7 +296,7 @@ export default function CrossInformationTable() {
       type: "string",
       // width: 100,
       editable: false,
-      // flex: 1.6,
+      flex: 1.6,
     },
     {
       field: "4",
@@ -302,7 +306,7 @@ export default function CrossInformationTable() {
       type: "string",
       // width: 80,
       editable: false,
-      // flex: 1.4,
+      flex: 1.4,
     },
     {
       field: "5",
@@ -312,7 +316,7 @@ export default function CrossInformationTable() {
       type: "string",
       // width: 80,
       editable: false,
-      // flex: 1,
+      flex: 1,
     },
     {
       field: "6",
@@ -322,7 +326,7 @@ export default function CrossInformationTable() {
       type: "string",
       // width: 80,
       editable: false,
-      // flex: 1,
+      flex: 1,
     },
     {
       field: "7",
@@ -332,7 +336,7 @@ export default function CrossInformationTable() {
       type: "string",
       // width: 50,
       editable: false,
-      // flex: 1,
+      flex: 1,
     },
     {
       field: "8",
@@ -342,7 +346,7 @@ export default function CrossInformationTable() {
       type: "string",
       // width: 80,
       editable: false,
-      // flex: 1.2,
+      flex: 1.9,
     },
     {
       field: "9",
@@ -352,7 +356,7 @@ export default function CrossInformationTable() {
       type: "string",
       // width: 80,
       editable: false,
-      // flex: 1.4,
+      flex: 1.4,
     },
     {
       field: "10",
@@ -362,7 +366,7 @@ export default function CrossInformationTable() {
       type: "string",
       // width: 130,
       editable: false,
-      // flex: 2,
+      flex: 2,
     },
     {
       field: "11",
@@ -388,7 +392,7 @@ export default function CrossInformationTable() {
       headerAlign: "center",
       // width: 100,
       editable: false,
-      // flex: 1,
+      flex: 1.8,
 
       renderCell: (params) => (
         <div style={getPresentsCellStyle(params.value)}>{params.value} </div>
@@ -400,7 +404,7 @@ export default function CrossInformationTable() {
       headerAlign: "center",
       // width: 100,
       editable: false,
-      // flex: 1,
+      flex: 2,
 
       // should be a calculated field  if !field: "11" && !field: "12" return לא else כן (case "ממתין להחלטת רצח" should be a case to)
       renderCell: (params) => (
@@ -442,6 +446,10 @@ export default function CrossInformationTable() {
 
           "& .MuiDataGrid-root": {
             border: "none",
+          },
+
+          "& .MuiDataGrid-cellContent": {
+            fontSize: `${clamp("0.3rem", "calc(0.3rem + 0.75vw)", "1.5rem")}`
           },
         }}
       >

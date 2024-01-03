@@ -211,6 +211,11 @@ export default function ManageExistsUsers({ newApprovedUser, rowsState }) {
     setRowModesModel(newRowModesModel);
   };
 
+  const clamp = (min, value, max) => {
+    return `clamp(${min}, ${value}, ${max})`;
+  }
+
+
   const columns = [
     {
       field: "privateNumber",
@@ -340,6 +345,10 @@ export default function ManageExistsUsers({ newApprovedUser, rowsState }) {
 
           "& .MuiDataGrid-root": {
             border: "none",
+          },
+
+          "& .MuiDataGrid-cellContent": {
+            fontSize: `${clamp("0.3rem", "calc(0.3rem + 0.75vw)", "1.5rem")}`
           },
         }}
       >

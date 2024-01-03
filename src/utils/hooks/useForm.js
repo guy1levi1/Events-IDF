@@ -4,6 +4,7 @@ import {
   VALIDATOR_DATE_EVENT,
   VALIDATOR_FULLNAME,
   VALIDATOR_MAXLENGTH,
+  VALIDATOR_MINLENGTH,
   VALIDATOR_PASSWORD,
   VALIDATOR_PRIVATE_NUMBER,
 } from "../validators";
@@ -27,13 +28,13 @@ export default function useForm(initialInputs, isValid) {
       case "commandsSelector":
         return VALIDATOR_COMMAND(value);
       case "eventName":
-        return VALIDATOR_MAXLENGTH(value, 50);
+        return VALIDATOR_MAXLENGTH(value, 50) && VALIDATOR_MINLENGTH(value, 1);
       case "eventDate":
         return VALIDATOR_DATE_EVENT(value);
       case "eventLocation":
-        return VALIDATOR_MAXLENGTH(value, 50);
+        return VALIDATOR_MAXLENGTH(value, 50) && VALIDATOR_MINLENGTH(value, 1);
       case "description":
-        return VALIDATOR_MAXLENGTH(value, 1000);
+        return VALIDATOR_MAXLENGTH(value, 1000) && VALIDATOR_MINLENGTH(value, 1);
       default:
         return true;
     }
@@ -93,5 +94,21 @@ export default function useForm(initialInputs, isValid) {
     }));
   };
 
-  return { formData, handleInput, handleBlur };
+  const handelUpdateData = (value, inputId) => {
+    const isValidAfterChange = validateInput(inputId, value);
+
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      initialInputs: {
+        ...prevFormData.initialInputs,
+        [inputId]: {
+          value: value,
+          isValid: isValidAfterChange,
+          error: false,
+        }
+      }
+    }))
+  }
+
+  return { formData, handleInput, handleBlur, handelUpdateData };
 }

@@ -11,6 +11,7 @@ import ManageEventsPage from "./pages/ManageEvents/ManageEventsPage";
 import ManageUsersPage from "./pages/ManageUsers/ManageUsersPage";
 // import TableViewMerge from "./pages/CrossInformation/TableViewMerge";
 import CrossInformationTable from "./components/crossInformationTable/CrossInformationTable";
+import EditEventPage from "./pages/EditEvent/EditEventPage";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -21,12 +22,13 @@ const router = createBrowserRouter([
       { path: "/signup", element: <SignUpPage /> },
       { path: "about", element: <AboutPage /> },
       { path: "/createEvent", element: <CreateEventPage /> },
+      { path: "/editEvent/:eventId", element: <EditEventPage />, },
       // { path: "/manageEventes", element: <ManageEventsPage /> },
       {
         path: "/manageEventes",
         element: <ManageEventsPage componentCount={4} />,
       },
-      { path: "/table", element: <TablePage /> },
+      { path: "/table/:eventId", element: <TablePage /> },
       { path: "/crossInformation", element: <CrossInformationTable /> },
       // { path: "/crossInformation", element: <TableViewMerge /> },
 

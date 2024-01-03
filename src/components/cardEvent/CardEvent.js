@@ -10,11 +10,13 @@ import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 
 export default function CardEvent({
+  eventId,
   eventName,
-  eventDatetime,
-  eventPlace,
-  eventDescription,
+  eventDate,
+  eventLocation,
+  description,
   eventCreator,
+  commandsSelector,
 }) {
   const handleClickDeleteButton = () => {
     Swal.fire({
@@ -151,7 +153,7 @@ export default function CardEvent({
               lineHeight: "1.4rem",
             }}
           >
-            {eventDescription}
+            {description}
           </h5>
 
           <h6
@@ -164,7 +166,7 @@ export default function CardEvent({
               width: "85%",
             }}
           >
-            {eventPlace} ,{eventDatetime}
+            {eventLocation} ,{eventDate}
           </h6>
           <div
             style={{
@@ -191,7 +193,7 @@ export default function CardEvent({
               {/* need to send him with props of the current fields from db */}
               {/* will be table/:eventId */}
               <Link
-                to="/table"
+                to={`/table/${eventId}`}
                 style={{ color: "white", textDecoration: "none" }}
               >
                 <img
@@ -207,7 +209,7 @@ export default function CardEvent({
               {/* need to send him to new page call editEvent with props of the current fields from db */}
               {/* will be editEvent/:eventId */}
               <Link
-                to="/createEvent"
+                to={`/editEvent/${eventId}`}
                 style={{ color: "white", textDecoration: "none" }}
               >
                 <img

@@ -16,14 +16,17 @@ export default function ManageEventsPage({ componentCount }) {
     hour12: false,
   };
 
+  const eventId = "1"
   const eventName = "פריסת שחרור לאור";
-  const eventDatetime = new Date()
+  const eventDate = new Date()
     .toLocaleString("he-IL", options)
     .replace(/\//g, ".");
-  const eventPlace = 'תל השומר מקל"ר';
-  const eventDescription = `נערוך לאורצ'וק פריסת שחרור, באירוע נחגוג את היציאה לאזרחות של
+  const eventLocation = 'תל השומר מקל"ר';
+  const description = `נערוך לאורצ'וק פריסת שחרור, באירוע נחגוג את היציאה לאזרחות של
   אור(אפילו שהוא תוך שנייה חוזר למילואים), מוזמנים! 😀`;
   const eventCreator = "גיא לוי";
+
+  const commandsSelector = ["פקער, מרכז, צפון"]
 
   const cacheRtl = createCache({
     key: "muirtl",
@@ -53,28 +56,29 @@ export default function ManageEventsPage({ componentCount }) {
               display: "flex",
               flexWrap: "wrap",
               alignContent: "start",
-              justifyContent: "flex-end",
+              justifyContent:"center",
               paddingLeft: "1.5rem",
-              width: "auto",
               height: "63vh",
               columnGap: "1.5rem",
               rowGap: "1.5rem",
               overflowX: "hidden",
-              overflowY: "scroll",
-            }}
+              overflowY: "auto",
+            }} 
           >
             {Array.from(Array(8)).map((_, index) => (
               <CardEvent
-                // key={index}
+                key={index}
+                eventId={eventId}
                 eventName={eventName}
-                eventDatetime={eventDatetime}
-                eventPlace={eventPlace}
-                eventDescription={eventDescription}
+                eventDate={eventDate}
+                eventLocation={eventLocation}
+                description={description}
                 eventCreator={eventCreator}
+                commandsSelector={commandsSelector}
               />
             ))}
           </Box>
-        </CacheProvider>{" "}
+        </CacheProvider>
       </div>
     </div>
   );

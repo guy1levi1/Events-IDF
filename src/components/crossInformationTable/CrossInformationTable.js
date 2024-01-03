@@ -523,20 +523,10 @@ export default function CrossInformationTable() {
                   marginRight: "0.5rem",
                 }}
               >
-                בטל
+                חזור
               </button>
             </Link>
-            <Link
-              to="/createEvent" // need to save the updated/new table and close the popup
-              style={{ color: "white", textDecoration: "none" }}
-            >
-              <button
-                onClick={handleSaveButtonClick}
-                className="SaveButtonTablePage"
-              >
-                שמור
-              </button>
-            </Link>
+
           </div>
         </div>
       </Box>

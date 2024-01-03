@@ -1,0 +1,24 @@
+
+
+.square {
+    width: 5vw; /* Adjust the size as needed */
+    height: 2vh;
+    background-color: #668BC2; /* Change the background color */
+    border-radius: 10px; /* Adjust the border-radius for rounded corners */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    margin: auto;
+
+  }
+  
+  .text {
+    color: #fff; /* Change the text color */
+    /* font-size: clamp(0.35rem, 0.35rem + 0.45vw, 2rem); */
+    font-size: 1rem;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 0.3vh; /* Adjust the line-height for vertical alignment */
+  }
+  

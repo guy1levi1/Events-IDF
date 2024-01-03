@@ -8,6 +8,7 @@ import TableModeIcon from "../../images/tableModeIcon.png";
 // import ExcelReader from "../../components/tableEditing/ExcelReader";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
+import CommandCell from "../commandCell/CommandCell";
 
 export default function CardEvent({
   eventId,
@@ -169,7 +170,7 @@ export default function CardEvent({
               fontWeight: "normal",
               fontSize: "1.2rem",
               padding: 0,
-              marginTop: "0.8rem",
+              marginTop: 0,
               marginBottom: 0,
               height: "4.4rem",
               width: "85%",
@@ -192,6 +193,12 @@ export default function CardEvent({
           >
             {eventLocation} ,{eventDate}
           </h6>
+          <div className="commandsCells" style={{display: "flex", flexDirection: "row", justifyContent: "space-around", width: "90%", marginTop: "0.5rem"}}>
+            <CommandCell command={"מרכז"}></CommandCell>
+            <CommandCell command={"צפון"}></CommandCell>
+            <CommandCell command={"דרום"}></CommandCell>
+            <CommandCell command={`פקע"ר`}></CommandCell>
+            </div>
           <div
             style={{
               display: "flex",

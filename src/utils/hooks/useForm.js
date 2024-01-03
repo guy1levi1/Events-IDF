@@ -41,7 +41,6 @@ export default function useForm(initialInputs, isValid) {
   };
 
   const handleInput = (e) => {
-    console.log(e.$d);
     let newValue;
     let inputId;
     if (e.$d) {

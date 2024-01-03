@@ -59,7 +59,13 @@ const ExcelReader = ({ onRowsChange, isCrossInformationTable, imageSrc }) => {
   };
 
   return (
-    <div>
+    <div
+      style={{
+        display: "flex",
+        // marginTop: "0.7rem",
+        right: 0,
+      }}
+    >
       <input
         type="file"
         accept=".xlsx, .xls"
@@ -67,32 +73,13 @@ const ExcelReader = ({ onRowsChange, isCrossInformationTable, imageSrc }) => {
         ref={fileInputRef}
         style={{ display: "none" }}
       />
-      {imageSrc ? (
-        <button
-          onClick={handleButtonClick}
-          className="rounded-button"
-          style={{
-            width: "3.268rem",
-            height: "3.5rem",
-            backgroundImage: `url(${imageSrc})`,
-            backgroundSize: "cover",
-            backgroundRepeat: "no-repeat",
-          }}
-        >
-          {/* You can choose to include text or not */}
-          {/* {isCrossInformationTable ? "להעלאת טופס נוכחות חדש" : "להעלאת קובץ חדש"} */}
-        </button>
-      ) : (
-        <button
-          onClick={handleButtonClick}
-          className="rounded-button"
-          style={{ width: isCrossInformationTable ? "13rem" : "10rem" }}
-        >
-          {isCrossInformationTable
-            ? "להעלאת טופס נוכחות חדש"
-            : "להעלאת קובץ חדש"}
-        </button>
-      )}
+      <button
+        onClick={handleButtonClick}
+        className="rounded-button"
+        style={{marginRight: "0.5rem",}}
+      >
+        {isCrossInformationTable ? "להעלאת טופס נוכחות חדש" : "להעלאת קובץ חדש"}
+      </button>
 
       {errorMessage && <p className="error-message">{errorMessage}</p>}
       <div style={{ marginTop: "-0.6rem" }}>

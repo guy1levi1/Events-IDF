@@ -1,5 +1,5 @@
 import { Box, MenuItem, TextField } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Button from "@mui/material/Button";
 import "./CreateEventPage.css";
 import useForm from "../../utils/hooks/useForm";
@@ -9,7 +9,7 @@ import InputsWrapper from "../../utils/InputsWrapper";
 import TableModeIcon from "../../images/tableModeIcon.png";
 import { DateTimePicker, renderTimeViewClock } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const commands = [
   {
@@ -36,31 +36,67 @@ const commands = [
 
 const formStates = {
   eventName: {
-    value: "",
+    value: localStorage.getItem("newEventName")
+      ? localStorage.getItem("newEventName")
+      : "",
     isValid: false,
     error: false,
   },
   eventDate: {
+    // value: localStorage.getItem("newEventDate")
+    //   ? localStorage.getItem("newEventDate")
+    //   : dayjs(),
     value: dayjs(),
     isValid: false,
     error: false,
   },
   eventLocation: {
-    value: "",
+    value: localStorage.getItem("newEventLocation")
+      ? localStorage.getItem("newEventLocation")
+      : "",
     isValid: false,
     error: false,
   },
   commandsSelector: {
-    value: "",
+    value: localStorage.getItem("newEventCommands")
+      ? localStorage.getItem("newEventCommands")
+      : "",
     isValid: false,
     error: false,
   },
   description: {
-    value: "",
+    value: localStorage.getItem("newEventDescription")
+      ? localStorage.getItem("newEventDescription")
+      : "",
     isValid: false,
     error: false,
   },
 };
+
+function formatDate(date) {
+  const options = {
+    weekday: "short",
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+    timeZoneName: "short",
+    timeZone: "GMT",
+  };
+
+  // Format the date using the options
+  const formattedDate = date.toLocaleString("en-US", options);
+
+  return formattedDate;
+}
+
+// Format the original date
+const formattedDate = formatDate(dayjs());
+
+console.log(formattedDate);
+console.log(localStorage.getItem("newEventDate"));
 
 const CHARACTER_LIMIT = 1000;
 
@@ -69,6 +105,14 @@ export default function CreateEventPage() {
   const [dateError, setDateError] = useState(false);
   const [vhAsPixels, setVhAsPixels] = useState(0);
   const [initialFontSize, setInitialFontSize] = useState(0); // Add initialFontSize state
+
+  const handleSumbitNewEvent = () => {
+    localStorage.removeItem("newEventName");
+    localStorage.removeItem("newEventDate");
+    localStorage.removeItem("newEventLocation");
+    localStorage.removeItem("newEventCommands");
+    localStorage.removeItem("newEventDescription");
+  };
 
   const handleInputChange = (e) => {
     handleInput(e);
@@ -100,6 +144,45 @@ export default function CreateEventPage() {
       };
     }
   }, []);
+
+  const fileInputRef = useRef(null);
+  const navigate = useNavigate();
+
+  const handleFileUpload = (e) => {
+    const file = e.target.files[0];
+
+    if (file) {
+      console.log("File uploaded!");
+      navigate("/table");
+
+      // You can do additional processing with the file if needed
+    }
+  };
+
+  const handleButtonClick = () => {
+    localStorage.setItem(
+      "newEventName",
+      formData.initialInputs.eventName.value
+    );
+    localStorage.setItem(
+      "newEventDate",
+      formData.initialInputs.eventDate.value
+    );
+    localStorage.setItem(
+      "newEventLocation",
+      formData.initialInputs.eventLocation.value
+    );
+    localStorage.setItem(
+      "newEventCommands",
+      formData.initialInputs.commandsSelector.value
+    );
+    localStorage.setItem(
+      "newEventDescription",
+      formData.initialInputs.description.value
+    );
+
+    fileInputRef.current.click();
+  };
 
   return (
     <div className="CreateEventPage">
@@ -373,7 +456,10 @@ export default function CreateEventPage() {
             rows={5}
           />
         </InputsWrapper>
-        <Box className="createEventActions" sx={{height: `${vhAsPixels * 1.35}px`}}>
+        <Box
+          className="createEventActions"
+          sx={{ height: `${vhAsPixels * 1.35}px` }}
+        >
           <Box
             sx={{
               width: "10%",
@@ -404,7 +490,11 @@ export default function CreateEventPage() {
                 variant="contained"
                 color="primary"
                 disabled={!formData.isValid}
-                sx={{ borderRadius: "5000px", fontSize: ["1.2rem", "1.4rem", "1.6rem"]}}
+                onClick={handleSumbitNewEvent}
+                sx={{
+                  borderRadius: "5000px",
+                  fontSize: ["0.9rem", "1.1rem", "1.3rem", "1.5rem"],
+                }}
                 style={{ width: "100%", height: "100%" }}
               >
                 יצירת אירוע
@@ -427,19 +517,32 @@ export default function CreateEventPage() {
               justifyContent: "center",
             }}
           >
-            <img
-              src={TableModeIcon}
-              alt=""
-              style={{
-                width: `${(vhAsPixels * 1.35) * 0.95}px`,
-                height: "100%",
-                // position: "absolute",
-                // left: "1.5rem",
-                // bottom: "0.4rem",
-                cursor: "pointer",
-                // marginLeft: "12px"
-              }}
-            />
+            <div>
+              <input
+                type="file"
+                onChange={handleFileUpload}
+                ref={fileInputRef}
+                style={{ display: "none" }}
+                id="fileInput" // Assign an id for association with label
+                onClick={handleButtonClick}
+              />
+              <label htmlFor="fileInput">
+                <img
+                  src={TableModeIcon}
+                  alt=""
+                  style={{
+                    width: `${vhAsPixels * 1.35 * 0.95}px`,
+                    height: "100%",
+                    // position: "absolute",
+                    // left: "1.5rem",
+                    // bottom: "0.4rem",
+                    cursor: "pointer",
+                    // marginLeft: "12px"
+                  }}
+                />
+              </label>
+              <button style={{ display: "none" }}>Upload File</button>
+            </div>
           </Box>
         </Box>
       </Box>

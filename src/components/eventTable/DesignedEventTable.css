@@ -20,19 +20,20 @@
 }
 
 .CancelButtonTablePage {
-  width: 6rem;
-  height: 1.8rem;
+  display: flex;
+  width: 5vw;
+  height: 1.5vw;
+  font-size: clamp(0.3rem, 0.3rem + 0.75vw, 1.5rem);
   border-radius: 10px;
   color: white;
   background-color: #f94a4a;
   border: none;
   text-align: center;
-  font-size: 1rem;
-  cursor: pointer;
-  border-radius: 5000px;
   align-items: center;
   justify-content: center;
-  line-height: 1.5rem;
+  cursor: pointer;
+  border-radius: 5000px;
+  /* line-height: 1.5vh; */
 }
 
 .CancelButtonTablePage:hover {
@@ -44,22 +45,20 @@
 }
 
 .SaveButtonTablePage {
-  /* width: 6rem;
-  height: 1.8rem;
-  font-size: 1rem; */
+  display: flex;
   width: 5vw;
-  height: -1.7vw;
-  font-size: clamp(0.5rem, 0.5rem + 1vw, 5rem);
+  height: 1.5vw;
+  font-size: clamp(0.3rem, 0.3rem + 0.75vw, 1.5rem);
   border-radius: 10px;
   color: white;
   background-color: #4dcc74;
   border: none;
   text-align: center;
-  cursor: pointer;
-  border-radius: 5000px;
   align-items: center;
   justify-content: center;
-  line-height: 1.5rem;
+  cursor: pointer;
+  border-radius: 5000px;
+  /* line-height: 1.5vh; */
 }
 
 .SaveButtonTablePage:hover {

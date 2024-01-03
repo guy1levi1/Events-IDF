@@ -513,7 +513,7 @@ export default function CrossInformationTable() {
           <div
             style={{
               display: "flex",
-              flex: 1,
+              // flex: 1,
               marginTop: "0.7rem",
               textAlign: "center",
             }}
@@ -541,7 +541,7 @@ export default function CrossInformationTable() {
                   marginRight: "0.5rem",
                 }}
               >
-                חזור
+                חזרה
               </button>
             </Link>
 

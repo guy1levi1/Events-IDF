@@ -104,7 +104,7 @@ export default function ManageUsersPage() {
     >
       <h1>ניהול משתמשים</h1>
 
-      <div className="tablesManageUsers" style={{ display: "flex"}}>
+      <div className="tablesManageUsers" style={{ display: "flex", alignItems: "center"}}>
         <div className= "existUsersTable" style={{ display: "flex", flexDirection: "column", textAlign: "center"}}>
         <h3>משתמשים קיימים</h3>
 

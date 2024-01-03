@@ -454,7 +454,7 @@ export default function EditEventPage(props) {
                 disabled={!formData.isValid}
                 sx={{
                   borderRadius: "5000px",
-                  fontSize: ["1.2rem", "1.4rem", "1.6rem"],
+                  fontSize: ["0.9rem", "1.1rem", "1.3rem", "1.5rem"],
                 }}
                 style={{ width: "100%", height: "100%" }}
               >

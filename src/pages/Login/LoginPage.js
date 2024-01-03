@@ -206,7 +206,15 @@ export default function LoginPage() {
               disabled={!formData.isValid}
               sx={{
                 borderRadius: "5000px",
-                fontSize: ["0.2rem","0.4rem", "0.7rem","1rem", "1.3rem", "1.6rem", "1.9rem"],
+                fontSize: [
+                  "0.2rem",
+                  "0.4rem",
+                  "0.7rem",
+                  "1rem",
+                  "1.3rem",
+                  "1.6rem",
+                  "1.9rem",
+                ],
               }}
               style={{ width: "100%", height: "100%" }}
             >
@@ -222,12 +230,17 @@ export default function LoginPage() {
             justifyContent: "center",
           }}
         >
-          <NavLink className="linkToSignup" to="/signup" style={{fontSize: ["small", "medium", "large" , "large", "x-large"]}}>
+          <NavLink
+            className="linkToSignup"
+            to="/signup"
+            style={{
+              fontSize: ["small", "medium", "large", "large", "x-large"],
+            }}
+          >
             ליצירת חשבון חדש
           </NavLink>
         </Box>
       </Box>
     </Box>
-    
   );
 }

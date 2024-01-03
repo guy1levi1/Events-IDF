@@ -20,9 +20,10 @@
 }
 
 .CancelCrossInformation {
+  display: flex;
   width: 5vw;
   height: 1.5vw;
-  font-size: clamp(0.35rem, 0.35rem + 0.9vw, 2rem);
+  font-size: clamp(0.3rem, 0.3rem + 0.75vw, 1.5rem);
   border-radius: 10px;
   color: white;
   background-color: #f94a4a;

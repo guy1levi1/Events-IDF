@@ -25,7 +25,7 @@ import {
   GridRowEditStopReasons,
 } from "@mui/x-data-grid";
 import "./DesignedEventTable.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function CustomToolbar(props) {
   const { setRows, setRowModesModel } = props;
@@ -215,6 +215,8 @@ export default function DesignedEventTable() {
   const [rows, setRows] = React.useState([]);
   const [rowModesModel, setRowModesModel] = React.useState({});
 
+  const navigate = useNavigate()
+
   React.useEffect(() => {
     console.log(rows);
   }, [rows]);
@@ -267,7 +269,11 @@ export default function DesignedEventTable() {
     console.log("save/upadte table clicked");
   };
 
+  
+
   const handleCancelButtonClick = () => {
+    
+    navigate(-1)
     console.log("cancel table clicked");
   };
 
@@ -591,7 +597,6 @@ export default function DesignedEventTable() {
             style={{
               display: "flex",
               marginTop: "0.7rem",
-
               right: 0,
             }}
           >

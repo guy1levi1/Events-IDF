@@ -249,7 +249,7 @@ export default function ManageUnapprovedUsers({
       field: "privateNumber",
       headerName: "מספר אישי",
       headerAlign: "center",
-      align: "flex-end",
+        
       type: "string",
       width: 80,
       editable: false,
@@ -259,7 +259,7 @@ export default function ManageUnapprovedUsers({
       field: "lastName",
       headerName: "שם פרטי",
       headerAlign: "center",
-      align: "flex-end",
+        
       type: "string",
       width: 80,
       editable: false,
@@ -269,7 +269,7 @@ export default function ManageUnapprovedUsers({
       field: "firstName",
       headerName: "שם משפחה",
       headerAlign: "center",
-      align: "flex-end",
+        
       type: "string",
       width: 80,
       editable: false,
@@ -280,7 +280,7 @@ export default function ManageUnapprovedUsers({
       field: "command",
       headerName: "פיקוד",
       headerAlign: "center",
-      align: "flex-end",
+        
       type: "string",
       width: 80,
       editable: false,

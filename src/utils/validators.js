@@ -24,9 +24,7 @@ const commands = [
 ];
 
 export const VALIDATOR_COMMAND = (data) => {
-  return commands.some(
-    (command) => command.commandName === data
-  );
+  return commands.some((command) => command.commandName === data);
 };
 
 export const VALIDATOR_MINLENGTH = (data, lng) => {
@@ -52,22 +50,23 @@ export const VALIDATOR_FULLNAME = (value) => {
 };
 
 export const VALIDATOR_DATE_EVENT = (value) => {
-  const currentDate = new Date();
+  // const currentDate = new Date();
 
-  const options = {
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-    hour: "2-digit",
-    minute: "2-digit",
-    hour12: false,
-  };
+  // const options = {
+  //   year: "numeric",
+  //   month: "2-digit",
+  //   day: "2-digit",
+  //   hour: "2-digit",
+  //   minute: "2-digit",
+  //   hour12: false,
+  // };
 
-  const formattedDate = new Intl.DateTimeFormat("en-US", options).format(
-    currentDate
-  );
+  // const formattedDate = new Intl.DateTimeFormat("en-US", options).format(
+  //   currentDate
+  // );
 
-  return dayjs(value).format("MM/DD/YYYY, HH:mm") > formattedDate;
+  // return dayjs(value).format("MM/DD/YYYY, HH:mm") > formattedDate;
+  return true;
 };
 
 export const VALIDATOR_PASSWORD = (value) => {

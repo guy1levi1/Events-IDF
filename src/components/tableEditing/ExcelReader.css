@@ -1,16 +1,17 @@
 .rounded-button {
-  height: 2.3rem;
+  width: 14vw;
+  height: 2vw;
+  font-size: clamp(0.3rem, 0.3rem + 0.7vw, 1.5rem);
   border-radius: 10px;
   background-color: #3069be;
   color: white;
   border: none;
   text-align: center;
-  font-size: 1rem;
   cursor: pointer;
   border-radius: 5000px;
   align-items: center;
   justify-content: center;
-  line-height: 2rem;
+  /* line-height: 2rem; */
 }
 
 .rounded-button:hover {

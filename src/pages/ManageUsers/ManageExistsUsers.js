@@ -216,7 +216,7 @@ export default function ManageExistsUsers({ newApprovedUser, rowsState }) {
       field: "privateNumber",
       headerName: "מספר אישי",
       headerAlign: "center",
-      align: "flex-end",
+       
       type: "string",
       // width: 80,
       editable: true,
@@ -226,7 +226,7 @@ export default function ManageExistsUsers({ newApprovedUser, rowsState }) {
       field: "lastName",
       headerName: "שם משפחה",
       headerAlign: "center",
-      align: "flex-end",
+       
       type: "string",
       // width: 80,
       editable: true,
@@ -236,7 +236,7 @@ export default function ManageExistsUsers({ newApprovedUser, rowsState }) {
       field: "firstName",
       headerName: "שם פרטי",
       headerAlign: "center",
-      align: "flex-end",
+       
       type: "string",
       // width: 80,
       editable: true,
@@ -247,7 +247,7 @@ export default function ManageExistsUsers({ newApprovedUser, rowsState }) {
       field: "command",
       headerName: "פיקוד",
       headerAlign: "center",
-      align: "flex-end",
+       
       type: "string",
       // width: 80,
       editable: true,

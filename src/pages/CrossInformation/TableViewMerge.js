@@ -284,7 +284,7 @@ export default function CustomToolbarGrid() {
       field: "0",
       headerName: `מס"ד`,
       headerAlign: "center",
-      align: "flex-end",
+        
       type: "number",
       width: 50,
       editable: false,
@@ -293,7 +293,7 @@ export default function CustomToolbarGrid() {
       field: "1",
       headerName: "מספר אישי",
       headerAlign: "center",
-      align: "flex-end",
+        
       type: "string",
       width: 80,
       editable: false,
@@ -302,7 +302,7 @@ export default function CustomToolbarGrid() {
       field: "2",
       headerName: "שם פרטי",
       headerAlign: "center",
-      align: "flex-end",
+        
       type: "string",
       width: 100,
       editable: false,
@@ -311,7 +311,7 @@ export default function CustomToolbarGrid() {
       field: "3",
       headerName: "שם משפחה",
       headerAlign: "center",
-      align: "flex-end",
+        
       type: "string",
       width: 100,
       editable: false,
@@ -320,7 +320,7 @@ export default function CustomToolbarGrid() {
       field: "4",
       headerName: "פיקוד",
       headerAlign: "center",
-      align: "flex-end",
+        
       type: "string",
       width: 80,
       editable: false,
@@ -329,7 +329,7 @@ export default function CustomToolbarGrid() {
       field: "5",
       headerName: "אוגדה",
       headerAlign: "center",
-      align: "flex-end",
+        
       type: "string",
       width: 80,
       editable: false,
@@ -338,7 +338,7 @@ export default function CustomToolbarGrid() {
       field: "6",
       headerName: "יחידה",
       headerAlign: "center",
-      align: "flex-end",
+        
       type: "string",
       width: 80,
       editable: false,
@@ -347,7 +347,7 @@ export default function CustomToolbarGrid() {
       field: "7",
       headerName: "דרגה",
       headerAlign: "center",
-      align: "flex-end",
+        
       type: "string",
       width: 50,
       editable: false,
@@ -356,7 +356,7 @@ export default function CustomToolbarGrid() {
       field: "8",
       headerName: "דרגת מינוי",
       headerAlign: "center",
-      align: "flex-end",
+        
       type: "string",
       width: 80,
       editable: false,
@@ -365,7 +365,7 @@ export default function CustomToolbarGrid() {
       field: "9",
       headerName: "מלל מינוי",
       headerAlign: "center",
-      align: "flex-end",
+        
       type: "string",
       width: 80,
       editable: false,
@@ -374,7 +374,7 @@ export default function CustomToolbarGrid() {
       field: "10",
       headerName: "סיבת אי הגעה",
       headerAlign: "center",
-      align: "flex-end",
+        
       type: "string",
       width: 130,
       editable: false,

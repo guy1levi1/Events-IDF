@@ -28,6 +28,7 @@ const router = createBrowserRouter([
         path: "/manageEventes",
         element: <ManageEventsPage componentCount={4} />,
       },
+      { path: "/table", element: <TablePage /> },
       { path: "/table/:eventId", element: <TablePage /> },
       { path: "/crossInformation", element: <CrossInformationTable /> },
       // { path: "/crossInformation", element: <TableViewMerge /> },

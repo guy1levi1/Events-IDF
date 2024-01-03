@@ -1,7 +1,7 @@
 import { Box } from "@mui/material";
 import React, { useRef } from "react";
 import { Link } from "react-router-dom";
-// import CompareIcon from "../../images/compareIcon.png";
+import CompareIcon from "../../images/compareIcon.png";
 import DeleteIcon from "../../images/DeleteIcon.png";
 import EditTextsIcon from "../../images/EditTextsIcon.png";
 import TableModeIcon from "../../images/tableModeIcon.png";
@@ -124,7 +124,7 @@ export default function CardEvent({
                 }}
               /> */}
             {/* </Link> */}
-            <div>
+            {/* <div>
               <input
                 type="file"
                 onChange={handleFileUpload}
@@ -132,6 +132,30 @@ export default function CardEvent({
                 style={{ display: "none" }}
               />
               <button onClick={handleButtonClick}>Upload File</button>
+            </div> */}
+
+            <div>
+              <input
+                type="file"
+                onChange={handleFileUpload}
+                ref={fileInputRef}
+                style={{ display: "none" }}
+                id="fileInput" // Assign an id for association with label
+              />
+              <label htmlFor="fileInput">
+                <img
+                  src={CompareIcon}
+                  alt="Compare Icon"
+                  style={{
+                    width: "3.268rem",
+                    height: "3.6rem",
+                    cursor: "pointer",
+                  }}
+                />
+              </label>
+              <button onClick={handleButtonClick} style={{ display: "none" }}>
+                Upload File
+              </button>
             </div>
           </div>
           <h5

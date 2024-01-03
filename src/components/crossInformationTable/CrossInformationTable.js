@@ -22,40 +22,44 @@ function CustomToolbar(props) {
       <GridToolbarContainer
         style={{
           direction: "rtl",
+          marginTop: "0.5vh",
+          justifyContent: "space-between",
         }}
       >
-        <GridToolbarColumnsButton
-          sx={{
-            "& .MuiButton-startIcon": {
-              marginLeft: "2px",
-              color: "#3069BE",
-            },
-          }}
-        />
-        <GridToolbarFilterButton
-          sx={{
-            "& .MuiButton-startIcon": {
-              marginLeft: "2px",
-              color: "#3069BE",
-            },
-          }}
-        />
-        <GridToolbarDensitySelector
-          sx={{
-            "& .MuiButton-startIcon": {
-              marginLeft: "2px",
-              color: "#3069BE",
-            },
-          }}
-        />
-        <GridToolbarExport
-          sx={{
-            "& .MuiButton-startIcon": {
-              marginLeft: "2px",
-              color: "#3069BE",
-            },
-          }}
-        />
+        <div>
+          <GridToolbarColumnsButton
+            sx={{
+              "& .MuiButton-startIcon": {
+                marginLeft: "2px",
+                color: "#3069BE",
+              },
+            }}
+          />
+          <GridToolbarFilterButton
+            sx={{
+              "& .MuiButton-startIcon": {
+                marginLeft: "2px",
+                color: "#3069BE",
+              },
+            }}
+          />
+          <GridToolbarDensitySelector
+            sx={{
+              "& .MuiButton-startIcon": {
+                marginLeft: "2px",
+                color: "#3069BE",
+              },
+            }}
+          />
+          <GridToolbarExport
+            sx={{
+              "& .MuiButton-startIcon": {
+                marginLeft: "2px",
+                color: "#3069BE",
+              },
+            }}
+          />
+        </div>
         <div>
           <GridToolbarQuickFilter
             // InputProps={{ disableUnderline: true }} // משאיר במידה ונרצה בעתיד להוריד את הקו שנדע כבר
@@ -194,7 +198,6 @@ export default function CrossInformationTable() {
 
   const getPresentsCellStyle = (value) => {
     let backgroundColorPresents, textColorPresents;
-    console.log(value);
 
     switch (value) {
       case "כן":
@@ -246,10 +249,6 @@ export default function CrossInformationTable() {
     setRowModesModel(newRowModesModel);
   };
 
-  const handleSaveButtonClick = () => {
-    console.log("save/upadte table clicked");
-  };
-
   const handleCancelButtonClick = () => {
     console.log("cancel table clicked");
   };
@@ -259,107 +258,119 @@ export default function CrossInformationTable() {
       field: "0",
       headerName: `מס"ד`,
       headerAlign: "center",
-      align: "flex-end",
+
       type: "number",
       width: 50,
       editable: false,
+      // flex: 1,
     },
     {
       field: "1",
       headerName: "מספר אישי",
       headerAlign: "center",
-      align: "flex-end",
+
       type: "string",
-      width: 80,
+      // width: 80,
       editable: false,
+      // flex: 1.4,
     },
     {
       field: "2",
       headerName: "שם פרטי",
       headerAlign: "center",
-      align: "flex-end",
+
       type: "string",
-      width: 100,
+      // width: 100,
       editable: false,
+      // flex: 1.6,
     },
     {
       field: "3",
       headerName: "שם משפחה",
       headerAlign: "center",
-      align: "flex-end",
+
       type: "string",
-      width: 100,
+      // width: 100,
       editable: false,
+      // flex: 1.6,
     },
     {
       field: "4",
       headerName: "פיקוד",
       headerAlign: "center",
-      align: "flex-end",
+
       type: "string",
-      width: 80,
+      // width: 80,
       editable: false,
+      // flex: 1.4,
     },
     {
       field: "5",
       headerName: "אוגדה",
       headerAlign: "center",
-      align: "flex-end",
+
       type: "string",
-      width: 80,
+      // width: 80,
       editable: false,
+      // flex: 1,
     },
     {
       field: "6",
       headerName: "יחידה",
       headerAlign: "center",
-      align: "flex-end",
+
       type: "string",
-      width: 80,
+      // width: 80,
       editable: false,
+      // flex: 1,
     },
     {
       field: "7",
       headerName: "דרגה",
       headerAlign: "center",
-      align: "flex-end",
+
       type: "string",
-      width: 50,
+      // width: 50,
       editable: false,
+      // flex: 1,
     },
     {
       field: "8",
       headerName: "דרגת מינוי",
       headerAlign: "center",
-      align: "flex-end",
+
       type: "string",
-      width: 80,
+      // width: 80,
       editable: false,
+      // flex: 1.2,
     },
     {
       field: "9",
       headerName: "מלל מינוי",
       headerAlign: "center",
-      align: "flex-end",
+
       type: "string",
-      width: 80,
+      // width: 80,
       editable: false,
+      // flex: 1.4,
     },
     {
       field: "10",
       headerName: "סיבת אי הגעה",
       headerAlign: "center",
-      align: "flex-end",
+
       type: "string",
-      width: 130,
+      // width: 130,
       editable: false,
+      // flex: 2,
     },
     {
       field: "11",
       headerName: "אישור רמח",
       headerAlign: "center",
-      width: 150,
+      // width: 150,
       editable: false,
+      flex: 2.5,
 
       // should be taken from db instead of hard coded
       renderCell: (params) => (
@@ -375,8 +386,10 @@ export default function CrossInformationTable() {
       field: "12",
       headerName: "נוכחות באירוע",
       headerAlign: "center",
-      width: 100,
+      // width: 100,
       editable: false,
+      // flex: 1,
+
       renderCell: (params) => (
         <div style={getPresentsCellStyle(params.value)}>{params.value} </div>
       ),
@@ -385,8 +398,10 @@ export default function CrossInformationTable() {
       field: "13",
       headerName: "עמידה בפקודה",
       headerAlign: "center",
-      width: 100,
+      // width: 100,
       editable: false,
+      // flex: 1,
+
       // should be a calculated field  if !field: "11" && !field: "12" return לא else כן (case "ממתין להחלטת רצח" should be a case to)
       renderCell: (params) => (
         <div style={getPresentsCellStyle(params.value)}>{params.value} </div>
@@ -401,19 +416,22 @@ export default function CrossInformationTable() {
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        justifyContent: "center",
+        justifyContent: "flex-start",
         height: "100%",
         width: "100%",
-        margin: "1rem",
+        marginTop: "2rem",
       }}
     >
-      <h1>פריסת שחרור לאור, תל השומר מקל”ר, 10:00 13.12.23</h1>
+      <h1 style={{ marginTop: "0" }}>
+        פריסת שחרור לאור, תל השומר מקל”ר, 10:00 13.12.23
+      </h1>
       {/* h1 will be get from lst page (create new event/edit an exisiting) */}
 
       <Box
         sx={{
-          height: "36rem",
-          width: "79rem",
+          width: "75vw",
+          height: "73vh",
+          maxHeight: "80rem",
           direction: "ltr",
           background: "white",
           alignItems: "center",
@@ -474,7 +492,7 @@ export default function CrossInformationTable() {
             },
           }}
           pageSize={10}
-          rowsPerPageOptions={[10]}
+          rowsPerPageOptions={10}
           pagination
           pageSizeOptions={[5, 10, 25]}
           slots={{
@@ -518,7 +536,7 @@ export default function CrossInformationTable() {
             >
               <button
                 onClick={handleCancelButtonClick}
-                className="CancelButtonTablePage"
+                className="CancelCrossInformation"
                 style={{
                   marginRight: "0.5rem",
                 }}

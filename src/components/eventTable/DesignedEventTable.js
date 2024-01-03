@@ -78,40 +78,45 @@ function CustomToolbar(props) {
       <GridToolbarContainer
         style={{
           direction: "rtl",
+          marginTop: "0.5vh",
+          justifyContent: "space-between",
         }}
       >
-        <GridToolbarColumnsButton
-          sx={{
-            "& .MuiButton-startIcon": {
-              marginLeft: "2px",
-              color: "#3069BE",
-            },
-          }}
-        />
-        <GridToolbarFilterButton
-          sx={{
-            "& .MuiButton-startIcon": {
-              marginLeft: "2px",
-              color: "#3069BE",
-            },
-          }}
-        />
-        <GridToolbarDensitySelector
-          sx={{
-            "& .MuiButton-startIcon": {
-              marginLeft: "2px",
-              color: "#3069BE",
-            },
-          }}
-        />
-        <GridToolbarExport
-          sx={{
-            "& .MuiButton-startIcon": {
-              marginLeft: "2px",
-              color: "#3069BE",
-            },
-          }}
-        />
+        {" "}
+        <div>
+          <GridToolbarColumnsButton
+            sx={{
+              "& .MuiButton-startIcon": {
+                marginLeft: "2px",
+                color: "#3069BE",
+              },
+            }}
+          />
+          <GridToolbarFilterButton
+            sx={{
+              "& .MuiButton-startIcon": {
+                marginLeft: "2px",
+                color: "#3069BE",
+              },
+            }}
+          />
+          <GridToolbarDensitySelector
+            sx={{
+              "& .MuiButton-startIcon": {
+                marginLeft: "2px",
+                color: "#3069BE",
+              },
+            }}
+          />
+          <GridToolbarExport
+            sx={{
+              "& .MuiButton-startIcon": {
+                marginLeft: "2px",
+                color: "#3069BE",
+              },
+            }}
+          />
+        </div>
         <div>
           <GridToolbarQuickFilter
             placeholder="חיפוש"
@@ -277,7 +282,7 @@ export default function DesignedEventTable() {
       field: "0",
       headerName: `מס"ד`,
       headerAlign: "center",
-      align: "flex-end",
+
       type: "number",
       // width: 50,
       editable: false,
@@ -287,101 +292,101 @@ export default function DesignedEventTable() {
       field: "1",
       headerName: "מספר אישי",
       headerAlign: "center",
-      align: "flex-end",
+
       type: "string",
       // width: 80,
-      editable: true,      flex: 1.4,
-
+      editable: true,
+      flex: 1.4,
     },
     {
       field: "2",
       headerName: "שם פרטי",
       headerAlign: "center",
-      align: "flex-end",
+
       type: "string",
       // width: 100,
-      editable: true,      flex: 1.6,
-
+      editable: true,
+      flex: 1.6,
     },
     {
       field: "3",
       headerName: "שם משפחה",
       headerAlign: "center",
-      align: "flex-end",
+
       type: "string",
       // width: 100,
-      editable: true,      flex: 1.6,
-
+      editable: true,
+      flex: 1.6,
     },
     {
       field: "4",
       headerName: "פיקוד",
       headerAlign: "center",
-      align: "flex-end",
+
       type: "string",
       // width: 80,
-      editable: true,      flex: 1.4,
-
+      editable: true,
+      flex: 1.4,
     },
     {
       field: "5",
       headerName: "אוגדה",
       headerAlign: "center",
-      align: "flex-end",
+
       type: "string",
       // width: 80,
-      editable: true,      flex: 1,
-
+      editable: true,
+      flex: 1,
     },
     {
       field: "6",
       headerName: "יחידה",
       headerAlign: "center",
-      align: "flex-end",
+
       type: "string",
       // width: 80,
-      editable: true,      flex: 1,
-
+      editable: true,
+      flex: 1,
     },
     {
       field: "7",
       headerName: "דרגה",
       headerAlign: "center",
-      align: "flex-end",
+
       type: "string",
       // width: 50,
-      editable: true,      flex: 1,
-
+      editable: true,
+      flex: 1,
     },
     {
       field: "8",
       headerName: "דרגת מינוי",
       headerAlign: "center",
-      align: "flex-end",
+
       type: "string",
       // width: 80,
-      editable: true,      flex: 1.2,
-
+      editable: true,
+      flex: 1.2,
     },
     {
       field: "9",
       headerName: "מלל מינוי",
       headerAlign: "center",
-      align: "flex-end",
+
       type: "string",
       width: 80,
-      editable: true,      flex: 1.4,
-
+      editable: true,
+      flex: 1.4,
     },
     {
       field: "10",
       headerName: "סיבת אי הגעה",
       headerAlign: "center",
-      align: "flex-end",
+
       type: "string",
       width: 250,
-      editable: true,      flex: 2,
-
+      editable: true,
+      flex: 2,
     },
     {
       field: "status",
@@ -475,10 +480,12 @@ export default function DesignedEventTable() {
         justifyContent: "flex-start",
         height: "100%",
         width: "100%",
-        marginTop: "2rem"
+        marginTop: "2rem",
       }}
     >
-      <h1 style={{marginTop: "0"}}>פריסת שחרור לאור, תל השומר מקל”ר, 10:00 13.12.23</h1>
+      <h1 style={{ marginTop: "0" }}>
+        פריסת שחרור לאור, תל השומר מקל”ר, 10:00 13.12.23
+      </h1>
       {/* h1 will be get from lst page (create new event/edit an exisiting) */}
 
       <Box
@@ -549,7 +556,7 @@ export default function DesignedEventTable() {
             },
           }}
           pageSize={10}
-          rowsPerPageOptions={[10]}
+          rowsPerPageOptions={10}
           pagination
           pageSizeOptions={[5, 10, 25]}
           slots={{

@@ -3,7 +3,6 @@ import * as XLSX from "xlsx";
 import "./ExcelReader.css";
 
 const ExcelReader = ({ onRowsChange, isCrossInformationTable, imageSrc }) => {
-  console.log("isCrossInformationTable: " + isCrossInformationTable);
   const fileInputRef = useRef(null);
   const [errorMessage, setErrorMessage] = useState("");
   const [uploadFileInfo, setUploadFileInfo] = useState("");
@@ -74,7 +73,7 @@ const ExcelReader = ({ onRowsChange, isCrossInformationTable, imageSrc }) => {
           className="rounded-button"
           style={{
             width: "3.268rem",
-            height:  "3.5rem",
+            height: "3.5rem",
             backgroundImage: `url(${imageSrc})`,
             backgroundSize: "cover",
             backgroundRepeat: "no-repeat",

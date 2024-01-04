@@ -255,7 +255,7 @@ export default function CrossInformationTable() {
 
   const clamp = (min, value, max) => {
     return `clamp(${min}, ${value}, ${max})`;
-  }
+  };
 
   const columns = [
     {
@@ -449,7 +449,7 @@ export default function CrossInformationTable() {
           },
 
           "& .MuiDataGrid-cellContent": {
-            fontSize: `${clamp("0.3rem", "calc(0.3rem + 0.75vw)", "1.5rem")}`
+            fontSize: `${clamp("0.3rem", "calc(0.3rem + 0.75vw)", "1.5rem")}`,
           },
         }}
       >
@@ -499,9 +499,9 @@ export default function CrossInformationTable() {
               color: "white",
             },
           }}
-          pageSize={10}
-          rowsPerPageOptions={10}
-          pagination
+          initialState={{
+            pagination: { paginationModel: { pageSize: 10 } },
+          }}
           pageSizeOptions={[5, 10, 25]}
           slots={{
             toolbar: CustomToolbar,
@@ -552,7 +552,6 @@ export default function CrossInformationTable() {
                 חזרה
               </button>
             </Link>
-
           </div>
         </div>
       </Box>

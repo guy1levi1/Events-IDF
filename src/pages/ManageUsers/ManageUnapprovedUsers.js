@@ -246,14 +246,14 @@ export default function ManageUnapprovedUsers({
 
   const clamp = (min, value, max) => {
     return `clamp(${min}, ${value}, ${max})`;
-  }
+  };
 
   const columns = [
     {
       field: "privateNumber",
       headerName: "מספר אישי",
       headerAlign: "center",
-        
+
       type: "string",
       width: 80,
       editable: false,
@@ -263,7 +263,7 @@ export default function ManageUnapprovedUsers({
       field: "lastName",
       headerName: "שם פרטי",
       headerAlign: "center",
-        
+
       type: "string",
       width: 80,
       editable: false,
@@ -273,7 +273,7 @@ export default function ManageUnapprovedUsers({
       field: "firstName",
       headerName: "שם משפחה",
       headerAlign: "center",
-        
+
       type: "string",
       width: 80,
       editable: false,
@@ -284,7 +284,7 @@ export default function ManageUnapprovedUsers({
       field: "command",
       headerName: "פיקוד",
       headerAlign: "center",
-        
+
       type: "string",
       width: 80,
       editable: false,
@@ -360,7 +360,7 @@ export default function ManageUnapprovedUsers({
           },
 
           "& .MuiDataGrid-cellContent": {
-            fontSize: `${clamp("0.3rem", "calc(0.3rem + 0.75vw)", "1.5rem")}`
+            fontSize: `${clamp("0.3rem", "calc(0.3rem + 0.75vw)", "1.5rem")}`,
           },
         }}
       >
@@ -410,9 +410,9 @@ export default function ManageUnapprovedUsers({
               color: "white",
             },
           }}
-          pageSize={10}
-          rowsPerPageOptions={[10]}
-          pagination
+          initialState={{
+            pagination: { paginationModel: { pageSize: 10 } },
+          }}
           pageSizeOptions={[5, 10, 25]}
           slots={{
             toolbar: CustomToolbar,

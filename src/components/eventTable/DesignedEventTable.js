@@ -561,9 +561,9 @@ export default function DesignedEventTable() {
               color: "white",
             },
           }}
-          pageSize={10}
-          rowsPerPageOptions={10}
-          pagination
+          initialState={{
+            pagination: { paginationModel: { pageSize: 10 } },
+          }}
           pageSizeOptions={[5, 10, 25]}
           slots={{
             toolbar: CustomToolbar,

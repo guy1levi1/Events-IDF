@@ -497,7 +497,6 @@ export default function CreateEventPage() {
               </Button>
             </Link>
           </Box>
-
           <Box
             sx={{
               width: "10%",

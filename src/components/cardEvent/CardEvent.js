@@ -20,6 +20,7 @@ export default function CardEvent({
   description,
   eventCreator,
   commandsSelector,
+  onDelete,
 }) {
   const handleClickDeleteButton = () => {
     Swal.fire({
@@ -35,6 +36,7 @@ export default function CardEvent({
     }).then((result) => {
       if (result.isConfirmed) {
         // delete the event from db and update in the fronted
+        onDelete();
         Swal.fire({
           title: "נמחק בהצלחה!",
           text: "האירוע {שם האירוע} נמחק בהצלחה.",

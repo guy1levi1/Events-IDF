@@ -62,7 +62,6 @@ const ExcelReader = ({ onRowsChange, isCrossInformationTable, filename }) => {
     <div
       style={{
         display: "flex",
-        // marginTop: "0.7rem",
         flexDirection: "column",
         right: 0,
       }}

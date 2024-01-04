@@ -1,0 +1,10 @@
+.commandsCells {
+    padding-bottom: 0.3rem;
+}
+
+#commandsCells::-webkit-scrollbar {
+    height:1vh;
+    padding-top: 10rem;
+}
+  
+  

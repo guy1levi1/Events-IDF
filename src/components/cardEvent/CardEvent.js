@@ -10,6 +10,8 @@ import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import CommandCell from "../commandCell/CommandCell";
 
+import "./CardEvent.css";
+
 export default function CardEvent({
   eventId,
   eventName,
@@ -87,8 +89,8 @@ export default function CardEvent({
             paddingLeft: "1rem",
             paddingTop: "0.4rem",
             margin: 0,
-            width: "100%",
-            maxWidth: "100%",
+            width: "inherit",
+            maxWidth: "inherit",
             height: "87%",
             maxHeight: "87%",
           }}
@@ -104,44 +106,13 @@ export default function CardEvent({
             <h4 style={{ fontSize: "1.7rem", padding: 0, margin: 0 }}>
               {eventName}
             </h4>
-            {/* need to send him with props of the current fields from db and merge it with the new file */}
-            {/* will be crossInformatio/:eventId */}
-            {/* <Link
-              to="/crossInformation"
-              style={{ color: "white", textDecoration: "none" }}
-            > */}
-            {/* <ExcelReader
-                onRowsChange={null}
-                isCrossInformationTable={false}
-                imageSrc={CompareIcon}
-              /> */}
-            {/* <img
-                src={CompareIcon}
-                alt=""
-                style={{
-                  width: "3.268rem",
-                  height: "3.5rem",
-                  cursor: "pointer",
-                }}
-              /> */}
-            {/* </Link> */}
-            {/* <div>
-              <input
-                type="file"
-                onChange={handleFileUpload}
-                ref={fileInputRef}
-                style={{ display: "none" }}
-              />
-              <button onClick={handleButtonClick}>Upload File</button>
-            </div> */}
-
             <div>
               <input
                 type="file"
                 onChange={handleFileUpload}
                 ref={fileInputRef}
                 style={{ display: "none" }}
-                id="fileInput" // Assign an id for association with label
+                id="fileInput"
               />
               <label htmlFor="fileInput">
                 <img
@@ -193,12 +164,25 @@ export default function CardEvent({
           >
             {eventLocation} ,{eventDate}
           </h6>
-          <div className="commandsCells" style={{display: "flex", flexDirection: "row", justifyContent: "space-around", width: "90%", marginTop: "0.5rem"}}>
-            <CommandCell command={"מרכז"}></CommandCell>
-            <CommandCell command={"צפון"}></CommandCell>
-            <CommandCell command={"דרום"}></CommandCell>
-            <CommandCell command={`פקע"ר`}></CommandCell>
-            </div>
+          <div
+            className="commandsCells"
+            id="commandsCells"
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "flex-start ",
+              width: "24.5rem",
+              marginTop: "0.5rem",
+              overflowX: "auto",
+              overflowY: "hidden",
+            }}
+          >
+            {commandsSelector.map((command, index) => (
+              <div style={{ margin: "0 0 0 0.2rem" }}>
+                <CommandCell command={command} key={index}></CommandCell>
+              </div>
+            ))}
+          </div>
           <div
             style={{
               display: "flex",

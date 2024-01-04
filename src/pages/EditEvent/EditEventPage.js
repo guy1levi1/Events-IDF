@@ -35,7 +35,6 @@ const commands = [
   },
 ];
 
-
 const eventName = "פריסת שחרור לאור";
 // const options = { year: "numeric", month: "numeric", day: "numeric", hour: "numeric", minute: "numeric", second: "numeric", timeZoneName: "short" };
 
@@ -45,7 +44,7 @@ const description = `נערוך לאורצ'וק פריסת שחרור, באיר�
 אור(אפילו שהוא תוך שנייה חוזר למילואים), מוזמנים! 😀`;
 const eventCreator = "גיא לוי";
 
-const commandsSelector = ["פקער, מרכז, צפון"];
+const commandsSelector = ["פקער", "מרכז", "פקער", "מרכז", "צפון"];
 
 const formStates = {
   eventName: {
@@ -92,10 +91,7 @@ export default function EditEventPage(props) {
   const { eventId } = useParams();
   console.log(currentDate);
 
-  const { formData, handleInput, handleBlur } = useForm(
-    formStates,
-    true
-  );
+  const { formData, handleInput, handleBlur } = useForm(formStates, true);
   const [dateError, setDateError] = useState(false);
   const [vhAsPixels, setVhAsPixels] = useState(0);
   const [initialFontSize, setInitialFontSize] = useState(0); // Add initialFontSize state
@@ -473,19 +469,20 @@ export default function EditEventPage(props) {
             }}
           >
             <Link to={`/table/${eventId}`}>
-            <img
-              src={TableModeIcon}
-              alt=""
-              style={{
-                width: `${vhAsPixels * 1.35 * 0.95}px`,
-                height: "100%",
-                // position: "absolute",
-                // left: "1.5rem",
-                // bottom: "0.4rem",
-                cursor: "pointer",
-                // marginLeft: "12px"
-              }}
-            /></Link>
+              <img
+                src={TableModeIcon}
+                alt=""
+                style={{
+                  width: `${vhAsPixels * 1.35 * 0.95}px`,
+                  height: "100%",
+                  // position: "absolute",
+                  // left: "1.5rem",
+                  // bottom: "0.4rem",
+                  cursor: "pointer",
+                  // marginLeft: "12px"
+                }}
+              />
+            </Link>
           </Box>
         </Box>
       </Box>

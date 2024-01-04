@@ -16,7 +16,7 @@ export default function ManageEventsPage({ componentCount }) {
     hour12: false,
   };
 
-  const eventId = "1"
+  const eventId = "1";
   const eventName = "פריסת שחרור לאור";
   const eventDate = new Date()
     .toLocaleString("he-IL", options)
@@ -26,7 +26,7 @@ export default function ManageEventsPage({ componentCount }) {
   אור(אפילו שהוא תוך שנייה חוזר למילואים), מוזמנים! 😀`;
   const eventCreator = "גיא לוי";
 
-  const commandsSelector = ["פקער, מרכז, צפון"]
+  const commandsSelector = ["סגל", "פקער", "מרכז", "תקשוב", "מרכז", "צפון"];
 
   const cacheRtl = createCache({
     key: "muirtl",
@@ -51,19 +51,20 @@ export default function ManageEventsPage({ componentCount }) {
       <div className="eventsList">
         <CacheProvider value={cacheRtl}>
           <Box
+            id="eventsListBox"
             sx={{
               direction: "rtl",
               display: "flex",
               flexWrap: "wrap",
               alignContent: "start",
-              justifyContent:"center",
+              justifyContent: "center",
               paddingLeft: "1.5rem",
               height: "63vh",
               columnGap: "1.5rem",
               rowGap: "1.5rem",
               overflowX: "hidden",
               overflowY: "auto",
-            }} 
+            }}
           >
             {Array.from(Array(8)).map((_, index) => (
               <CardEvent

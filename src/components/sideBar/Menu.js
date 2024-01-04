@@ -2,15 +2,23 @@ import React, { useState } from "react";
 import "./Menu.css";
 import profile_img from "../../images/logo_image_example.png";
 import { useNavigate } from "react-router";
+import { useLocation } from 'react-router-dom';
 
 const Menu = () => {
   const [open, setOpen] = useState(false);
   const [activeLink, setActiveLink] = useState(null);
   const navigate = useNavigate();
+  const location = useLocation();
 
   const toggleMenu = () => {
     setOpen(!open);
   };
+
+  
+  React.useEffect(() => {
+    console.log('Current URL:', location.pathname);
+    setActiveLink(getRouteIndex(location.pathname))
+  }, [location]);
 
   const linksArray = [
     { name: "אודות המערכת", url: "/about" },
@@ -19,7 +27,22 @@ const Menu = () => {
     { name: "ניהול משתמשים", url: "/manageUsers" },
   ];
 
+  const getRouteIndex = (pathname) => {
+    if (pathname === "/about") {
+      return 0;
+    } else if (pathname === "/manageEventes") {
+      return 1;
+    } else if (pathname === "/createEvent") {
+      return 2;
+    } else if (pathname === "/manageUsers") {
+      return 3;
+    } else {
+      return -1;
+    }
+  };
+
   const navigateHandler = (url, index) => {
+    console.log("index: " + index)
     setActiveLink(index);
     navigate(url);
   };

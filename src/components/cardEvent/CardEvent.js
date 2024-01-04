@@ -9,6 +9,7 @@ import TableModeIcon from "../../images/tableModeIcon.png";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import CommandCell from "../commandCell/CommandCell";
+import { useFilename } from '../tableEditing/FilenameContext';
 
 import "./CardEvent.css";
 
@@ -21,6 +22,7 @@ export default function CardEvent({
   eventCreator,
   commandsSelector,
 }) {
+
   const handleClickDeleteButton = () => {
     Swal.fire({
       title: "האם את/ה בטוח/ה שתרצה/י למחוק את האירוע  {שם האירוע}",
@@ -45,6 +47,8 @@ export default function CardEvent({
     });
   };
 
+  const { setFilename } = useFilename();
+
   const fileInputRef = useRef(null);
   const navigate = useNavigate();
 
@@ -53,15 +57,16 @@ export default function CardEvent({
 
     if (file) {
       console.log("File uploaded!");
-      navigate("/crossInformation");
+      setFilename(file.name);
+      navigate("/crossInformation"  );
 
-      // You can do additional processing with the file if needed
     }
   };
 
   const handleButtonClick = () => {
     fileInputRef.current.click();
   };
+
   return (
     <div
       style={{

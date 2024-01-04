@@ -2,10 +2,10 @@ import React, { useRef, useState } from "react";
 import * as XLSX from "xlsx";
 import "./ExcelReader.css";
 
-const ExcelReader = ({ onRowsChange, isCrossInformationTable, imageSrc }) => {
+const ExcelReader = ({ onRowsChange, isCrossInformationTable, filename }) => {
   const fileInputRef = useRef(null);
   const [errorMessage, setErrorMessage] = useState("");
-  const [uploadFileInfo, setUploadFileInfo] = useState("");
+  const [uploadFileInfo, setUploadFileInfo] = useState(filename != null ? `הועלה ${filename} קובץ` : "");
   let serialNumberCounter = 1;
 
   const handleFileUpload = (e) => {
@@ -20,7 +20,7 @@ const ExcelReader = ({ onRowsChange, isCrossInformationTable, imageSrc }) => {
           "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
       ) {
         setErrorMessage("");
-        setUploadFileInfo(`הועלה ${file.name}  קובץ`);
+        setUploadFileInfo(`הועלה ${file.name} קובץ`);
         console.log(`File selected: ${file.name}, size: ${file.size} bytes`);
       } else {
         setErrorMessage(
@@ -84,7 +84,7 @@ const ExcelReader = ({ onRowsChange, isCrossInformationTable, imageSrc }) => {
 
       {errorMessage && <p className="error-message">{errorMessage}</p>}
       <div style={{ marginTop: "-0.6rem" }}>
-        {<p className="upload-file-info">{uploadFileInfo}</p>}
+        {<p className="uploadFilenfo">{uploadFileInfo}</p>}
       </div>
     </div>
   );

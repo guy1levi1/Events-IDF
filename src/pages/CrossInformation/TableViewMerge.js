@@ -17,6 +17,7 @@ import Button from "@mui/material/Button";
 import AddIcon from "@mui/icons-material/Add";
 import { GridRowModes, GridRowEditStopReasons } from "@mui/x-data-grid";
 
+
 function CustomToolbar(props) {
   const { setRows, setRowModesModel } = props;
 
@@ -424,90 +425,90 @@ export default function CustomToolbarGrid() {
   ];
 
   return (
-    <div
-      className="app"
-      style={{
-        display: "flex",
-        flexDirection: "row",
-        alignItems: "center",
-        justifyContent: "center",
-        height: "100%",
-        width: "100%",
-        marginTop: "40px",
-        background: "#BAB9B9",
-      }}
-    >
-      <Box
-        sx={{
-          height: 700,
-          width: 1220,
-          direction: "ltr",
-          background: "white",
+      <div
+        className="app"
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "center",
+          height: "100%",
+          width: "100%",
+          marginTop: "40px",
+          background: "#BAB9B9",
         }}
       >
-        <DataGrid
-          rows={rows}
-          columns={columns}
-          editMode="row"
-          rowModesModel={rowModesModel}
-          onRowModesModelChange={handleRowModesModelChange}
-          onRowEditStop={handleRowEditStop}
-          processRowUpdate={processRowUpdate}
-          localeText={heIL.components.MuiDataGrid.defaultProps.localeText}
+        <Box
           sx={{
-            direction: "rtl",
-            "& .MuiDataGrid-virtualScroller": {
-              overflow: "unset !important",
-              mt: "0 !important",
-            },
+            height: 700,
+            width: 1220,
+            direction: "ltr",
+            background: "white",
+          }}
+        >
+          <DataGrid
+            rows={rows}
+            columns={columns}
+            editMode="row"
+            rowModesModel={rowModesModel}
+            onRowModesModelChange={handleRowModesModelChange}
+            onRowEditStop={handleRowEditStop}
+            processRowUpdate={processRowUpdate}
+            localeText={heIL.components.MuiDataGrid.defaultProps.localeText}
+            sx={{
+              direction: "rtl",
+              "& .MuiDataGrid-virtualScroller": {
+                overflow: "unset !important",
+                mt: "0 !important",
+              },
 
-            "& .MuiDataGrid-columnHeaders": {
-              overflow: "unset",
-              position: "sticky",
-              left: 1,
-              zIndex: 1,
-              top: 0,
-            },
-            "& .MuiDataGrid-columnHeadersInner > div": {
-              direction: "rtl !important",
-            },
-            "& .MuiDataGrid-main": {
-              overflow: "auto",
-            },
-            "& .MuiTablePagination-actions": {
-              direction: "ltr",
-            },
-            "& .MuiDataGrid-row:hover": {
-              backgroundColor: "#EDF3F8",
-            },
-            "& .MuiButton-textSizeSmall": {
-              color: "#3069BE",
-            },
-            "& .MuiDataGrid-columnHeadersInner": {
-              bgcolor: "#3069BE",
-            },
+              "& .MuiDataGrid-columnHeaders": {
+                overflow: "unset",
+                position: "sticky",
+                left: 1,
+                zIndex: 1,
+                top: 0,
+              },
+              "& .MuiDataGrid-columnHeadersInner > div": {
+                direction: "rtl !important",
+              },
+              "& .MuiDataGrid-main": {
+                overflow: "auto",
+              },
+              "& .MuiTablePagination-actions": {
+                direction: "ltr",
+              },
+              "& .MuiDataGrid-row:hover": {
+                backgroundColor: "#EDF3F8",
+              },
+              "& .MuiButton-textSizeSmall": {
+                color: "#3069BE",
+              },
+              "& .MuiDataGrid-columnHeadersInner": {
+                bgcolor: "#3069BE",
+              },
 
-            "& .MuiDataGrid-columnHeaderTitle": {
-              color: "white",
-            },
-          }}
-          initialState={{
-            pagination: { paginationModel: { pageSize: 10 } },
-          }}
-          pageSizeOptions={[5, 10, 25]}
-          slots={{
-            toolbar: CustomToolbar,
-            noRowsOverlay: CustomNoRowsOverlay,
-          }}
-          slotProps={{
-            toolbar: { setRows, setRowModesModel },
-          }}
-        />
-        <ExcelReader
-          onRowsChange={handleRowsChange}
-          isCrossInformationTable={false}
-        />
-      </Box>
-    </div>
+              "& .MuiDataGrid-columnHeaderTitle": {
+                color: "white",
+              },
+            }}
+            initialState={{
+              pagination: { paginationModel: { pageSize: 10 } },
+            }}
+            pageSizeOptions={[5, 10, 25]}
+            slots={{
+              toolbar: CustomToolbar,
+              noRowsOverlay: CustomNoRowsOverlay,
+            }}
+            slotProps={{
+              toolbar: { setRows, setRowModesModel },
+            }}
+          />
+          <ExcelReader
+            onRowsChange={handleRowsChange}
+            isCrossInformationTable={false}
+          />
+        </Box>
+      </div>
   );
 }

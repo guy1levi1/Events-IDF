@@ -15,6 +15,7 @@ import ExcelReader from "../tableEditing/ExcelReader";
 import { GridRowEditStopReasons } from "@mui/x-data-grid";
 import "./CrossInformationTable.css";
 import { Link } from "react-router-dom";
+import { useFilename } from '../tableEditing/FilenameContext';
 
 function CustomToolbar(props) {
   return (
@@ -156,6 +157,19 @@ function CustomNoRowsOverlay() {
 }
 
 export default function CrossInformationTable() {
+  const { filename } = useFilename();
+
+  React.useEffect(() => {
+    console.log("filename: " + filename);
+
+    // Do any additional processing with the filename if needed
+
+    // Make sure to handle cleanup if necessary, especially if this component unmounts
+
+    return () => {
+      // Cleanup code (if needed)
+    };
+  }, [filename]);
   const [rows, setRows] = React.useState([]);
   const [rowModesModel, setRowModesModel] = React.useState({});
 
@@ -414,6 +428,7 @@ export default function CrossInformationTable() {
   ];
 
   return (
+    
     <div
       className="app"
       style={{
@@ -529,6 +544,7 @@ export default function CrossInformationTable() {
             <ExcelReader
               onRowsChange={handleRowsChange}
               isCrossInformationTable={true}
+              filename={filename}
             />
           </div>
           <div

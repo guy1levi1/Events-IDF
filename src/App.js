@@ -1,4 +1,4 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, RouterProvider, Navigate } from "react-router-dom";
 import "./App.css";
 import RootLayout from "./pages/RootLayOut/RootLayOut";
 import TablePage from "./pages/Table/TablePage";
@@ -12,25 +12,52 @@ import ManageUsersPage from "./pages/ManageUsers/ManageUsersPage";
 // import TableViewMerge from "./pages/CrossInformation/TableViewMerge";
 import CrossInformationTable from "./components/crossInformationTable/CrossInformationTable";
 import EditEventPage from "./pages/EditEvent/EditEventPage";
+import { FilenameProvider } from "./components/tableEditing/FilenameContext";
+
 const router = createBrowserRouter([
   {
     path: "/",
     element: <RootLayout />,
     children: [
-      { path: "/", element: <AboutPage /> }, // will be changes to about
+      { path: "/", element: <Navigate to="/about" replace /> }, // will be changes to about
       { path: "/login", element: <LoginPage /> },
       { path: "/signup", element: <SignUpPage /> },
       { path: "about", element: <AboutPage /> },
       { path: "/createEvent", element: <CreateEventPage /> },
-      { path: "/editEvent/:eventId", element: <EditEventPage />, },
+      { path: "/editEvent/:eventId", element: <EditEventPage /> },
       // { path: "/manageEventes", element: <ManageEventsPage /> },
       {
         path: "/manageEventes",
-        element: <ManageEventsPage componentCount={4} />,
+        element: (
+          <FilenameProvider>
+            <ManageEventsPage componentCount={4} />
+          </FilenameProvider>
+        ),
       },
-      { path: "/table", element: <TablePage /> },
-      { path: "/table/:eventId", element: <TablePage /> },
-      { path: "/crossInformation", element: <CrossInformationTable /> },
+      {
+        path: "/table",
+        element: (
+          <FilenameProvider>
+            <TablePage />
+          </FilenameProvider>
+        ),
+      },
+      {
+        path: "/table/:eventId",
+        element: (
+          <FilenameProvider>
+            <TablePage />
+          </FilenameProvider>
+        ),
+      },
+      {
+        path: "/crossInformation",
+        element: (
+          <FilenameProvider>
+            <CrossInformationTable />
+          </FilenameProvider>
+        ),
+      },
       // { path: "/crossInformation", element: <TableViewMerge /> },
 
       { path: "/manageUsers", element: <ManageUsersPage /> },
@@ -39,7 +66,11 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
-  return <RouterProvider router={router} />;
+  return (
+    // <FilenameProvider>
+    <RouterProvider router={router} />
+    // </FilenameProvider>
+  );
 }
 
 export default App;

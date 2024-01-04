@@ -49,37 +49,37 @@ export default function ManageEventsPage({ componentCount }) {
         <h1>ניהול אירועים</h1>
       </div>
       <div className="eventsList">
-        <CacheProvider value={cacheRtl}>
-          <Box
-            id="eventsListBox"
-            sx={{
-              direction: "rtl",
-              display: "flex",
-              flexWrap: "wrap",
-              alignContent: "start",
-              justifyContent: "center",
-              paddingLeft: "1.5rem",
-              height: "63vh",
-              columnGap: "1.5rem",
-              rowGap: "1.5rem",
-              overflowX: "hidden",
-              overflowY: "auto",
-            }}
-          >
-            {Array.from(Array(8)).map((_, index) => (
-              <CardEvent
-                key={index}
-                eventId={eventId}
-                eventName={eventName}
-                eventDate={eventDate}
-                eventLocation={eventLocation}
-                description={description}
-                eventCreator={eventCreator}
-                commandsSelector={commandsSelector}
-              />
-            ))}
-          </Box>
-        </CacheProvider>
+          <CacheProvider value={cacheRtl}>
+            <Box
+              id="eventsListBox"
+              sx={{
+                direction: "rtl",
+                display: "flex",
+                flexWrap: "wrap",
+                alignContent: "start",
+                justifyContent: "center",
+                paddingLeft: "1.5rem",
+                height: "63vh",
+                columnGap: "1.5rem",
+                rowGap: "1.5rem",
+                overflowX: "hidden",
+                overflowY: "auto",
+              }}
+            >
+              {Array.from(Array(8)).map((_, index) => (
+                <CardEvent
+                  key={index}
+                  eventId={eventId}
+                  eventName={eventName}
+                  eventDate={eventDate}
+                  eventLocation={eventLocation}
+                  description={description}
+                  eventCreator={eventCreator}
+                  commandsSelector={commandsSelector}
+                />
+              ))}
+            </Box>
+          </CacheProvider>
       </div>
     </div>
   );

@@ -10,7 +10,6 @@ import IconButton from "@mui/material/IconButton";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { Link } from "react-router-dom";
-// import Test from "../../utils/test";
 
 const formStates = {
   privateNumber: {

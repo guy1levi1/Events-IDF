@@ -1,4 +1,8 @@
-import { createBrowserRouter, RouterProvider, Navigate } from "react-router-dom";
+import {
+  createBrowserRouter,
+  RouterProvider,
+  Navigate,
+} from "react-router-dom";
 import "./App.css";
 import RootLayout from "./pages/RootLayOut/RootLayOut";
 import TablePage from "./pages/Table/TablePage";
@@ -7,9 +11,7 @@ import AboutPage from "./pages/About/AboutPage";
 import SignUpPage from "./pages/SignUp/SignUpPage";
 import CreateEventPage from "./pages/CreateEvent/CreateEventPage";
 import ManageEventsPage from "./pages/ManageEvents/ManageEventsPage";
-// import CrossInformationPage from "./pages/CrossInformation/CrossInformationPage";
 import ManageUsersPage from "./pages/ManageUsers/ManageUsersPage";
-// import TableViewMerge from "./pages/CrossInformation/TableViewMerge";
 import CrossInformationTable from "./components/crossInformationTable/CrossInformationTable";
 import EditEventPage from "./pages/EditEvent/EditEventPage";
 import { FilenameProvider } from "./components/tableEditing/FilenameContext";
@@ -25,12 +27,11 @@ const router = createBrowserRouter([
       { path: "about", element: <AboutPage /> },
       { path: "/createEvent", element: <CreateEventPage /> },
       { path: "/editEvent/:eventId", element: <EditEventPage /> },
-      // { path: "/manageEventes", element: <ManageEventsPage /> },
       {
         path: "/manageEventes",
         element: (
           <FilenameProvider>
-            <ManageEventsPage componentCount={4} />
+            <ManageEventsPage />
           </FilenameProvider>
         ),
       },
@@ -58,7 +59,6 @@ const router = createBrowserRouter([
           </FilenameProvider>
         ),
       },
-      // { path: "/crossInformation", element: <TableViewMerge /> },
 
       { path: "/manageUsers", element: <ManageUsersPage /> },
     ],
@@ -66,11 +66,7 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
-  return (
-    // <FilenameProvider>
-    <RouterProvider router={router} />
-    // </FilenameProvider>
-  );
+  return <RouterProvider router={router} />;
 }
 
 export default App;

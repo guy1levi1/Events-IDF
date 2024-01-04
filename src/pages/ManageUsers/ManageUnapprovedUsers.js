@@ -255,7 +255,6 @@ export default function ManageUnapprovedUsers({
       headerAlign: "center",
 
       type: "string",
-      width: 80,
       editable: false,
       flex: 1,
     },
@@ -265,7 +264,6 @@ export default function ManageUnapprovedUsers({
       headerAlign: "center",
 
       type: "string",
-      width: 80,
       editable: false,
       flex: 1,
     },
@@ -275,7 +273,6 @@ export default function ManageUnapprovedUsers({
       headerAlign: "center",
 
       type: "string",
-      width: 80,
       editable: false,
       flex: 1,
     },
@@ -286,7 +283,6 @@ export default function ManageUnapprovedUsers({
       headerAlign: "center",
 
       type: "string",
-      width: 80,
       editable: false,
       flex: 1,
     },
@@ -334,9 +330,6 @@ export default function ManageUnapprovedUsers({
     >
       <Box
         sx={{
-          // height: "32rem",
-          // width: "27rem",
-
           width: "35vw",
           height: "70vh",
           maxHeight: "40rem",
@@ -376,7 +369,6 @@ export default function ManageUnapprovedUsers({
           sx={{
             direction: "rtl",
             "& .MuiDataGrid-virtualScroller": {
-              // overflow: "unset !important",
               mt: "0 !important",
             },
 

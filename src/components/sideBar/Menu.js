@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "./Menu.css";
 import profile_img from "../../images/logo_image_example.png";
 import { useNavigate } from "react-router";
-import { useLocation } from 'react-router-dom';
+import { useLocation } from "react-router-dom";
 
 const Menu = () => {
   const [open, setOpen] = useState(false);
@@ -14,10 +14,9 @@ const Menu = () => {
     setOpen(!open);
   };
 
-  
   React.useEffect(() => {
-    console.log('Current URL:', location.pathname);
-    setActiveLink(getRouteIndex(location.pathname))
+    console.log("Current URL:", location.pathname);
+    setActiveLink(getRouteIndex(location.pathname));
   }, [location]);
 
   const linksArray = [
@@ -42,7 +41,7 @@ const Menu = () => {
   };
 
   const navigateHandler = (url, index) => {
-    console.log("index: " + index)
+    console.log("index: " + index);
     setActiveLink(index);
     navigate(url);
   };
@@ -58,17 +57,7 @@ const Menu = () => {
             alignItems: "center",
           }}
         >
-          <img
-          className="profileImage"
-            src={profile_img}
-            alt="progile_logo"
-            style={{
-              // width: "4.5rem",
-              // maxWidth: "4.5rem",
-              // marginTop: "1.2rem",
-              // marginRight: "0.6rem",
-            }}
-          />
+          <img className="profileImage" src={profile_img} alt="progile_logo" />
           <div
             className="FullNameAndPukid"
             style={{
@@ -76,7 +65,7 @@ const Menu = () => {
               flexDirection: "column",
               marginTop: "2vh",
               marginRight: "0.5vw",
-              paddingBottom: "0.5vh"
+              paddingBottom: "0.5vh",
             }}
           >
             <h3 className="FullNameMenu" style={{ padding: 0, margin: 0 }}>
@@ -119,14 +108,8 @@ const Menu = () => {
             marginBottom: "0.5rem",
             color: "black",
             cursor: "pointer",
-            // fontSize: ["1rem", "1.5rem", "2rem", "2.5rem", "3rem"],
-
-
           }}
           href={`/login`}
-          // href={
-          //   "https://www.youtube.com/watch?v=dQw4w9WgXcQ&pp=ygUJcmljayByb2xs"
-          // }
         >
           התנתק/י
         </a>

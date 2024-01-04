@@ -178,7 +178,6 @@ export default function EditEventPage(props) {
                 borderRadius: "500px",
                 px: 1,
                 fontSize: `${initialFontSize}px`,
-                // fontSize: "16.2px",
               },
               "& .MuiFormHelperText-root": {
                 fontSize: `${initialFontSize - 5}px`,
@@ -391,7 +390,6 @@ export default function EditEventPage(props) {
               "& .MuiOutlinedInput-input": {
                 color: "white !important",
                 fontSize: `${initialFontSize}px`,
-                // paddingTop: "5px"
               },
               "& .MuiFormHelperText-root": {
                 color:
@@ -436,7 +434,7 @@ export default function EditEventPage(props) {
             }}
           >
             <Link
-              to={!formData.isValid ? "/createEvent" : "/manageEventes"} // of course we have to check if user exists and password is correct
+              to={!formData.isValid ? "/createEvent" : "/manageEventes"}
               style={{
                 color: "white",
                 textDecoration: "none",
@@ -475,11 +473,7 @@ export default function EditEventPage(props) {
                 style={{
                   width: `${vhAsPixels * 1.35 * 0.95}px`,
                   height: "100%",
-                  // position: "absolute",
-                  // left: "1.5rem",
-                  // bottom: "0.4rem",
                   cursor: "pointer",
-                  // marginLeft: "12px"
                 }}
               />
             </Link>

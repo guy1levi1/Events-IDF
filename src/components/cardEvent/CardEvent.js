@@ -5,11 +5,10 @@ import CompareIcon from "../../images/compareIcon.png";
 import DeleteIcon from "../../images/DeleteIcon.png";
 import EditTextsIcon from "../../images/EditTextsIcon.png";
 import TableModeIcon from "../../images/tableModeIcon.png";
-// import ExcelReader from "../../components/tableEditing/ExcelReader";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import CommandCell from "../commandCell/CommandCell";
-import { useFilename } from '../tableEditing/FilenameContext';
+import { useFilename } from "../tableEditing/FilenameContext";
 
 import "./CardEvent.css";
 
@@ -22,7 +21,6 @@ export default function CardEvent({
   eventCreator,
   commandsSelector,
 }) {
-
   const handleClickDeleteButton = () => {
     Swal.fire({
       title: "האם את/ה בטוח/ה שתרצה/י למחוק את האירוע  {שם האירוע}",
@@ -33,7 +31,7 @@ export default function CardEvent({
       cancelButtonColor: "#3085d6",
       confirmButtonText: "מחק אירוע",
       cancelButtonText: "בטל",
-      reverseButtons: true, // Set reverseButtons to true
+      reverseButtons: true,
     }).then((result) => {
       if (result.isConfirmed) {
         // delete the event from db and update in the fronted
@@ -58,8 +56,7 @@ export default function CardEvent({
     if (file) {
       console.log("File uploaded!");
       setFilename(file.name);
-      navigate("/crossInformation"  );
-
+      navigate("/crossInformation");
     }
   };
 
@@ -73,7 +70,6 @@ export default function CardEvent({
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        // margin: "auto",
         direction: "rtl",
       }}
     >

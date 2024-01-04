@@ -5,7 +5,7 @@ import generateUuid from "../../utils/GenereateUUID";
 import "./ManageUsersPage.css"
 
 export default function ManageUsersPage() {
-  const [approvedUser] = useState({}); // State to hold the JSON object
+  const [approvedUser] = useState({});
 
   const rowsState = useState([
     {

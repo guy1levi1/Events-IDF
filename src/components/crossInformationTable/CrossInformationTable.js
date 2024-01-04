@@ -162,10 +162,6 @@ export default function CrossInformationTable() {
   React.useEffect(() => {
     console.log("filename: " + filename);
 
-    // Do any additional processing with the filename if needed
-
-    // Make sure to handle cleanup if necessary, especially if this component unmounts
-
     return () => {
       // Cleanup code (if needed)
     };
@@ -278,7 +274,6 @@ export default function CrossInformationTable() {
       headerAlign: "center",
 
       type: "number",
-      // width: 50,
       editable: false,
       flex: 1,
     },
@@ -288,7 +283,6 @@ export default function CrossInformationTable() {
       headerAlign: "center",
 
       type: "string",
-      // width: 80,
       editable: false,
       flex: 1.4,
     },
@@ -298,7 +292,6 @@ export default function CrossInformationTable() {
       headerAlign: "center",
 
       type: "string",
-      // width: 100,
       editable: false,
       flex: 1.6,
     },
@@ -308,7 +301,6 @@ export default function CrossInformationTable() {
       headerAlign: "center",
 
       type: "string",
-      // width: 100,
       editable: false,
       flex: 1.6,
     },
@@ -318,7 +310,6 @@ export default function CrossInformationTable() {
       headerAlign: "center",
 
       type: "string",
-      // width: 80,
       editable: false,
       flex: 1.4,
     },
@@ -328,7 +319,6 @@ export default function CrossInformationTable() {
       headerAlign: "center",
 
       type: "string",
-      // width: 80,
       editable: false,
       flex: 1,
     },
@@ -338,7 +328,6 @@ export default function CrossInformationTable() {
       headerAlign: "center",
 
       type: "string",
-      // width: 80,
       editable: false,
       flex: 1,
     },
@@ -348,7 +337,6 @@ export default function CrossInformationTable() {
       headerAlign: "center",
 
       type: "string",
-      // width: 50,
       editable: false,
       flex: 1,
     },
@@ -358,7 +346,6 @@ export default function CrossInformationTable() {
       headerAlign: "center",
 
       type: "string",
-      // width: 80,
       editable: false,
       flex: 1.9,
     },
@@ -368,7 +355,6 @@ export default function CrossInformationTable() {
       headerAlign: "center",
 
       type: "string",
-      // width: 80,
       editable: false,
       flex: 1.4,
     },
@@ -378,7 +364,6 @@ export default function CrossInformationTable() {
       headerAlign: "center",
 
       type: "string",
-      // width: 130,
       editable: false,
       flex: 2,
     },
@@ -386,16 +371,12 @@ export default function CrossInformationTable() {
       field: "11",
       headerName: "אישור רמח",
       headerAlign: "center",
-      // width: 150,
       editable: false,
       flex: 2.5,
 
       // should be taken from db instead of hard coded
       renderCell: (params) => (
         <div style={getStatusCellStyle(params.value)}>
-          {/* {params.value === "מאושר" && "מאושר"}
-          {params.value === "נדחה" && "נדחה"}
-          {params.value === "ממתין להחלטת רמח" && "ממתין להחלטת רמח"} */}
           {params.value}
         </div>
       ),
@@ -404,7 +385,6 @@ export default function CrossInformationTable() {
       field: "12",
       headerName: "נוכחות באירוע",
       headerAlign: "center",
-      // width: 100,
       editable: false,
       flex: 1.8,
 
@@ -416,7 +396,6 @@ export default function CrossInformationTable() {
       field: "13",
       headerName: "עמידה בפקודה",
       headerAlign: "center",
-      // width: 100,
       editable: false,
       flex: 2,
 

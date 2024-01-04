@@ -20,30 +20,10 @@ export default function RootLayout({ children }) {
             to="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
             style={{ color: "white", textDecoration: "none" }}
           >
-            <img
-              className="logiCorpLogo"
-              src={logiCorpLogo}
-              alt=""
-              style={
-                {
-                  // width: "4rem",
-                  // height: "4rem",
-                }
-              }
-            />
+            <img className="logiCorpLogo" src={logiCorpLogo} alt="" />
           </Link>
           <Link to="/about" style={{ color: "white", textDecoration: "none" }}>
-            <img
-              className="mekalarLogo"
-              src={mekalarLogo}
-              alt=""
-              style={
-                {
-                  // width: "4rem",
-                  // height: "4rem",
-                }
-              }
-            />
+            <img className="mekalarLogo" src={mekalarLogo} alt="" />
           </Link>
         </div>
 

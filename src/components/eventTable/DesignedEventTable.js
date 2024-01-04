@@ -290,7 +290,6 @@ export default function DesignedEventTable() {
       headerAlign: "center",
 
       type: "number",
-      // width: 50,
       editable: false,
       flex: 1,
     },
@@ -300,7 +299,6 @@ export default function DesignedEventTable() {
       headerAlign: "center",
 
       type: "string",
-      // width: 80,
       editable: true,
       flex: 1.4,
     },
@@ -310,7 +308,6 @@ export default function DesignedEventTable() {
       headerAlign: "center",
 
       type: "string",
-      // width: 100,
       editable: true,
       flex: 1.6,
     },
@@ -320,7 +317,6 @@ export default function DesignedEventTable() {
       headerAlign: "center",
 
       type: "string",
-      // width: 100,
       editable: true,
       flex: 1.6,
     },
@@ -330,7 +326,6 @@ export default function DesignedEventTable() {
       headerAlign: "center",
 
       type: "string",
-      // width: 80,
       editable: true,
       flex: 1.4,
     },
@@ -340,7 +335,6 @@ export default function DesignedEventTable() {
       headerAlign: "center",
 
       type: "string",
-      // width: 80,
       editable: true,
       flex: 1,
     },
@@ -350,7 +344,6 @@ export default function DesignedEventTable() {
       headerAlign: "center",
 
       type: "string",
-      // width: 80,
       editable: true,
       flex: 1,
     },
@@ -360,7 +353,6 @@ export default function DesignedEventTable() {
       headerAlign: "center",
 
       type: "string",
-      // width: 50,
       editable: true,
       flex: 1,
     },
@@ -370,7 +362,6 @@ export default function DesignedEventTable() {
       headerAlign: "center",
 
       type: "string",
-      // width: 80,
       editable: true,
       flex: 1.2,
     },
@@ -496,12 +487,9 @@ export default function DesignedEventTable() {
 
       <Box
         sx={{
-          // height: "32rem",
-          // width: "72rem",
           width: "75vw",
           height: "73vh",
           maxHeight: "80rem",
-          // maxWidth: "80rem",
           direction: "ltr",
           background: "white",
           alignItems: "center",

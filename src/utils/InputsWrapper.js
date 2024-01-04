@@ -15,7 +15,11 @@ const cacheRtl = createCache({
 
 export default function InputsWrapper(props) {
   return (
-    <div dir="rtl" style={{width: "inherit", height: "92%"}} className={props.className}>
+    <div
+      dir="rtl"
+      style={{ width: "inherit", height: "92%" }}
+      className={props.className}
+    >
       <CacheProvider value={cacheRtl}>
         <ThemeProvider theme={theme}>
           {/* <CssBaseline /> */}

@@ -104,7 +104,7 @@ export default function CreateEventPage() {
   const { formData, handleInput, handleBlur } = useForm(formStates, false);
   const [dateError, setDateError] = useState(false);
   const [vhAsPixels, setVhAsPixels] = useState(0);
-  const [initialFontSize, setInitialFontSize] = useState(0); // Add initialFontSize state
+  const [initialFontSize, setInitialFontSize] = useState(0);
 
   const handleSumbitNewEvent = () => {
     localStorage.removeItem("newEventName");
@@ -154,8 +154,6 @@ export default function CreateEventPage() {
     if (file) {
       console.log("File uploaded!");
       navigate("/table");
-
-      // You can do additional processing with the file if needed
     }
   };
 
@@ -219,7 +217,6 @@ export default function CreateEventPage() {
                 borderRadius: "500px",
                 px: 1,
                 fontSize: `${initialFontSize}px`,
-                // fontSize: "16.2px",
               },
               "& .MuiFormHelperText-root": {
                 fontSize: `${initialFontSize - 5}px`,
@@ -433,7 +430,6 @@ export default function CreateEventPage() {
               "& .MuiOutlinedInput-input": {
                 color: "white !important",
                 fontSize: `${initialFontSize}px`,
-                // paddingTop: "5px"
               },
               "& .MuiFormHelperText-root": {
                 color:
@@ -478,7 +474,7 @@ export default function CreateEventPage() {
             }}
           >
             <Link
-              to={!formData.isValid ? "/createEvent" : "/manageEventes"} // of course we have to check if user exists and password is correct
+              to={!formData.isValid ? "/createEvent" : "/manageEventes"}
               style={{
                 color: "white",
                 textDecoration: "none",
@@ -501,13 +497,7 @@ export default function CreateEventPage() {
               </Button>
             </Link>
           </Box>
-          {/* <Link
-            to={!formData.isValid ? "/createEvent" : "/manageEventes"}
-            style={{
-              color: "white",
-              textDecoration: "none",
-            }}
-          ></Link> */}
+
           <Box
             sx={{
               width: "10%",
@@ -523,7 +513,7 @@ export default function CreateEventPage() {
                 onChange={handleFileUpload}
                 ref={fileInputRef}
                 style={{ display: "none" }}
-                id="fileInput" // Assign an id for association with label
+                id="fileInput"
                 onClick={handleButtonClick}
               />
               <label htmlFor="fileInput">
@@ -533,11 +523,7 @@ export default function CreateEventPage() {
                   style={{
                     width: `${vhAsPixels * 1.35 * 0.95}px`,
                     height: "100%",
-                    // position: "absolute",
-                    // left: "1.5rem",
-                    // bottom: "0.4rem",
                     cursor: "pointer",
-                    // marginLeft: "12px"
                   }}
                 />
               </label>

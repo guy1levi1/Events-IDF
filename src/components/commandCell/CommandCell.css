@@ -1,8 +1,8 @@
 .square {
-  width: 4.75rem; /* Adjust the size as needed */
+  width: 4.75rem;
   height: 2vh;
-  background-color: #668bc2; /* Change the background color */
-  border-radius: 10px; /* Adjust the border-radius for rounded corners */
+  background-color: #668bc2;
+  border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -11,10 +11,9 @@
 }
 
 .text {
-  color: #fff; /* Change the text color */
-  /* font-size: clamp(0.35rem, 0.35rem + 0.45vw, 2rem); */
+  color: #fff;
   font-size: 0.8rem;
   font-weight: bold;
   text-align: center;
-  margin-bottom: 0.3vh; /* Adjust the line-height for vertical alignment */
+  margin-bottom: 0.3vh;
 }

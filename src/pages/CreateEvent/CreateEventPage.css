@@ -3,10 +3,8 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  /* height: 100vh;
-  width: 82.2vw; */
+
   margin: auto;
-  /* padding: 10px; */
 }
 
 .CreateEventPage h1 {
@@ -26,7 +24,6 @@
   align-items: center;
   width: 60vw;
   height: auto;
-  /* height: 80vh; */
 }
 
 .textsFieldscreateEvent {
@@ -46,11 +43,8 @@
   align-items: center;
   width: 90%;
   padding-bottom: 15px;
-  /* position: absolute; */
-  /* bottom: 0; */
 }
 
 .buttonCreateEvent {
   font-size: 5rem;
-  /* font-size: clamp(0.5rem, 0.5rem + 1vw, 3rem); */
 }

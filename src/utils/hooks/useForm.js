@@ -34,7 +34,9 @@ export default function useForm(initialInputs, isValid) {
       case "eventLocation":
         return VALIDATOR_MAXLENGTH(value, 50) && VALIDATOR_MINLENGTH(value, 1);
       case "description":
-        return VALIDATOR_MAXLENGTH(value, 1000) && VALIDATOR_MINLENGTH(value, 1);
+        return (
+          VALIDATOR_MAXLENGTH(value, 1000) && VALIDATOR_MINLENGTH(value, 1)
+        );
       default:
         return true;
     }
@@ -104,10 +106,10 @@ export default function useForm(initialInputs, isValid) {
           value: value,
           isValid: isValidAfterChange,
           error: false,
-        }
-      }
-    }))
-  }
+        },
+      },
+    }));
+  };
 
   return { formData, handleInput, handleBlur, handelUpdateData };
 }

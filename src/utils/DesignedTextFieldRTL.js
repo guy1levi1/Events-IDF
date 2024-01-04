@@ -39,15 +39,15 @@ export default function DesignedTextFieldRTL({
     <div dir="rtl">
       <CacheProvider value={cacheRtl}>
         <ThemeProvider theme={theme}>
-          <CssBaseline /> 
+          <CssBaseline />
           <TextField
-            error={error} 
+            error={error}
             size="small"
             onChange={onChange}
             onBlur={onBlur}
             required
             sx={{
-              width: {width},
+              width: { width },
               mb: "0.3rem",
 
               "& .MuiInputBase-root": {

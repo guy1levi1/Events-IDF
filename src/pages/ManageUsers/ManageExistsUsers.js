@@ -213,17 +213,14 @@ export default function ManageExistsUsers({ newApprovedUser, rowsState }) {
 
   const clamp = (min, value, max) => {
     return `clamp(${min}, ${value}, ${max})`;
-  }
-
+  };
 
   const columns = [
     {
       field: "privateNumber",
       headerName: "מספר אישי",
       headerAlign: "center",
-       
       type: "string",
-      // width: 80,
       editable: true,
       flex: 1,
     },
@@ -231,9 +228,7 @@ export default function ManageExistsUsers({ newApprovedUser, rowsState }) {
       field: "lastName",
       headerName: "שם משפחה",
       headerAlign: "center",
-       
       type: "string",
-      // width: 80,
       editable: true,
       flex: 1,
     },
@@ -241,9 +236,7 @@ export default function ManageExistsUsers({ newApprovedUser, rowsState }) {
       field: "firstName",
       headerName: "שם פרטי",
       headerAlign: "center",
-       
       type: "string",
-      // width: 80,
       editable: true,
       flex: 1,
     },
@@ -252,9 +245,7 @@ export default function ManageExistsUsers({ newApprovedUser, rowsState }) {
       field: "command",
       headerName: "פיקוד",
       headerAlign: "center",
-       
       type: "string",
-      // width: 80,
       editable: true,
       flex: 1,
     },
@@ -263,9 +254,7 @@ export default function ManageExistsUsers({ newApprovedUser, rowsState }) {
       type: "actions",
       headerName: "פעולות",
       headerAlign: "center",
-      // width: 100,
       flex: 1,
-
       cellClassName: "actions",
       getActions: ({ id }) => {
         const isInEditMode = rowModesModel[id]?.mode === GridRowModes.Edit;
@@ -323,8 +312,6 @@ export default function ManageExistsUsers({ newApprovedUser, rowsState }) {
     >
       <Box
         sx={{
-          // height: "32rem",
-          // width: "27rem",
           width: "35vw",
           height: "70vh",
           maxHeight: "40rem",
@@ -348,7 +335,7 @@ export default function ManageExistsUsers({ newApprovedUser, rowsState }) {
           },
 
           "& .MuiDataGrid-cellContent": {
-            fontSize: `${clamp("0.3rem", "calc(0.3rem + 0.75vw)", "1.5rem")}`
+            fontSize: `${clamp("0.3rem", "calc(0.3rem + 0.75vw)", "1.5rem")}`,
           },
         }}
       >
@@ -365,7 +352,6 @@ export default function ManageExistsUsers({ newApprovedUser, rowsState }) {
             direction: "rtl",
 
             "& .MuiDataGrid-virtualScroller": {
-              // overflow: "unset !important",
               mt: "0 !important",
             },
 

@@ -12,7 +12,7 @@ import { heIL } from "@mui/x-data-grid";
 import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import ExcelReader from "../tableEditing/ExcelReader";
-import { random, randomId } from "@mui/x-data-grid-generator";
+import { randomId } from "@mui/x-data-grid-generator";
 import Button from "@mui/material/Button";
 import AddIcon from "@mui/icons-material/Add";
 import EditIcon from "@mui/icons-material/Edit";
@@ -216,7 +216,7 @@ export default function DesignedEventTable() {
         return { ...row, id: generateGuid() };
       })
     );
-  }, [setRows, generateGuid, data]);
+  }, [setRows, data]);
 
   React.useEffect(() => {
     console.log("filename: " + filename);

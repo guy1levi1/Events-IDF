@@ -228,7 +228,7 @@ export default function CreateEventPage() {
         const transformedData = mapKeys(newRows, headers, eventId);
         console.log(transformedData);
 
-        navigate("/table/${eventId}", {
+        navigate(`/table/${eventId}`, {
           state: { transformedData: transformedData },
         });
 

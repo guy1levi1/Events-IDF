@@ -221,11 +221,10 @@ export default function EditEventPage(props) {
         const transformedData = mapKeys(newRows, headers, eventId);
         console.log(transformedData);
 
-        navigate("/table/${eventId}", {
+        navigate(`/table/${eventId}`, {
           state: { transformedData: transformedData },
         });
 
-        // onRowsChange(newRows);
       };
 
       reader.readAsBinaryString(file);

@@ -189,6 +189,8 @@ function CustomNoRowsOverlay() {
 export default function CustomToolbarGrid() {
   const [rows, setRows] = React.useState([]);
   const [rowModesModel, setRowModesModel] = React.useState({});
+  const eventId = 1;
+
 
   React.useEffect(() => {
     console.log(rows);
@@ -507,6 +509,8 @@ export default function CustomToolbarGrid() {
           <ExcelReader
             onRowsChange={handleRowsChange}
             isCrossInformationTable={false}
+            filename={filename}
+            eventId={eventId}
           />
         </Box>
       </div>

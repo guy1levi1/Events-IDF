@@ -1,12 +1,45 @@
 import React, { useRef, useState } from "react";
 import * as XLSX from "xlsx";
 import "./ExcelReader.css";
+import generateGuid from "../../utils/GenereateUUID";
 
-const ExcelReader = ({ onRowsChange, isCrossInformationTable, filename }) => {
+const headers = [
+  "sertialNumber",
+  "privateNumber",
+  "firstName",
+  "lastName",
+  "command",
+  "division",
+  "unit",
+  "rank",
+  "appointmentRank",
+  "appointmentLetter",
+  "reasonNonArrival",
+];
+
+const ExcelReader = ({
+  onRowsChange,
+  isCrossInformationTable,
+  filename,
+  eventId,
+}) => {
   const fileInputRef = useRef(null);
   const [errorMessage, setErrorMessage] = useState("");
-  const [uploadFileInfo, setUploadFileInfo] = useState(filename != null ? `הועלה ${filename} קובץ` : "");
+  const [uploadFileInfo, setUploadFileInfo] = useState(
+    filename != null ? `הועלה ${filename} קובץ` : ""
+  );
   let serialNumberCounter = 1;
+
+  const mapKeys = (data, headers, eventId) => {
+    return data.map((item) => {
+      const newItem = { eventId: eventId };
+      headers.forEach((key, index) => {
+        newItem[key] = item[index];
+      });
+      newItem.status = "pending";
+      return newItem;
+    });
+  };
 
   const handleFileUpload = (e) => {
     const file = e.target.files[0];
@@ -46,8 +79,17 @@ const ExcelReader = ({ onRowsChange, isCrossInformationTable, filename }) => {
             };
             return newRow;
           });
+        console.log("new rows from excel reader: ");
+        const transformedData = mapKeys(newRows, headers, eventId);
+        console.log(transformedData);
 
-        onRowsChange(newRows);
+        console.log(newRows);
+
+        onRowsChange(
+          transformedData.map((row) => {
+            return { ...row, id: generateGuid() };
+          })
+        );
       };
 
       reader.readAsBinaryString(file);
@@ -76,7 +118,7 @@ const ExcelReader = ({ onRowsChange, isCrossInformationTable, filename }) => {
       <button
         onClick={handleButtonClick}
         className="rounded-button"
-        style={{marginRight: "0.5rem",}}
+        style={{ marginRight: "0.5rem" }}
       >
         {isCrossInformationTable ? "להעלאת טופס נוכחות חדש" : "להעלאת קובץ חדש"}
       </button>

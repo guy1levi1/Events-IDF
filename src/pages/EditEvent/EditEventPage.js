@@ -1,5 +1,5 @@
 import { Box, MenuItem, TextField } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import Button from "@mui/material/Button";
 import "./EditEventPage.css";
 import useForm from "../../utils/hooks/useForm";
@@ -9,8 +9,10 @@ import InputsWrapper from "../../utils/InputsWrapper";
 import TableModeIcon from "../../images/tableModeIcon.png";
 import { DateTimePicker, renderTimeViewClock } from "@mui/x-date-pickers";
 // import dayjs from "dayjs";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import dayjs from "dayjs";
+import { useFilename } from "../../components/tableEditing/FilenameContext";
+import * as XLSX from "xlsx";
 
 const commands = [
   {
@@ -42,75 +44,73 @@ const currentDate = dayjs();
 const eventLocation = 'תל השומר מקל"ר';
 const description = `נערוך לאורצ'וק פריסת שחרור, באירוע נחגוג את היציאה לאזרחות של
 אור(אפילו שהוא תוך שנייה חוזר למילואים), מוזמנים! 😀`;
-const eventCreator = "גיא לוי";
+// const eventCreator = "גיא לוי";
 
-const commandsSelector = ["פקער", "מרכז", "פקער", "מרכז", "צפון"];
-
-const formStates = {
-  eventName: {
-    value: eventName,
-    isValid: true,
-    error: false,
-  },
-  eventDate: {
-    value: currentDate,
-    isValid: true,
-    error: false,
-  },
-  eventLocation: {
-    value: eventLocation,
-    isValid: true,
-    error: false,
-  },
-  commandsSelector: {
-    value: "מרכז",
-    isValid: true,
-    error: false,
-  },
-  description: {
-    value: description,
-    isValid: true,
-    error: false,
-  },
-};
+// const commandsSelector = ["פקער", "מרכז", "פקער", "מרכז", "צפון"];
 
 const CHARACTER_LIMIT = 1000;
 
 export default function EditEventPage(props) {
-  // const { state } = props.location || {}; // Handle the case where props.location is undefined
-  // const {
-  //   eventId,
-  //   eventName,
-  //   eventDate,
-  //   eventPlaceeventLocation,
-  //   description,
-  //   eventCreator,
-  //   commandsSelector,
-  // } = state || {};
+  const formStates = {
+    eventName: {
+      value: eventName,
+      isValid: true,
+      error: false,
+    },
+    eventDate: {
+      value: currentDate,
+      isValid: true,
+      error: false,
+    },
+    eventLocation: {
+      value: eventLocation,
+      isValid: true,
+      error: false,
+    },
+    commandsSelector: {
+      value: "מרכז",
+      isValid: true,
+      error: false,
+    },
+    description: {
+      value: description,
+      isValid: true,
+      error: false,
+    },
+  };
 
   const { eventId } = useParams();
   console.log(currentDate);
 
+  const headers = [
+    "sertialNumber",
+    "privateNumber",
+    "firstName",
+    "lastName",
+    "command",
+    "division",
+    "unit",
+    "rank",
+    "appointmentRank",
+    "appointmentLetter",
+    "reasonNonArrival",
+  ];
+
+  const mapKeys = (data, headers, eventId) => {
+    return data.map((item) => {
+      const newItem = { eventId: eventId };
+      headers.forEach((key, index) => {
+        newItem[key] = item[index];
+      });
+      newItem.status = "pending";
+      return newItem;
+    });
+  };
+
   const { formData, handleInput, handleBlur } = useForm(formStates, true);
-  const [dateError, setDateError] = useState(false);
+  const [dateError] = useState(false);
   const [vhAsPixels, setVhAsPixels] = useState(0);
   const [initialFontSize, setInitialFontSize] = useState(0); // Add initialFontSize state
-
-  // useEffect(() => {
-  //   const inputsArray = Object.keys(formData.initialInputs).slice(1);
-
-  //   // console.log(state.[inputId]);
-  //   inputsArray.forEach((inputId) => {
-  //     // Access the corresponding value from the state with optional chaining
-  //     const value = eventData[inputId];
-
-  //     // Check if value is defined before calling handelUpdateData
-  //     if (value !== undefined) {
-  //       // Call handelUpdateData with value and inputId
-  //       handelUpdateData(value, inputId);
-  //     }
-  //   });
-  // });
 
   const handleInputChange = (e) => {
     handleInput(e);
@@ -118,6 +118,10 @@ export default function EditEventPage(props) {
 
   const handleBlurChange = (e) => {
     handleBlur(e.target.id);
+  };
+
+  const clamp = (min, value, max) => {
+    return `clamp(${min}, ${value}, ${max})`;
   };
 
   useEffect(() => {
@@ -142,6 +146,91 @@ export default function EditEventPage(props) {
       };
     }
   }, []);
+
+  const { filename, setFilename } = useFilename();
+
+  const fileInputRef = useRef(null);
+  const navigate = useNavigate();
+
+
+  const handleButtonClick = () => {
+    localStorage.setItem(
+      "editEventName",
+      formData.initialInputs.eventName.value
+    );
+    localStorage.setItem(
+      "editEventDate",
+      formData.initialInputs.eventDate.value
+    );
+    localStorage.setItem(
+      "editEventLocation",
+      formData.initialInputs.eventLocation.value
+    );
+    localStorage.setItem(
+      "editEventCommands",
+      formData.initialInputs.commandsSelector.value
+    );
+    localStorage.setItem(
+      "editEventDescription",
+      formData.initialInputs.description.value
+    );
+
+    fileInputRef.current.click();
+  };
+
+
+  const handleFileUpload = (e) => {
+    const file = e.target.files[0];
+    setFilename(file.name);
+
+    if (file) {
+      const reader = new FileReader();
+
+      if (
+        file.type === "application/vnd.ms-excel" ||
+        file.type ===
+          "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+      ) {
+        console.log(`הועלה ${file.name} קובץ`);
+        console.log(`File selected: ${file.name}, size: ${file.size} bytes`);
+      } else {
+        console.error("Invalid file type");
+        throw new Error(
+          "Invalid file type. Please upload a valid Excel file (xlsx or xls)."
+        );
+      }
+
+      reader.onload = (e) => {
+        const data = e.target.result;
+        const workbook = XLSX.read(data, { type: "binary" });
+        const sheetName = workbook.SheetNames[0];
+        const sheet = workbook.Sheets[sheetName];
+
+        const newRows = XLSX.utils
+          .sheet_to_json(sheet, { header: 1 })
+          .slice(1)
+          .map((row) => {
+            const newRow = {
+              eventId: "EVENTID",
+              ...row,
+              status: "pending",
+            };
+            return newRow;
+          });
+        console.log("new rows from excel reader: ");
+        const transformedData = mapKeys(newRows, headers, eventId);
+        console.log(transformedData);
+
+        navigate("/table/${eventId}", {
+          state: { transformedData: transformedData },
+        });
+
+        // onRowsChange(newRows);
+      };
+
+      reader.readAsBinaryString(file);
+    }
+  };
 
   return (
     <div className="CreateEventPage">
@@ -466,17 +555,53 @@ export default function EditEventPage(props) {
               justifyContent: "center",
             }}
           >
-            <Link to={`/table/${eventId}`}>
-              <img
-                src={TableModeIcon}
-                alt=""
-                style={{
-                  width: `${vhAsPixels * 1.35 * 0.95}px`,
-                  height: "100%",
-                  cursor: "pointer",
-                }}
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                textAlign: "center",
+                justifyContent: "center",
+                alignItems: "center",
+                direction: "ltr",
+              }}
+            >
+              <input
+                type="file"
+                onChange={handleFileUpload}
+                ref={fileInputRef}
+                style={{ display: "none" }}
+                id="fileInput"
               />
-            </Link>
+              <label htmlFor="fileInput">
+                <img
+                  src={TableModeIcon}
+                  alt=""
+                  style={{
+                    width: `${vhAsPixels * 1.35 * 0.95}px`,
+                    height: "100%",
+                    cursor: "pointer",
+                  }}
+                />
+              </label>
+
+              <button onClick={handleButtonClick} style={{ display: "none" }}>
+                Upload File
+              </button>
+              <div style={{ marginTop: "-0.6rem" }}>
+                <p
+                  style={{
+                    fontSize: `${clamp(
+                      "0.25rem",
+                      "calc(0.25rem + 0.5vw)",
+                      "1.2rem"
+                    )}`,
+                    margin: 0,
+                  }}
+                >
+                  {filename}
+                </p>
+              </div>
+            </div>
           </Box>
         </Box>
       </Box>

@@ -15,7 +15,7 @@ import ExcelReader from "../tableEditing/ExcelReader";
 import { GridRowEditStopReasons } from "@mui/x-data-grid";
 import "./CrossInformationTable.css";
 import { Link } from "react-router-dom";
-import { useFilename } from '../tableEditing/FilenameContext';
+import { useFilename } from "../tableEditing/FilenameContext";
 
 function CustomToolbar(props) {
   return (
@@ -168,6 +168,7 @@ export default function CrossInformationTable() {
   }, [filename]);
   const [rows, setRows] = React.useState([]);
   const [rowModesModel, setRowModesModel] = React.useState({});
+  const eventId = 1;
 
   React.useEffect(() => {
     console.log(rows);
@@ -376,9 +377,7 @@ export default function CrossInformationTable() {
 
       // should be taken from db instead of hard coded
       renderCell: (params) => (
-        <div style={getStatusCellStyle(params.value)}>
-          {params.value}
-        </div>
+        <div style={getStatusCellStyle(params.value)}>{params.value}</div>
       ),
     },
     {
@@ -407,7 +406,6 @@ export default function CrossInformationTable() {
   ];
 
   return (
-    
     <div
       className="app"
       style={{
@@ -524,6 +522,7 @@ export default function CrossInformationTable() {
               onRowsChange={handleRowsChange}
               isCrossInformationTable={true}
               filename={filename}
+              eventId={eventId}
             />
           </div>
           <div

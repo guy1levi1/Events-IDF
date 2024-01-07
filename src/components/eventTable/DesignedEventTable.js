@@ -12,7 +12,7 @@ import { heIL } from "@mui/x-data-grid";
 import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import ExcelReader from "../tableEditing/ExcelReader";
-import { randomId } from "@mui/x-data-grid-generator";
+import { random, randomId } from "@mui/x-data-grid-generator";
 import Button from "@mui/material/Button";
 import AddIcon from "@mui/icons-material/Add";
 import EditIcon from "@mui/icons-material/Edit";
@@ -25,7 +25,9 @@ import {
   GridRowEditStopReasons,
 } from "@mui/x-data-grid";
 import "./DesignedEventTable.css";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useFilename } from "../tableEditing/FilenameContext";
+import generateGuid from "../../utils/GenereateUUID";
 
 function CustomToolbar(props) {
   const { setRows, setRowModesModel } = props;
@@ -36,17 +38,6 @@ function CustomToolbar(props) {
       ...oldRows,
       {
         id,
-        0: "",
-        1: "",
-        2: "",
-        3: "",
-        4: "",
-        5: "",
-        6: "",
-        7: "",
-        8: "",
-        9: "",
-        10: "",
         status: "pending",
       },
     ]);
@@ -213,9 +204,31 @@ function CustomNoRowsOverlay() {
 
 export default function DesignedEventTable() {
   const [rows, setRows] = React.useState([]);
+  const { filename } = useFilename();
+  const location = useLocation();
+  // const [rowsFromFile, setRowsFromFile] = React.useState([]);
+  const data = location.state.transformedData;
+  const eventId = 1;
+
+  React.useEffect(() => {
+    setRows(
+      data.map((row) => {
+        return { ...row, id: generateGuid() };
+      })
+    );
+  }, [setRows, generateGuid, data]);
+
+  React.useEffect(() => {
+    console.log("filename: " + filename);
+
+    return () => {
+      // Cleanup code (if needed)
+    };
+  }, [filename]);
+
   const [rowModesModel, setRowModesModel] = React.useState({});
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   React.useEffect(() => {
     console.log(rows);
@@ -269,11 +282,8 @@ export default function DesignedEventTable() {
     console.log("save/upadte table clicked");
   };
 
-  
-
   const handleCancelButtonClick = () => {
-    
-    navigate(-1)
+    navigate(-1);
     console.log("cancel table clicked");
   };
 
@@ -285,101 +295,90 @@ export default function DesignedEventTable() {
 
   const columns = [
     {
-      field: "0",
+      field: "sertialNumber",
       headerName: `מס"ד`,
       headerAlign: "center",
-
       type: "number",
       editable: false,
       flex: 1,
     },
     {
-      field: "1",
+      field: "privateNumber",
       headerName: "מספר אישי",
       headerAlign: "center",
-
       type: "string",
       editable: true,
       flex: 1.4,
     },
     {
-      field: "2",
+      field: "firstName",
       headerName: "שם פרטי",
       headerAlign: "center",
-
       type: "string",
       editable: true,
       flex: 1.6,
     },
     {
-      field: "3",
+      field: "lastName",
       headerName: "שם משפחה",
       headerAlign: "center",
-
       type: "string",
       editable: true,
       flex: 1.6,
     },
     {
-      field: "4",
+      field: "command",
       headerName: "פיקוד",
       headerAlign: "center",
-
       type: "string",
       editable: true,
       flex: 1.4,
     },
     {
-      field: "5",
+      field: "division",
       headerName: "אוגדה",
       headerAlign: "center",
-
       type: "string",
       editable: true,
       flex: 1,
     },
     {
-      field: "6",
+      field: "unit",
       headerName: "יחידה",
       headerAlign: "center",
-
       type: "string",
       editable: true,
       flex: 1,
     },
     {
-      field: "7",
+      field: "rank",
       headerName: "דרגה",
       headerAlign: "center",
-
       type: "string",
       editable: true,
       flex: 1,
     },
     {
-      field: "8",
+      field: "appointmentLetter",
       headerName: "דרגת מינוי",
       headerAlign: "center",
-
       type: "string",
       editable: true,
       flex: 1.2,
     },
     {
-      field: "9",
+      field: "appointmentRank",
       headerName: "מלל מינוי",
       headerAlign: "center",
-
       type: "string",
       width: 80,
       editable: true,
       flex: 1.4,
     },
     {
-      field: "10",
+      field: "reasonNonArrival",
       headerName: "סיבת אי הגעה",
       headerAlign: "center",
-
       type: "string",
       width: 250,
       editable: true,
@@ -579,6 +578,8 @@ export default function DesignedEventTable() {
             <ExcelReader
               onRowsChange={handleRowsChange}
               isCrossInformationTable={false}
+              filename={filename}
+              eventId={eventId}
             />
           </div>
           <div

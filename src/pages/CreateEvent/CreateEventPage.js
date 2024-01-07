@@ -10,6 +10,8 @@ import TableModeIcon from "../../images/tableModeIcon.png";
 import { DateTimePicker, renderTimeViewClock } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
 import { Link, useNavigate } from "react-router-dom";
+import { useFilename } from "../../components/tableEditing/FilenameContext";
+import * as XLSX from "xlsx";
 
 const commands = [
   {
@@ -105,6 +107,32 @@ export default function CreateEventPage() {
   const [dateError, setDateError] = useState(false);
   const [vhAsPixels, setVhAsPixels] = useState(0);
   const [initialFontSize, setInitialFontSize] = useState(0);
+  const eventId = 1;
+
+  const headers = [
+    "sertialNumber",
+    "privateNumber",
+    "firstName",
+    "lastName",
+    "command",
+    "division",
+    "unit",
+    "rank",
+    "appointmentRank",
+    "appointmentLetter",
+    "reasonNonArrival",
+  ];
+
+  const mapKeys = (data, headers, eventId) => {
+    return data.map((item) => {
+      const newItem = { eventId: eventId };
+      headers.forEach((key, index) => {
+        newItem[key] = item[index];
+      });
+      newItem.status = "pending";
+      return newItem;
+    });
+  };
 
   const handleSumbitNewEvent = () => {
     localStorage.removeItem("newEventName");
@@ -120,6 +148,10 @@ export default function CreateEventPage() {
 
   const handleBlurChange = (e) => {
     handleBlur(e.target.id);
+  };
+
+  const clamp = (min, value, max) => {
+    return `clamp(${min}, ${value}, ${max})`;
   };
 
   useEffect(() => {
@@ -145,41 +177,66 @@ export default function CreateEventPage() {
     }
   }, []);
 
+  const { filename, setFilename } = useFilename();
+
   const fileInputRef = useRef(null);
   const navigate = useNavigate();
 
-  const handleFileUpload = (e) => {
-    const file = e.target.files[0];
-
-    if (file) {
-      console.log("File uploaded!");
-      navigate("/table");
-    }
+  const handleButtonClick = () => {
+    fileInputRef.current.click();
   };
 
-  const handleButtonClick = () => {
-    localStorage.setItem(
-      "newEventName",
-      formData.initialInputs.eventName.value
-    );
-    localStorage.setItem(
-      "newEventDate",
-      formData.initialInputs.eventDate.value
-    );
-    localStorage.setItem(
-      "newEventLocation",
-      formData.initialInputs.eventLocation.value
-    );
-    localStorage.setItem(
-      "newEventCommands",
-      formData.initialInputs.commandsSelector.value
-    );
-    localStorage.setItem(
-      "newEventDescription",
-      formData.initialInputs.description.value
-    );
+  const handleFileUpload = (e) => {
+    const file = e.target.files[0];
+    setFilename(file.name);
 
-    fileInputRef.current.click();
+    if (file) {
+      const reader = new FileReader();
+
+      if (
+        file.type === "application/vnd.ms-excel" ||
+        file.type ===
+          "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+      ) {
+        console.log(`הועלה ${file.name} קובץ`);
+        console.log(`File selected: ${file.name}, size: ${file.size} bytes`);
+      } else {
+        console.error("Invalid file type");
+        throw new Error(
+          "Invalid file type. Please upload a valid Excel file (xlsx or xls)."
+        );
+      }
+
+      reader.onload = (e) => {
+        const data = e.target.result;
+        const workbook = XLSX.read(data, { type: "binary" });
+        const sheetName = workbook.SheetNames[0];
+        const sheet = workbook.Sheets[sheetName];
+
+        const newRows = XLSX.utils
+          .sheet_to_json(sheet, { header: 1 })
+          .slice(1)
+          .map((row) => {
+            const newRow = {
+              eventId: "EVENTID",
+              ...row,
+              status: "pending",
+            };
+            return newRow;
+          });
+        console.log("new rows from excel reader: ");
+        const transformedData = mapKeys(newRows, headers, eventId);
+        console.log(transformedData);
+
+        navigate("/table/${eventId}", {
+          state: { transformedData: transformedData },
+        });
+
+        // onRowsChange(newRows);
+      };
+
+      reader.readAsBinaryString(file);
+    }
   };
 
   return (
@@ -506,14 +563,22 @@ export default function CreateEventPage() {
               justifyContent: "center",
             }}
           >
-            <div>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                textAlign: "center",
+                justifyContent: "center",
+                alignItems: "center",
+                direction: "ltr",
+              }}
+            >
               <input
                 type="file"
                 onChange={handleFileUpload}
                 ref={fileInputRef}
                 style={{ display: "none" }}
                 id="fileInput"
-                onClick={handleButtonClick}
               />
               <label htmlFor="fileInput">
                 <img
@@ -526,7 +591,25 @@ export default function CreateEventPage() {
                   }}
                 />
               </label>
-              <button style={{ display: "none" }}>Upload File</button>
+
+              <button onClick={handleButtonClick} style={{ display: "none" }}>
+                Upload File
+              </button>
+
+              <div style={{ marginTop: "-0.6rem" }}>
+                <p
+                  style={{
+                    fontSize: `${clamp(
+                      "0.25rem",
+                      "calc(0.25rem + 0.5vw)",
+                      "1.2rem"
+                    )}`,
+                    margin: 0,
+                  }}
+                >
+                  {filename}
+                </p>
+              </div>
             </div>
           </Box>
         </Box>

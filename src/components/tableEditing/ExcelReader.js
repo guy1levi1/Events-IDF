@@ -2,6 +2,7 @@ import React, { useRef, useState } from "react";
 import * as XLSX from "xlsx";
 import "./ExcelReader.css";
 import generateGuid from "../../utils/GenereateUUID";
+import { useFilename } from "./FilenameContext";
 
 const headers = [
   "sertialNumber",
@@ -20,15 +21,15 @@ const headers = [
 const ExcelReader = ({
   onRowsChange,
   isCrossInformationTable,
-  filename,
   eventId,
 }) => {
   const fileInputRef = useRef(null);
   const [errorMessage, setErrorMessage] = useState("");
+  let serialNumberCounter = 1;
+  const { filename, setFilename } = useFilename();
   const [uploadFileInfo, setUploadFileInfo] = useState(
     filename != null ? `הועלה ${filename} קובץ` : ""
   );
-  let serialNumberCounter = 1;
 
   const mapKeys = (data, headers, eventId) => {
     return data.map((item) => {
@@ -43,6 +44,7 @@ const ExcelReader = ({
 
   const handleFileUpload = (e) => {
     const file = e.target.files[0];
+    setFilename(file.name);
 
     if (file) {
       const reader = new FileReader();
@@ -52,7 +54,6 @@ const ExcelReader = ({
         file.type ===
           "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
       ) {
-        setErrorMessage("");
         setUploadFileInfo(`הועלה ${file.name} קובץ`);
         console.log(`File selected: ${file.name}, size: ${file.size} bytes`);
       } else {

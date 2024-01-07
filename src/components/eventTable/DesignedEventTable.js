@@ -206,10 +206,12 @@ export default function DesignedEventTable() {
   const [rows, setRows] = React.useState([]);
   const { filename } = useFilename();
   const location = useLocation();
-  // const [rowsFromFile, setRowsFromFile] = React.useState([]);
   const data = location.state.transformedData;
   const eventId = 1;
 
+
+  console.log("data crossinformation: ")
+  console.log(data)
   React.useEffect(() => {
     setRows(
       data.map((row) => {
@@ -578,7 +580,6 @@ export default function DesignedEventTable() {
             <ExcelReader
               onRowsChange={handleRowsChange}
               isCrossInformationTable={false}
-              filename={filename}
               eventId={eventId}
             />
           </div>

@@ -66,7 +66,7 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "/crossInformation",
+        path: "/crossInformation/:eventId",
         element: (
           <FilenameProvider>
             <CrossInformationTable />

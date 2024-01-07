@@ -9,6 +9,7 @@ import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import CommandCell from "../commandCell/CommandCell";
 import { useFilename } from "../tableEditing/FilenameContext";
+import * as XLSX from "xlsx";
 
 import "./CardEvent.css";
 
@@ -54,11 +55,52 @@ export default function CardEvent({
 
   const handleFileUpload = (e) => {
     const file = e.target.files[0];
+    setFilename(file.name);
 
     if (file) {
-      console.log("File uploaded!");
-      setFilename(file.name);
-      navigate("/crossInformation");
+      const reader = new FileReader();
+
+      if (
+        file.type === "application/vnd.ms-excel" ||
+        file.type ===
+          "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+      ) {
+        console.log(`הועלה ${file.name} קובץ`);
+        console.log(`File selected: ${file.name}, size: ${file.size} bytes`);
+      } else {
+        console.error("Invalid file type");
+        throw new Error(
+          "Invalid file type. Please upload a valid Excel file (xlsx or xls)."
+        );
+      }
+
+      reader.onload = (e) => {
+        const data = e.target.result;
+        const workbook = XLSX.read(data, { type: "binary" });
+        const sheetName = workbook.SheetNames[0];
+        const sheet = workbook.Sheets[sheetName];
+
+        const newRows = XLSX.utils
+          .sheet_to_json(sheet, { header: 1 })
+          .slice(1)
+          .map((row) => {
+            const newRow = {
+              ...row,
+            };
+            return newRow;
+          });
+        console.log("new rows from excel reader: ");
+        // const transformedData = mapKeys(newRows, headers, eventId);
+        // console.log(transformedData);
+
+        navigate(`/crossInformation/${eventId}`, {
+          state: { presentRows: newRows },
+        });
+
+        // onRowsChange(newRows);
+      };
+
+      reader.readAsBinaryString(file);
     }
   };
 

@@ -11,13 +11,13 @@ import {
 import { heIL } from "@mui/x-data-grid";
 import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
-import ExcelReader from "../tableEditing/ExcelReader";
 import { GridRowEditStopReasons } from "@mui/x-data-grid";
 import "./CrossInformationTable.css";
 import { Link, useLocation } from "react-router-dom";
 import { useFilename } from "../tableEditing/FilenameContext";
 import * as XLSX from "xlsx";
-import generateGuid from "../../utils/GenereateUUID";
+import { useRef } from "react";
+import { useState } from "react";
 
 function CustomToolbar(props) {
   return (
@@ -172,7 +172,7 @@ const eventTableFromDB = [
     appointmentRank: "טקסט",
     appointmentLetter: "מלל",
     reasonNonArrival: "הבן לא מרגיש טוב",
-    status: "ממתין להחלטת רמח",
+    status: `ממתין להחלטת רמ"ח`,
     id: "C9B53B35-51A1-0F1E-F6B5-EEB961CA26D7",
   },
   {
@@ -236,7 +236,7 @@ const eventTableFromDB = [
     appointmentRank: "טקסט4",
     appointmentLetter: "מלל4",
     reasonNonArrival: "מבחן בתואר",
-    status: "מאושר",
+    status: `ממתין להחלטת רמ"ח`,
     id: "735021A2-3024-2E5F-2C80-7CDAED88E446",
   },
   {
@@ -321,18 +321,12 @@ const eventTableFromDB = [
   },
 ];
 
-const headers = [
-  "sertialNumber",
-  "privateNumber",
-  "firstName",
-  "lastName",
-  "present",
-];
+const headers = ["privateNumber", "fullname"];
 
-function calculateNewColumn(status, excelColumnValue) {
-  if (status === "pending") {
+function calculateComplianceOrder(status, present) {
+  if (status === `ממתין להחלטת רמ"ח`) {
     return "חריג";
-  } else if (status === "declined" && excelColumnValue === "לא") {
+  } else if (status === "נדחה" && present === "לא") {
     return "לא";
   } else {
     return "כן";
@@ -340,13 +334,16 @@ function calculateNewColumn(status, excelColumnValue) {
 }
 
 export default function CrossInformationTable() {
-  const [rows, setRows] = React.useState([]);
-  const [rowModesModel, setRowModesModel] = React.useState({});
+  const [rows, setRows] = useState([]);
+  const [rowModesModel, setRowModesModel] = useState({});
   const eventId = 1;
-  const { filename } = useFilename();
+  const { filename, setFilename } = useFilename();
+  const [uploadFileInfo, setUploadFileInfo] = useState(
+    filename != null ? `הועלה ${filename} קובץ` : ""
+  );
   const location = useLocation();
 
-  const data = location.state.presentRows;
+  const [data, setData] = useState(location.state.presentRows);
 
   const mapKeys = (data, headers, eventId) => {
     return data.map((item) => {
@@ -360,33 +357,88 @@ export default function CrossInformationTable() {
 
   const transformedData = mapKeys(data, headers, eventId);
 
-  const transformedDataMap = new Map(
-    transformedData.map((item) => [item.privateNumber, item])
-  );
-  const mergedArray = eventTableFromDB.map((item) => ({
-    ...item,
-    ...transformedDataMap.get(item.privateNumber),
-  }));
+  // this code is for upload a new present list in crossInformation page
+
+  const fileInputRef = useRef(null);
+
+  const handleFileUpload = (e) => {
+    const file = e.target.files[0];
+    setFilename(file.name);
+
+    if (file) {
+      const reader = new FileReader();
+
+      if (
+        file.type === "application/vnd.ms-excel" ||
+        file.type ===
+          "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+      ) {
+        setUploadFileInfo(`הועלה ${file.name} קובץ`);
+        console.log(`הועלה ${file.name} קובץ`);
+        console.log(`File selected: ${file.name}, size: ${file.size} bytes`);
+      } else {
+        console.error("Invalid file type");
+        throw new Error(
+          "Invalid file type. Please upload a valid Excel file (xlsx or xls)."
+        );
+      }
+
+      reader.onload = (e) => {
+        const data = e.target.result;
+        const workbook = XLSX.read(data, { type: "binary" });
+        const sheetName = workbook.SheetNames[0];
+        const sheet = workbook.Sheets[sheetName];
+
+        const newRows = XLSX.utils
+          .sheet_to_json(sheet, { header: 1 })
+          .slice(1)
+          .map((row) => {
+            const newRow = {
+              ...row,
+            };
+            return newRow;
+          });
+        console.log("new rows from excel reader: ");
+
+        setData(newRows);
+      };
+
+      reader.readAsBinaryString(file);
+    }
+  };
+
+  const handleButtonClick = () => {
+    fileInputRef.current.click();
+  };
+
+  const mergedArray = eventTableFromDB.map((item2) => {
+    const matchingItem = transformedData.find(
+      (item1) => item1.privateNumber === item2.privateNumber
+    );
+
+    if (matchingItem) {
+      // Update the "present" field if a match is found
+      return { ...item2, present: "כן" };
+    } else {
+      // Set "לא" if there is no match
+      return { ...item2, present: "לא" };
+    }
+  });
 
   React.useEffect(() => {
+    console.log("check loop useffect");
     setRows(
       mergedArray.map((row) => {
-        // return { ...row, id: generateGuid() };
-        return { ...row };
-
+        const complianceOrder = calculateComplianceOrder(
+          row.status,
+          row.present
+        );
+        return { ...row, complianceOrder };
       })
     );
-  }, [setRows, mergedArray]);
+  }, [filename, mergedArray]);
 
-  React.useEffect(() => {
-    console.log("filename: " + filename);
-
-    return () => {
-      // Cleanup code (if needed)
-    };
-  }, [filename]);
-
-
+  console.log("check loop");
 
   const getStatusCellStyle = (status) => {
     let backgroundColor, textColor;
@@ -454,10 +506,6 @@ export default function CrossInformationTable() {
     };
   };
 
-  const handleRowsChange = (newRows) => {
-    setRows(newRows);
-  };
-
   const handleRowEditStop = (params, event) => {
     if (params.reason === GridRowEditStopReasons.rowFocusOut) {
       event.defaultMuiPrevented = true;
@@ -476,6 +524,7 @@ export default function CrossInformationTable() {
 
   const handleCancelButtonClick = () => {
     console.log("cancel table clicked");
+    setFilename("");
   };
 
   const clamp = (min, value, max) => {
@@ -490,6 +539,7 @@ export default function CrossInformationTable() {
       type: "number",
       editable: false,
       // flex: 1,
+      width: 60,
     },
     {
       field: "privateNumber",
@@ -576,6 +626,7 @@ export default function CrossInformationTable() {
       headerName: "אישור רמח",
       headerAlign: "center",
       editable: false,
+      width: 150,
       // flex: 2.5,
       // should be taken from db instead of hard coded
       renderCell: (params) => (
@@ -593,7 +644,7 @@ export default function CrossInformationTable() {
       ),
     },
     {
-      field: "13",
+      field: "complianceOrder",
       headerName: "עמידה בפקודה",
       headerAlign: "center",
       editable: false,
@@ -709,6 +760,7 @@ export default function CrossInformationTable() {
             display: "flex",
             justifyContent: "space-between",
             margin: "auto",
+            // direction: "rtl",
           }}
         >
           <div
@@ -719,12 +771,34 @@ export default function CrossInformationTable() {
               textAlign: "center",
             }}
           >
-            <ExcelReader
-              onRowsChange={handleRowsChange}
-              isCrossInformationTable={true}
-              eventId={eventId}
-            />
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                right: 0,
+              }}
+            >
+              <input
+                type="file"
+                accept=".xlsx, .xls"
+                onChange={handleFileUpload}
+                ref={fileInputRef}
+                style={{ display: "none" }}
+              />
+              <button
+                onClick={handleButtonClick}
+                className="rounded-button"
+                style={{ marginRight: "0.5rem" }}
+              >
+                להעלאת טופס נוכחות חדש
+              </button>
+
+              <div style={{ marginTop: "-0.6rem" }}>
+                {<p className="uploadFilenfo">{uploadFileInfo}</p>}
+              </div>
+            </div>
           </div>
+
           <div
             style={{
               display: "flex",

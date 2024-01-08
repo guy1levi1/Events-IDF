@@ -207,11 +207,14 @@ export default function DesignedEventTable() {
   const { filename } = useFilename();
   const location = useLocation();
   const data = location.state.transformedData;
+  const eventName = location.state.eventName;
+  const eventDate = location.state.eventDate;
+  const eventLocation = location.state.eventLocation;
+
   const eventId = 1;
 
-
-  console.log("data crossinformation: ")
-  console.log(data)
+  console.log("data crossinformation: ");
+  console.log(data);
   React.useEffect(() => {
     setRows(
       data.map((row) => {
@@ -278,10 +281,6 @@ export default function DesignedEventTable() {
 
   const handleRowModesModelChange = (newRowModesModel) => {
     setRowModesModel(newRowModesModel);
-  };
-
-  const handleSaveButtonClick = () => {
-    console.log("save/upadte table clicked");
   };
 
   const handleCancelButtonClick = () => {
@@ -482,7 +481,8 @@ export default function DesignedEventTable() {
       }}
     >
       <h1 style={{ marginTop: "0" }}>
-        פריסת שחרור לאור, תל השומר מקל”ר, 10:00 13.12.23
+        {/* פריסת שחרור לאור, תל השומר מקל”ר, 10:00 13.12.23 */}
+        {eventName}, {eventLocation}, {eventDate}
       </h1>
       {/* h1 will be get from lst page (create new event/edit an exisiting) */}
 
@@ -601,19 +601,19 @@ export default function DesignedEventTable() {
                   marginRight: "0.5rem",
                 }}
               >
-                בטל
+                חזרה
               </button>
             </Link>
             <Link
               to="/createEvent" // need to save the updated/new table and close the popup
               style={{ color: "white", textDecoration: "none" }}
             >
-              <button
+              {/* <button
                 onClick={handleSaveButtonClick}
                 className="SaveButtonTablePage"
               >
                 שמור
-              </button>
+              </button> */}
             </Link>
           </div>
         </div>

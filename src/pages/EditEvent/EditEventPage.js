@@ -112,6 +112,11 @@ export default function EditEventPage(props) {
   const [vhAsPixels, setVhAsPixels] = useState(0);
   const [initialFontSize, setInitialFontSize] = useState(0); // Add initialFontSize state
 
+  const handleEditEventClick = () => {
+    console.log("edit event clicked");
+    setFilename("");
+  };
+
   const handleInputChange = (e) => {
     handleInput(e);
   };
@@ -152,7 +157,6 @@ export default function EditEventPage(props) {
   const fileInputRef = useRef(null);
   const navigate = useNavigate();
 
-
   const handleButtonClick = () => {
     localStorage.setItem(
       "editEventName",
@@ -177,7 +181,6 @@ export default function EditEventPage(props) {
 
     fileInputRef.current.click();
   };
-
 
   const handleFileUpload = (e) => {
     const file = e.target.files[0];
@@ -222,9 +225,15 @@ export default function EditEventPage(props) {
         console.log(transformedData);
 
         navigate(`/table/${eventId}`, {
-          state: { transformedData: transformedData },
+          state: {
+            transformedData: transformedData,
+            eventName: formData.initialInputs.eventName.value,
+            eventDate: dayjs(formData.initialInputs.eventDate.value).format(
+              "HH:mm DD.MM.YY"
+            ),
+            eventLocation: formData.initialInputs.eventLocation.value,
+          },
         });
-
       };
 
       reader.readAsBinaryString(file);
@@ -534,6 +543,7 @@ export default function EditEventPage(props) {
                 variant="contained"
                 color="primary"
                 disabled={!formData.isValid}
+                onClick={handleEditEventClick}
                 sx={{
                   borderRadius: "5000px",
                   fontSize: ["0.9rem", "1.1rem", "1.3rem", "1.5rem"],

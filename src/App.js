@@ -50,7 +50,7 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "/table",
+        path: "/table/new",
         element: (
           <FilenameProvider>
             <TablePage />

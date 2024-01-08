@@ -140,6 +140,7 @@ export default function CreateEventPage() {
     localStorage.removeItem("newEventLocation");
     localStorage.removeItem("newEventCommands");
     localStorage.removeItem("newEventDescription");
+    setFilename("");
   };
 
   const handleInputChange = (e) => {
@@ -228,8 +229,13 @@ export default function CreateEventPage() {
         const transformedData = mapKeys(newRows, headers, eventId);
         console.log(transformedData);
 
-        navigate(`/table/${eventId}`, {
-          state: { transformedData: transformedData },
+        navigate(`/table/new`, {
+          state: {
+            transformedData: transformedData,
+            eventName: formData.initialInputs.eventName.value,
+            eventDate: dayjs(formData.initialInputs.eventDate.value).format('HH:mm DD.MM.YY'),
+            eventLocation: formData.initialInputs.eventLocation.value,
+          },
         });
 
         // onRowsChange(newRows);

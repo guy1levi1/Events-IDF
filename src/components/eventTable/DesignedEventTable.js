@@ -481,8 +481,13 @@ export default function DesignedEventTable() {
       }}
     >
       <h1 style={{ marginTop: "0" }}>
-        {/* פריסת שחרור לאור, תל השומר מקל”ר, 10:00 13.12.23 */}
-        {eventName}, {eventLocation}, {eventDate}
+        {eventName && eventLocation && eventDate
+          ? `${eventName}, ${eventLocation}, ${eventDate}`
+          : eventName && eventDate
+          ? `${eventName}, ${eventDate}`
+          : eventLocation && eventDate
+          ?`${eventLocation}, ${eventDate}`
+          : eventDate}
       </h1>
       {/* h1 will be get from lst page (create new event/edit an exisiting) */}
 
@@ -577,11 +582,7 @@ export default function DesignedEventTable() {
               textAlign: "center",
             }}
           >
-            <ExcelReader
-              onRowsChange={handleRowsChange}
-              isCrossInformationTable={false}
-              eventId={eventId}
-            />
+            <ExcelReader onRowsChange={handleRowsChange} eventId={eventId} />
           </div>
           <div
             style={{

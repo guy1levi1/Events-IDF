@@ -18,11 +18,7 @@ const headers = [
   "reasonNonArrival",
 ];
 
-const ExcelReader = ({
-  onRowsChange,
-  isCrossInformationTable,
-  eventId,
-}) => {
+const ExcelReader = ({ onRowsChange, eventId }) => {
   const fileInputRef = useRef(null);
   const [errorMessage, setErrorMessage] = useState("");
   let serialNumberCounter = 1;
@@ -121,7 +117,7 @@ const ExcelReader = ({
         className="rounded-button"
         style={{ marginRight: "0.5rem" }}
       >
-        {isCrossInformationTable ? "להעלאת טופס נוכחות חדש" : "להעלאת קובץ חדש"}
+        להעלאת קובץ חדש
       </button>
 
       {errorMessage && <p className="error-message">{errorMessage}</p>}

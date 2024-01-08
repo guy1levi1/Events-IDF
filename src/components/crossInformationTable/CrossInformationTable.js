@@ -670,10 +670,6 @@ export default function CrossInformationTable() {
         marginTop: "2rem",
       }}
     >
-      <h1 style={{ marginTop: "0" }}>
-        פריסת שחרור לאור, תל השומר מקל”ר, 10:00 13.12.23
-      </h1>
-      {/* h1 will be get from lst page (create new event/edit an exisiting) */}
 
       <Box
         sx={{

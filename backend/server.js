@@ -26,10 +26,10 @@ app.get("/", (req, res) => {
   res.send("Hello, World!");
 });
 
-app.use((req, res, next) => {
-  const error = new Error("Could not find this route.", 404);
-  throw error;
-});
+// app.use((req, res, next) => {
+//   const error = new Error("Could not find this route.", 404);
+//   throw error;
+// });
 
 // Start the server
 app.listen(port, () => {

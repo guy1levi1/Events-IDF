@@ -144,13 +144,12 @@ export default function SignUpPage() {
               color: !formData.initialInputs.privateNumber.error
                 ? "white !important"
                 : "red !important",
-                fontSize: `${initialFontSize}px`,
+              fontSize: `${initialFontSize}px`,
             },
 
             "& .MuiFormHelperText-root": {
               fontSize: `${initialFontSize - 5}px`,
             },
-
           }}
           required={true}
           error={formData.initialInputs.privateNumber.error}
@@ -199,7 +198,7 @@ export default function SignUpPage() {
               color: !formData.initialInputs.fullName.error
                 ? "white !important"
                 : "red !important",
-                fontSize: `${initialFontSize}px`,
+              fontSize: `${initialFontSize}px`,
             },
           }}
           required={true}
@@ -249,7 +248,7 @@ export default function SignUpPage() {
               color: !formData.initialInputs.password.error
                 ? "white !important"
                 : "red !important",
-                fontSize: `${initialFontSize}px`,
+              fontSize: `${initialFontSize}px`,
             },
           }}
           required={true}
@@ -309,7 +308,7 @@ export default function SignUpPage() {
               color: !formData.initialInputs.secPassword.error
                 ? "white !important"
                 : "red !important",
-                fontSize: `${initialFontSize}px`,
+              fontSize: `${initialFontSize}px`,
             },
           }}
           required={true}
@@ -355,7 +354,7 @@ export default function SignUpPage() {
               px: 1,
               fontSize: `${initialFontSize}px`,
             },
-            
+
             "& .MuiFormHelperText-root": {
               fontSize: `${initialFontSize - 5}px`,
             },
@@ -383,7 +382,10 @@ export default function SignUpPage() {
         </TextField>
       </InputsWrapper>
 
-      <Box className="authActionsSignup" sx={{ height: `${vhAsPixels * 1.35}px` }}>
+      <Box
+        className="authActionsSignup"
+        sx={{ height: `${vhAsPixels * 1.35}px` }}
+      >
         <Box
           sx={{
             width: "28%",
@@ -399,7 +401,7 @@ export default function SignUpPage() {
               color: "white",
               textDecoration: "none",
               width: "100%",
-              height: "100%"
+              height: "100%",
             }}
           >
             <Button
@@ -408,7 +410,15 @@ export default function SignUpPage() {
               disabled={!formData.isValid}
               sx={{
                 borderRadius: "5000px",
-                fontSize: ["0.2rem","0.4rem", "0.7rem","1rem", "1.3rem", "1.6rem", "1.9rem"],
+                fontSize: [
+                  "0.2rem",
+                  "0.4rem",
+                  "0.7rem",
+                  "1rem",
+                  "1.3rem",
+                  "1.6rem",
+                  "1.9rem",
+                ],
               }}
               style={{ width: "100%", height: "100%" }}
             >
@@ -427,7 +437,10 @@ export default function SignUpPage() {
           <NavLink
             className="linkToLogin"
             to="/login"
-            style={{fontSize: ["small", "medium", "large" , "large", "x-large"], textAlign: "center"}}
+            style={{
+              fontSize: ["small", "medium", "large", "large", "x-large"],
+              textAlign: "center",
+            }}
           >
             להתחברות עם משתמש קיים
           </NavLink>

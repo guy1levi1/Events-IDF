@@ -344,6 +344,10 @@ export default function CrossInformationTable() {
   const location = useLocation();
 
   const [data, setData] = useState(location.state.presentRows);
+  const eventName = location.state.eventName;
+  const eventDate = location.state.eventDate;
+  const eventLocation = location.state.eventLocation;
+
 
   const mapKeys = (data, headers, eventId) => {
     return data.map((item) => {
@@ -670,7 +674,15 @@ export default function CrossInformationTable() {
         marginTop: "2rem",
       }}
     >
-
+     <h1 style={{ marginTop: "1rem" }}>
+        {eventName && eventLocation && eventDate
+          ? `${eventName}, ${eventLocation}, ${eventDate}`
+          : eventName && eventDate
+          ? `${eventName}, ${eventDate}`
+          : eventLocation && eventDate
+          ?`${eventLocation}, ${eventDate}`
+          : eventDate}
+      </h1>
       <Box
         sx={{
           width: "75vw",

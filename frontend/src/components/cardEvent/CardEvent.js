@@ -94,7 +94,12 @@ export default function CardEvent({
         // console.log(transformedData);
 
         navigate(`/crossInformation/${eventId}`, {
-          state: { presentRows: newRows },
+          state: {
+            presentRows: newRows,
+            eventName: eventName,
+            eventDate: eventDate,
+            eventLocation: eventLocation,
+          },
         });
 
         // onRowsChange(newRows);

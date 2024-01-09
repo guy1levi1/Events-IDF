@@ -213,8 +213,6 @@ export default function DesignedEventTable() {
 
   const eventId = 1;
 
-  console.log("data crossinformation: ");
-  console.log(data);
   React.useEffect(() => {
     setRows(
       data.map((row) => {
@@ -223,21 +221,9 @@ export default function DesignedEventTable() {
     );
   }, [setRows, data]);
 
-  React.useEffect(() => {
-    console.log("filename: " + filename);
-
-    return () => {
-      // Cleanup code (if needed)
-    };
-  }, [filename]);
-
   const [rowModesModel, setRowModesModel] = React.useState({});
 
   const navigate = useNavigate();
-
-  React.useEffect(() => {
-    console.log(rows);
-  }, [rows]);
 
   const handleRowsChange = (newRows) => {
     setRows(newRows);
@@ -285,7 +271,6 @@ export default function DesignedEventTable() {
 
   const handleCancelButtonClick = () => {
     navigate(-1);
-    console.log("cancel table clicked");
   };
 
   const statusOptions = [
@@ -486,7 +471,7 @@ export default function DesignedEventTable() {
           : eventName && eventDate
           ? `${eventName}, ${eventDate}`
           : eventLocation && eventDate
-          ?`${eventLocation}, ${eventDate}`
+          ? `${eventLocation}, ${eventDate}`
           : eventDate}
       </h1>
       {/* h1 will be get from lst page (create new event/edit an exisiting) */}
@@ -592,7 +577,7 @@ export default function DesignedEventTable() {
             }}
           >
             <Link
-              to="/manageEventes"
+              to="/createEvent"
               style={{ color: "white", textDecoration: "none" }}
             >
               <button
@@ -604,17 +589,6 @@ export default function DesignedEventTable() {
               >
                 חזרה
               </button>
-            </Link>
-            <Link
-              to="/createEvent" // need to save the updated/new table and close the popup
-              style={{ color: "white", textDecoration: "none" }}
-            >
-              {/* <button
-                onClick={handleSaveButtonClick}
-                className="SaveButtonTablePage"
-              >
-                שמור
-              </button> */}
             </Link>
           </div>
         </div>

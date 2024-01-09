@@ -13,6 +13,7 @@ import { Link, useParams, useNavigate } from "react-router-dom";
 import dayjs from "dayjs";
 import { useFilename } from "../../components/tableEditing/FilenameContext";
 import * as XLSX from "xlsx";
+import CommandsMultiSelect from "../../components/CommandsMultiSelect";
 
 const commands = [
   {
@@ -46,7 +47,7 @@ const description = `נערוך לאורצ'וק פריסת שחרור, באיר�
 אור(אפילו שהוא תוך שנייה חוזר למילואים), מוזמנים! 😀`;
 // const eventCreator = "גיא לוי";
 
-// const commandsSelector = ["פקער", "מרכז", "פקער", "מרכז", "צפון"];
+const commandsSelector = ["מרכז", "צפון"];
 
 const CHARACTER_LIMIT = 1000;
 
@@ -68,7 +69,7 @@ export default function EditEventPage(props) {
       error: false,
     },
     commandsSelector: {
-      value: "מרכז",
+      value: [],
       isValid: true,
       error: false,
     },
@@ -410,54 +411,18 @@ export default function EditEventPage(props) {
             }
           />
 
-          <TextField
-            id="outlined-select-currency"
-            name="commandsSelector"
-            size="small"
-            sx={{
-              width: "90%",
-              margin: "auto",
-              mb: "0.3rem",
-
-              "& .MuiInputBase-root": {
-                height: `${vhAsPixels}px`,
-
-                color: "white !important",
-                borderRadius: "5000px",
-                backgroundColor: "#8EAEDE",
-              },
-              "& .MuiInputLabel-root": {
-                color: "white !important",
-                backgroundColor: "#8EAEDE",
-                borderRadius: "500px",
-                px: 1,
-                fontSize: `${initialFontSize}px`,
-              },
-              "& .MuiFormHelperText-root": {
-                fontSize: `${initialFontSize - 5}px`,
-              },
-
-              "& .MuiOutlinedInput-input": {
-                color: "white !important",
-                fontSize: `${initialFontSize}px`,
-              },
-            }}
-            required={true}
-            value={formData.initialInputs.commandsSelector.value}
-            label="פיקוד"
-            helperText="בחר פיקוד"
-            select={true}
-            onChange={handleInputChange}
-          >
-            {commands.map(
-              (option) =>
-                option.commandId !== 0 && (
-                  <MenuItem key={option.commandId} value={option.commandName}>
-                    {option.commandName}
-                  </MenuItem>
-                )
-            )}
-          </TextField>
+          <CommandsMultiSelect
+            formData={formData}
+            initialFontSize={initialFontSize}
+            onChange={handleInput}
+            onBlur={handleBlur}
+            commandsFromEdit={commandsSelector}
+            // {
+            //   formData.initialInputs.commandsSelector.value.length > 0
+            //     ? formData.initialInputs.commandsSelector.value.join(",")
+            //     : null
+            // }
+          />
 
           <TextField
             id="description"

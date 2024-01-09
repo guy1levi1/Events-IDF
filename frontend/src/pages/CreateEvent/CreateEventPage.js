@@ -1,4 +1,4 @@
-import { Box, MenuItem, TextField } from "@mui/material";
+import { Box, TextField } from "@mui/material";
 import React, { useEffect, useRef, useState } from "react";
 import Button from "@mui/material/Button";
 import "./CreateEventPage.css";
@@ -12,35 +12,15 @@ import dayjs from "dayjs";
 import { Link, useNavigate } from "react-router-dom";
 import { useFilename } from "../../components/tableEditing/FilenameContext";
 import * as XLSX from "xlsx";
-
-const commands = [
-  {
-    commandId: 0,
-    commandName: "",
-  },
-  {
-    commandId: 1,
-    commandName: "מרכז",
-  },
-  {
-    commandId: 2,
-    commandName: "צפון",
-  },
-  {
-    commandId: 3,
-    commandName: "דרום",
-  },
-  {
-    commandId: 4,
-    commandName: `פקע"ר`,
-  },
-];
+import CommandsMultiSelect from "../../components/CommandsMultiSelect";
 
 const formStates = {
   eventName: {
-    value: localStorage.getItem("newEventName")
-      ? localStorage.getItem("newEventName")
-      : "",
+    value:
+      //  localStorage.getItem("newEventName")
+      //   ? localStorage.getItem("newEventName")
+      //   :
+      "",
     isValid: false,
     error: false,
   },
@@ -48,62 +28,60 @@ const formStates = {
     // value: localStorage.getItem("newEventDate")
     //   ? localStorage.getItem("newEventDate")
     //   : dayjs(),
-    value: dayjs(),
+    value: null,
     isValid: false,
     error: false,
   },
   eventLocation: {
-    value: localStorage.getItem("newEventLocation")
-      ? localStorage.getItem("newEventLocation")
-      : "",
+    value:
+      //  localStorage.getItem("newEventLocation")
+      //   ? localStorage.getItem("newEventLocation")
+      //   :
+      "",
     isValid: false,
     error: false,
   },
   commandsSelector: {
-    value: localStorage.getItem("newEventCommands")
-      ? localStorage.getItem("newEventCommands")
-      : "",
+    value:
+      // localStorage.getItem("newEventCommands")
+      //   ? localStorage.getItem("newEventCommands")
+      //   :
+      [],
     isValid: false,
     error: false,
   },
   description: {
-    value: localStorage.getItem("newEventDescription")
-      ? localStorage.getItem("newEventDescription")
-      : "",
+    value:
+      //  localStorage.getItem("newEventDescription")
+      //   ? localStorage.getItem("newEventDescription")
+      //   :
+      "",
     isValid: false,
     error: false,
   },
 };
 
-function formatDate(date) {
-  const options = {
-    weekday: "short",
-    day: "2-digit",
-    month: "short",
-    year: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
-    second: "2-digit",
-    timeZoneName: "short",
-    timeZone: "GMT",
-  };
-
-  // Format the date using the options
-  const formattedDate = date.toLocaleString("en-US", options);
-
-  return formattedDate;
-}
-
-// Format the original date
-const formattedDate = formatDate(dayjs());
-
-console.log(formattedDate);
-console.log(localStorage.getItem("newEventDate"));
-
 const CHARACTER_LIMIT = 1000;
 
 export default function CreateEventPage() {
-  const { formData, handleInput, handleBlur } = useForm(formStates, false);
+  // Parse the JSON stored in localStorage
+  const formDataFromLocalStorage = localStorage.getItem("newFormstates")
+    ? JSON.parse(localStorage.getItem("newFormstates"))
+    : null;
+  // Change the value of eventDate using dayjs
+  if (
+    formDataFromLocalStorage &&
+    formDataFromLocalStorage.eventDate.value !== null
+  ) {
+    formDataFromLocalStorage.eventDate.value = dayjs(
+      formDataFromLocalStorage.eventDate.value
+    );
+  }
+  const { formData, handleInput, handleBlur, handelUpdateData } = useForm(
+    formDataFromLocalStorage || formStates,
+    JSON.parse(localStorage.getItem("newFormIsValid")) || false
+  );
+  console.log(formData);
   const [dateError, setDateError] = useState(false);
   const [vhAsPixels, setVhAsPixels] = useState(0);
   const [initialFontSize, setInitialFontSize] = useState(0);
@@ -135,13 +113,86 @@ export default function CreateEventPage() {
   };
 
   const handleSumbitNewEvent = () => {
-    localStorage.removeItem("newEventName");
-    localStorage.removeItem("newEventDate");
-    localStorage.removeItem("newEventLocation");
-    localStorage.removeItem("newEventCommands");
-    localStorage.removeItem("newEventDescription");
+    // localStorage.removeItem("newEventName");
+    // localStorage.removeItem("newEventDate");
+    // localStorage.removeItem("newEventLocation");
+    // localStorage.removeItem("newEventCommands");
+    // localStorage.removeItem("newEventDescription");
+    localStorage.removeItem("newFormstates");
+    localStorage.removeItem("newFormIsValid");
     setFilename("");
   };
+
+  // useEffect(() => {
+  //   const inputsArray = Object.keys(formData.initialInputs);
+
+  //   inputsArray.forEach((inputId, index) => {
+  //     console.log("start set state from local storage");
+  //     switch (inputId) {
+  //       case "eventName":
+  //         if (
+  //           localStorage.getItem("newEventName") !== null &&
+  //           localStorage.getItem("newEventName") !== ""
+  //         ) {
+  //           handleInput({
+  //             value: localStorage.getItem("newEventName"),
+  //             id: inputId,
+  //             type: "update",
+  //           });
+  //         }
+  //         break;
+  //       case "eventDate":
+  //         if (localStorage.getItem("newEventDate") !== null) {
+  //           handleInput({
+  //             value: dayjs(localStorage.getItem("newEventDate")),
+  //             id: inputId,
+  //             type: "update",
+  //           });
+  //         }
+
+  //         break;
+
+  //       case "eventLocation":
+  //         if (
+  //           localStorage.getItem("newEventLocation") !== null &&
+  //           localStorage.getItem("newEventLocation") !== ""
+  //         ) {
+  //           handleInput({
+  //             value: localStorage.getItem("newEventLocation"),
+  //             id: inputId,
+  //             type: "update",
+  //           });
+  //         }
+  //         break;
+
+  //       case "commandsSelector":
+  //         if (
+  //           localStorage.getItem("newEventCommands") !== null &&
+  //           localStorage.getItem("newEventCommands") !== ""
+  //         ) {
+  //           handleInput({
+  //             value: localStorage.getItem("newEventCommands")?.split(","),
+  //             id: inputId,
+  //             type: "update",
+  //           });
+  //         }
+  //         break;
+
+  //       case "description":
+  //         if (
+  //           localStorage.getItem("newEventDescription") !== null &&
+  //           localStorage.getItem("newEventDescription") !== ""
+  //         ) {
+  //           handleInput({
+  //             value: localStorage.getItem("newEventDescription"),
+  //             id: inputId,
+  //             type: "update",
+  //           });
+  //         }
+  //         break;
+  //     }
+  //   });
+  // }, []);
 
   const handleInputChange = (e) => {
     handleInput(e);
@@ -184,10 +235,36 @@ export default function CreateEventPage() {
   const navigate = useNavigate();
 
   const handleButtonClick = () => {
+    // localStorage.setItem(
+    //   "newEventName",
+    //   formData.initialInputs.eventName.value
+    // );
+    // localStorage.setItem(
+    //   "newEventDate",
+    //   formData.initialInputs.eventDate.value
+    // );
+    // localStorage.setItem(
+    //   "newEventLocation",
+    //   formData.initialInputs.eventLocation.value
+    // );
+    // localStorage.setItem(
+    //   "newEventCommands",
+    //   formData.initialInputs.commandsSelector.value
+    // );
+    // localStorage.setItem(
+    //   "newEventDescription",
+    //   formData.initialInputs.description.value
+    // );
+    localStorage.setItem(
+      "newFormstates",
+      JSON.stringify(formData.initialInputs)
+    );
+    localStorage.setItem("newFormIsValid", JSON.stringify(formData.isValid));
     fileInputRef.current.click();
   };
 
   const handleFileUpload = (e) => {
+    handleButtonClick();
     const file = e.target.files[0];
     setFilename(file.name);
 
@@ -199,8 +276,6 @@ export default function CreateEventPage() {
         file.type ===
           "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
       ) {
-        console.log(`הועלה ${file.name} קובץ`);
-        console.log(`File selected: ${file.name}, size: ${file.size} bytes`);
       } else {
         console.error("Invalid file type");
         throw new Error(
@@ -225,15 +300,15 @@ export default function CreateEventPage() {
             };
             return newRow;
           });
-        console.log("new rows from excel reader: ");
         const transformedData = mapKeys(newRows, headers, eventId);
-        console.log(transformedData);
 
         navigate(`/table/new`, {
           state: {
             transformedData: transformedData,
             eventName: formData.initialInputs.eventName.value,
-            eventDate: dayjs(formData.initialInputs.eventDate.value).format('HH:mm DD.MM.YY'),
+            eventDate: dayjs(formData.initialInputs.eventDate.value).format(
+              "HH:mm DD.MM.YY"
+            ),
             eventLocation: formData.initialInputs.eventLocation.value,
           },
         });
@@ -309,6 +384,7 @@ export default function CreateEventPage() {
           />
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DateTimePicker
+              id="eventDate"
               label="With Time Clock"
               ampm={false}
               format="HH:mm DD/MM/YYYY"
@@ -416,54 +492,18 @@ export default function CreateEventPage() {
             }
           />
 
-          <TextField
-            id="outlined-select-currency"
-            name="commandsSelector"
-            size="small"
-            sx={{
-              width: "90%",
-              margin: "auto",
-              mb: "0.3rem",
-
-              "& .MuiInputBase-root": {
-                height: `${vhAsPixels}px`,
-
-                color: "white !important",
-                borderRadius: "5000px",
-                backgroundColor: "#8EAEDE",
-              },
-              "& .MuiInputLabel-root": {
-                color: "white !important",
-                backgroundColor: "#8EAEDE",
-                borderRadius: "500px",
-                px: 1,
-                fontSize: `${initialFontSize}px`,
-              },
-              "& .MuiFormHelperText-root": {
-                fontSize: `${initialFontSize - 5}px`,
-              },
-
-              "& .MuiOutlinedInput-input": {
-                color: "white !important",
-                fontSize: `${initialFontSize}px`,
-              },
-            }}
-            required={true}
-            value={formData.initialInputs.commandsSelector.value}
-            label="פיקוד"
-            helperText="בחר פיקוד"
-            select={true}
-            onChange={handleInputChange}
-          >
-            {commands.map(
-              (option) =>
-                option.commandId !== 0 && (
-                  <MenuItem key={option.commandId} value={option.commandName}>
-                    {option.commandName}
-                  </MenuItem>
-                )
-            )}
-          </TextField>
+          <CommandsMultiSelect
+            formData={formData}
+            initialFontSize={initialFontSize}
+            onChange={handleInput}
+            onBlur={handleBlur}
+            commandsFromLocalStorage={
+              // {["מרכז", "צפון"]}
+              formData.initialInputs.commandsSelector.value.length > 0
+                ? formData.initialInputs.commandsSelector.value
+                : null
+            }
+          />
 
           <TextField
             id="description"
@@ -598,9 +638,7 @@ export default function CreateEventPage() {
                 />
               </label>
 
-              <button onClick={handleButtonClick} style={{ display: "none" }}>
-                Upload File
-              </button>
+              <button style={{ display: "none" }}>Upload File</button>
 
               <div style={{ marginTop: "-0.6rem" }}>
                 <p

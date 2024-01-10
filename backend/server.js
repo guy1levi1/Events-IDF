@@ -2,12 +2,14 @@
 const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
+const usersRoutes = require('./routes/usersRoutes');
+const db = require("./dbConfig");
 
-// Create an Express application
 const app = express();
 app.use(cors());
 app.use(express.json());
 app.use(bodyParser.json());
+
 
 const port = process.env.PORT || 5000;
 
@@ -26,6 +28,9 @@ app.get("/", (req, res) => {
   res.send("Hello, World!");
 });
 
+app.use('/api/users', usersRoutes );
+
+
 // app.use((req, res, next) => {
 //   const error = new Error("Could not find this route.", 404);
 //   throw error;
@@ -34,4 +39,12 @@ app.get("/", (req, res) => {
 // Start the server
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
+  db
+  .sync()
+  .then((result) => {
+    console.log(result);
+  })
+  .catch((err) => {
+    console.log(err);
+  });
 });

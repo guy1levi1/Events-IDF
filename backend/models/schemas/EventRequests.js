@@ -1,32 +1,33 @@
 const { Model, DataTypes } = require("sequelize");
-const sequelize = require("./dbConfig");
-const { Command } = require("./models"); // Import the Command model
+const sequelize = require("../../dbConfig");
+const Event = require("./Event");
 
-class User extends Model {}
+class EventRequests extends Model {}
 
 const statusOptions = ["מאושר", 'ממתין לאישור רמ"ח', "נדחה"];
-
-User.init(
+  
+EventRequests.init(
   {
     id: {
-      type: DataTypes.UUIDV4,
-      defaultValue: DataTypes.UUIDV4,
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUID,
       allowNull: false,
       primaryKey: true,
       unique: true,
     },
-    // NEED TO USE REF FROM events TABLE
     eventId: {
-      type: DataTypes.STRING,
+      type: DataTypes.INTEGER,
+      unique: true,
       allowNull: false,
       validate: {
-        isAlpha: true,
-        len: [2, 30],
-        is: [/^[א-ת']+(\s[א-ת']{1,}){1,2}$/],
+        isIn: {
+          args: [Event.findAll().map((event) => event.id)],
+          msg: "Invalid eventId. This integer does not exist in the commands table.",
+        },
       },
     },
     serialNumber: {
-      type: DataTypes.STRING,
+      type: DataTypes.INTEGER,
       allowNull: false,
       validate: {
         isNumeric: true,
@@ -44,7 +45,6 @@ User.init(
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
-        min: 2,
         isAlpha: true,
       },
     },
@@ -52,74 +52,54 @@ User.init(
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
-        min: 2,
         isAlpha: true,
       },
     },
-
     command: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      validate: { min: 2 },
     },
     division: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      validate: { min: 2 },
     },
     unit: {
       type: DataTypes.STRING,
       allowNull: false,
-      validate: { min: 2 },
     },
     rank: {
       type: DataTypes.STRING,
       allowNull: false,
-      validate: { min: 2 },
     },
     appointmentRank: {
       type: DataTypes.STRING,
       allowNull: false,
-      validate: { min: 2 },
     },
     appointmentLetter: {
       type: DataTypes.STRING,
       allowNull: false,
-      validate: { min: 2 },
     },
     reasonNonArrival: {
       type: DataTypes.STRING,
       allowNull: false,
-      validate: { min: 2 },
     },
     status: {
       type: DataTypes.ENUM(...statusOptions),
       allowNull: false,
     },
-    // NEED TO USE REF FROM COMMAND TABLE
-    commandId: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      validate: {
-        isIn: {
-          args: [Command.findAll().map((command) => command.id)],
-          msg: "Invalid commandId. This integer does not exist in the commands table.",
-        },
-      },
-    },
-
-    isAdmin: {
-      type: DataTypes.BOOLEAN,
-      defaultValue: false,
-      allowNull: false,
-    },
   },
   {
     sequelize,
-    modelName: "users",
+    modelName: "eventsRequests",
     timestamps: false,
     createdAt: true,
   }
 );
 
-module.exports = User;
+EventRequests.belongsTo(Event, {
+  foreignKey: "eventId",
+  as: "event",
+  onDelete: "CASCADE",
+});
+
+module.exports = EventRequests;

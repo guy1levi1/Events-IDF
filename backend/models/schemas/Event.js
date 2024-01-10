@@ -1,53 +1,53 @@
 const { Model, DataTypes } = require("sequelize");
-const sequelize = require("./dbConfig");
-const { Command } = require("./models"); // Import the Command model
+const sequelize = require("../../dbConfig");
+const User = require("./User");
 
 class Event extends Model {}
 
 Event.init(
   {
     id: {
-      type: DataTypes.UUIDV4,
-      defaultValue: DataTypes.UUIDV4,
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUID,
       allowNull: false,
       primaryKey: true,
       unique: true,
     },
-    privateNumber: {
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {},
+    },
+    description: {
       type: DataTypes.STRING,
       allowNull: false,
       unique: true,
       validate: {
-        isNumeric: true,
-        len: 7,
+        max: 1000,
       },
     },
-    fullname: {
+    date: {
       type: DataTypes.STRING,
       allowNull: false,
+      unique: true,
       validate: {
-        isAlpha: true,
-        len: [2, 30],
-        is: [/^[א-ת']+(\s[א-ת']{1,}){1,2}$/],
+        isDate: true,
       },
     },
-
-    password: {
+    place: {
       type: DataTypes.STRING,
       allowNull: false,
-      validate: {
-        min: 6,
-        is: [/^[^\sא-ת!@#$%^&*()_+={}\]:;<>,.?/"'\\`|]*$/],
-      },
+      unique: true,
     },
-
-    // NEED TO USE REF FROM commandEvents TABLE
-    commandId: {
+    creatorId: {
       type: DataTypes.INTEGER,
       allowNull: false,
       validate: {
-        // check ref to commandEvents table
-      },
+        isIn: {
+          args: [User.findAll().map((user) => user.id)],
+          msg: "Invalid userId. This integer does not exist in the commands table.",
+        },
+      }
     },
   },
 
@@ -58,5 +58,11 @@ Event.init(
     createdAt: true,
   }
 );
+
+Event.belongsTo(User, {
+  foreignKey: "creatorId",
+  as: "creator",
+  // onDelete: "CASCADE",
+});
 
 module.exports = Event;

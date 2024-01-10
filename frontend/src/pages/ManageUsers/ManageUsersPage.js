@@ -2,88 +2,79 @@ import React, { useState } from "react";
 import ManageExistsUsers from "./ManageExistsUsers";
 import ManageUnapprovedUsers from "./ManageUnapprovedUsers";
 import generateUuid from "../../utils/GenereateUUID";
-import "./ManageUsersPage.css"
+import "./ManageUsersPage.css";
 
 export default function ManageUsersPage() {
   const [approvedUser] = useState({});
 
-  const rowsState = useState([
+  const existUsers = useState([
     {
       id: 1,
       privateNumber: "7283947",
-      lastName: "אנגל",
-      firstName: "אייל",
+      fullName: "אייל אנגל",
       command: "מרכז",
       password: "password12345",
     },
     {
       id: 2,
       privateNumber: "1234567",
-      lastName: "כרמלי",
-      firstName: "רון",
+      fullName: "רון כרמלי",
       command: "מרכז",
       password: "password12345",
     },
     {
       id: 3,
       privateNumber: "2345678",
-      lastName: "לאונרדו",
-      firstName: "ג'ימי",
+      fullName: "ג'ימי לאונרדו",
       command: 'פקע"ר',
       password: "password12345",
     },
     {
       id: 4,
       privateNumber: "3456789",
-      lastName: "נבון",
-      firstName: "אריאל",
+      fullName: "אריאל נבון",
       command: 'פקע"ר',
       password: "password12345",
     },
     {
       id: 5,
       privateNumber: "4567890",
-      lastName: "שמיר",
-      firstName: "איציק",
+      fullName: "איציק שמיר",
       command: "צפון",
       password: "password12345",
     },
     {
       id: 6,
       privateNumber: "5678901",
-      lastName: "לוי",
-      firstName: "תהל",
+      fullName: "תהל לוי",
       command: "צפון",
       password: "password12345",
     },
     {
       id: 7,
       privateNumber: "6789012",
-      lastName: "כהן",
-      firstName: "נועה",
+      fullName: "נועה כהן",
       command: 'פקע"ר',
       password: "password12345",
     },
     {
       id: 8,
       privateNumber: "7890123",
-      lastName: "צוק",
-      firstName: "גיא",
+      fullName: "גיא צוק",
       command: "מרכז",
       password: "password12345",
     },
     {
       id: 9,
       privateNumber: "8901234",
-      lastName: "מילואימניק",
-      firstName: "אור",
+      fullName: "אור מילואימניק",
       command: "דרום",
       password: "password12345",
     },
   ]);
 
   const updateApprovedUser = (newApprovedUser) => {
-    const [rows, setRows] = rowsState;
+    const [rows, setRows] = existUsers;
     setRows([{ ...newApprovedUser, id: generateUuid() }, ...rows]);
     console.log("New Data in Parent Component:", {
       ...newApprovedUser,
@@ -104,14 +95,31 @@ export default function ManageUsersPage() {
     >
       <h1>ניהול משתמשים</h1>
 
-      <div className="tablesManageUsers" style={{ display: "flex", alignItems: "center"}}>
-        <div className= "existUsersTable" style={{ display: "flex", flexDirection: "column", textAlign: "center"}}>
-        <h3>משתמשים קיימים</h3>
+      <div
+        className="tablesManageUsers"
+        style={{ display: "flex", alignItems: "center" }}
+      >
+        <div
+          className="existUsersTable"
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            textAlign: "center",
+          }}
+        >
+          <h3>משתמשים קיימים</h3>
 
-          <ManageExistsUsers rowsState={rowsState}></ManageExistsUsers>
+          <ManageExistsUsers existUsers={existUsers}></ManageExistsUsers>
         </div>
-        <div className= "waitingForBeingApprovedUsersTable" style={{ display: "flex", flexDirection: "column", textAlign: "center"}}>
-        <h3>משתמשים שממתינים לאישור</h3>
+        <div
+          className="waitingForBeingApprovedUsersTable"
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            textAlign: "center",
+          }}
+        >
+          <h3>משתמשים שממתינים לאישור</h3>
 
           <ManageUnapprovedUsers
             approvedUser={approvedUser}

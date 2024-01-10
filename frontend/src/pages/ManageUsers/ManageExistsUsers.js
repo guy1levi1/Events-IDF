@@ -162,8 +162,8 @@ function CustomNoRowsOverlay() {
   );
 }
 
-export default function ManageExistsUsers({ newApprovedUser, rowsState }) {
-  const [rows, setRows] = rowsState;
+export default function ManageExistsUsers({ newApprovedUser, existUsers }) {
+  const [rows, setRows] = existUsers;
   const [rowModesModel, setRowModesModel] = React.useState({});
 
   React.useEffect(() => {
@@ -220,33 +220,29 @@ export default function ManageExistsUsers({ newApprovedUser, rowsState }) {
       field: "privateNumber",
       headerName: "מספר אישי",
       headerAlign: "center",
+      align: "center",
       type: "string",
-      editable: true,
+      editable: false,
       flex: 1,
     },
+
     {
-      field: "lastName",
-      headerName: "שם משפחה",
+      field: "fullName",
+      headerName: "שם מלא",
       headerAlign: "center",
       type: "string",
-      editable: true,
+      editable: false,
       flex: 1,
-    },
-    {
-      field: "firstName",
-      headerName: "שם פרטי",
-      headerAlign: "center",
-      type: "string",
-      editable: true,
-      flex: 1,
+      align: "center",
     },
 
     {
       field: "command",
       headerName: "פיקוד",
       headerAlign: "center",
+      align: "center",
       type: "string",
-      editable: true,
+      editable: false,
       flex: 1,
     },
     {

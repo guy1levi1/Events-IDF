@@ -1,71 +1,72 @@
 const { Model, DataTypes } = require("sequelize");
-const sequelize = require("./dbConfig");
-const { Command } = require("./models"); // Import the Command model
+const sequelize = require("../../dbConfig");
+const Event = require("./Event");
+const Command = require("./Command");
 
 class EventCommands extends Model {}
 
-EventCommands.init(
-  {
-    id: {
-      type: DataTypes.UUIDV4,
-      defaultValue: DataTypes.UUIDV4,
-      allowNull: false,
-      primaryKey: true,
-      unique: true,
-    },
-    privateNumber: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      unique: true,
-      validate: {
-        isNumeric: true,
-        len: 7,
-      },
-    },
-    fullname: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        isAlpha: true,
-        len: [2, 30],
-        is: [/^[א-ת']+(\s[א-ת']{1,}){1,2}$/],
-      },
-    },
+const initializeEventCommands = async () => {
+  const commands = await Command.findAll();
 
-    password: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        min: 6,
-        is: [/^[^\sא-ת!@#$%^&*()_+={}\]:;<>,.?/"'\\`|]*$/],
+  EventCommands.init(
+    {
+      id: {
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUID,
+        allowNull: false,
+        primaryKey: true,
+        unique: true,
       },
-    },
 
-    // NEED TO USE REF FROM COMMAND TABLE
-    commandId: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      validate: {
-        isIn: {
-          args: [Command.findAll().map((command) => command.id)],
-          msg: "Invalid commandId. This integer does not exist in the commands table.",
+      eventId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        validate: {
+          isIn: {
+            args: [Event.findAll().map((event) => event.id)],
+            msg: "Invalid eventId. This integer does not exist in the commands table.",
+          },
         },
       },
-     
-    },
 
-    isAdmin: {
-      type: DataTypes.BOOLEAN,
-      defaultValue: false,
-      allowNull: false,
+      // NEED TO USE REF FROM COMMAND TABLE
+      commandId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        validate: {
+          isIn: {
+            args: [Command.findAll().map((command) => command.id)],
+            msg: "Invalid commandId. This integer does not exist in the commands table.",
+          },
+        },
+      },
     },
-  },
-  {
-    sequelize,
-    modelName: "eventsCommands",
-    timestamps: false,
-    createdAt: true,
-  }
-);
+    {
+      sequelize,
+      modelName: "eventsCommands",
+      timestamps: false,
+      createdAt: true,
+    }
+  );
+};
+
+initializeEventCommands();
+
+EventCommands.belongsTo(Event, {
+  foreignKey: "eventId",
+  as: "event",
+  onDelete: "CASCADE",
+});
+
+EventCommands.belongsTo(Command, {
+  foreignKey: "commandId",
+  as: "command",
+  onDelete: "CASCADE",
+});
+
+Event.hasMany(EventCommands, {
+  sourceKey: "id",
+  foreignKey: "event_id",
+});
 
 module.exports = EventCommands;

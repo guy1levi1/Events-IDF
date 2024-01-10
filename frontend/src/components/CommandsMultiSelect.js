@@ -9,7 +9,7 @@ import Select from "@mui/material/Select";
 import Chip from "@mui/material/Chip";
 import { FormHelperText } from "@mui/material";
 import { red } from "@mui/material/colors";
-import { useEffect } from "react";
+// import { useEffect } from "react";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -50,7 +50,7 @@ export default function CommandsMultiSelect({
   const theme = useTheme();
   //   const [commandName, setCommandName] = React.useState(commandsFromEdit || []);
   const [commandName, setCommandName] = React.useState(
-    commandsFromEdit || commandsFromLocalStorage || []
+    commandsFromLocalStorage || commandsFromEdit || []
   );
   console.log(commandsFromEdit);
 

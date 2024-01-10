@@ -1,14 +1,14 @@
-const { Model, DataTypes } = require("sequelize");
-const sequelize = require("./dbConfig");
-const { Command } = require("./models"); // Import the Command model
+ const { Model, DataTypes } = require("sequelize");
+const db = require("../../dbConfig");
+const Command = require("./Command");
 
 class User extends Model {}
 
 User.init(
   {
     id: {
-      type: DataTypes.UUIDV4,
-      defaultValue: DataTypes.UUIDV4,
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUID,
       allowNull: false,
       primaryKey: true,
       unique: true,
@@ -37,21 +37,21 @@ User.init(
       allowNull: false,
       validate: {
         min: 6,
-        is: [/^[^\sא-ת!@#$%^&*()_+={}\]:;<>,.?/"'\\`|]*$/],
+        // is: [/^[^\sא-ת!@#$%^&*()_+={}\]:;<>,.?/"'\\`|]*$/],
+        is: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}/,
       },
     },
 
     // NEED TO USE REF FROM COMMAND TABLE
     commandId: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING,
       allowNull: false,
-      validate: {
-        isIn: {
-          args: [Command.findAll().map((command) => command.id)],
-          msg: "Invalid commandId. This integer does not exist in the commands table.",
-        },
-      },
-     
+      // validate: {
+      //   isIn: {
+      //     args: [commands.map((command) => command.id)],
+      //     msg: "Invalid commandId. This integer does not exist in the commands table.",
+      //   },
+      // },
     },
 
     isAdmin: {
@@ -61,11 +61,17 @@ User.init(
     },
   },
   {
-    sequelize,
+    sequelize: db,
     modelName: "users",
     timestamps: false,
     createdAt: true,
   }
 );
+
+User.belongsTo(Command, {
+  foreignKey: "commandId",
+  as: "command",
+  onDelete: "CASCADE",
+});
 
 module.exports = User;

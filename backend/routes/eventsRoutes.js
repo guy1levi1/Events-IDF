@@ -6,5 +6,6 @@ const eventsController = require("../controllers/eventsControllers");
 const router = express.Router();
 
 router.get("/", eventsController.getEvents);
+router.delete("/", eventsController.deleteEvent);
 
 module.exports = router;

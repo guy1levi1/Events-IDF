@@ -8,9 +8,9 @@ const User = require("../models/schemas/User");
 // for manage users page
 const getUsers = async (req, res, next) => {
   try {
-    const users = await User.findAll({});
-
-    res.json(users);
+    const Users = await User.findAll({});
+    
+    res.json(Users);
   } catch (err) {
     const error = new HttpError("Get all users failed.", 500);
 

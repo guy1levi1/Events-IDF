@@ -31,7 +31,7 @@ app.get("/", (req, res) => {
   res.send("Hello, World!");
 });
 
-app.use('/api/users', usersRoutes );
+app.use('/api/users', usersRoutes);
 app.use('/api/events', eventsRoutes);
 
 // app.use('/api/eventCommands', eventCommandsRoutes)
@@ -47,7 +47,7 @@ app.listen(port, () => {
   db
   .sync()
   .then((result) => {
-    console.log(result);
+    console.log("Database synced successfully:")
   })
   .catch((err) => {
     console.log(err);

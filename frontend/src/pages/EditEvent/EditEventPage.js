@@ -1,4 +1,4 @@
-import { Box, MenuItem, TextField } from "@mui/material";
+import { Box, TextField } from "@mui/material";
 import React, { useEffect, useState, useRef } from "react";
 import Button from "@mui/material/Button";
 import "./EditEventPage.css";
@@ -122,7 +122,7 @@ export default function EditEventPage(props) {
    );
  }
 
- const { formData, handleInput, handleBlur, handelUpdateData } = useForm(
+ const { formData, handleInput, handleBlur } = useForm(
   formDataFromLocalStorage || formStates,
   JSON.parse(localStorage.getItem("newEditFormIsValid")) || false
 );

@@ -77,11 +77,11 @@ export default function CreateEventPage() {
       formDataFromLocalStorage.eventDate.value
     );
   }
-  const { formData, handleInput, handleBlur, handelUpdateData } = useForm(
+  const { formData, handleInput, handleBlur } = useForm(
     formDataFromLocalStorage || formStates,
     JSON.parse(localStorage.getItem("newFormIsValid")) || false
   );
-  console.log(formData);
+  
   const [dateError, setDateError] = useState(false);
   const [vhAsPixels, setVhAsPixels] = useState(0);
   const [initialFontSize, setInitialFontSize] = useState(0);

@@ -3,6 +3,9 @@ const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const usersRoutes = require('./routes/usersRoutes');
+const eventsRoutes = require('./routes/eventsRoutes');
+// const EventCommands = require('./models/schemas/EventCommands');
+
 const db = require("./dbConfig");
 
 const app = express();
@@ -29,7 +32,9 @@ app.get("/", (req, res) => {
 });
 
 app.use('/api/users', usersRoutes );
+app.use('/api/events', eventsRoutes);
 
+// app.use('/api/eventCommands', eventCommandsRoutes)
 
 // app.use((req, res, next) => {
 //   const error = new Error("Could not find this route.", 404);

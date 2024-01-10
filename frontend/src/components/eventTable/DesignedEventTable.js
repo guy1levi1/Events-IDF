@@ -26,7 +26,7 @@ import {
 } from "@mui/x-data-grid";
 import "./DesignedEventTable.css";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { useFilename } from "../tableEditing/FilenameContext";
+// import { useFilename } from "../tableEditing/FilenameContext";
 import generateGuid from "../../utils/GenereateUUID";
 
 function CustomToolbar(props) {
@@ -204,7 +204,7 @@ function CustomNoRowsOverlay() {
 
 export default function DesignedEventTable() {
   const [rows, setRows] = React.useState([]);
-  const { filename } = useFilename();
+  // const { filename } = useFilename();
   const location = useLocation();
   const data = location.state.transformedData;
   const eventName = location.state.eventName;

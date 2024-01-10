@@ -22,7 +22,7 @@ User.init(
         len: 7,
       },
     },
-    fullname: {
+    fullName: {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {

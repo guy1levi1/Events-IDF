@@ -1,5 +1,5 @@
-const { Model, DataTypes } = require("sequelize");
-const sequelize = require("../../dbConfig");
+const { Model, DataTypes } = require('sequelize');
+const db = require("../../dbConfig");
 const Event = require("./Event");
 const Command = require("./Command");
 
@@ -7,6 +7,7 @@ class EventCommands extends Model {}
 
 const initializeEventCommands = async () => {
   const commands = await Command.findAll();
+  const events = await Event.findAll();
 
   EventCommands.init(
     {
@@ -23,7 +24,7 @@ const initializeEventCommands = async () => {
         allowNull: false,
         validate: {
           isIn: {
-            args: [Event.findAll().map((event) => event.id)],
+            args: [events.map((event) => event.id)],
             msg: "Invalid eventId. This integer does not exist in the commands table.",
           },
         },
@@ -35,14 +36,14 @@ const initializeEventCommands = async () => {
         allowNull: false,
         validate: {
           isIn: {
-            args: [Command.findAll().map((command) => command.id)],
+            args: [commands.map((command) => command.id)],
             msg: "Invalid commandId. This integer does not exist in the commands table.",
           },
         },
       },
     },
     {
-      sequelize,
+      sequelize: db,
       modelName: "eventsCommands",
       timestamps: false,
       createdAt: true,
@@ -53,20 +54,20 @@ const initializeEventCommands = async () => {
 initializeEventCommands();
 
 EventCommands.belongsTo(Event, {
-  foreignKey: "eventId",
+  foreignKey: "id", //it was: foreignKey: "eventId",
   as: "event",
   onDelete: "CASCADE",
 });
 
 EventCommands.belongsTo(Command, {
-  foreignKey: "commandId",
+  foreignKey: "id", // it was: foreignKey: "commandId",
   as: "command",
   onDelete: "CASCADE",
 });
 
 Event.hasMany(EventCommands, {
   sourceKey: "id",
-  foreignKey: "event_id",
+  foreignKey: "id", // it was: "event_id"
 });
 
 module.exports = EventCommands;

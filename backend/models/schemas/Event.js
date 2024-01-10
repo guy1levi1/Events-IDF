@@ -1,5 +1,5 @@
 const { Model, DataTypes } = require("sequelize");
-const sequelize = require("../../dbConfig");
+const db = require("../../dbConfig");
 const User = require("./User");
 
 class Event extends Model {}
@@ -40,19 +40,19 @@ Event.init(
       unique: true,
     },
     creatorId: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.UUID,
       allowNull: false,
       validate: {
-        isIn: {
-          args: [User.findAll().map((user) => user.id)],
-          msg: "Invalid userId. This integer does not exist in the commands table.",
-        },
+        // isIn: {
+        //   args: [User.findAll().map((user) => user.id)],
+        //   msg: "Invalid userId. This integer does not exist in the commands table.",
+        // },
       }
     },
   },
 
   {
-    sequelize,
+    sequelize: db,
     modelName: "events",
     timestamps: false,
     createdAt: true,
@@ -62,7 +62,7 @@ Event.init(
 Event.belongsTo(User, {
   foreignKey: "creatorId",
   as: "creator",
-  // onDelete: "CASCADE",
+  onDelete: "CASCADE",
 });
 
 module.exports = Event;

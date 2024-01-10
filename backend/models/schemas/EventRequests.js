@@ -1,5 +1,5 @@
 const { Model, DataTypes } = require("sequelize");
-const sequelize = require("../../dbConfig");
+const db = require("../../dbConfig");
 const Event = require("./Event");
 
 class EventRequests extends Model {}
@@ -89,7 +89,7 @@ EventRequests.init(
     },
   },
   {
-    sequelize,
+    sequelize: db,
     modelName: "eventsRequests",
     timestamps: false,
     createdAt: true,

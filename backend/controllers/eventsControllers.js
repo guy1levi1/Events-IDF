@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken");
 
 const HttpError = require("../models/httpError");
 const Event = require("../models/schemas/Event");
+const User = require("../models/schemas/User");
 
 // for manage users page
 const getEvents = async (req, res, next) => {
@@ -118,8 +119,30 @@ const updateEvent = async (eventId, updatedFields) => {
   }
 };
 
+const createEvent = async (req, res, next) => {
+  const { name, description, date, place, creatorId } = req.body;
+
+  try {
+    // Check if the creatorId exists in the User model
+    const userExists = await User.findByPk(creatorId);
+    if (!userExists) {
+      return next(new HttpError("Invalid userId. The user does not exist.", 400));
+    }
+
+    // Create a new event
+    const newEvent = await Event.create({ name, description, date, place, creatorId });
+
+    res.status(201).json(newEvent);
+  } catch (err) {
+    console.error(err);
+    next(new HttpError("Create event failed.", 500));
+  }
+};
+
+
 exports.getEvents = getEvents;
 exports.getEventById = getEventById;
 exports.deleteEvent = deleteEvent;
 exports.updateEvent = updateEvent;
+exports.createEvent = createEvent;
 

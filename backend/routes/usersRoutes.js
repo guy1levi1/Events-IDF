@@ -13,12 +13,8 @@ router.patch("/:userId", usersController.updateUser);
 
 router.post("/login", usersController.login);
 
-router.delete("/:userId", usersController.deleteUser  );
+router.delete("/:userId", usersController.deleteUser);
 
-router.post(
-  "/signup",
-  [check("name").not().isEmpty(), check("password").isLength({ min: 6 })],
-  usersController.signup
-);
+router.post("/signup", usersController.signup);
 
 module.exports = router;

@@ -1,5 +1,7 @@
 const { Model, DataTypes } = require("sequelize");
 const sequelize = require("../../dbConfig");
+const User = require("./User");
+const UnapprovedUser = require("./UnapprovedUser");
 
 class Command extends Model {}
 
@@ -27,4 +29,8 @@ Command.init(
   }
 );
 
+// Command.belongsToMany(Event, { through: 'CommandsEvent' });
+
+// Command.hasMany(UnapprovedUser, { foreignKey: "commandId" });
+ 
 module.exports = Command;

@@ -16,15 +16,19 @@ EventRequests.init(
       unique: true,
     },
     eventId: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.UUID,
       unique: true,
       allowNull: false,
-      validate: {
-        isIn: {
-          args: [Event.findAll().map((event) => event.id)],
-          msg: "Invalid eventId. This integer does not exist in the commands table.",
-        },
-      },
+      // validate: {
+      //   isIn: {
+      //     args: [Event.findAll().map((event) => event.id)],
+      //     msg: "Invalid eventId. This UUID does not exist in the commands table.",
+      //   },
+      // },
+    //   references: {
+    //     model: Event,
+    //     key: "eventId"
+    // }
     },
     serialNumber: {
       type: DataTypes.INTEGER,
@@ -96,10 +100,12 @@ EventRequests.init(
   }
 );
 
-EventRequests.belongsTo(Event, {
-  foreignKey: "eventId",
-  as: "event",
-  onDelete: "CASCADE",
-});
+// EventRequests.belongsTo(Event, {
+//   foreignKey: "eventId",
+//   as: "event",
+//   onDelete: "CASCADE",
+// });
+// EventRequests.belongsTo(Event, { foreignKey: 'eventId' });
+
 
 module.exports = EventRequests;

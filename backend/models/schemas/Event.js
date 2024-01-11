@@ -1,6 +1,7 @@
 const { Model, DataTypes } = require("sequelize");
 const db = require("../../dbConfig");
 const User = require("./User");
+const EventCommands = require("./EventCommands");
 
 class Event extends Model {}
 
@@ -27,7 +28,7 @@ Event.init(
       },
     },
     date: {
-      type: DataTypes.STRING,
+      type: DataTypes.DATE,
       allowNull: false,
       unique: true,
       validate: {
@@ -47,7 +48,11 @@ Event.init(
         //   args: [User.findAll().map((user) => user.id)],
         //   msg: "Invalid userId. This integer does not exist in the commands table.",
         // },
-      }
+      },
+    //   references: {
+    //     model: User,
+    //     key: "creatorId"
+    // }
     },
   },
 
@@ -59,10 +64,23 @@ Event.init(
   }
 );
 
-Event.belongsTo(User, {
-  foreignKey: "creatorId",
-  as: "creator",
-  onDelete: "CASCADE",
-});
+// Event.belongsTo(User, {
+//   foreignKey: "creatorId",
+//   as: "creator",
+//   onDelete: "CASCADE",
+// });
+
+// Event.hasMany(EventCommands, {
+//   foreignKey: 'eventId',
+//   as: 'eventCommands', // You can use any name you prefer
+//   onDelete: 'CASCADE',
+// });
+
+// Event.belongsTo(User, { foreignKey: 'creatorId' });
+// Event.belongsToMany(Command, { through: 'CommandsEvent' });
+
+
+// Event.hasMany(EventCommands, { foreignKey: 'eventId' });
+
 
 module.exports = Event;

@@ -9,12 +9,32 @@ const User = require("../models/schemas/User");
 const getUsers = async (req, res, next) => {
   try {
     const Users = await User.findAll({});
-    
+
     res.json(Users);
   } catch (err) {
     const error = new HttpError("Get all users failed.", 500);
 
     console.log(err);
+    next(error);
+  }
+};
+
+const getUserById = async (req, res, next) => {
+  const userId = req.params.userId;
+
+  try {
+    const user = await User.findByPk(userId); // Assuming you have a model with a primary key named 'id'
+
+    if (!user) {
+      const error = new HttpError(`User with ID ${userId} not found.`, 404);
+      return next(error);
+    }
+
+    res.json(user);
+  } catch (err) {
+    const error = new HttpError(`Get user by ID ${userId} failed.`, 500);
+
+    console.error(err);
     next(error);
   }
 };
@@ -161,6 +181,89 @@ const login = async (req, res, next) => {
   });
 };
 
+const updateUser = async (userId, updatedFields) => {
+  try {
+    // Find the user by ID
+    const user = await User.findByPk(userId);
+
+    // If user not found, return null or handle accordingly
+    if (!user) {
+      const error = new HttpError(
+        `Could not update user ${userId} , user does'nt exist.`,
+        403
+      );
+      return next(error);
+    }
+
+    // Update the user fields
+    if (updatedFields.privateNumber) {
+      user.privateNumber = updatedFields.privateNumber;
+    }
+
+    if (updatedFields.fullName) {
+      user.fullName = updatedFields.fullName;
+    }
+
+    if (updatedFields.commandId) {
+      user.commandId = updatedFields.commandId;
+    }
+
+    // Save the updated user
+    await user.save();
+
+    // Return the updated user
+    next(user);
+  } catch (err) {
+    // Handle errors
+    console.error(error);
+    const error = new HttpError(
+      `Could not update user ${userId} , please try again later.`,
+      500
+    );
+    next(error);
+  }
+};
+
+const deleteUser = async (req, res, next) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return next(
+      new HttpError("failed to delete user, try later.", 422)
+    );
+  }
+
+  const { userId } = req.body;
+
+  let users;
+  let userById;
+  try {
+    users = await Event.findAll({});
+    userById = await users.findOne({
+      where: { id: userById },
+    });
+  } catch (err) {
+    const error = new HttpError("failed to get the user by id", 500);
+    next(error);
+  }
+
+  if (!userId) {
+    const error = new HttpError("there is no user with the id", 500);
+    next(error);
+  }
+
+  try {
+    await userById.destroy();
+  } catch (err) {
+    const error = new HttpError("could not delete user", 500);
+    next(error);
+  }
+
+  res.status(201).json({ massage: "DELETE" });
+};
+
 exports.getUsers = getUsers;
-exports.signup = signup;
+exports.getUserById = getUserById;
 exports.login = login;
+exports.signup = signup;
+exports.updateUser = updateUser;
+exports.deleteUser = deleteUser;

@@ -36,7 +36,6 @@ Event.init(
     description: {
       type: DataTypes.STRING,
       allowNull: false,
-      unique: true,
       validate: {
         max: 1000,
       },
@@ -44,7 +43,6 @@ Event.init(
     date: {
       type: DataTypes.DATE,
       allowNull: false,
-      unique: true,
       validate: {
         isDate: true,
       },
@@ -52,7 +50,6 @@ Event.init(
     place: {
       type: DataTypes.STRING,
       allowNull: false,
-      unique: true,
     },
     creatorId: {
       type: DataTypes.UUID,

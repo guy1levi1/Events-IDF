@@ -26,7 +26,6 @@ UnapprovedUser.init(
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
-        isAlpha: true,
         len: [2, 30],
         is: [/^[א-ת']+(\s[א-ת']{1,}){1,2}$/],
       },
@@ -35,11 +34,6 @@ UnapprovedUser.init(
     password: {
       type: DataTypes.STRING,
       allowNull: false,
-      validate: {
-        min: 6,
-        // is: [/^[^\sא-ת!@#$%^&*()_+={}\]:;<>,.?/"'\\`|]*$/],
-        is: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}/,
-      },
     },
 
     // NEED TO USE REF FROM COMMAND TABLE

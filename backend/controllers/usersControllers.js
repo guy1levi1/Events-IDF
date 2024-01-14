@@ -1,6 +1,8 @@
 const { validationResult } = require("express-validator");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const { v4: uuidv4 } = require("uuid");
+const sha256 = require("js-sha256");
 
 const HttpError = require("../models/httpError");
 const User = require("../models/schemas/User");
@@ -47,11 +49,18 @@ const signup = async (req, res, next) => {
     );
   }
 
-  const { privateNumber, fullName, pw, command, isAdmin } = req.body;
+  const { id, privateNumber, fullName, password, commandId, isAdmin } =
+    req.body;
+  console.log(req.body);
 
   let existingUser;
   try {
-    existingUser = await User.findOne({ privateNumber: privateNumber });
+    existingUser = await User.findOne({
+      where: { privateNumber },
+    });
+    console.log("existingUser: ");
+
+    console.log(existingUser);
   } catch (err) {
     const error = new HttpError(
       "Signing up failed, please try again later.",
@@ -68,43 +77,33 @@ const signup = async (req, res, next) => {
     return next(error);
   }
 
-  let hashedPassword;
-  try {
-    hashedPassword = await bcrypt.hash(password, 12);
-  } catch (err) {
-    const error = new HttpError(
-      "Could not create user, please try again.",
-      500
-    );
-    return next(error);
-  }
-
-  const createdUser = new User({
-    name,
-    email,
-    image: req.file.path,
-    password: hashedPassword,
-    places: [],
-  });
+    // when admin accept the user it will be hashed so delete this code
+  // let hashedPassword;
+  // try {
+  //   hashedPassword = sha256(password);
+  // } catch (err) {
+  //   const error = new HttpError(
+  //     "Could not create user, please try again.",
+  //     500
+  //   );
+  //   return next(error);
+  // }
 
   try {
-    await createdUser.save();
-  } catch (err) {
-    const error = new HttpError(
-      "Signing up failed, please try again later.",
-      500
-    );
-    return next(error);
-  }
+    const newUser = await User.create({
+      id,
+      privateNumber,
+      fullName,
+      // password: hashedPassword,
+      password,
+      commandId,
+      isAdmin,
+    });
 
-  let token;
-  try {
-    token = jwt.sign(
-      { userId: createdUser.id, email: createdUser.email },
-      "supersecret_dont_share",
-      { expiresIn: "1h" }
-    );
+    res.status(201).json(newUser);
   } catch (err) {
+    console.log("Validation errors:", err.errors);
+    console.log("failed");
     const error = new HttpError(
       "Signing up failed, please try again later.",
       500
@@ -112,18 +111,37 @@ const signup = async (req, res, next) => {
     return next(error);
   }
 
-  res
-    .status(201)
-    .json({ userId: createdUser.id, email: createdUser.email, token: token });
+  // let token;
+  // try {
+  //   token = jwt.sign(
+  //     { userId: id, privateNumber: privateNumber },
+  //     "supersecret_dont_share",
+  //     { expiresIn: "1h" }
+  //   );
+  // } catch (err) {
+  //   const error = new HttpError(
+  //     "Signing In failed, please try again later.",
+  //     500
+  //   );
+  //   return next(error);
+  // }
+
+  // res.status(201).json({
+  //   userId: id,
+  //   privateNumber: privateNumber,
+  //   token: token,
+  // });
 };
 
 const login = async (req, res, next) => {
-  const { email, password } = req.body;
+  const { privateNumber, password } = req.body;
 
   let existingUser;
 
   try {
-    existingUser = await User.findOne({ email: email });
+    existingUser = await User.findOne({
+      where: { privateNumber: privateNumber },
+    });
   } catch (err) {
     const error = new HttpError(
       "Logging in failed, please try again later.",
@@ -142,7 +160,7 @@ const login = async (req, res, next) => {
 
   let isValidPassword = false;
   try {
-    isValidPassword = await bcrypt.compare(password, existingUser.password);
+    isValidPassword = (await sha256(password)) == existingUser.password;
   } catch (err) {
     const error = new HttpError(
       "Could not log you in, please check your credentials and try again.",
@@ -162,7 +180,7 @@ const login = async (req, res, next) => {
   let token;
   try {
     token = jwt.sign(
-      { userId: existingUser.id, email: existingUser.email },
+      { userId: existingUser.id, privateNumber: existingUser.privateNumber },
       "supersecret_dont_share",
       { expiresIn: "1h" }
     );
@@ -176,12 +194,18 @@ const login = async (req, res, next) => {
 
   res.json({
     userId: existingUser.id,
-    email: existingUser.email,
+    privateNumber: existingUser.privateNumber,
     token: token,
   });
 };
 
-const updateUser = async (userId, updatedFields) => {
+const updateUser = async (req, res, next) => {
+  const userId = req.params.userId;
+  console.log(userId);
+
+  const { privateNumber, fullName, commandId } = req.body;
+  console.log(req.body);
+
   try {
     // Find the user by ID
     const user = await User.findByPk(userId);
@@ -189,35 +213,37 @@ const updateUser = async (userId, updatedFields) => {
     // If user not found, return null or handle accordingly
     if (!user) {
       const error = new HttpError(
-        `Could not update user ${userId} , user does'nt exist.`,
+        `Could not update user ${userId}, user doesn't exist.`,
         403
       );
       return next(error);
     }
 
     // Update the user fields
-    if (updatedFields.privateNumber) {
-      user.privateNumber = updatedFields.privateNumber;
+    if (privateNumber !== undefined) {
+      user.privateNumber = privateNumber;
     }
 
-    if (updatedFields.fullName) {
-      user.fullName = updatedFields.fullName;
+    if (fullName !== undefined) {
+      user.fullName = fullName;
     }
 
-    if (updatedFields.commandId) {
-      user.commandId = updatedFields.commandId;
+    if (commandId !== undefined) {
+      user.commandId = commandId;
     }
 
     // Save the updated user
     await user.save();
 
     // Return the updated user
-    next(user);
+    res
+      .status(200)
+      .json({ message: `User ${userId} updated successfully.`, user });
   } catch (err) {
     // Handle errors
-    console.error(error);
+    console.error(err);
     const error = new HttpError(
-      `Could not update user ${userId} , please try again later.`,
+      `Could not update user ${userId}, please try again later.`,
       500
     );
     next(error);
@@ -225,40 +251,39 @@ const updateUser = async (userId, updatedFields) => {
 };
 
 const deleteUser = async (req, res, next) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return next(
-      new HttpError("failed to delete user, try later.", 422)
-    );
-  }
-
-  const { userId } = req.body;
-
-  let users;
-  let userById;
   try {
-    users = await Event.findAll({});
-    userById = await users.findOne({
-      where: { id: userById },
-    });
-  } catch (err) {
-    const error = new HttpError("failed to get the user by id", 500);
-    next(error);
-  }
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      throw new HttpError("failed to delete user, try later.", 422);
+    }
 
-  if (!userId) {
-    const error = new HttpError("there is no user with the id", 500);
-    next(error);
-  }
+    const userId = req.params.userId;
+    console.log(userId);
 
-  try {
-    await userById.destroy();
-  } catch (err) {
-    const error = new HttpError("could not delete user", 500);
-    next(error);
-  }
+    let userById;
+    try {
+      userById = await User.findOne({
+        where: { id: userId },
+      });
+      console.log(userById);
+    } catch (err) {
+      throw new HttpError("failed to get the user by id", 500);
+    }
 
-  res.status(201).json({ massage: "DELETE" });
+    if (!userById) {
+      throw new HttpError("there is no user with the id", 404); // Assuming 404 is more appropriate for not found
+    }
+
+    try {
+      await userById.destroy();
+    } catch (err) {
+      throw new HttpError("could not delete user", 500);
+    }
+
+    res.status(201).json({ message: `DELETE:  ${userId}` });
+  } catch (error) {
+    next(error); // Send the error to the error-handling middleware
+  }
 };
 
 exports.getUsers = getUsers;

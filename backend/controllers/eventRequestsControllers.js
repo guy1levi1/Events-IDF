@@ -3,52 +3,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
 const HttpError = require("../models/httpError");
-const User = require("../models/schemas/User");
 const EventRequests = require("../models/schemas/EventRequests");
-
-// probably we will not use it, just delete by eventId and create new
-const updateEventRequests = async (eventRequestsId, updatedFields) => {
-  try {
-    // Find the user by ID
-    const eventRequests = await EventRequests.findByPk(eventRequestsId);
-
-    // If user not found, return null or handle accordingly
-    if (!eventRequests) {
-      const error = new HttpError(
-        `Could not update table ${eventRequestsId} , user does'nt exist.`,
-        403
-      );
-      return next(error);
-    }
-
-    // Update the user fields
-    if (updatedFields.privateNumber) {
-      eventRequests.privateNumber = updatedFields.privateNumber;
-    }
-
-    if (updatedFields.fullName) {
-      eventRequests.fullName = updatedFields.fullName;
-    }
-
-    if (updatedFields.commandId) {
-      eventRequests.commandId = updatedFields.commandId;
-    }
-
-    // Save the updated user
-    await eventRequests.save();
-
-    // Return the updated user
-    next(eventRequests);
-  } catch (err) {
-    // Handle errors
-    console.error(error);
-    const error = new HttpError(
-      `Could not update table ${eventRequestsId} , please try again later.`,
-      500
-    );
-    next(error);
-  }
-};
 
 const geteventsRequests = async (req, res, next) => {
   try {
@@ -65,23 +20,23 @@ const geteventsRequests = async (req, res, next) => {
 
 // probably we will not use it, just delete by eventId and create new
 const geteventRequestsById = async (req, res, next) => {
-  const eventRequestsId = req.params.eventRequestsId;
+  const eventRequestsId = req.params.eventRequestId;
 
   try {
-    const eventRequests = await Event.findByPk(eventRequestsId);
+    const eventRequests = await EventRequests.findByPk(eventRequestsId);
 
     if (!eventRequests) {
       const error = new HttpError(
-        `User with ID ${eventRequestsId} not found.`,
+        `eventRequests with ID ${eventRequestsId} not found.`,
         404
       );
       return next(error);
     }
 
-    res.json(user);
+    res.json(eventRequests);
   } catch (err) {
     const error = new HttpError(
-      `Get user by ID ${eventRequestsId} failed.`,
+      `Get eventRequests by ID ${eventRequestsId} failed.`,
       500
     );
 
@@ -123,31 +78,33 @@ const createEventRequests = async (req, res, next) => {
     return next(error);
   }
 
-  try {
-    const {
-      eventId,
-      serialNumber,
-      privateNumber,
-      firstName,
-      lastName,
-      command,
-      division,
-      unit,
-      rank,
-      appointmentRank,
-      appointmentLetter,
-      reasonNonArrival,
-      status,
-    } = req.body;
+  const {
+    id,
+    eventId,
+    serialNumber,
+    privateNumber,
+    firstName,
+    lastName,
+    commandId,
+    division,
+    unit,
+    rank,
+    appointmentRank,
+    appointmentLetter,
+    reasonNonArrival,
+    status,
+  } = req.body;
 
+  try {
     // Create a new event request
     const newEventRequest = await EventRequests.create({
+      id,
       eventId,
       serialNumber,
       privateNumber,
       firstName,
       lastName,
-      command,
+      commandId,
       division,
       unit,
       rank,
@@ -159,6 +116,7 @@ const createEventRequests = async (req, res, next) => {
 
     res.status(201).json(newEventRequest);
   } catch (err) {
+    console.log(err.errors);
     console.error(err);
     const error = new HttpError(
       "Creating event request failed. Please try again.",
@@ -169,46 +127,45 @@ const createEventRequests = async (req, res, next) => {
 };
 
 const deleteEventRequests = async (req, res, next) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return next(
-      new HttpError("failed to delete EventRequests, try later.", 422)
-    );
-  }
-
-  const { eventRequestsIdId } = req.body;
-
-  let eventsRequests;
-  let eventRequestsById;
   try {
-    eventsRequests = await Event.findAll({});
-    eventRequestsById = await eventsRequests.findOne({
-      where: { id: eventsRequests },
-    });
-  } catch (err) {
-    const error = new HttpError("failed to get the EventRequests by id", 500);
-    next(error);
-  }
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return next(
+        new HttpError("failed to delete EventRequests, try later.", 422)
+      );
+    }
+    const eventRequestId = req.params.eventRequestId;
 
-  if (!eventsRequests) {
-    const error = new HttpError("there is no EventRequests with the id", 500);
-    next(error);
-  }
+    console.log(eventRequestId);
+    let eventRequestById;
+    try {
+      eventRequestById = await EventRequests.findOne({
+        where: { id: eventRequestId },
+      });
+    } catch (err) {
+      const error = new HttpError("failed to get the EventRequests by id", 500);
+      next(error);
+    }
 
-  try {
-    await eventRequestsById.destroy();
-  } catch (err) {
-    const error = new HttpError("could not delete EventRequests", 500);
-    next(error);
-  }
+    if (!eventRequestById) {
+      const error = new HttpError("there is no EventRequests with the id", 500);
+      next(error);
+    }
 
-  res.status(201).json({ massage: "DELETE" });
+    try {
+      await eventRequestById.destroy();
+    } catch (err) {
+      throw new HttpError("could not delete eventRequest", 500);
+    }
+
+    res.status(201).json({ massage: `DELETE: ${eventRequestId}` });
+  } catch (error) {
+    next(error); // Send the error to the error-handling middleware
+  }
 };
 
 exports.geteventsRequests = geteventsRequests;
 exports.getEventRequestsByEventId = getEventRequestsByEventId;
 exports.createEventRequests = createEventRequests;
 exports.deleteEventRequests = deleteEventRequests;
-
-exports.updateEventRequests = updateEventRequests;
 exports.geteventRequestsById = geteventRequestsById;

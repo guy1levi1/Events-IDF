@@ -4,8 +4,22 @@ const unapprovedUsersController = require("../controllers/unapprovedUsersControl
 
 const router = express.Router();
 
+// ✅
 router.get("/", unapprovedUsersController.getUnapprovedUsers);
 
+// ✅
+router.get(
+  "/:unApprovedUserId",
+  unapprovedUsersController.getUnapprovedUserById
+);
+
+// ✅
+router.post(
+  "/signUpunapprovedUser",
+  unapprovedUsersController.createUnapprovedUser
+);
+
+// ✅
 router.delete(
   "/:unapprovedUserId",
   unapprovedUsersController.deleteUnapprovedUser

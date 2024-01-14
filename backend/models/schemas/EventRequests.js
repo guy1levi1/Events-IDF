@@ -5,7 +5,7 @@ const Event = require("./Event");
 class EventRequests extends Model {}
 
 const statusOptions = ["מאושר", 'ממתין לאישור רמ"ח', "נדחה"];
-  
+
 EventRequests.init(
   {
     id: {
@@ -17,21 +17,20 @@ EventRequests.init(
     },
     eventId: {
       type: DataTypes.UUID,
-      unique: true,
       allowNull: false,
       // validate: {
       //   isIn: {
-      //     args: [Event.findAll().map((event) => event.id)],
+      //     args: [Event.fiדndAll().map((event) => event.id)],
       //     msg: "Invalid eventId. This UUID does not exist in the commands table.",
       //   },
       // },
-    //   references: {
-    //     model: Event,
-    //     key: "eventId"
-    // }
+      //   references: {
+      //     model: Event,
+      //     key: "eventId"
+      // }
     },
     serialNumber: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING,
       allowNull: false,
       validate: {
         isNumeric: true,
@@ -48,23 +47,17 @@ EventRequests.init(
     firstName: {
       type: DataTypes.STRING,
       allowNull: false,
-      validate: {
-        isAlpha: true,
-      },
     },
     lastName: {
       type: DataTypes.STRING,
       allowNull: false,
-      validate: {
-        isAlpha: true,
-      },
     },
-    command: {
-      type: DataTypes.INTEGER,
+    commandId: {
+      type: DataTypes.UUID,
       allowNull: false,
     },
     division: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING,
       allowNull: false,
     },
     unit: {
@@ -106,6 +99,5 @@ EventRequests.init(
 //   onDelete: "CASCADE",
 // });
 // EventRequests.belongsTo(Event, { foreignKey: 'eventId' });
-
 
 module.exports = EventRequests;

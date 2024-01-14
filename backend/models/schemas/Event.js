@@ -22,7 +22,6 @@ Event.init(
     description: {
       type: DataTypes.STRING,
       allowNull: false,
-      unique: true,
       validate: {
         max: 1000,
       },
@@ -30,7 +29,6 @@ Event.init(
     date: {
       type: DataTypes.DATE,
       allowNull: false,
-      unique: true,
       validate: {
         isDate: true,
       },
@@ -38,7 +36,6 @@ Event.init(
     place: {
       type: DataTypes.STRING,
       allowNull: false,
-      unique: true,
     },
     creatorId: {
       type: DataTypes.UUID,
@@ -49,10 +46,10 @@ Event.init(
         //   msg: "Invalid userId. This integer does not exist in the commands table.",
         // },
       },
-    //   references: {
-    //     model: User,
-    //     key: "creatorId"
-    // }
+      //   references: {
+      //     model: User,
+      //     key: "creatorId"
+      // }
     },
   },
 
@@ -79,8 +76,6 @@ Event.init(
 // Event.belongsTo(User, { foreignKey: 'creatorId' });
 // Event.belongsToMany(Command, { through: 'CommandsEvent' });
 
-
 // Event.hasMany(EventCommands, { foreignKey: 'eventId' });
-
 
 module.exports = Event;

@@ -4,12 +4,22 @@ const eventRequestsController = require("../controllers/eventRequestsControllers
 
 const router = express.Router();
 
+// ✅
 router.get("/", eventRequestsController.geteventsRequests);
 
-router.get("/:eventId", eventRequestsController.geteventRequestsById);
+// ✅
+router.get("/:eventRequestId", eventRequestsController.geteventRequestsById);
 
-router.delete("/:eventId", eventRequestsController.updateEventRequests);
+// ✅
+router.get(
+  "/eventId/:eventId",
+  eventRequestsController.getEventRequestsByEventId
+);
 
+// ✅
 router.post("/", eventRequestsController.createEventRequests);
+
+// ✅
+router.delete("/:eventRequestId", eventRequestsController.deleteEventRequests);
 
 module.exports = router;

@@ -13,6 +13,9 @@ const getEvents = async (req, res, next) => {
 
     res.json(Events);
   } catch (err) {
+    console.log("Validation errors:");
+
+    console.log("Validation errors:", err.errors);
     const error = new HttpError("Get all events failed.", 500);
 
     console.log(err);
@@ -25,15 +28,16 @@ const getEventById = async (req, res, next) => {
 
   try {
     const event = await Event.findByPk(eventId);
+    console.log(event);
 
     if (!event) {
-      const error = new HttpError(`User with ID ${eventId} not found.`, 404);
+      const error = new HttpError(`Event with ID ${eventId} not found.`, 404);
       return next(error);
     }
 
-    res.json(user);
+    res.json(event);
   } catch (err) {
-    const error = new HttpError(`Get user by ID ${eventId} failed.`, 500);
+    const error = new HttpError(`Get event by ID ${eventId} failed.`, 500);
 
     console.error(err);
     next(error);
@@ -41,39 +45,48 @@ const getEventById = async (req, res, next) => {
 };
 
 const deleteEvent = async (req, res, next) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return next(new HttpError("failed to delete event, try later.", 422));
-  }
-
-  const { eventId } = req.body;
-
-  let events;
-  let eventById;
   try {
-    events = await Event.findAll({});
-    eventById = await events.findOne({ where: { id: eventId } });
-  } catch (err) {
-    const error = new HttpError("failed to get the event by id", 500);
-    next(error);
-  }
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return next(new HttpError("failed to delete event, try later.", 422));
+    }
 
-  if (!eventId) {
-    const error = new HttpError("there is no event with the id", 500);
-    next(error);
-  }
+    const eventId = req.params.eventId;
 
-  try {
-    await eventById.destroy();
-  } catch (err) {
-    const error = new HttpError("could not delete event", 500);
-    next(error);
-  }
+    let eventById;
+    try {
+      eventById = await Event.findOne({
+        where: { id: eventId },
+      });
+    } catch (err) {
+      const error = new HttpError("failed to get the event by id", 500);
+      next(error);
+    }
 
-  res.status(201).json({ massage: "DELETE" });
+    if (!eventById) {
+      const error = new HttpError("there is no event with the id", 500);
+      next(error);
+    }
+
+    try {
+      await eventById.destroy();
+    } catch (err) {
+      throw new HttpError("could not delete user", 500);
+    }
+
+    res.status(201).json({ massage: `DELETE:  ${eventId}` });
+  } catch (error) {
+    next(error); // Send the error to the error-handling middleware
+  }
 };
 
-const updateEvent = async (eventId, updatedFields) => {
+const updateEvent = async (req, res, next ) => {
+  const eventId = req.params.eventId;
+  console.log(eventId);
+
+  const { name, description, date, place } = req.body;
+  console.log(req.body);
+
   try {
     // Find the user by ID
     const event = await Event.findByPk(eventId);
@@ -88,31 +101,33 @@ const updateEvent = async (eventId, updatedFields) => {
     }
 
     // Update the user fields
-    if (updatedFields.name) {
-      user.name = updatedFields.name;
+    if (name !== undefined) {
+      event.name = name;
     }
 
-    if (updatedFields.description) {
-      user.description = updatedFields.description;
+    if (description !== undefined) {
+      event.description = description;
     }
 
-    if (updatedFields.date) {
-      user.date = updatedFields.date;
+    if (date !== undefined) {
+      event.date = date;
     }
-    if (updatedFields.place) {
-      user.place = updatedFields.place;
+    if (place !== undefined) {
+      event.place = place;
     }
 
     // Save the updated user
     await event.save();
 
     // Return the updated user
-    next(event);
+    res
+    .status(200)
+    .json({ message: `Event ${eventId} updated successfully.`, event });
   } catch (err) {
     // Handle errors
     console.error(error);
     const error = new HttpError(
-      `Could not update user ${eventid} , please try again later.`,
+      `Could not update user ${eventId} , please try again later.`,
       500
     );
     next(error);
@@ -120,17 +135,26 @@ const updateEvent = async (eventId, updatedFields) => {
 };
 
 const createEvent = async (req, res, next) => {
-  const { name, description, date, place, creatorId } = req.body;
+  const { id, name, description, date, place, creatorId } = req.body;
 
   try {
     // Check if the creatorId exists in the User model
     const userExists = await User.findByPk(creatorId);
     if (!userExists) {
-      return next(new HttpError("Invalid userId. The user does not exist.", 400));
+      return next(
+        new HttpError("Invalid userId. The user does not exist.", 400)
+      );
     }
 
     // Create a new event
-    const newEvent = await Event.create({ name, description, date, place, creatorId });
+    const newEvent = await Event.create({
+      id,
+      name,
+      description,
+      date,
+      place,
+      creatorId,
+    });
 
     res.status(201).json(newEvent);
   } catch (err) {
@@ -139,10 +163,8 @@ const createEvent = async (req, res, next) => {
   }
 };
 
-
 exports.getEvents = getEvents;
 exports.getEventById = getEventById;
 exports.deleteEvent = deleteEvent;
 exports.updateEvent = updateEvent;
 exports.createEvent = createEvent;
-

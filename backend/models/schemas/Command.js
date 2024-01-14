@@ -32,5 +32,5 @@ Command.init(
 // Command.belongsToMany(Event, { through: 'CommandsEvent' });
 
 // Command.hasMany(UnapprovedUser, { foreignKey: "commandId" });
- 
+
 module.exports = Command;

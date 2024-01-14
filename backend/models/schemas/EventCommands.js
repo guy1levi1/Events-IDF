@@ -3,7 +3,15 @@ const db = require("../../dbConfig");
 const Event = require("./Event");
 const Command = require("./Command");
 
-class EventCommands extends Model {}
+class EventCommands extends Model {
+  static associate(models) {
+    // define association here
+    EventCommands.belongsTo(Event, {
+      foreignKey: "eventId",
+      as: "event",
+    });
+  }
+}
 
 // const commands = await Command.findAll();
 // const events = await Event.findAll();
@@ -58,9 +66,8 @@ EventCommands.init(
 );
 
 // EventCommands.belongsTo(Event, {
-//   foreignKey: "id", //it was: foreignKey: "eventId",
+//   foreignKey: "eventId",
 //   as: "event",
-//   onDelete: "CASCADE",
 // });
 
 // EventCommands.belongsTo(Command, {

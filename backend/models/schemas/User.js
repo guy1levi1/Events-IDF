@@ -1,9 +1,14 @@
 const { Model, DataTypes } = require("sequelize");
 const db = require("../../dbConfig");
 const Command = require("./Command");
-// const Event = require("./Event");
+const Event = require("./Event");
 
-class User extends Model {}
+class User extends Model {
+  static associate() {
+    // define association here
+    User.hasMany(Event, { foreignKey: "creatorId" });
+  }
+}
 
 User.init(
   {
@@ -79,6 +84,6 @@ User.init(
 //   onDelete: "CASCADE",
 // });
 
-// User.hasMany(Event, { foreignKey: 'creatorId' });
+// User.hasMany(Event, { foreignKey: "creatorId" });
 
 module.exports = User;

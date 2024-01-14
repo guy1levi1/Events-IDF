@@ -3,7 +3,21 @@ const db = require("../../dbConfig");
 const User = require("./User");
 const EventCommands = require("./EventCommands");
 
-class Event extends Model {}
+class Event extends Model {
+  static associate() {
+    // define association here
+    Event.hasMany(EventCommands, {
+      foreignKey: "eventId",
+      as: "eventCommands", // You can use any name you prefer
+      // onDelete: 'CASCADE',
+    });
+    Event.belongsTo(User, {
+      foreignKey: "creatorId",
+      as: "creator",
+      // onDelete: "CASCADE",
+    });
+  }
+}
 
 Event.init(
   {
@@ -49,10 +63,10 @@ Event.init(
         //   msg: "Invalid userId. This integer does not exist in the commands table.",
         // },
       },
-    //   references: {
-    //     model: User,
-    //     key: "creatorId"
-    // }
+      //   references: {
+      //     model: User,
+      //     key: "creatorId"
+      // }
     },
   },
 
@@ -64,23 +78,12 @@ Event.init(
   }
 );
 
-// Event.belongsTo(User, {
-//   foreignKey: "creatorId",
-//   as: "creator",
-//   onDelete: "CASCADE",
-// });
-
 // Event.hasMany(EventCommands, {
-//   foreignKey: 'eventId',
-//   as: 'eventCommands', // You can use any name you prefer
-//   onDelete: 'CASCADE',
+//   foreignKey: "eventId",
+//   as: "eventCommands", // You can use any name you prefer
+//   // onDelete: 'CASCADE',
 // });
 
 // Event.belongsTo(User, { foreignKey: 'creatorId' });
-// Event.belongsToMany(Command, { through: 'CommandsEvent' });
-
-
-// Event.hasMany(EventCommands, { foreignKey: 'eventId' });
-
 
 module.exports = Event;

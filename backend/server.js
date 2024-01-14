@@ -9,6 +9,8 @@ const unapprovedUsersRoutes = require("./routes/unapprovedUsersRoutes");
 const eventRequestsRoutes = require("./routes/eventRequestsRoutes");
 const commandsRoutes = require("./routes//commandsRoutes");
 const db = require("./dbConfig");
+const swaggerUi = require("swagger-ui-express");
+const swaggerDocument = require("./swagger.json");
 
 const app = express();
 app.use(cors());
@@ -32,11 +34,16 @@ app.get("/", (req, res) => {
   res.send("Hello, World!");
 });
 
+
+
 app.use("/api/unapprovedUsers", unapprovedUsersRoutes);
 app.use("/api/users", usersRoutes);
 app.use("/api/events", eventsRoutes);
 app.use("/api/eventRequests", eventRequestsRoutes);
 app.use("/api/commands", commandsRoutes);
+
+app.use("/api/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
 
 // Start the server
 app.listen(port, async () => {

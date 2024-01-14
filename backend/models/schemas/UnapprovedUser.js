@@ -1,11 +1,10 @@
 const { Model, DataTypes } = require("sequelize");
 const db = require("../../dbConfig");
 const Command = require("./Command");
-// const Event = require("./Event");
 
-class User extends Model {}
+class UnapprovedUser extends Model {}
 
-User.init(
+UnapprovedUser.init(
   {
     id: {
       type: DataTypes.UUID,
@@ -47,16 +46,16 @@ User.init(
     commandId: {
       type: DataTypes.UUID,
       allowNull: false,
-      // references: {
-      //   model: "commands",
-      //   key: "id",
+      // validate: {
+      //   isIn: {
+      //     args: [commands.map((command) => command.id)],
+      //     msg: "Invalid commandId. This integer does not exist in the commands table.",
+      //   },
       // },
-      // onDelete: "CASCADE",
-      // onUpdate: "CASCADE",
-      // references: {
-      //   model: Command,
-      //   key: "commandId",
-      // },
+      //   references: {
+      //     model: Command,
+      //     key: "commandId"
+      // }
     },
 
     isAdmin: {
@@ -67,18 +66,18 @@ User.init(
   },
   {
     sequelize: db,
-    modelName: "users",
+    modelName: "unapprovedUsers",
     timestamps: false,
     createdAt: true,
   }
 );
 
-// User.belongsTo(Command, {
+// UnapprovedUsers.belongsTo(Command, {
 //   foreignKey: "commandId",
 //   as: "command",
 //   onDelete: "CASCADE",
 // });
 
-// User.hasMany(Event, { foreignKey: 'creatorId' });
+// UnapprovedUser.belongsTo(Command, { foreignKey: 'commandId' });
 
-module.exports = User;
+module.exports = UnapprovedUser;

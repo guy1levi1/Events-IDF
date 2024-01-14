@@ -222,7 +222,7 @@ export default function ManageExistsUsers({ newApprovedUser, existUsers }) {
       headerAlign: "center",
       align: "center",
       type: "string",
-      editable: false,
+      editable: true,
       flex: 1,
     },
 
@@ -231,7 +231,7 @@ export default function ManageExistsUsers({ newApprovedUser, existUsers }) {
       headerName: "שם מלא",
       headerAlign: "center",
       type: "string",
-      editable: false,
+      editable: true,
       flex: 1,
       align: "center",
     },
@@ -242,7 +242,7 @@ export default function ManageExistsUsers({ newApprovedUser, existUsers }) {
       headerAlign: "center",
       align: "center",
       type: "string",
-      editable: false,
+      editable: true,
       flex: 1,
     },
     {

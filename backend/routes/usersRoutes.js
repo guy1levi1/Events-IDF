@@ -7,18 +7,14 @@ const router = express.Router();
 
 router.get("/", usersController.getUsers);
 
+router.get("/:userId", usersController.getUserById);
+
+router.patch("/:userId", usersController.updateUser);
 
 router.post("/login", usersController.login);
 
-router.post(
-  "/signup",
-  [
-    check("name").not().isEmpty(),
-    check("email").normalizeEmail().isEmail(),
-    check("password").isLength({ min: 6 }),
-  ],
-  usersController.signup
-);
+router.delete("/:userId", usersController.deleteUser);
 
+router.post("/signup", usersController.signup);
 
 module.exports = router;

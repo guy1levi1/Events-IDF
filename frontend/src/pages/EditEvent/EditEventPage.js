@@ -1,45 +1,19 @@
-import { Box, TextField } from "@mui/material";
 import React, { useEffect, useState, useRef } from "react";
-import Button from "@mui/material/Button";
-import "./EditEventPage.css";
-import useForm from "../../utils/hooks/useForm";
+import { Link, useParams, useNavigate } from "react-router-dom";
+import { Box, TextField, Button } from "@mui/material";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DateTimePicker, renderTimeViewClock } from "@mui/x-date-pickers";
+import dayjs from "dayjs";
+import * as XLSX from "xlsx";
+import useForm from "../../utils/hooks/useForm";
 import InputsWrapper from "../../utils/InputsWrapper";
 import TableModeIcon from "../../images/tableModeIcon.png";
-import { DateTimePicker, renderTimeViewClock } from "@mui/x-date-pickers";
-// import dayjs from "dayjs";
-import { Link, useParams, useNavigate } from "react-router-dom";
-import dayjs from "dayjs";
 import { useFilename } from "../../components/tableEditing/FilenameContext";
-import * as XLSX from "xlsx";
 import CommandsMultiSelect from "../../components/CommandsMultiSelect";
-
-// const commands = [
-//   {
-//     commandId: 0,
-//     commandName: "",
-//   },
-//   {
-//     commandId: 1,
-//     commandName: "מרכז",
-//   },
-//   {
-//     commandId: 2,
-//     commandName: "צפון",
-//   },
-//   {
-//     commandId: 3,
-//     commandName: "דרום",
-//   },
-//   {
-//     commandId: 4,
-//     commandName: `פקע"ר`,
-//   },
-// ];
+import "./EditEventPage.css";
 
 const eventName = "פריסת שחרור לאור";
-// const options = { year: "numeric", month: "numeric", day: "numeric", hour: "numeric", minute: "numeric", second: "numeric", timeZoneName: "short" };
 
 const currentDate = dayjs();
 const eventLocation = 'תל השומר מקל"ר';
@@ -50,36 +24,34 @@ const description = `נערוך לאורצ'וק פריסת שחרור, באיר�
 const commandsSelector = ["מרכז", "צפון"];
 
 const CHARACTER_LIMIT = 1000;
- const formStates = {
-    eventName: {
-      value: eventName,
-      isValid: true,
-      error: false,
-    },
-    eventDate: {
-      value: currentDate,
-      isValid: true,
-      error: false,
-    },
-    eventLocation: {
-      value: eventLocation,
-      isValid: true,
-      error: false,
-    },
-    commandsSelector: {
-      value: [],
-      isValid: true,
-      error: false,
-    },
-    description: {
-      value: description,
-      isValid: true,
-      error: false,
-    },
-  };
+const formStates = {
+  eventName: {
+    value: eventName,
+    isValid: true,
+    error: false,
+  },
+  eventDate: {
+    value: currentDate,
+    isValid: true,
+    error: false,
+  },
+  eventLocation: {
+    value: eventLocation,
+    isValid: true,
+    error: false,
+  },
+  commandsSelector: {
+    value: [],
+    isValid: true,
+    error: false,
+  },
+  description: {
+    value: description,
+    isValid: true,
+    error: false,
+  },
+};
 export default function EditEventPage(props) {
- 
-
   const { eventId } = useParams();
   console.log(currentDate);
 
@@ -108,25 +80,25 @@ export default function EditEventPage(props) {
     });
   };
 
-   // Parse the JSON stored in localStorage
-   const formDataFromLocalStorage = localStorage.getItem("newEditFormstates")
-   ? JSON.parse(localStorage.getItem("newEditFormstates"))
-   : null;
- // Change the value of eventDate using dayjs
- if (
-   formDataFromLocalStorage &&
-   formDataFromLocalStorage.eventDate.value !== null
- ) {
-   formDataFromLocalStorage.eventDate.value = dayjs(
-     formDataFromLocalStorage.eventDate.value
-   );
- }
+  // Parse the JSON stored in localStorage
+  const formDataFromLocalStorage = localStorage.getItem("newEditFormstates")
+    ? JSON.parse(localStorage.getItem("newEditFormstates"))
+    : null;
+  // Change the value of eventDate using dayjs
+  if (
+    formDataFromLocalStorage &&
+    formDataFromLocalStorage.eventDate.value !== null
+  ) {
+    formDataFromLocalStorage.eventDate.value = dayjs(
+      formDataFromLocalStorage.eventDate.value
+    );
+  }
 
- const { formData, handleInput, handleBlur } = useForm(
-  formDataFromLocalStorage || formStates,
-  JSON.parse(localStorage.getItem("newEditFormIsValid")) || false
-);
-console.log(formData);
+  const { formData, handleInput, handleBlur } = useForm(
+    formDataFromLocalStorage || formStates,
+    JSON.parse(localStorage.getItem("newEditFormIsValid")) || false
+  );
+  console.log(formData);
   const [dateError] = useState(false);
   const [vhAsPixels, setVhAsPixels] = useState(0);
   const [initialFontSize, setInitialFontSize] = useState(0); // Add initialFontSize state
@@ -179,32 +151,14 @@ console.log(formData);
   const navigate = useNavigate();
 
   const handleButtonClick = () => {
-    // localStorage.setItem(
-    //   "editEventName",
-    //   formData.initialInputs.eventName.value
-    // );
-    // localStorage.setItem(
-    //   "editEventDate",
-    //   formData.initialInputs.eventDate.value
-    // );
-    // localStorage.setItem(
-    //   "editEventLocation",
-    //   formData.initialInputs.eventLocation.value
-    // );
-    // localStorage.setItem(
-    //   "editEventCommands",
-    //   formData.initialInputs.commandsSelector.value
-    // );
-    // localStorage.setItem(
-    //   "editEventDescription",
-    //   formData.initialInputs.description.value
-    // );
-
     localStorage.setItem(
       "newEditFormstates",
       JSON.stringify(formData.initialInputs)
     );
-    localStorage.setItem("newEditFormIsValid", JSON.stringify(formData.isValid));
+    localStorage.setItem(
+      "newEditFormIsValid",
+      JSON.stringify(formData.isValid)
+    );
     fileInputRef.current.click();
   };
 
@@ -381,7 +335,6 @@ console.log(formData);
                     : "תאריך אינו תקין, הכנס תאריך עדכני",
                 },
               }}
-              // onError={(newError) => setDateError(newError)}
             />
           </LocalizationProvider>
           <TextField
@@ -443,17 +396,11 @@ console.log(formData);
             onChange={handleInput}
             onBlur={handleBlur}
             commandsFromLocalStorage={
-              // {["מרכז", "צפון"]}
               formData.initialInputs.commandsSelector.value.length > 0
                 ? formData.initialInputs.commandsSelector.value
                 : null
             }
             commandsFromEdit={commandsSelector}
-            // {
-            //   formData.initialInputs.commandsSelector.value.length > 0
-            //     ? formData.initialInputs.commandsSelector.value.join(",")
-            //     : null
-            // }
           />
 
           <TextField
@@ -590,9 +537,7 @@ console.log(formData);
                 />
               </label>
 
-              <button style={{ display: "none" }}>
-                Upload File
-              </button>
+              <button style={{ display: "none" }}>Upload File</button>
               <div style={{ marginTop: "-0.6rem" }}>
                 <p
                   style={{

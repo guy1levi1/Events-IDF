@@ -16,46 +16,27 @@ import CommandsMultiSelect from "../../components/CommandsMultiSelect";
 
 const formStates = {
   eventName: {
-    value:
-      //  localStorage.getItem("newEventName")
-      //   ? localStorage.getItem("newEventName")
-      //   :
-      "",
+    value: "",
     isValid: false,
     error: false,
   },
   eventDate: {
-    // value: localStorage.getItem("newEventDate")
-    //   ? localStorage.getItem("newEventDate")
-    //   : dayjs(),
     value: null,
     isValid: false,
     error: false,
   },
   eventLocation: {
-    value:
-      //  localStorage.getItem("newEventLocation")
-      //   ? localStorage.getItem("newEventLocation")
-      //   :
-      "",
+    value: "",
     isValid: false,
     error: false,
   },
   commandsSelector: {
-    value:
-      // localStorage.getItem("newEventCommands")
-      //   ? localStorage.getItem("newEventCommands")
-      //   :
-      [],
+    value: [],
     isValid: false,
     error: false,
   },
   description: {
-    value:
-      //  localStorage.getItem("newEventDescription")
-      //   ? localStorage.getItem("newEventDescription")
-      //   :
-      "",
+    value: "",
     isValid: false,
     error: false,
   },
@@ -63,12 +44,14 @@ const formStates = {
 
 const CHARACTER_LIMIT = 1000;
 
+// Define the CreateEventPage component as the default export
 export default function CreateEventPage() {
-  // Parse the JSON stored in localStorage
+  // Parse the JSON stored in localStorage for form data or set it to null if not present
   const formDataFromLocalStorage = localStorage.getItem("newFormstates")
     ? JSON.parse(localStorage.getItem("newFormstates"))
     : null;
-  // Change the value of eventDate using dayjs
+
+  // Convert the stored event date value to a dayjs object if it exists
   if (
     formDataFromLocalStorage &&
     formDataFromLocalStorage.eventDate.value !== null
@@ -77,16 +60,20 @@ export default function CreateEventPage() {
       formDataFromLocalStorage.eventDate.value
     );
   }
+
+  // Destructure values and functions from the custom useForm hook
   const { formData, handleInput, handleBlur } = useForm(
     formDataFromLocalStorage || formStates,
     JSON.parse(localStorage.getItem("newFormIsValid")) || false
   );
-  
+
+  // State variables for date error, viewport height as pixels, and initial font size
   const [dateError, setDateError] = useState(false);
   const [vhAsPixels, setVhAsPixels] = useState(0);
   const [initialFontSize, setInitialFontSize] = useState(0);
-  const eventId = 1;
 
+  // Static eventId and headers for the form
+  const eventId = 1;
   const headers = [
     "sertialNumber",
     "privateNumber",
@@ -101,6 +88,7 @@ export default function CreateEventPage() {
     "reasonNonArrival",
   ];
 
+  // Function to map keys from raw data to a new structure with eventId and status
   const mapKeys = (data, headers, eventId) => {
     return data.map((item) => {
       const newItem = { eventId: eventId };
@@ -112,88 +100,14 @@ export default function CreateEventPage() {
     });
   };
 
+  // Function to handle submission of a new event, clearing stored form data and filename
   const handleSumbitNewEvent = () => {
-    // localStorage.removeItem("newEventName");
-    // localStorage.removeItem("newEventDate");
-    // localStorage.removeItem("newEventLocation");
-    // localStorage.removeItem("newEventCommands");
-    // localStorage.removeItem("newEventDescription");
     localStorage.removeItem("newFormstates");
     localStorage.removeItem("newFormIsValid");
     setFilename("");
   };
 
-  // useEffect(() => {
-  //   const inputsArray = Object.keys(formData.initialInputs);
-
-  //   inputsArray.forEach((inputId, index) => {
-  //     console.log("start set state from local storage");
-  //     switch (inputId) {
-  //       case "eventName":
-  //         if (
-  //           localStorage.getItem("newEventName") !== null &&
-  //           localStorage.getItem("newEventName") !== ""
-  //         ) {
-  //           handleInput({
-  //             value: localStorage.getItem("newEventName"),
-  //             id: inputId,
-  //             type: "update",
-  //           });
-  //         }
-  //         break;
-  //       case "eventDate":
-  //         if (localStorage.getItem("newEventDate") !== null) {
-  //           handleInput({
-  //             value: dayjs(localStorage.getItem("newEventDate")),
-  //             id: inputId,
-  //             type: "update",
-  //           });
-  //         }
-
-  //         break;
-
-  //       case "eventLocation":
-  //         if (
-  //           localStorage.getItem("newEventLocation") !== null &&
-  //           localStorage.getItem("newEventLocation") !== ""
-  //         ) {
-  //           handleInput({
-  //             value: localStorage.getItem("newEventLocation"),
-  //             id: inputId,
-  //             type: "update",
-  //           });
-  //         }
-  //         break;
-
-  //       case "commandsSelector":
-  //         if (
-  //           localStorage.getItem("newEventCommands") !== null &&
-  //           localStorage.getItem("newEventCommands") !== ""
-  //         ) {
-  //           handleInput({
-  //             value: localStorage.getItem("newEventCommands")?.split(","),
-  //             id: inputId,
-  //             type: "update",
-  //           });
-  //         }
-  //         break;
-
-  //       case "description":
-  //         if (
-  //           localStorage.getItem("newEventDescription") !== null &&
-  //           localStorage.getItem("newEventDescription") !== ""
-  //         ) {
-  //           handleInput({
-  //             value: localStorage.getItem("newEventDescription"),
-  //             id: inputId,
-  //             type: "update",
-  //           });
-  //         }
-  //         break;
-  //     }
-  //   });
-  // }, []);
-
+  // Event handlers for form input changes and blurs
   const handleInputChange = (e) => {
     handleInput(e);
   };
@@ -202,10 +116,12 @@ export default function CreateEventPage() {
     handleBlur(e.target.id);
   };
 
+  // Utility function to clamp a value between a minimum and maximum
   const clamp = (min, value, max) => {
     return `clamp(${min}, ${value}, ${max})`;
   };
 
+  // Effect hook to handle window resize events and set vhAsPixels and initialFontSize
   useEffect(() => {
     const handleResize = () => {
       if (typeof window !== "undefined") {
@@ -218,43 +134,28 @@ export default function CreateEventPage() {
       }
     };
 
+    // Initial resize call and event listener setup
     handleResize();
 
     if (typeof window !== "undefined") {
       window.addEventListener("resize", handleResize);
 
+      // Cleanup function to remove event listener on component unmount
       return () => {
         window.removeEventListener("resize", handleResize);
       };
     }
   }, []);
 
+  // Destructuring values and functions from the useFilename hook
   const { filename, setFilename } = useFilename();
 
+  // Ref for file input element and navigation hook
   const fileInputRef = useRef(null);
   const navigate = useNavigate();
 
+  // Function to handle button click, store form data in localStorage, and trigger file input click
   const handleButtonClick = () => {
-    // localStorage.setItem(
-    //   "newEventName",
-    //   formData.initialInputs.eventName.value
-    // );
-    // localStorage.setItem(
-    //   "newEventDate",
-    //   formData.initialInputs.eventDate.value
-    // );
-    // localStorage.setItem(
-    //   "newEventLocation",
-    //   formData.initialInputs.eventLocation.value
-    // );
-    // localStorage.setItem(
-    //   "newEventCommands",
-    //   formData.initialInputs.commandsSelector.value
-    // );
-    // localStorage.setItem(
-    //   "newEventDescription",
-    //   formData.initialInputs.description.value
-    // );
     localStorage.setItem(
       "newFormstates",
       JSON.stringify(formData.initialInputs)
@@ -263,6 +164,7 @@ export default function CreateEventPage() {
     fileInputRef.current.click();
   };
 
+  // Function to handle file upload, read and parse Excel file, and navigate to the table page
   const handleFileUpload = (e) => {
     handleButtonClick();
     const file = e.target.files[0];
@@ -271,52 +173,52 @@ export default function CreateEventPage() {
     if (file) {
       const reader = new FileReader();
 
+      // Validate file type
       if (
         file.type === "application/vnd.ms-excel" ||
         file.type ===
           "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
       ) {
+        // Read and process the Excel file
+        reader.onload = (e) => {
+          const data = e.target.result;
+          const workbook = XLSX.read(data, { type: "binary" });
+          const sheetName = workbook.SheetNames[0];
+          const sheet = workbook.Sheets[sheetName];
+
+          // Transform raw data and navigate to the table page
+          const newRows = XLSX.utils
+            .sheet_to_json(sheet, { header: 1 })
+            .slice(1)
+            .map((row) => {
+              const newRow = {
+                eventId: "EVENTID",
+                ...row,
+                status: "pending",
+              };
+              return newRow;
+            });
+          const transformedData = mapKeys(newRows, headers, eventId);
+
+          navigate(`/table/new`, {
+            state: {
+              transformedData: transformedData,
+              eventName: formData.initialInputs.eventName.value,
+              eventDate: dayjs(formData.initialInputs.eventDate.value).format(
+                "HH:mm DD.MM.YY"
+              ),
+              eventLocation: formData.initialInputs.eventLocation.value,
+            },
+          });
+        };
+
+        reader.readAsBinaryString(file);
       } else {
         console.error("Invalid file type");
         throw new Error(
           "Invalid file type. Please upload a valid Excel file (xlsx or xls)."
         );
       }
-
-      reader.onload = (e) => {
-        const data = e.target.result;
-        const workbook = XLSX.read(data, { type: "binary" });
-        const sheetName = workbook.SheetNames[0];
-        const sheet = workbook.Sheets[sheetName];
-
-        const newRows = XLSX.utils
-          .sheet_to_json(sheet, { header: 1 })
-          .slice(1)
-          .map((row) => {
-            const newRow = {
-              eventId: "EVENTID",
-              ...row,
-              status: "pending",
-            };
-            return newRow;
-          });
-        const transformedData = mapKeys(newRows, headers, eventId);
-
-        navigate(`/table/new`, {
-          state: {
-            transformedData: transformedData,
-            eventName: formData.initialInputs.eventName.value,
-            eventDate: dayjs(formData.initialInputs.eventDate.value).format(
-              "HH:mm DD.MM.YY"
-            ),
-            eventLocation: formData.initialInputs.eventLocation.value,
-          },
-        });
-
-        // onRowsChange(newRows);
-      };
-
-      reader.readAsBinaryString(file);
     }
   };
 

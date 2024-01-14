@@ -9,7 +9,6 @@ import Select from "@mui/material/Select";
 import Chip from "@mui/material/Chip";
 import { FormHelperText } from "@mui/material";
 import { red } from "@mui/material/colors";
-// import { useEffect } from "react";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -48,22 +47,9 @@ export default function CommandsMultiSelect({
   commandsFromLocalStorage,
 }) {
   const theme = useTheme();
-  //   const [commandName, setCommandName] = React.useState(commandsFromEdit || []);
   const [commandName, setCommandName] = React.useState(
     commandsFromLocalStorage || commandsFromEdit || []
   );
-  console.log(commandsFromEdit);
-
-  // console.log(valueFromEdit);
-
-  // useEffect(() => {
-  //   if (valueFromEdit) {
-  //     setCommandName((prevCommandName) => {
-  //       // Call the onChange callback with the updated state
-  //       onChange({ value: valueFromEdit, id: "commandsSelector" });
-  //     });
-  //   }
-  // }, [valueFromEdit]);
 
   const handleChange = (event) => {
     const {

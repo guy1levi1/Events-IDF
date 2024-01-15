@@ -10,6 +10,9 @@ import IconButton from "@mui/material/IconButton";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { Link } from "react-router-dom";
+import { post } from "../../utils/api/api";
+import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const formStates = {
   privateNumber: {
@@ -28,6 +31,7 @@ export default function LoginPage() {
   const [showPassword, setShowPassword] = React.useState(false);
   const [vhAsPixels, setVhAsPixels] = useState(0);
   const [initialFontSize, setInitialFontSize] = useState(0);
+  const navigate = useNavigate();
 
   const handleTogglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -63,6 +67,48 @@ export default function LoginPage() {
       };
     }
   }, []);
+
+  const handleLogin = async () => {
+    // Replace 'YOUR_SERVER_API_URL' with the actual URL of your signup endpoint
+    const apiUrl = "http://localhost:5000/api/users/login";
+
+    const headers = {
+      "Content-Type": "application/json",
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Headers":
+        "Origin, X-Requested-With, Content-Type, Accept, Authorization",
+      "Access-Control-Allow-Methods": "GET, POST, PATCH, DELETE",
+    };
+
+    const body = {
+      privateNumber: formData.initialInputs.privateNumber.value,
+      password: formData.initialInputs.password.value,
+    };
+
+    try {
+      const response = await post(apiUrl, body, headers);
+      console.log(response);
+      console.log("Server response:", response.data);
+
+      navigate("/manageEventes");
+    } catch (error) {
+      console.error("Error during signup:", error);
+      console.log(error);
+      Swal.fire({
+        title: "התחברות נכשלה",
+        text: "הנתונים שהזנת אינם מתאימים, נסה שוב מאוחר יותר",
+        icon: "error",
+        // showCancelButton: true,
+        // confirmButtonColor: "#",
+        // cancelButtonColor: "#3085d6",
+        confirmButtonText: "בוצע",
+        // cancelButtonText: "בטל",
+        // reverseButtons: true,
+      }).then(() => {
+        //
+      });
+    }
+  };
 
   return (
     <Box className="authWarraperLogin">
@@ -190,36 +236,27 @@ export default function LoginPage() {
             justifyContent: "center",
           }}
         >
-          <Link
-            to={!formData.isValid ? "/login" : "/manageEventes"} // of course we have to check if user exists and password is correct
-            style={{
-              color: "white",
-              textDecoration: "none",
-              height: "100%",
-              width: "100%",
+          <Button
+            variant="contained"
+            color="primary"
+            disabled={!formData.isValid}
+            onClick={() => handleLogin()}
+            sx={{
+              borderRadius: "5000px",
+              fontSize: [
+                "0.2rem",
+                "0.4rem",
+                "0.7rem",
+                "1rem",
+                "1.3rem",
+                "1.6rem",
+                "1.9rem",
+              ],
             }}
+            style={{ width: "100%", height: "100%" }}
           >
-            <Button
-              variant="contained"
-              color="primary"
-              disabled={!formData.isValid}
-              sx={{
-                borderRadius: "5000px",
-                fontSize: [
-                  "0.2rem",
-                  "0.4rem",
-                  "0.7rem",
-                  "1rem",
-                  "1.3rem",
-                  "1.6rem",
-                  "1.9rem",
-                ],
-              }}
-              style={{ width: "100%", height: "100%" }}
-            >
-              התחבר/י
-            </Button>
-          </Link>
+            התחבר/י
+          </Button>
         </Box>
         <Box
           sx={{

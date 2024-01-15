@@ -530,7 +530,6 @@ export default function SignUpPage() {
             variant="contained"
             color="primary"
             disabled={!formData.isValid}
-            // send all props
             onClick={() => handleSignup()}
             sx={{
               borderRadius: "5000px",

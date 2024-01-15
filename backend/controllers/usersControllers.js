@@ -160,7 +160,9 @@ const login = async (req, res, next) => {
 
   let isValidPassword = false;
   try {
-    isValidPassword = (await sha256(password)) == existingUser.password;
+    const hashedPassowrd = await sha256(password);
+
+    isValidPassword = hashedPassowrd === existingUser.password;
   } catch (err) {
     const error = new HttpError(
       "Could not log you in, please check your credentials and try again.",
@@ -171,7 +173,7 @@ const login = async (req, res, next) => {
 
   if (!isValidPassword) {
     const error = new HttpError(
-      "Invalid credentials, could not log you in.",
+      "Invalid credentials1, could not log you in.",
       403
     );
     return next(error);
@@ -182,7 +184,7 @@ const login = async (req, res, next) => {
     token = jwt.sign(
       { userId: existingUser.id, privateNumber: existingUser.privateNumber },
       "supersecret_dont_share",
-      { expiresIn: "1h" }
+      { expiresIn: "24h" }
     );
   } catch (err) {
     const error = new HttpError(

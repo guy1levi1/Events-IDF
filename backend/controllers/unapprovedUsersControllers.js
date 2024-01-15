@@ -53,7 +53,7 @@ const createUnapprovedUser = async (req, res, next) => {
     req.body;
   console.log(req.body);
 
-  let existingUser;
+  let existingUnapprovedUser;
   try {
     existingUnapprovedUser = await UnapprovedUser.findOne({
       where: { privateNumber },

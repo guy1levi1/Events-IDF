@@ -1,20 +1,7 @@
 const { Model, DataTypes } = require("sequelize");
 const db = require("../../dbConfig");
-const Command = require("./Command");
-const Event = require("./Event");
 
-class User extends Model {
-  static associate() {
-    // define association here
-    // User.hasMany(Event, { foreignKey: "creatorId" });
-    // User.hasMany(Event, {
-    //   foreignKey: { type: DataTypes.UUID, allowNull: false },
-    // });
-    // User.belongsTo(Command, {
-    //   foreignKey: "commandId",
-    // });
-  }
-}
+class User extends Model {}
 
 User.init(
   {

@@ -1,23 +1,7 @@
 const { Model, DataTypes } = require("sequelize");
 const db = require("../../dbConfig");
-const Event = require("./Event");
-const Command = require("./Command");
 
-class EventCommands extends Model {
-  static associate() {
-    // define association here
-    // EventCommands.belongsTo(Event, {
-    //   foreignKey: "eventId",
-    //   as: "event",
-    // });
-    // EventCommands.belongsTo(Command, {
-    //   foreignKey: "commandId",
-    // });
-  }
-}
-
-// const commands = await Command.findAll();
-// const events = await Event.findAll();
+class EventCommands extends Model {}
 
 EventCommands.init(
   {

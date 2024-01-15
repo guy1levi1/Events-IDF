@@ -70,7 +70,7 @@ const getEventRequestsByEventId = async (req, res, next) => {
   }
 };
 
-const createEventRequests = async (req, res, next) => {
+const createEventRequest = async (req, res, next) => {
   // Validate request body
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -126,7 +126,7 @@ const createEventRequests = async (req, res, next) => {
   }
 };
 
-const deleteEventRequests = async (req, res, next) => {
+const deleteEventRequest = async (req, res, next) => {
   try {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -164,8 +164,29 @@ const deleteEventRequests = async (req, res, next) => {
   }
 };
 
+// Delete all event commands with a specific eventId
+const deleteAllEventRequestsByEventId = async (req, res, next) => {
+  const eventId = req.params.eventId;
+
+  try {
+    const eventCommands = await EventRequests.destroy({
+      where: { eventId },
+    });
+
+    if (!eventCommands) {
+      return next(new HttpError(`No EventCommands found for event with id ${eventId}.`, 404));
+    }
+
+    res.status(204).end();
+  } catch (err) {
+    console.error(err);
+    next(new HttpError("Delete all event commands by eventId failed.", 500));
+  }
+};
+
 exports.geteventsRequests = geteventsRequests;
 exports.getEventRequestsByEventId = getEventRequestsByEventId;
-exports.createEventRequests = createEventRequests;
-exports.deleteEventRequests = deleteEventRequests;
+exports.createEventRequest = createEventRequest;
+exports.deleteEventRequest = deleteEventRequest;
 exports.geteventRequestsById = geteventRequestsById;
+exports.deleteAllEventRequestsByEventId = deleteAllEventRequestsByEventId;

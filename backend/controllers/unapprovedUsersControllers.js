@@ -58,10 +58,9 @@ const createUnapprovedUser = async (req, res, next) => {
     existingUnapprovedUser = await UnapprovedUser.findOne({
       where: { privateNumber },
     });
-    console.log("existingUser: ");
-
-    console.log(existingUser);
+    console.log("existingUser: " + existingUnapprovedUser);
   } catch (err) {
+    console.log("ERROR");
     const error = new HttpError(
       "Signing up failed, please try again later.",
       500

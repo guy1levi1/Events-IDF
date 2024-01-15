@@ -10,6 +10,8 @@ const eventRequestsRoutes = require("./routes/eventRequestsRoutes");
 const commandsRoutes = require("./routes//commandsRoutes");
 const db = require("./dbConfig");
 require("./models/relations"); // Import the relations file
+const swaggerUi = require("swagger-ui-express");
+const swaggerDocument = require("./swagger.json");
 
 const app = express();
 app.use(cors());
@@ -38,6 +40,8 @@ app.use("/api/users", usersRoutes);
 app.use("/api/events", eventsRoutes);
 app.use("/api/eventRequests", eventRequestsRoutes);
 app.use("/api/commands", commandsRoutes);
+
+app.use("/api/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // Start the server
 app.listen(port, async () => {

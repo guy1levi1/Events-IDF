@@ -11,6 +11,8 @@ import IconButton from "@mui/material/IconButton";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { Link } from "react-router-dom";
+import { post } from "../../utils/api";
+const { v4: uuidv4 } = require("uuid");
 
 const commands = [
   {
@@ -108,6 +110,38 @@ export default function SignUpPage() {
       };
     }
   }, []);
+
+  const handleSignup = async (formStates) => {
+    console.log(formStates);
+
+    // Replace 'YOUR_SERVER_API_URL' with the actual URL of your signup endpoint
+    const apiUrl =
+      "http://localhost:5000/api/unapprovedUsers/signUpunapprovedUser/";
+
+    const headers = {
+      "Content-Type": "application/json",
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Headers":
+        "Origin, X-Requested-With, Content-Type, Accept, Authorization",
+      "Access-Control-Allow-Methods": "GET, POST, PATCH, DELETE",
+    };
+
+    const body = {
+      id: uuidv4(),
+      privateNumber: "1111111",
+      fullName: "משתמש לאיקר",
+      password: "password123",
+      commandId: "6e2856e3-100a-46ca-8544-f4a2935a8c08",
+      isAdmin: false,
+    };
+
+    try {
+      const response = await post(apiUrl, body, headers);
+      console.log("Server response:", response.data);
+    } catch (error) {
+      console.error("Error during signup:", error);
+    }
+  };
 
   return (
     <Box className="authWarraperSignup">
@@ -408,6 +442,8 @@ export default function SignUpPage() {
               variant="contained"
               color="primary"
               disabled={!formData.isValid}
+              // send all props
+              onClick={handleSignup({"password" : formData.initialInputs.password.value})}
               sx={{
                 borderRadius: "5000px",
                 fontSize: [

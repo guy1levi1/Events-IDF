@@ -1,14 +1,16 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import "./Menu.css";
 import profile_img from "../../images/logo_image_example.png";
 import { useNavigate } from "react-router";
 import { useLocation } from "react-router-dom";
+import { AuthContext } from "../../utils/contexts/authContext";
 
 const Menu = () => {
   const [open, setOpen] = useState(false);
   const [activeLink, setActiveLink] = useState(null);
   const navigate = useNavigate();
   const location = useLocation();
+  const auth = useContext(AuthContext);
 
   const toggleMenu = () => {
     setOpen(!open);
@@ -19,12 +21,14 @@ const Menu = () => {
     setActiveLink(getRouteIndex(location.pathname));
   }, [location]);
 
-  const linksArray = [
-    { name: "אודות המערכת", url: "/about" },
-    { name: "ניהול אירועים", url: "/manageEventes" },
-    { name: "יצירת אירוע", url: "/createEvent" },
-    { name: "ניהול משתמשים", url: "/manageUsers" },
-  ];
+  const linksArray = auth.isLoggedIn
+    ? [
+        { name: "אודות המערכת", url: "/about" },
+        { name: "ניהול אירועים", url: "/manageEventes" },
+        { name: "יצירת אירוע", url: "/createEvent" },
+        { name: "ניהול משתמשים", url: "/manageUsers" },
+      ]
+    : [{ name: "אודות המערכת", url: "/about" }];
 
   const getRouteIndex = (pathname) => {
     if (pathname === "/about") {

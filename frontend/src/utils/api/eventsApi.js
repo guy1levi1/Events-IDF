@@ -1,6 +1,6 @@
-import { get } from "./api";
+import { get, post, patch, del } from "./api";
 
-export async function getEvnets() {
+export async function getEvnets(token) {
   const apiUrl = "http://localhost:5000/api/events/";
 
   const headers = {
@@ -9,6 +9,8 @@ export async function getEvnets() {
     "Access-Control-Allow-Headers":
       "Origin, X-Requested-With, Content-Type, Accept, Authorization",
     "Access-Control-Allow-Methods": "GET",
+    "Authorization": `Bearer ${"token"}`,
+
   };
 
   try {

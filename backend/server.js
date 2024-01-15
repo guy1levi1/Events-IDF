@@ -13,6 +13,7 @@ const db = require("./dbConfig");
 require("./models/relations"); // Import the relations file
 const swaggerUi = require("swagger-ui-express");
 const swaggerDocument = require("./swagger.json");
+const checkAuth = require("../backend/middlewares/checkAuth");
 
 const app = express();
 app.use(cors());
@@ -36,8 +37,12 @@ app.get("/", (req, res) => {
   res.send("Hello, World!");
 });
 
-app.use("/api/unapprovedUsers", unapprovedUsersRoutes);
 app.use("/api/users", usersRoutes);
+
+// use it in routes
+// app.use(checkAuth);
+
+app.use("/api/unapprovedUsers", unapprovedUsersRoutes);
 app.use("/api/events", eventsRoutes);
 app.use("/api/eventRequests", eventRequestsRoutes);
 app.use("/api/commands", commandsRoutes);

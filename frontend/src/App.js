@@ -14,7 +14,30 @@ import ManageEventsPage from "./pages/ManageEvents/ManageEventsPage";
 import ManageUsersPage from "./pages/ManageUsers/ManageUsersPage";
 import CrossInformationTable from "./components/crossInformationTable/CrossInformationTable";
 import EditEventPage from "./pages/EditEvent/EditEventPage";
-import { FilenameProvider } from "./components/tableEditing/FilenameContext";
+import { FilenameProvider } from "./utils/contexts/FilenameContext";
+import { AuthContext } from "./utils/contexts/authContext";
+import { useAuth } from "./utils/hooks/useAuth";
+
+const routerNotAuth = createBrowserRouter([
+  {
+    path: "/",
+    element: <RootLayout />,
+    children: [
+      { path: "/", element: <Navigate to="/about" replace /> }, // will be changes to about
+      { path: "/login", element: <LoginPage /> },
+      { path: "/signup", element: <SignUpPage /> },
+      { path: "about", element: <AboutPage /> },
+      // {
+      //   path: "/manageEventes",
+      //   element: (
+      //     <FilenameProvider>
+      //       <ManageEventsPage />
+      //     </FilenameProvider>
+      //   ),
+      // },
+    ],
+  },
+]);
 
 const router = createBrowserRouter([
   {
@@ -80,7 +103,21 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
-  return <RouterProvider router={router} />;
+  const { token, login, logout, userId } = useAuth();
+
+  return (
+    <AuthContext.Provider
+      value={{
+        isLoggedIn: !!token,
+        token: token,
+        userId: userId,
+        login: login,
+        logout: logout,
+      }}
+    >
+      <RouterProvider router={token ? router : routerNotAuth} />
+    </AuthContext.Provider>
+  );
 }
 
 export default App;

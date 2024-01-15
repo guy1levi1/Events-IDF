@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Button from "@mui/material/Button";
 import "./LoginPage.css";
 import { NavLink } from "react-router-dom";
@@ -13,6 +13,7 @@ import { Link } from "react-router-dom";
 import { post } from "../../utils/api/api";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
+import { AuthContext } from '../../utils/contexts/authContext';
 
 const formStates = {
   privateNumber: {
@@ -31,6 +32,7 @@ export default function LoginPage() {
   const [showPassword, setShowPassword] = React.useState(false);
   const [vhAsPixels, setVhAsPixels] = useState(0);
   const [initialFontSize, setInitialFontSize] = useState(0);
+  const auth = useContext(AuthContext);
   const navigate = useNavigate();
 
   const handleTogglePasswordVisibility = () => {
@@ -89,7 +91,7 @@ export default function LoginPage() {
       const response = await post(apiUrl, body, headers);
       console.log(response);
       console.log("Server response:", response.data);
-
+      auth.login(response.userId, response.token);
       navigate("/manageEventes");
     } catch (error) {
       console.error("Error during signup:", error);

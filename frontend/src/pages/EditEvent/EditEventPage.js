@@ -9,7 +9,7 @@ import * as XLSX from "xlsx";
 import useForm from "../../utils/hooks/useForm";
 import InputsWrapper from "../../utils/InputsWrapper";
 import TableModeIcon from "../../images/tableModeIcon.png";
-import { useFilename } from "../../components/tableEditing/FilenameContext";
+import { useFilename } from "../../utils/contexts/FilenameContext";
 import CommandsMultiSelect from "../../components/CommandsMultiSelect";
 import "./EditEventPage.css";
 

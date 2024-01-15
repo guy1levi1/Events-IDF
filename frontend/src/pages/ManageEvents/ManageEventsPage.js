@@ -1,12 +1,17 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import CardEvent from "../../components/cardEvent/CardEvent";
 import Box from "@mui/material/Box";
 import createCache from "@emotion/cache";
 import rtlPlugin from "stylis-plugin-rtl";
 import { CacheProvider } from "@emotion/react";
 import "./ManageEventsPage.css";
+import { getEvnets } from "../../utils/api/eventsApi";
+import { useContext } from "react";
+import { AuthContext } from "../../utils/contexts/authContext";
 
 export default function ManageEventsPage() {
+  const auth = useContext(AuthContext);
+
   const options = {
     day: "2-digit",
     month: "2-digit",
@@ -27,6 +32,27 @@ export default function ManageEventsPage() {
   const eventCreator = "גיא לוי";
 
   const commandsSelector = ["סגל", "פקער", "מרכז", "תקשוב", "מרכז", "צפון"];
+
+  const [eventsFromDB, setEventsFromDB] = useState([]);
+
+  
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // setEventsFromDB(await getEvnets());
+        console.log(await getEvnets(auth.token))
+      } catch (error) {
+        console.error("Error during signup:", error);
+      }
+    };
+
+    const initializePage = async () => {
+      await fetchData();
+    };
+
+    initializePage();
+  }, []);
 
   // will get from db
   const [events, setEvents] = useState([
@@ -106,7 +132,9 @@ export default function ManageEventsPage() {
 
   const handleDeleteEvent = (eventId) => {
     // Update state by filtering out the event with the specified eventId
-    setEvents((prevEvents) => prevEvents.filter((event) => event.eventId !== eventId));
+    setEvents((prevEvents) =>
+      prevEvents.filter((event) => event.eventId !== eventId)
+    );
   };
 
   const cacheRtl = createCache({

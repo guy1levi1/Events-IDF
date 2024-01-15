@@ -8,7 +8,7 @@ export async function getCommands() {
     "Access-Control-Allow-Origin": "*",
     "Access-Control-Allow-Headers":
       "Origin, X-Requested-With, Content-Type, Accept, Authorization",
-    "Access-Control-Allow-Methods": "GET, POST, PATCH, DELETE",
+    "Access-Control-Allow-Methods": "GET",
   };
 
   try {

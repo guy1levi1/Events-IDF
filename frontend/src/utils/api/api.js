@@ -18,8 +18,10 @@ export const post = async (url, body, headers) => {
     if (res) {
       console.log("success post");
     }
+    return res;
   } catch (e) {
     console.log(e);
+    throw new Error(e);
   }
 };
 

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Button from "@mui/material/Button";
 import "./SignupPage.css";
-import { NavLink } from "react-router-dom";
+import { NavLink, Navigate, useNavigate } from "react-router-dom";
 import { MenuItem } from "@mui/material";
 import useForm from "../../utils/hooks/useForm";
 import { Box, TextField } from "@mui/material";
@@ -11,31 +11,32 @@ import IconButton from "@mui/material/IconButton";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { Link } from "react-router-dom";
-import { post } from "../../utils/api";
+import { get, post } from "../../utils/api/api";
+import Swal from "sweetalert2";
 const { v4: uuidv4 } = require("uuid");
 
-const commands = [
-  {
-    commandId: 0,
-    commandName: "",
-  },
-  {
-    commandId: 1,
-    commandName: "מרכז",
-  },
-  {
-    commandId: 2,
-    commandName: "צפון",
-  },
-  {
-    commandId: 3,
-    commandName: "דרום",
-  },
-  {
-    commandId: 4,
-    commandName: `פקע"ר`,
-  },
-];
+// const commands = [
+//   {
+//     commandId: 0,
+//     commandName: "",
+//   },
+//   {
+//     commandId: 1,
+//     commandName: "מרכז",
+//   },
+//   {
+//     commandId: 2,
+//     commandName: "צפון",
+//   },
+//   {
+//     commandId: 3,
+//     commandName: "דרום",
+//   },
+//   {
+//     commandId: 4,
+//     commandName: `פקע"ר`,
+//   },
+// ];
 
 const formStates = {
   privateNumber: {
@@ -71,6 +72,28 @@ export default function SignUpPage() {
   const [showSecPassword, setShowSecPassword] = useState(false);
   const [vhAsPixels, setVhAsPixels] = useState(0);
   const [initialFontSize, setInitialFontSize] = useState(0);
+  const [commands, setCommands] = useState([]);
+  const navigate = useNavigate();
+
+  const getCommands = async () => {
+    const apiUrl = "http://localhost:5000/api/commands/";
+
+    const headers = {
+      "Content-Type": "application/json",
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Headers":
+        "Origin, X-Requested-With, Content-Type, Accept, Authorization",
+      "Access-Control-Allow-Methods": "GET, POST, PATCH, DELETE",
+    };
+
+    try {
+      const response = await get(apiUrl, headers);
+      console.log("Server response:", response.data);
+      setCommands(response.data);
+    } catch (error) {
+      console.error("Error during signup:", error);
+    }
+  };
 
   const handleTogglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -100,7 +123,20 @@ export default function SignUpPage() {
       }
     };
 
-    handleResize();
+    const fetchData = async () => {
+      try {
+        await getCommands();
+      } catch (error) {
+        console.error("Error during signup:", error);
+      }
+    };
+
+    const initializePage = async () => {
+      handleResize();
+      await fetchData();
+    };
+
+    initializePage();
 
     if (typeof window !== "undefined") {
       window.addEventListener("resize", handleResize);
@@ -111,12 +147,28 @@ export default function SignUpPage() {
     }
   }, []);
 
-  const handleSignup = async (formStates) => {
-    console.log(formStates);
+  const getCommandNameById = (commandName) => {
+    for (let i = 0; i < commands.length; i++) {
+      if (commands[i].commandName === commandName) {
+        return commands[i].id;
+      }
+      // If no matching commandName is found
+    }
+    return null;
+  };
+
+  const handleSignup = async () => {
+    console.log(formData.initialInputs.privateNumber.value);
+    console.log(formData.initialInputs.fullName.value);
+    console.log(formData.initialInputs.password.value);
+    console.log(formData.initialInputs.commandsSelector.value);
+    console.log(
+      getCommandNameById(formData.initialInputs.commandsSelector.value)
+    );
 
     // Replace 'YOUR_SERVER_API_URL' with the actual URL of your signup endpoint
     const apiUrl =
-      "http://localhost:5000/api/unapprovedUsers/signUpunapprovedUser/";
+      "http://localhost:5000/api/unapprovedUsers/signUpunapprovedUser";
 
     const headers = {
       "Content-Type": "application/json",
@@ -128,18 +180,54 @@ export default function SignUpPage() {
 
     const body = {
       id: uuidv4(),
-      privateNumber: "1111111",
-      fullName: "משתמש לאיקר",
-      password: "password123",
-      commandId: "6e2856e3-100a-46ca-8544-f4a2935a8c08",
+      privateNumber: formData.initialInputs.privateNumber.value,
+      fullName: formData.initialInputs.fullName.value,
+      password: formData.initialInputs.password.value,
+      commandId: getCommandNameById(
+        formData.initialInputs.commandsSelector.value
+      ),
       isAdmin: false,
     };
 
+    console.log(body);
+
     try {
       const response = await post(apiUrl, body, headers);
+      console.log(response);
       console.log("Server response:", response.data);
+
+      // annimation success
+      Swal.fire({
+        title: "נרשמת בהצלחה",
+        text: "לאחר שענף סגל יאשר אותך תוכל להשתמש במערכת",
+        icon: "success",
+        // showCancelButton: true,
+        // confirmButtonColor: "#",
+        // cancelButtonColor: "#3085d6",
+        confirmButtonText: "בוצע",
+        // cancelButtonText: "בטל",
+        // reverseButtons: true,
+      }).then((result) => {
+        navigate("/login");
+
+        //
+      });
     } catch (error) {
       console.error("Error during signup:", error);
+      console.log(error)
+      Swal.fire({
+        title: "לא ניתן להירשם",
+        text: "בדוק את הנתונים שהזנת ונסה שנית מאוחר יותר",
+        icon: "error",
+        // showCancelButton: true,
+        // confirmButtonColor: "#",
+        // cancelButtonColor: "#3085d6",
+        confirmButtonText: "בוצע",
+        // cancelButtonText: "בטל",
+        // reverseButtons: true,
+      }).then((result) => {
+        //
+      });
     }
   };
 
@@ -407,8 +495,8 @@ export default function SignUpPage() {
         >
           {commands.map(
             (option) =>
-              option.commandId !== 0 && (
-                <MenuItem key={option.commandId} value={option.commandName}>
+              option.id !== 0 && (
+                <MenuItem key={option.id} value={option.commandName}>
                   {option.commandName}
                 </MenuItem>
               )
@@ -429,7 +517,7 @@ export default function SignUpPage() {
             justifyContent: "center",
           }}
         >
-          <Link
+          {/* <Link
             to={!formData.isValid ? "/signup" : "/manageEventes"} // of course we have to check if user exists and password is correct
             style={{
               color: "white",
@@ -437,30 +525,30 @@ export default function SignUpPage() {
               width: "100%",
               height: "100%",
             }}
+          > */}
+          <Button
+            variant="contained"
+            color="primary"
+            disabled={!formData.isValid}
+            // send all props
+            onClick={() => handleSignup()}
+            sx={{
+              borderRadius: "5000px",
+              fontSize: [
+                "0.2rem",
+                "0.4rem",
+                "0.7rem",
+                "1rem",
+                "1.3rem",
+                "1.6rem",
+                "1.9rem",
+              ],
+            }}
+            style={{ width: "100%", height: "100%" }}
           >
-            <Button
-              variant="contained"
-              color="primary"
-              disabled={!formData.isValid}
-              // send all props
-              onClick={handleSignup({"password" : formData.initialInputs.password.value})}
-              sx={{
-                borderRadius: "5000px",
-                fontSize: [
-                  "0.2rem",
-                  "0.4rem",
-                  "0.7rem",
-                  "1rem",
-                  "1.3rem",
-                  "1.6rem",
-                  "1.9rem",
-                ],
-              }}
-              style={{ width: "100%", height: "100%" }}
-            >
-              הירשמ/י
-            </Button>
-          </Link>
+            הירשם/י
+          </Button>
+          {/* </Link> */}
         </Box>
         <Box
           sx={{

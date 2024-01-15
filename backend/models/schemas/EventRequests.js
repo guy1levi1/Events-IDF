@@ -1,13 +1,7 @@
 const { Model, DataTypes } = require("sequelize");
 const db = require("../../dbConfig");
-const Event = require("./Event");
 
-class EventRequests extends Model {
-  static associate(models) {
-    // define association here
-    // EventRequests.belongsTo(Event, { foreignKey: "eventId" });
-  }
-}
+class EventRequests extends Model {}
 
 const statusOptions = ["מאושר", 'ממתין לאישור רמ"ח', "נדחה"];
 

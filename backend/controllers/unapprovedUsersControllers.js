@@ -115,6 +115,7 @@ const createUnapprovedUser = async (req, res, next) => {
 
     res.status(201).json(newUser);
   } catch (err) {
+    console.log(err);
     console.log("Validation errors:", err.errors);
     console.log("failed");
     const error = new HttpError(

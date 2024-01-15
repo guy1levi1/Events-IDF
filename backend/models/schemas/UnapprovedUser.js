@@ -36,22 +36,6 @@ UnapprovedUser.init(
       allowNull: false,
     },
 
-    // NEED TO USE REF FROM COMMAND TABLE
-    commandId: {
-      type: DataTypes.UUID,
-      allowNull: false,
-      // validate: {
-      //   isIn: {
-      //     args: [commands.map((command) => command.id)],
-      //     msg: "Invalid commandId. This integer does not exist in the commands table.",
-      //   },
-      // },
-      //   references: {
-      //     model: Command,
-      //     key: "commandId"
-      // }
-    },
-
     isAdmin: {
       type: DataTypes.BOOLEAN,
       defaultValue: false,
@@ -65,13 +49,5 @@ UnapprovedUser.init(
     createdAt: true,
   }
 );
-
-// UnapprovedUsers.belongsTo(Command, {
-//   foreignKey: "commandId",
-//   as: "command",
-//   onDelete: "CASCADE",
-// });
-
-// UnapprovedUser.belongsTo(Command, { foreignKey: 'commandId' });
 
 module.exports = UnapprovedUser;

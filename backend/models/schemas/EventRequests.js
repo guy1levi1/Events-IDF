@@ -2,7 +2,12 @@ const { Model, DataTypes } = require("sequelize");
 const db = require("../../dbConfig");
 const Event = require("./Event");
 
-class EventRequests extends Model {}
+class EventRequests extends Model {
+  static associate(models) {
+    // define association here
+    // EventRequests.belongsTo(Event, { foreignKey: "eventId" });
+  }
+}
 
 const statusOptions = ["מאושר", 'ממתין לאישור רמ"ח', "נדחה"];
 
@@ -15,20 +20,7 @@ EventRequests.init(
       primaryKey: true,
       unique: true,
     },
-    eventId: {
-      type: DataTypes.UUID,
-      allowNull: false,
-      // validate: {
-      //   isIn: {
-      //     args: [Event.fiדndAll().map((event) => event.id)],
-      //     msg: "Invalid eventId. This UUID does not exist in the commands table.",
-      //   },
-      // },
-      //   references: {
-      //     model: Event,
-      //     key: "eventId"
-      // }
-    },
+
     serialNumber: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -98,6 +90,5 @@ EventRequests.init(
 //   as: "event",
 //   onDelete: "CASCADE",
 // });
-// EventRequests.belongsTo(Event, { foreignKey: 'eventId' });
 
 module.exports = EventRequests;

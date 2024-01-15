@@ -9,6 +9,7 @@ const unapprovedUsersRoutes = require("./routes/unapprovedUsersRoutes");
 const eventRequestsRoutes = require("./routes/eventRequestsRoutes");
 const commandsRoutes = require("./routes//commandsRoutes");
 const db = require("./dbConfig");
+require("./models/relations"); // Import the relations file
 
 const app = express();
 app.use(cors());

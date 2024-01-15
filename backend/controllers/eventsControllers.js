@@ -80,7 +80,7 @@ const deleteEvent = async (req, res, next) => {
   }
 };
 
-const updateEvent = async (req, res, next ) => {
+const updateEvent = async (req, res, next) => {
   const eventId = req.params.eventId;
   console.log(eventId);
 
@@ -121,8 +121,8 @@ const updateEvent = async (req, res, next ) => {
 
     // Return the updated user
     res
-    .status(200)
-    .json({ message: `Event ${eventId} updated successfully.`, event });
+      .status(200)
+      .json({ message: `Event ${eventId} updated successfully.`, event });
   } catch (err) {
     // Handle errors
     console.error(error);
@@ -139,12 +139,12 @@ const createEvent = async (req, res, next) => {
 
   try {
     // Check if the creatorId exists in the User model
-    const userExists = await User.findByPk(creatorId);
-    if (!userExists) {
-      return next(
-        new HttpError("Invalid userId. The user does not exist.", 400)
-      );
-    }
+    // const userExists = await User.findByPk(creatorId);
+    // if (!userExists) {
+    //   return next(
+    //     new HttpError("Invalid userId. The user does not exist.", 400)
+    //   );
+    // }
 
     // Create a new event
     const newEvent = await Event.create({
@@ -159,7 +159,7 @@ const createEvent = async (req, res, next) => {
     res.status(201).json(newEvent);
   } catch (err) {
     console.error(err);
-    next(new HttpError("Create event failed.", 500));
+    next(new HttpError("Create event failed. invalid creatorId", 500));
   }
 };
 

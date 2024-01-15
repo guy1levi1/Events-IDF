@@ -6,7 +6,13 @@ const Event = require("./Event");
 class User extends Model {
   static associate() {
     // define association here
-    User.hasMany(Event, { foreignKey: "creatorId" });
+    // User.hasMany(Event, { foreignKey: "creatorId" });
+    // User.hasMany(Event, {
+    //   foreignKey: { type: DataTypes.UUID, allowNull: false },
+    // });
+    // User.belongsTo(Command, {
+    //   foreignKey: "commandId",
+    // });
   }
 }
 
@@ -42,22 +48,6 @@ User.init(
       allowNull: false,
     },
 
-    // NEED TO USE REF FROM COMMAND TABLE
-    commandId: {
-      type: DataTypes.UUID,
-      allowNull: false,
-      // references: {
-      //   model: "commands",
-      //   key: "id",
-      // },
-      // onDelete: "CASCADE",
-      // onUpdate: "CASCADE",
-      // references: {
-      //   model: Command,
-      //   key: "commandId",
-      // },
-    },
-
     isAdmin: {
       type: DataTypes.BOOLEAN,
       defaultValue: false,
@@ -71,13 +61,5 @@ User.init(
     createdAt: true,
   }
 );
-
-// User.belongsTo(Command, {
-//   foreignKey: "commandId",
-//   as: "command",
-//   onDelete: "CASCADE",
-// });
-
-// User.hasMany(Event, { foreignKey: "creatorId" });
 
 module.exports = User;

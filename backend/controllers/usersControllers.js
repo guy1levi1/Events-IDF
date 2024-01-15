@@ -77,7 +77,7 @@ const signup = async (req, res, next) => {
     return next(error);
   }
 
-    // when admin accept the user it will be hashed so delete this code
+  // when admin accept the user it will be hashed so delete this code
   // let hashedPassword;
   // try {
   //   hashedPassword = sha256(password);

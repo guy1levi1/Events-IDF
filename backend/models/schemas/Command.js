@@ -2,8 +2,20 @@ const { Model, DataTypes } = require("sequelize");
 const sequelize = require("../../dbConfig");
 const User = require("./User");
 const UnapprovedUser = require("./UnapprovedUser");
+const EventCommands = require("./EventCommands");
 
-class Command extends Model {}
+class Command extends Model {
+  static associate() {
+    // define association here
+    // Command.hasMany(EventCommands, {
+    //   foreignKey: "commandId",
+    // });
+    // Command.hasMany(UnapprovedUser, { foreignKey: "commandId" });
+    // Command.hasMany(User, {
+    //   foreignKey: "commandId",
+    // });
+  }
+}
 
 Command.init(
   {
@@ -28,9 +40,5 @@ Command.init(
     createdAt: true,
   }
 );
-
-// Command.belongsToMany(Event, { through: 'CommandsEvent' });
-
-// Command.hasMany(UnapprovedUser, { foreignKey: "commandId" });
 
 module.exports = Command;

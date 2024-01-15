@@ -213,11 +213,13 @@ export default function SignUpPage() {
         //
       });
     } catch (error) {
-      console.error("Error during signup:", error);
-      console.log(error)
+      // console.error("Error during signup:", error.response.da);
+      console.log(error);
+      const massage = error.massage;
+      // const code = error.code;
       Swal.fire({
         title: "לא ניתן להירשם",
-        text: "בדוק את הנתונים שהזנת ונסה שנית מאוחר יותר",
+        text: massage,
         icon: "error",
         // showCancelButton: true,
         // confirmButtonColor: "#",

@@ -45,6 +45,20 @@ app.use("/api/eventCommands", eventCommandsRoutes);
 
 app.use("/api/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
+app.use((error, req, res, next) => {
+  //this function will execute if any middleware Infront of it yields an error
+  if (res.headersSent) {
+    //check if respond already has been sent
+    return next(error);
+  }
+
+  console.log(error);
+  //if code properties is set or default 500 => error code that something went wrong
+  console.log(error.message);
+  return res.status(error.code || 500).json({
+    body: error.message || "An unknown error occurred!",
+  });
+});
 // Start the server
 app.listen(port, async () => {
   console.log(`Server is running on port ${port}`);

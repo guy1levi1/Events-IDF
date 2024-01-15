@@ -20,8 +20,11 @@ export const post = async (url, body, headers) => {
     }
     return res;
   } catch (e) {
-    console.log(e);
-    throw new Error(e);
+    console.log(e.response.status);
+    throw {
+      massage: e.response.data.body || "unocurred error",
+      code: e.response.status || 500,
+    };
   }
 };
 

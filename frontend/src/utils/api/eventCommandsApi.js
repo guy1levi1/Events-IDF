@@ -24,18 +24,18 @@ export async function getAllEventCommands() {
 }
 
 // Get event commands by eventId
-export async function getEventCommandsByEventId(eventCommandsId) {
+export async function getEventCommandsByEventId(eventId) {
   try {
-    const eventCommandsByiD = [];
+    const eventCommandsByEventId = [];
     const eventCommands = await getAllEventCommands();
 
     for (let i = 0; i < eventCommands.length; i++) {
-      if (eventCommands[i].eventId === eventCommandsId) {
-        eventCommandsByiD.push(eventCommands[i]);
+      if (eventCommands[i].eventId === eventId) {
+        eventCommandsByEventId.push(eventCommands[i]);
       }
     }
 
-    return eventCommandsByiD;
+    return eventCommandsByEventId;
   } catch (error) {
     console.error("Error getting all event commands by event id:", error);
     throw error; // Rethrow the error to handle it in the calling code

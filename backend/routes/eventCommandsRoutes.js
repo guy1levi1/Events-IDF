@@ -22,7 +22,7 @@ router.delete("/:eventId", eventCommandsController.deleteEventCommand);
 
 // delete all command for a specific event
 router.delete(
-  "/:eventId",
+  "allEventCommnadByEventId/:eventId",
   eventCommandsController.deleteAllEventCommandsByEventId
 );
 

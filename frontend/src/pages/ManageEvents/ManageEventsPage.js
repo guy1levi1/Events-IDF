@@ -8,6 +8,7 @@ import "./ManageEventsPage.css";
 import { getEvnets } from "../../utils/api/eventsApi";
 import { useContext } from "react";
 import { AuthContext } from "../../utils/contexts/authContext";
+import { getFullNameById, getUserById } from "../../utils/api/usersApi";
 
 export default function ManageEventsPage() {
   const auth = useContext(AuthContext);
@@ -35,13 +36,10 @@ export default function ManageEventsPage() {
 
   const [eventsFromDB, setEventsFromDB] = useState([]);
 
-  
-
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // setEventsFromDB(await getEvnets());
-        console.log(await getEvnets(auth.token))
+        setEventsFromDB(await getEvnets());
       } catch (error) {
         console.error("Error during signup:", error);
       }
@@ -54,85 +52,94 @@ export default function ManageEventsPage() {
     initializePage();
   }, []);
 
+  useEffect(() => {
+    console.log(eventsFromDB);
+  }, [eventsFromDB]);
+
   // will get from db
-  const [events, setEvents] = useState([
-    {
-      eventId: "1",
-      eventName: "תימחק",
-      eventDate,
-      eventLocation,
-      description,
-      eventCreator,
-      commandsSelector,
-    },
-    {
-      eventId: "2",
-      eventName,
-      eventDate,
-      eventLocation,
-      description,
-      eventCreator,
-      commandsSelector,
-    },
-    {
-      eventId: "3",
-      eventName,
-      eventDate,
-      eventLocation,
-      description,
-      eventCreator,
-      commandsSelector,
-    },
-    {
-      eventId: "4",
-      eventName,
-      eventDate,
-      eventLocation,
-      description,
-      eventCreator,
-      commandsSelector,
-    },
-    {
-      eventId: "5",
-      eventName,
-      eventDate,
-      eventLocation,
-      description,
-      eventCreator,
-      commandsSelector,
-    },
-    {
-      eventId: "6",
-      eventName,
-      eventDate,
-      eventLocation,
-      description,
-      eventCreator,
-      commandsSelector,
-    },
-    {
-      eventId: "7",
-      eventName,
-      eventDate,
-      eventLocation,
-      description,
-      eventCreator,
-      commandsSelector,
-    },
-    {
-      eventId: "8",
-      eventName,
-      eventDate,
-      eventLocation,
-      description,
-      eventCreator,
-      commandsSelector,
-    },
-  ]);
+  // const [events, setEvents] = useState([
+  //   {
+  //     eventId: "1",
+  //     eventName: "תימחק",
+  //     eventDate,
+  //     eventLocation,
+  //     description,
+  //     eventCreator,
+  //     commandsSelector,
+  //   },
+  //   {
+  //     eventId: "2",
+  //     eventName,
+  //     eventDate,
+  //     eventLocation,
+  //     description,
+  //     eventCreator,
+  //     commandsSelector,
+  //   },
+  //   {
+  //     eventId: "3",
+  //     eventName,
+  //     eventDate,
+  //     eventLocation,
+  //     description,
+  //     eventCreator,
+  //     commandsSelector,
+  //   },
+  //   {
+  //     eventId: "4",
+  //     eventName,
+  //     eventDate,
+  //     eventLocation,
+  //     description,
+  //     eventCreator,
+  //     commandsSelector,
+  //   },
+  //   {
+  //     eventId: "5",
+  //     eventName,
+  //     eventDate,
+  //     eventLocation,
+  //     description,
+  //     eventCreator,
+  //     commandsSelector,
+  //   },
+  //   {
+  //     eventId: "6",
+  //     eventName,
+  //     eventDate,
+  //     eventLocation,
+  //     description,
+  //     eventCreator,
+  //     commandsSelector,
+  //   },
+  //   {
+  //     eventId: "7",
+  //     eventName,
+  //     eventDate,
+  //     eventLocation,
+  //     description,
+  //     eventCreator,
+  //     commandsSelector,
+  //   },
+  //   {
+  //     eventId: "8",
+  //     eventName,
+  //     eventDate,
+  //     eventLocation,
+  //     description,
+  //     eventCreator,
+  //     commandsSelector,
+  //   },
+  // ]);
+  // const getFullNameByIdAPI = async (userId) => {
+  //   const fullName = await getFullNameById(userId);
+  //   console.log(fullName);
+  //   return fullName;
+  // };
 
   const handleDeleteEvent = (eventId) => {
     // Update state by filtering out the event with the specified eventId
-    setEvents((prevEvents) =>
+    setEventsFromDB((prevEvents) =>
       prevEvents.filter((event) => event.eventId !== eventId)
     );
   };
@@ -175,17 +182,17 @@ export default function ManageEventsPage() {
               overflowY: "auto",
             }}
           >
-            {events.map((event, index) => (
+            {eventsFromDB.map((event, index) => (
               <CardEvent
-                key={index} // Use a unique key, in this case, the array index
-                eventId={event.eventId}
-                eventName={event.eventName}
-                eventDate={event.eventDate}
-                eventLocation={event.eventLocation}
+                key={event.id} // Use a unique key, in this case, the array index
+                eventId={event.id}
+                eventName={event.name}
+                eventDate={event.date}
+                eventLocation={event.place}
                 description={event.description}
-                eventCreator={event.eventCreator}
-                commandsSelector={event.commandsSelector}
-                onDelete={() => handleDeleteEvent(event.eventId)}
+                eventCreator={event.userId}
+                commandsSelector={["צפון"]}
+                onDelete={() => handleDeleteEvent(event.id)}
               />
             ))}
           </Box>

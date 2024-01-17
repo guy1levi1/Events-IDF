@@ -1,4 +1,4 @@
-import { get } from "./api";
+import { del, get, patch, post } from "./api";
 
 export async function getUsers() {
   const apiUrl = "http://localhost:5000/api/users/";

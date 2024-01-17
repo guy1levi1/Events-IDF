@@ -14,8 +14,7 @@ require("./models/relations"); // Import the relations file
 const swaggerUi = require("swagger-ui-express");
 const swaggerDocument = require("./swagger.json");
 const checkAuth = require("../backend/middlewares/checkAuth");
-require('dotenv').config();
-
+require("dotenv").config();
 
 const app = express();
 app.use(cors());
@@ -40,9 +39,6 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/users", usersRoutes);
-
-// use it in routes
-// app.use(checkAuth);
 
 app.use("/api/unapprovedUsers", unapprovedUsersRoutes);
 app.use("/api/events", eventsRoutes);

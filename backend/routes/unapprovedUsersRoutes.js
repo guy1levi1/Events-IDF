@@ -3,10 +3,9 @@ const express = require("express");
 const unapprovedUsersController = require("../controllers/unapprovedUsersControllers");
 
 const router = express.Router();
+router.get("/", unapprovedUsersController.getUnapprovedUsers);
 
 const checkAuth = require("../middlewares/checkAuth");
-
-router.get("/", unapprovedUsersController.getUnapprovedUsers);
 
 router.get(
   "/:unApprovedUserId",

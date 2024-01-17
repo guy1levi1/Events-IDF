@@ -1,6 +1,6 @@
 import { del, get, patch, post } from "./api";
 
-export async function getEvnets(token) {
+export async function getEvnets() {
   const apiUrl = "http://localhost:5000/api/events/";
 
   const headers = {
@@ -9,7 +9,8 @@ export async function getEvnets(token) {
     "Access-Control-Allow-Headers":
       "Origin, X-Requested-With, Content-Type, Accept, Authorization",
     "Access-Control-Allow-Methods": "GET",
-    
+    Authorization:
+      "Bearer " + JSON.parse(localStorage.getItem("userData"))?.token,
   };
 
   try {
@@ -49,6 +50,8 @@ export async function createEvent(newEvent) {
     "Access-Control-Allow-Headers":
       "Origin, X-Requested-With, Content-Type, Accept, Authorization",
     "Access-Control-Allow-Methods": "POST",
+    Authorization:
+      "Bearer " + JSON.parse(localStorage.getItem("userData"))?.token,
   };
   try {
     const response = await post(apiUrl, newEvent, headers);
@@ -56,7 +59,7 @@ export async function createEvent(newEvent) {
     return response.data;
   } catch (error) {
     console.error("Error creating new event:", error);
-    return error;
+    throw error;
   }
 }
 

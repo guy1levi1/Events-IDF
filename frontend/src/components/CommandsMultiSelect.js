@@ -9,6 +9,7 @@ import Select from "@mui/material/Select";
 import Chip from "@mui/material/Chip";
 import { FormHelperText } from "@mui/material";
 import { red } from "@mui/material/colors";
+import { getAllCommandsNames, getCommands } from "../utils/api/commandsApi";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -27,7 +28,7 @@ const MenuProps = {
   },
 };
 
-const commands = ["סגל", `פקע"ר`, "דרום", "תקשוב", "מרכז", "צפון"];
+const commands = await getAllCommandsNames();
 
 function getStyles(command, commandName, theme) {
   return {

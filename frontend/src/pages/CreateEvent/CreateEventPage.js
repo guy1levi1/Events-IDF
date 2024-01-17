@@ -111,7 +111,7 @@ export default function CreateEventPage() {
       date: formData.initialInputs.eventDate.value,
       place: formData.initialInputs.eventLocation.value,
       description: formData.initialInputs.description.value,
-      userId: "11516c3b-3f95-452e-b624-790fd7d342eb",
+      userId: localStorage.getItem("userData")?.userId || null,
     };
     console.log(newEvent);
     try {

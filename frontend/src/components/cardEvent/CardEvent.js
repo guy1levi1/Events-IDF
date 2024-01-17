@@ -1,5 +1,5 @@
 import { Box } from "@mui/material";
-import React, { useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import CompareIcon from "../../images/compareIcon.png";
 import DeleteIcon from "../../images/DeleteIcon.png";
@@ -12,6 +12,7 @@ import { useFilename } from "../../utils/contexts/FilenameContext";
 import * as XLSX from "xlsx";
 
 import "./CardEvent.css";
+import { getFullNameById, getUserById } from "../../utils/api/usersApi";
 
 export default function CardEvent({
   eventId,
@@ -113,6 +114,20 @@ export default function CardEvent({
     fileInputRef.current.click();
   };
 
+  const [fullName, setFullName] = useState("");
+
+  useEffect(() => {
+    const fetchFullName = async () => {
+      try {
+        const fullName = await getFullNameById(eventCreator);
+        setFullName(fullName);
+      } catch (error) {
+        console.error("Error fetching full name:", error);
+      }
+    };
+
+    fetchFullName();
+  }, [eventCreator]);
   return (
     <div
       style={{
@@ -252,7 +267,7 @@ export default function CardEvent({
                 width: "45%",
               }}
             >
-              נוצר ע"י {eventCreator}
+              נוצר ע"י {fullName}
             </h5>
             <div>
               {/* need to send him with props of the current fields from db */}

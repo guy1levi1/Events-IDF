@@ -14,7 +14,7 @@ import Box from "@mui/material/Box";
 import { GridRowEditStopReasons } from "@mui/x-data-grid";
 import "./CrossInformationTable.css";
 import { Link, useLocation } from "react-router-dom";
-import { useFilename } from "../tableEditing/FilenameContext";
+import { useFilename } from "../../utils/contexts/FilenameContext";
 import * as XLSX from "xlsx";
 import { useRef } from "react";
 import { useState } from "react";

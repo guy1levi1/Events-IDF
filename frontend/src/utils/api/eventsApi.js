@@ -1,6 +1,6 @@
 import { del, get, patch, post } from "./api";
 
-export async function getEvnets() {
+export async function getEvnets(token) {
   const apiUrl = "http://localhost:5000/api/events/";
 
   const headers = {

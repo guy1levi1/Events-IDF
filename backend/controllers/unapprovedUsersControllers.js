@@ -58,7 +58,7 @@ const createUnapprovedUser = async (req, res, next) => {
     existingUnapprovedUser = await UnapprovedUser.findOne({
       where: { privateNumber },
     });
-    console.log("existingUser: " + existingUnapprovedUser);
+    console.log("existingUnapprovedUser: " + existingUnapprovedUser);
   } catch (err) {
     console.log("ERROR");
     const error = new HttpError(

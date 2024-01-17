@@ -17,6 +17,7 @@ import EditEventPage from "./pages/EditEvent/EditEventPage";
 import { FilenameProvider } from "./utils/contexts/FilenameContext";
 import { AuthContext } from "./utils/contexts/authContext";
 import { useAuth } from "./utils/hooks/useAuth";
+import ErrorNotFoundPage from "./pages/ErrorNotFound/ErrorNotFoundPage";
 
 const routerNotAuth = createBrowserRouter([
   {
@@ -27,14 +28,7 @@ const routerNotAuth = createBrowserRouter([
       { path: "/login", element: <LoginPage /> },
       { path: "/signup", element: <SignUpPage /> },
       { path: "about", element: <AboutPage /> },
-      // {
-      //   path: "/manageEventes",
-      //   element: (
-      //     <FilenameProvider>
-      //       <ManageEventsPage />
-      //     </FilenameProvider>
-      //   ),
-      // },
+      { path: "*", element: <ErrorNotFoundPage /> },
     ],
   },
 ]);
@@ -104,7 +98,9 @@ const router = createBrowserRouter([
 
 function App() {
   const { token, login, logout, userId } = useAuth();
+  console.log(token ? router : routerNotAuth);
 
+  console.log("token: " + token);
   return (
     <AuthContext.Provider
       value={{

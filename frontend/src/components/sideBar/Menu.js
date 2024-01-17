@@ -104,6 +104,7 @@ const Menu = () => {
 
         <a
           className="signoutbutton"
+          onClick={auth.logout}
           style={{
             display: "flex",
             marginRight: "0.6rem",

@@ -21,6 +21,40 @@ export async function getCommands() {
   }
 }
 
+export async function getAllCommandsNames() {
+  try {
+    const commandsNames = [];
+    const commands = await getCommands();
+
+    for (let i = 0; i < commands.length; i++) {
+      commandsNames.push(commands[i].commandName);
+    }
+
+    return commandsNames;
+  } catch (error) {
+    console.error("Error getting all commands names: ", error);
+    throw error;
+  }
+}
+
+export async function getCommandById(commandId) {
+  try {
+    const commands = await getCommands();
+
+    for (let i = 0; i < commands.length; i++) {
+      if (commands[i].id === commandId) {
+        return commands[i];
+      }
+    }
+
+    // If no matching commandName is found
+    return null;
+  } catch (error) {
+    console.error("Error getting commands by id:", error);
+    throw error; // Rethrow the error to handle it in the calling code
+  }
+}
+
 export async function getCommandIdByName(commandName) {
   try {
     const commands = await getCommands();

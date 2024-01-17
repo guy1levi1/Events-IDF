@@ -28,7 +28,7 @@ export async function getEventById(eventId) {
 
     for (let i = 0; i < events.length; i++) {
       if (events[i].id === eventId) {
-        return events[i].fullName;
+        return events[i];
       }
     }
 

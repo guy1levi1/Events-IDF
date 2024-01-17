@@ -9,6 +9,7 @@ export async function getEvnets(token) {
     "Access-Control-Allow-Headers":
       "Origin, X-Requested-With, Content-Type, Accept, Authorization",
     "Access-Control-Allow-Methods": "GET",
+    
   };
 
   try {

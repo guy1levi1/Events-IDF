@@ -4,6 +4,10 @@ const eventRequestsController = require("../controllers/eventRequestsControllers
 
 const router = express.Router();
 
+const checkAuth = require("../middlewares/checkAuth");
+
+router.use(checkAuth);
+
 router.get("/", eventRequestsController.geteventsRequests);
 
 router.get("/:eventRequestId", eventRequestsController.geteventRequestsById);

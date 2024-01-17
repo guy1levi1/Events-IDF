@@ -92,6 +92,7 @@ const router = createBrowserRouter([
       },
 
       { path: "/manageUsers", element: <ManageUsersPage /> },
+      { path: "*", element: <ErrorNotFoundPage /> },
     ],
   },
 ]);

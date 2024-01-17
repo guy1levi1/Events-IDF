@@ -13,7 +13,7 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { Link } from "react-router-dom";
 import { get, post } from "../../utils/api/api";
 import Swal from "sweetalert2";
-import { uuid } from "uuidv4";
+const { v4: uuidv4 } = require("uuid");
 
 // const commands = [
 //   {
@@ -179,7 +179,7 @@ export default function SignUpPage() {
     };
 
     const body = {
-      id: uuid,
+      id: uuidv4(),
       privateNumber: formData.initialInputs.privateNumber.value,
       fullName: formData.initialInputs.fullName.value,
       password: formData.initialInputs.password.value,

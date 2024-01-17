@@ -1,5 +1,21 @@
 import axios from "axios";
 
+const handelErrorCode = (code) => {
+  switch (code) {
+    case 409:
+      return "המשתמש כבר קיים נסה להתחבר במקום";
+    case 404:
+      return "המשתמש אינו קיים";
+    case 401:
+      return "לא ניתן להתחבר, סיסמא שגויה";
+    case 500:
+      return "השרת לא מגיב, נסה שנית מאוחר יותר";
+
+    default:
+      break;
+  }
+};
+
 export const get = async (url, headers) => {
   try {
     const res = await axios.get(url, { headers });
@@ -21,9 +37,11 @@ export const post = async (url, body, headers) => {
     return res;
   } catch (e) {
     console.log(e.response.status);
+    const massage = handelErrorCode(e.response.status);
+    const code = e.response.status;
     throw {
-      massage: e.response.data.body || "unocurred error",
-      code: e.response.status || 500,
+      massage: massage || "unocurred error",
+      code: code || 500,
     };
   }
 };

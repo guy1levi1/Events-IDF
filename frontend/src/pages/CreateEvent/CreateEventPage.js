@@ -13,6 +13,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { useFilename } from "../../components/tableEditing/FilenameContext";
 import * as XLSX from "xlsx";
 import CommandsMultiSelect from "../../components/CommandsMultiSelect";
+import { createEvent } from "../../utils/api/eventsApi";
+import { uuid } from "uuidv4";
 
 const formStates = {
   eventName: {
@@ -102,6 +104,23 @@ export default function CreateEventPage() {
 
   // Function to handle submission of a new event, clearing stored form data and filename
   const handleSumbitNewEvent = () => {
+    console.log(formData.initialInputs.eventDate.value);
+    const newEvent = {
+      id: "11516c3b-3f95-452e-b624-790fd7d342eb",
+      name: formData.initialInputs.eventName.value,
+      data: formData.initialInputs.eventDate.value,
+      place: formData.initialInputs.eventLocation.value,
+      description: formData.initialInputs.description.value,
+      userId: "11516c3b-3f95-452e-b624-790fd7d342eb",
+    };
+    console.log(newEvent);
+    try {
+      createEvent(newEvent);
+    } catch (error) {
+      console.log(error);
+      console.log("create event failed");
+    }
+
     localStorage.removeItem("newFormstates");
     localStorage.removeItem("newFormIsValid");
     setFilename("");

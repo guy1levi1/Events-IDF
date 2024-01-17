@@ -86,7 +86,7 @@ const createUnapprovedUser = async (req, res, next) => {
   if (existingUser || existingUnapprovedUser) {
     const error = new HttpError(
       "User exists already, please login instead.",
-      422
+      409
     );
     return next(error);
   }

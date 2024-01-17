@@ -13,7 +13,7 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { Link } from "react-router-dom";
 import { get, post } from "../../utils/api/api";
 import Swal from "sweetalert2";
-const { v4: uuidv4 } = require("uuid");
+import { uuid } from "uuidv4";
 
 // const commands = [
 //   {
@@ -179,7 +179,7 @@ export default function SignUpPage() {
     };
 
     const body = {
-      id: uuidv4(),
+      id: uuid,
       privateNumber: formData.initialInputs.privateNumber.value,
       fullName: formData.initialInputs.fullName.value,
       password: formData.initialInputs.password.value,
@@ -215,11 +215,10 @@ export default function SignUpPage() {
     } catch (error) {
       // console.error("Error during signup:", error.response.da);
       console.log(error);
-      const massage = error.massage;
       // const code = error.code;
       Swal.fire({
         title: "לא ניתן להירשם",
-        text: massage,
+        text: error.massage,
         icon: "error",
         // showCancelButton: true,
         // confirmButtonColor: "#",

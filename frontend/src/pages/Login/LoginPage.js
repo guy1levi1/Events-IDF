@@ -92,11 +92,11 @@ export default function LoginPage() {
 
       navigate("/manageEventes");
     } catch (error) {
-      console.error("Error during signup:", error);
+      // console.error("Error during signup:", error);
       console.log(error);
       Swal.fire({
         title: "התחברות נכשלה",
-        text: "הנתונים שהזנת אינם מתאימים, נסה שוב מאוחר יותר",
+        text: error.massage,
         icon: "error",
         // showCancelButton: true,
         // confirmButtonColor: "#",

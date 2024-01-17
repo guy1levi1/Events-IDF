@@ -78,24 +78,31 @@ const signup = async (req, res, next) => {
   }
 
   // when admin accept the user it will be hashed so delete this code
-  // let hashedPassword;
-  // try {
-  //   hashedPassword = sha256(password);
-  // } catch (err) {
-  //   const error = new HttpError(
-  //     "Could not create user, please try again.",
-  //     500
-  //   );
-  //   return next(error);
-  // }
+  let hashedPassword;
+  try {
+    hashedPassword = sha256(password);
+  } catch (err) {
+    const error = new HttpError(
+      "Could not create user, please try again.",
+      500
+    );
+    return next(error);
+  }
 
   try {
+    // console.log(
+    //   id,
+    //   privateNumber,
+    //   fullName,
+    //   hashedPassword,
+    //   commandId,
+    //   isAdmin
+    // );
     const newUser = await User.create({
       id,
       privateNumber,
       fullName,
-      // password: hashedPassword,
-      password,
+      password: hashedPassword,
       commandId,
       isAdmin,
     });
@@ -103,7 +110,6 @@ const signup = async (req, res, next) => {
     res.status(201).json(newUser);
   } catch (err) {
     console.log("Validation errors:", err.errors);
-    console.log("failed");
     const error = new HttpError(
       "Signing up failed, please try again later.",
       500
@@ -153,7 +159,7 @@ const login = async (req, res, next) => {
   if (!existingUser) {
     const error = new HttpError(
       "Invalid credentials, could not log you in.",
-      403
+      404
     );
     return next(error);
   }
@@ -174,7 +180,7 @@ const login = async (req, res, next) => {
   if (!isValidPassword) {
     const error = new HttpError(
       "Invalid credentials1, could not log you in.",
-      403
+      401
     );
     return next(error);
   }

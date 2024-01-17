@@ -14,7 +14,8 @@ import { useFilename } from "../../utils/contexts/FilenameContext";
 import * as XLSX from "xlsx";
 import CommandsMultiSelect from "../../components/CommandsMultiSelect";
 import { createEvent } from "../../utils/api/eventsApi";
-import { uuid } from "uuidv4";
+import Swal from "sweetalert2";
+const { v4: uuidv4 } = require("uuid");
 
 const formStates = {
   eventName: {
@@ -104,21 +105,39 @@ export default function CreateEventPage() {
 
   // Function to handle submission of a new event, clearing stored form data and filename
   const handleSumbitNewEvent = () => {
-    console.log(formData.initialInputs.eventDate.value);
     const newEvent = {
-      id: "11516c3b-3f95-452e-b624-790fd7d342eb",
+      id: uuidv4(),
       name: formData.initialInputs.eventName.value,
-      data: formData.initialInputs.eventDate.value,
+      date: formData.initialInputs.eventDate.value,
       place: formData.initialInputs.eventLocation.value,
       description: formData.initialInputs.description.value,
       userId: "11516c3b-3f95-452e-b624-790fd7d342eb",
     };
     console.log(newEvent);
     try {
-      createEvent(newEvent);
+      const response = createEvent(newEvent);
+      console.log(response);
+      console.log("Server response:", response.data);
+
+      // annimation success
+      Swal.fire({
+        title: "אירוע נוצר בהצלחה",
+        text: "",
+        icon: "success",
+        confirmButtonText: "בוצע",
+      }).then((result) => {
+        navigate("/manageEventes");
+      });
     } catch (error) {
       console.log(error);
-      console.log("create event failed");
+      Swal.fire({
+        title: "לא ניתן ליצור אירוע",
+        text: error.message,
+        icon: "error",
+        confirmButtonText: "נסה שנית",
+      }).then((result) => {
+        //
+      });
     }
 
     localStorage.removeItem("newFormstates");

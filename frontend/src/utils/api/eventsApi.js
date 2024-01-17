@@ -49,7 +49,6 @@ export async function createEvent(newEvent) {
       "Origin, X-Requested-With, Content-Type, Accept, Authorization",
     "Access-Control-Allow-Methods": "POST",
   };
-
   try {
     const response = await post(apiUrl, newEvent, headers);
     console.log("Server response:", response.data);

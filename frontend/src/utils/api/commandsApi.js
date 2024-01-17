@@ -39,7 +39,6 @@ export async function getCommandIdByName(commandName) {
   }
 }
 
-
 export async function getCommandNameById(commandId) {
   try {
     const commands = await getCommands();
@@ -57,4 +56,3 @@ export async function getCommandNameById(commandId) {
     throw error; // Rethrow the error to handle it in the calling code
   }
 }
-

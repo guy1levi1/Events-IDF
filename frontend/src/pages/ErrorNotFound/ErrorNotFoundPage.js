@@ -26,7 +26,7 @@ const ErrorNotFoundPage = () => {
         }}
       >
         <div className="textAbout404">
-          <p className="paragraph404">העמוד שביקשת אינו קיים</p>
+          <p className="paragraph404">העמוד שביקשת אינו קיים/דורש התחברות</p>
           <p className="secondParagraph404" style={{marginTop: "0"}}>נסה עמוד אחר</p>
 
           {/* <NavLink

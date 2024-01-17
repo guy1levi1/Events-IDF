@@ -4,6 +4,10 @@ const eventCommandsController = require("../controllers/eventCommandsControllers
 
 const router = express.Router();
 
+const checkAuth = require("../middlewares/checkAuth");
+
+router.use(checkAuth);
+
 // get all rows
 router.get("/", eventCommandsController.getAllEventsCommands);
 
@@ -17,6 +21,9 @@ router.post("/", eventCommandsController.createEventCommand);
 router.delete("/:eventId", eventCommandsController.deleteEventCommand);
 
 // delete all command for a specific event
-router.delete("/:eventId", eventCommandsController.deleteAllEventCommandsByEventId);
+router.delete(
+  "/:eventId",
+  eventCommandsController.deleteAllEventCommandsByEventId
+);
 
 module.exports = router;

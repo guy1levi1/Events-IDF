@@ -333,7 +333,7 @@ export default function SignUpPage() {
           helperText={
             !formData.initialInputs.fullName.error
               ? "הכנס שם מלא בעברית"
-              : "שם מלא חייב לכלול שם םרטי ושם משפחה"
+              : "שם מלא חייב לכלול שם פרטי ושם משפחה"
           }
         />
         <TextField

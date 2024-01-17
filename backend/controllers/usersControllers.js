@@ -3,6 +3,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { v4: uuidv4 } = require("uuid");
 const sha256 = require("js-sha256");
+require("dotenv").config();
 
 const HttpError = require("../models/httpError");
 const User = require("../models/schemas/User");
@@ -77,32 +78,12 @@ const signup = async (req, res, next) => {
     return next(error);
   }
 
-  // when admin accept the user it will be hashed so delete this code
-  let hashedPassword;
   try {
-    hashedPassword = sha256(password);
-  } catch (err) {
-    const error = new HttpError(
-      "Could not create user, please try again.",
-      500
-    );
-    return next(error);
-  }
-
-  try {
-    // console.log(
-    //   id,
-    //   privateNumber,
-    //   fullName,
-    //   hashedPassword,
-    //   commandId,
-    //   isAdmin
-    // );
     const newUser = await User.create({
       id,
       privateNumber,
       fullName,
-      password: hashedPassword,
+      password,
       commandId,
       isAdmin,
     });
@@ -116,31 +97,12 @@ const signup = async (req, res, next) => {
     );
     return next(error);
   }
-
-  // let token;
-  // try {
-  //   token = jwt.sign(
-  //     { userId: id, privateNumber: privateNumber },
-  //     "supersecret_dont_share",
-  //     { expiresIn: "1h" }
-  //   );
-  // } catch (err) {
-  //   const error = new HttpError(
-  //     "Signing In failed, please try again later.",
-  //     500
-  //   );
-  //   return next(error);
-  // }
-
-  // res.status(201).json({
-  //   userId: id,
-  //   privateNumber: privateNumber,
-  //   token: token,
-  // });
 };
 
 const login = async (req, res, next) => {
   const { privateNumber, password } = req.body;
+
+  const secretKey = process.env.SECRET_KEY;
 
   let existingUser;
 
@@ -189,7 +151,7 @@ const login = async (req, res, next) => {
   try {
     token = jwt.sign(
       { userId: existingUser.id, privateNumber: existingUser.privateNumber },
-      "supersecret_dont_share",
+      secretKey,
       { expiresIn: "24h" }
     );
   } catch (err) {

@@ -102,22 +102,40 @@ const Menu = () => {
           </ul>
         </div>
 
-        <a
-          className="signoutbutton"
-          onClick={auth.logout}
-          style={{
-            display: "flex",
-            marginRight: "0.6rem",
-            position: "absolute",
-            bottom: 0,
-            marginBottom: "0.5rem",
-            color: "black",
-            cursor: "pointer",
-          }}
-          href={`/login`}
-        >
-          התנתק/י
-        </a>
+        {auth.isLoggedIn ? (
+          <a
+            className="signoutbutton"
+            onClick={auth.logout}
+            style={{
+              display: "flex",
+              marginRight: "0.6rem",
+              position: "absolute",
+              bottom: 0,
+              marginBottom: "0.5rem",
+              color: "black",
+              cursor: "pointer",
+            }}
+            href={`/login`}
+          >
+            התנתק/י
+          </a>
+        ) : (
+          <a
+            className="signoutbutton"
+            style={{
+              display: "flex",
+              marginRight: "0.6rem",
+              position: "absolute",
+              bottom: 0,
+              marginBottom: "0.5rem",
+              color: "black",
+              cursor: "pointer",
+            }}
+            href={`/login`}
+          >
+            התחבר/י
+          </a>
+        )}
       </div>
       <button
         className={open ? "menu-toggle close-button" : "menu-toggle"}

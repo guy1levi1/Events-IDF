@@ -1,4 +1,5 @@
 import { del, get, patch, post } from "./api";
+import { getCommandNameById } from "./commandsApi";
 
 export async function getUsers() {
   const apiUrl = "http://localhost:5000/api/users/";
@@ -71,6 +72,28 @@ export async function getFullNameById(userId) {
     return null;
   } catch (error) {
     console.error("Error getting fullname by id:", error);
+    throw error; // Rethrow the error to handle it in the calling code
+  }
+}
+
+export async function getCommandNameByUserId(userId) {
+  try {
+    const users = await getUsers();
+    let commantName = "";
+
+    for (let i = 0; i < users.length; i++) {
+      if (users[i].id === userId) {
+        console.log(users[i].id);
+        console.log(users[i].commandId);
+        commantName = await getCommandNameById(users[i].commandId);
+        return commantName;
+      }
+    }
+
+    // If no matching user/commands is found
+    return null;
+  } catch (error) {
+    console.error("Error getting command name by user id:", error);
     throw error; // Rethrow the error to handle it in the calling code
   }
 }

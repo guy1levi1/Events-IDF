@@ -1,9 +1,13 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "./Menu.css";
 import profile_img from "../../images/logo_image_example.png";
 import { useNavigate } from "react-router";
 import { useLocation } from "react-router-dom";
 import { AuthContext } from "../../utils/contexts/authContext";
+import {
+  getCommandNameByUserId,
+  getFullNameById,
+} from "../../utils/api/usersApi";
 
 const Menu = () => {
   const [open, setOpen] = useState(false);
@@ -11,6 +15,10 @@ const Menu = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const auth = useContext(AuthContext);
+  const userData = JSON.parse(localStorage.getItem("userData"));
+  const loggedUserId = userData ? userData.userId : "";
+  const [loggedUserFullName, setLoggedUserFullName] = useState("");
+  const [loggedUserCommand, setLoggedUserCommand] = useState("");
 
   const toggleMenu = () => {
     setOpen(!open);
@@ -50,6 +58,22 @@ const Menu = () => {
     navigate(url);
   };
 
+  useEffect(() => {
+    const fetchFullName = async () => {
+      try {
+        const fullName = await getFullNameById(loggedUserId);
+        const command = await getCommandNameByUserId(loggedUserId);
+        console.log("command: " + command);
+        setLoggedUserFullName(fullName);
+        setLoggedUserCommand(command);
+      } catch (error) {
+        console.error("Error fetching full name:", error);
+      }
+    };
+
+    fetchFullName();
+  }, [loggedUserId, getFullNameById]);
+
   return (
     <div>
       <div className={open ? "menu-wrapper menu-open" : "menu-wrapper"}>
@@ -73,10 +97,10 @@ const Menu = () => {
             }}
           >
             <h3 className="FullNameMenu" style={{ padding: 0, margin: 0 }}>
-              אייל אנגל
+              {loggedUserFullName}
             </h3>
             <h6 className="CommandMenu" style={{ padding: 0, margin: 0 }}>
-              פיקוד מרכז
+            פיקוד {loggedUserCommand} 
             </h6>
           </div>
         </div>

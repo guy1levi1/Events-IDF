@@ -99,9 +99,7 @@ const router = createBrowserRouter([
 
 function App() {
   const { token, login, logout, userId } = useAuth();
-  console.log(token ? router : routerNotAuth);
 
-  console.log("token: " + token);
   return (
     <AuthContext.Provider
       value={{

@@ -113,11 +113,8 @@ export default function CreateEventPage() {
       description: formData.initialInputs.description.value,
       userId: localStorage.getItem("userData")?.userId || null,
     };
-    console.log(newEvent);
     try {
       const response = createEvent(newEvent);
-      console.log(response);
-      console.log("Server response:", response.data);
 
       // annimation success
       Swal.fire({

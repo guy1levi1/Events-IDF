@@ -1,4 +1,4 @@
-import { get } from "./api";
+import { del, get, post } from "./api";
 
 export async function getUnapprovedUsers() {
   const apiUrl = "http://localhost:5000/api/unapprovedUsers/";
@@ -13,7 +13,6 @@ export async function getUnapprovedUsers() {
 
   try {
     const response = await get(apiUrl, headers);
-    console.log("Server response:", response.data);
     return response.data;
   } catch (error) {
     console.error("Error fetching unapproved users:", error);
@@ -88,7 +87,6 @@ export async function createUnapprovedUser(newUnApprovedUser) {
 
   try {
     const response = await post(apiUrl, newUnApprovedUser, headers);
-    console.log("Server response:", response.data);
     return response.data;
   } catch (error) {
     console.error("Error creating new event:", error);
@@ -109,7 +107,6 @@ export async function deleteUnapprovedUserById(unApprovedUserId) {
 
   try {
     const response = await del(apiUrl, headers);
-    console.log("Server response:", response.data);
     return response.data;
   } catch (error) {
     console.error(`Error deleting event with ID ${unApprovedUserId}:`, error);

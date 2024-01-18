@@ -76,11 +76,7 @@ const ExcelReader = ({ onRowsChange, eventId }) => {
             };
             return newRow;
           });
-        console.log("new rows from excel reader: ");
         const transformedData = mapKeys(newRows, headers, eventId);
-        console.log(transformedData);
-
-        console.log(newRows);
 
         onRowsChange(
           transformedData.map((row) => {

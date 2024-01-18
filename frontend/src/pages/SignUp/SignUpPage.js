@@ -88,7 +88,6 @@ export default function SignUpPage() {
 
     try {
       const response = await get(apiUrl, headers);
-      console.log("Server response:", response.data);
       setCommands(response.data);
     } catch (error) {
       console.error("Error during signup:", error);
@@ -153,20 +152,11 @@ export default function SignUpPage() {
         return commands[i].id;
       }
       // If no matching commandName is found
+      return null;
     }
-    return null;
   };
 
   const handleSignup = async () => {
-    console.log(formData.initialInputs.privateNumber.value);
-    console.log(formData.initialInputs.fullName.value);
-    console.log(formData.initialInputs.password.value);
-    console.log(formData.initialInputs.commandsSelector.value);
-    console.log(
-      getCommandNameById(formData.initialInputs.commandsSelector.value)
-    );
-
-    // Replace 'YOUR_SERVER_API_URL' with the actual URL of your signup endpoint
     const apiUrl =
       "http://localhost:5000/api/unapprovedUsers/signUpunapprovedUser";
 
@@ -189,43 +179,26 @@ export default function SignUpPage() {
       isAdmin: false,
     };
 
-    console.log(body);
-
     try {
       const response = await post(apiUrl, body, headers);
-      console.log(response);
-      console.log("Server response:", response.data);
 
       // annimation success
       Swal.fire({
         title: "נרשמת בהצלחה",
         text: "לאחר שענף סגל יאשר אותך תוכל להשתמש במערכת",
         icon: "success",
-        // showCancelButton: true,
-        // confirmButtonColor: "#",
-        // cancelButtonColor: "#3085d6",
         confirmButtonText: "בוצע",
-        // cancelButtonText: "בטל",
-        // reverseButtons: true,
       }).then((result) => {
         navigate("/login");
 
         //
       });
     } catch (error) {
-      // console.error("Error during signup:", error.response.da);
-      console.log(error);
-      // const code = error.code;
       Swal.fire({
         title: "לא ניתן להירשם",
         text: error.massage,
         icon: "error",
-        // showCancelButton: true,
-        // confirmButtonColor: "#",
-        // cancelButtonColor: "#3085d6",
         confirmButtonText: "בוצע",
-        // cancelButtonText: "בטל",
-        // reverseButtons: true,
       }).then((result) => {
         //
       });
@@ -382,7 +355,7 @@ export default function SignUpPage() {
           label="סיסמא"
           helperText={
             !formData.initialInputs.password.error
-              ? "סיסמא עם מינימום 6 תווים, אותיות באנגלית וספרות בלבד"
+              ? "סיסמא עם מינימום 6 תווים, לפחות אות אחת וספרה אחת"
               : "סיסמא לא תקינה"
           }
           type={!showPassword ? "password" : "text"}

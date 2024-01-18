@@ -136,7 +136,6 @@ const deleteEventRequest = async (req, res, next) => {
     }
     const eventRequestId = req.params.eventRequestId;
 
-    console.log(eventRequestId);
     let eventRequestById;
     try {
       eventRequestById = await EventRequests.findOne({
@@ -174,7 +173,12 @@ const deleteAllEventRequestsByEventId = async (req, res, next) => {
     });
 
     if (!eventCommands) {
-      return next(new HttpError(`No EventCommands found for event with id ${eventId}.`, 404));
+      return next(
+        new HttpError(
+          `No EventCommands found for event with id ${eventId}.`,
+          404
+        )
+      );
     }
 
     res.status(204).end();

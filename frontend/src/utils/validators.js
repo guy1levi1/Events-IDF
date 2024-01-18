@@ -70,8 +70,5 @@ export const VALIDATOR_DATE_EVENT = (value) => {
 };
 
 export const VALIDATOR_PASSWORD = (value) => {
-  return (
-    VALIDATOR_MINLENGTH(value, 6) &&
-    /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}/.test(value)
-  );
+  return /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]{6,}$/.test(value);
 };

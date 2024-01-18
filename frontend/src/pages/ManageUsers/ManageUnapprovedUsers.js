@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   DataGrid,
   GridToolbarContainer,
@@ -195,10 +195,11 @@ const initialRows = [
 ];
 
 export default function ManageUnapprovedUsers({
+  unapprovedUsers,
   approvedUser,
   updateApprovedUser,
 }) {
-  const [rows, setRows] = useState(initialRows);
+  const [rows, setRows] = React.useState(unapprovedUsers);
   const [rowModesModel, setRowModesModel] = useState({});
 
   const handleRowEditStop = (params, event) => {

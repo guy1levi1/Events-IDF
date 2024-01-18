@@ -46,9 +46,6 @@ const createCommand = async (req, res, next) => {
 
 // Patch a command by id
 const updateCommandById = async (req, res, next) => {
-  console.log("id: " + req.params.commandId);
-  console.log("commandName: " + req.body.commandName);
-
   const id = req.params.commandId;
   const commandName = req.body.commandName;
   try {
@@ -69,8 +66,8 @@ const updateCommandById = async (req, res, next) => {
 
 // Delete command by id
 const deleteCommandById = async (req, res, next) => {
-    const id = req.params.commandId;
-    try {
+  const id = req.params.commandId;
+  try {
     const command = await Command.findByPk(id);
     if (!command) {
       return next(new HttpError(`Command with id ${id} not found.`, 404));

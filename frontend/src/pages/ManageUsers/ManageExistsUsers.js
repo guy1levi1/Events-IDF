@@ -162,14 +162,9 @@ function CustomNoRowsOverlay() {
   );
 }
 
-export default function ManageExistsUsers({ newApprovedUser, existUsers }) {
-  const [rows, setRows] = existUsers;
+export default function ManageExistsUsers({existUsers}) {
+  const [rows, setRows] = React.useState(existUsers);
   const [rowModesModel, setRowModesModel] = React.useState({});
-
-  React.useEffect(() => {
-    // This will run whenever data prop changes
-    console.log("Data in Child2:", newApprovedUser);
-  }, [newApprovedUser]);
 
   const handleRowEditStop = (params, event) => {
     if (params.reason === GridRowEditStopReasons.rowFocusOut) {
@@ -336,7 +331,7 @@ export default function ManageExistsUsers({ newApprovedUser, existUsers }) {
         }}
       >
         <DataGrid
-          rows={rows}
+          rows={existUsers}
           columns={columns}
           editMode="row"
           rowModesModel={rowModesModel}

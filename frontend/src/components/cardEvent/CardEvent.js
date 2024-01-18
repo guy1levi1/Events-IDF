@@ -66,7 +66,6 @@ export default function CardEvent({
         file.type ===
           "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
       ) {
-        console.log(`הועלה ${file.name} קובץ`);
         console.log(`File selected: ${file.name}, size: ${file.size} bytes`);
       } else {
         console.error("Invalid file type");
@@ -90,9 +89,6 @@ export default function CardEvent({
             };
             return newRow;
           });
-        console.log("new rows from excel reader: ");
-        // const transformedData = mapKeys(newRows, headers, eventId);
-        // console.log(transformedData);
 
         navigate(`/crossInformation/${eventId}`, {
           state: {

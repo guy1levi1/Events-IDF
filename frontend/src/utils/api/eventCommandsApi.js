@@ -15,7 +15,6 @@ export async function getAllEventCommands() {
 
   try {
     const response = await get(apiUrl, headers);
-    console.log("Server response:", response.data);
     return response.data;
   } catch (error) {
     console.error("Error fetching event commands:", error);
@@ -56,7 +55,6 @@ export async function createEventCommand(newEventCommand) {
 
   try {
     const response = await post(apiUrl, newEventCommand, headers);
-    console.log("Server response:", response.data);
     return response.data;
   } catch (error) {
     console.error("Error creating event command:", error);
@@ -79,7 +77,6 @@ export async function deleteEventCommand(eventId, commandId) {
   try {
     const response = await del(`${apiUrl}`, { data: { commandId }, headers });
 
-    console.log("Server response:", response.data);
   } catch (error) {
     console.error(
       `Error deleting event command with eventId ${eventId} and commandId ${commandId}:`,
@@ -103,7 +100,6 @@ export async function deleteAllEventCommandsByEventId(eventId) {
 
   try {
     const response = await del(apiUrl, headers);
-    console.log("Server response:", response.data);
   } catch (error) {
     console.error(
       `Error deleting all event commands for event with id ${eventId}:`,

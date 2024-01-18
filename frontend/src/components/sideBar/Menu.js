@@ -25,7 +25,6 @@ const Menu = () => {
   };
 
   React.useEffect(() => {
-    console.log("Current URL:", location.pathname);
     setActiveLink(getRouteIndex(location.pathname));
   }, [location]);
 
@@ -53,9 +52,17 @@ const Menu = () => {
   };
 
   const navigateHandler = (url, index) => {
-    console.log("index: " + index);
     setActiveLink(index);
     navigate(url);
+  };
+
+  const handleLogout = () => {
+    auth.logout();
+    navigate("/login");
+  };
+
+  const handleLogin = () => {
+    navigate("/login");
   };
 
   useEffect(() => {
@@ -63,7 +70,6 @@ const Menu = () => {
       try {
         const fullName = await getFullNameById(loggedUserId);
         const command = await getCommandNameByUserId(loggedUserId);
-        console.log("command: " + command);
         setLoggedUserFullName(fullName);
         setLoggedUserCommand(command);
       } catch (error) {
@@ -83,6 +89,7 @@ const Menu = () => {
             display: "flex",
             flexDirection: "row",
             alignItems: "center",
+            // paddingTop: "1vh"
           }}
         >
           <img className="profileImage" src={profile_img} alt="progile_logo" />
@@ -99,9 +106,13 @@ const Menu = () => {
             <h3 className="FullNameMenu" style={{ padding: 0, margin: 0 }}>
               {loggedUserFullName}
             </h3>
-            <h6 className="CommandMenu" style={{ padding: 0, margin: 0 }}>
-            פיקוד {loggedUserCommand} 
-            </h6>
+            {loggedUserCommand ? (
+              <h6 className="CommandMenu" style={{ padding: 0, margin: 0 }}>
+                פיקוד {loggedUserCommand}
+              </h6>
+            ) : (
+              <div></div> // You can replace this with any content or leave it empty
+            )}
           </div>
         </div>
 
@@ -129,7 +140,7 @@ const Menu = () => {
         {auth.isLoggedIn ? (
           <a
             className="signoutbutton"
-            onClick={auth.logout}
+            onClick={handleLogout}
             style={{
               display: "flex",
               marginRight: "0.6rem",
@@ -138,14 +149,15 @@ const Menu = () => {
               marginBottom: "0.5rem",
               color: "black",
               cursor: "pointer",
+              textDecoration: "underline",
             }}
-            href={`/login`}
           >
             התנתק/י
           </a>
         ) : (
           <a
             className="signoutbutton"
+            onClick={handleLogin}
             style={{
               display: "flex",
               marginRight: "0.6rem",
@@ -154,8 +166,9 @@ const Menu = () => {
               marginBottom: "0.5rem",
               color: "black",
               cursor: "pointer",
+              textDecoration: "underline",
             }}
-            href={`/login`}
+            // href={`/login`}
           >
             התחבר/י
           </a>

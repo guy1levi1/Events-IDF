@@ -24,7 +24,7 @@ const routerNotAuth = createBrowserRouter([
     path: "/",
     element: <RootLayout />,
     children: [
-      { path: "/", element: <Navigate to="/about" replace /> }, // will be changes to about
+      { path: "/", element: <Navigate to="/login" replace /> }, // will be changes to about
       { path: "/login", element: <LoginPage /> },
       { path: "/signup", element: <SignUpPage /> },
       { path: "about", element: <AboutPage /> },
@@ -38,7 +38,7 @@ const router = createBrowserRouter([
     path: "/",
     element: <RootLayout />,
     children: [
-      { path: "/", element: <Navigate to="/about" replace /> }, // will be changes to about
+      { path: "/", element: <Navigate to="/login" replace /> }, // will be changes to about
       { path: "/login", element: <LoginPage /> },
       { path: "/signup", element: <SignUpPage /> },
       { path: "about", element: <AboutPage /> },

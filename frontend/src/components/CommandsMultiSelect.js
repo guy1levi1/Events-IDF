@@ -28,7 +28,10 @@ const MenuProps = {
   },
 };
 
-const commands = await getAllCommandsNames();
+const commands = await getAllCommandsNames().catch(() => {
+  console.error("could not get commands");
+  return [];
+});
 
 function getStyles(command, commandName, theme) {
   return {

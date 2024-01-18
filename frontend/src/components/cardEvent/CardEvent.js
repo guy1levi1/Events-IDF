@@ -13,6 +13,7 @@ import * as XLSX from "xlsx";
 
 import "./CardEvent.css";
 import { getFullNameById, getUserById } from "../../utils/api/usersApi";
+// import dayjs from "dayjs";
 
 export default function CardEvent({
   eventId,
@@ -38,13 +39,7 @@ export default function CardEvent({
     }).then((result) => {
       if (result.isConfirmed) {
         // delete the event from db and update in the fronted
-        onDelete();
-        Swal.fire({
-          title: "נמחק בהצלחה!",
-          text: "האירוע {שם האירוע} נמחק בהצלחה.",
-          icon: "success",
-          confirmButtonText: "אישור",
-        });
+        onDelete(eventId);
       }
     });
   };
@@ -114,12 +109,26 @@ export default function CardEvent({
     fileInputRef.current.click();
   };
 
-  const [fullName, setFullName] = useState("");
+  const options = {
+    day: "2-digit",
+    month: "2-digit",
+    year: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
+  };
 
+  const [fullName, setFullName] = useState("");
+  const [eventDayJs, setEventDayJs] = useState(null);
   useEffect(() => {
     const fetchFullName = async () => {
       try {
         const fullName = await getFullNameById(eventCreator);
+        setEventDayJs(
+          new Date(eventDate)
+            .toLocaleString("he-IL", options)
+            .replace(/\//g, ".")
+        );
         setFullName(fullName);
       } catch (error) {
         console.error("Error fetching full name:", error);
@@ -227,7 +236,7 @@ export default function CardEvent({
               width: "85%",
             }}
           >
-            {eventLocation} ,{eventDate}
+            {eventLocation} ,{eventDayJs}
           </h6>
           <div
             className="commandsCells"

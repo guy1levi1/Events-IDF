@@ -10,7 +10,8 @@ const handelErrorCode = (code) => {
       return "לא ניתן להתחבר, סיסמא שגויה";
     case 500:
       return "השרת לא מגיב, נסה שנית מאוחר יותר";
-
+    case 402:
+      return "לא הצלחנו למצוא את האירוע המבוקש";
     default:
       break;
   }
@@ -63,7 +64,14 @@ export const del = async (url, headers) => {
     if (res) {
       console.log("success delete");
     }
+    return res;
   } catch (e) {
-    console.log(e);
+    console.log(e.response.status);
+    const massage = handelErrorCode(e.response.status);
+    const code = e.response.status;
+    throw {
+      massage: massage || "unocurred error",
+      code: code || 500,
+    };
   }
 };

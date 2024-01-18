@@ -78,7 +78,7 @@ export async function getCommandNameById(commandId) {
     const commands = await getCommands();
 
     for (let i = 0; i < commands.length; i++) {
-      if (commands[i].commandId === commandId) {
+      if (commands[i].id === commandId) {
         return commands[i].commandName;
       }
     }

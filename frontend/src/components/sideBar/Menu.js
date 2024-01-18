@@ -28,14 +28,23 @@ const Menu = () => {
     setActiveLink(getRouteIndex(location.pathname));
   }, [location]);
 
-  const linksArray = auth.isLoggedIn
-    ? [
-        { name: "אודות המערכת", url: "/about" },
-        { name: "ניהול אירועים", url: "/manageEventes" },
-        { name: "יצירת אירוע", url: "/createEvent" },
-        { name: "ניהול משתמשים", url: "/manageUsers" },
-      ]
-    : [{ name: "אודות המערכת", url: "/about" }];
+  let linksArray;
+
+  if (auth.isLoggedIn && loggedUserCommand === "סגל") {
+    linksArray = [
+      { name: "אודות המערכת", url: "/about" },
+      { name: "ניהול אירועים", url: "/manageEventes" },
+      { name: "יצירת אירוע", url: "/createEvent" },
+      { name: "ניהול משתמשים", url: "/manageUsers" },
+    ];
+  } else if (auth.isLoggedIn) {
+    linksArray = [
+      { name: "אודות המערכת", url: "/about" },
+      { name: "ניהול אירועים", url: "/manageEventes" },
+    ];
+  } else {
+    linksArray = [{ name: "אודות המערכת", url: "/about" }];
+  }
 
   const getRouteIndex = (pathname) => {
     if (pathname === "/about") {

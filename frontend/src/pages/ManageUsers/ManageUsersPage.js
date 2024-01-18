@@ -115,13 +115,6 @@ export default function ManageUsersPage() {
     fetchDataUsers();
     fetchDataUnapprovedUsers();
   }, [
-    users,
-    unapprovedUsers,
-    getUsers,
-    getUnapprovedUsers,
-    getCommandNameById,
-    setUnapprovedUsers,
-    setUsers,
   ]);
 
   const updateApprovedUser = (newApprovedUser) => {

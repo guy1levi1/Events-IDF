@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Button from "@mui/material/Button";
 import "./SignupPage.css";
-import { NavLink, Navigate, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { MenuItem } from "@mui/material";
 import useForm from "../../utils/hooks/useForm";
 import { Box, TextField } from "@mui/material";
@@ -10,7 +10,6 @@ import InputAdornment from "@mui/material/InputAdornment";
 import IconButton from "@mui/material/IconButton";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import { Link } from "react-router-dom";
 import { get, post } from "../../utils/api/api";
 import Swal from "sweetalert2";
 const { v4: uuidv4 } = require("uuid");

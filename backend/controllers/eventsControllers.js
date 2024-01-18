@@ -61,14 +61,14 @@ const deleteEvent = async (req, res, next) => {
     }
 
     if (!eventById) {
-      const error = new HttpError("there is no event with the id", 500);
+      const error = new HttpError("there is no event with the id", 402);
       next(error);
     }
 
     try {
       await eventById.destroy();
     } catch (err) {
-      throw new HttpError("could not delete user", 500);
+      throw new HttpError("could not delete event", 500);
     }
 
     res.status(201).json({ massage: `DELETE:  ${eventId}` });
@@ -131,12 +131,13 @@ const updateEvent = async (req, res, next) => {
 
 const createEvent = async (req, res, next) => {
   const { id, name, description, date, place, userId } = req.body;
+  console.log(userId);
   try {
     // Check if the creatorId exists in the User model
     const userExists = await User.findByPk(userId);
     if (!userExists) {
       return next(
-        new HttpError("Invalid userId. The user does not exist.", 409)
+        new HttpError("Invalid userId. The user does not exist.", 404)
       );
     }
 

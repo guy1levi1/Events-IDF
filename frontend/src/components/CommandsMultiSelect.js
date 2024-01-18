@@ -9,7 +9,7 @@ import Select from "@mui/material/Select";
 import Chip from "@mui/material/Chip";
 import { FormHelperText } from "@mui/material";
 import { red } from "@mui/material/colors";
-import { getAllCommandsNames, getCommands } from "../utils/api/commandsApi";
+import { getAllCommandsNames } from "../utils/api/commandsApi";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -28,7 +28,10 @@ const MenuProps = {
   },
 };
 
-const commands = await getAllCommandsNames();
+const commands = await getAllCommandsNames().catch(() => {
+  console.error("could not get commands");
+  return [];
+});
 
 function getStyles(command, commandName, theme) {
   return {

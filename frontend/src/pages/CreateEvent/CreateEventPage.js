@@ -104,17 +104,20 @@ export default function CreateEventPage() {
   };
 
   // Function to handle submission of a new event, clearing stored form data and filename
-  const handleSumbitNewEvent = () => {
+  const handleSumbitNewEvent = async () => {
     const newEvent = {
       id: uuidv4(),
       name: formData.initialInputs.eventName.value,
       date: formData.initialInputs.eventDate.value,
       place: formData.initialInputs.eventLocation.value,
       description: formData.initialInputs.description.value,
-      userId: localStorage.getItem("userData")?.userId || null,
+      userId: JSON.parse(localStorage.getItem("userData"))?.userId || null,
     };
+    console.log(newEvent);
     try {
       const response = createEvent(newEvent);
+      console.log(response);
+      console.log("Server response:", response.data);
 
       // annimation success
       Swal.fire({
@@ -129,7 +132,7 @@ export default function CreateEventPage() {
       console.log(error);
       Swal.fire({
         title: "לא ניתן ליצור אירוע",
-        text: error.message,
+        text: error.massage,
         icon: "error",
         confirmButtonText: "נסה שנית",
       }).then((result) => {

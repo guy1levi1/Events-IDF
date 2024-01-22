@@ -52,16 +52,12 @@ const signup = async (req, res, next) => {
 
   const { id, privateNumber, fullName, password, commandId, isAdmin } =
     req.body;
-  console.log(req.body);
 
   let existingUser;
   try {
     existingUser = await User.findOne({
       where: { privateNumber },
     });
-    console.log("existingUser: ");
-
-    console.log(existingUser);
   } catch (err) {
     const error = new HttpError(
       "Signing up failed, please try again later.",
@@ -152,7 +148,7 @@ const login = async (req, res, next) => {
     token = jwt.sign(
       { userId: existingUser.id, privateNumber: existingUser.privateNumber },
       secretKey,
-      { expiresIn: "24h" }
+      { expiresIn: "7d" }
     );
   } catch (err) {
     const error = new HttpError(
@@ -171,10 +167,8 @@ const login = async (req, res, next) => {
 
 const updateUser = async (req, res, next) => {
   const userId = req.params.userId;
-  console.log(userId);
 
   const { privateNumber, fullName, commandId } = req.body;
-  console.log(req.body);
 
   try {
     // Find the user by ID
@@ -201,7 +195,6 @@ const updateUser = async (req, res, next) => {
     if (commandId !== undefined) {
       user.commandId = commandId;
     }
-
     // Save the updated user
     await user.save();
 
@@ -228,14 +221,12 @@ const deleteUser = async (req, res, next) => {
     }
 
     const userId = req.params.userId;
-    console.log(userId);
 
     let userById;
     try {
       userById = await User.findOne({
         where: { id: userId },
       });
-      console.log(userById);
     } catch (err) {
       throw new HttpError("failed to get the user by id", 500);
     }

@@ -98,13 +98,11 @@ export default function EditEventPage(props) {
     formDataFromLocalStorage || formStates,
     JSON.parse(localStorage.getItem("newEditFormIsValid")) || false
   );
-  console.log(formData);
   const [dateError] = useState(false);
   const [vhAsPixels, setVhAsPixels] = useState(0);
   const [initialFontSize, setInitialFontSize] = useState(0); // Add initialFontSize state
 
   const handleEditEventClick = () => {
-    console.log("edit event clicked");
     localStorage.removeItem("newEditFormstates");
     localStorage.removeItem("newEditFormIsValid");
     setFilename("");
@@ -175,7 +173,6 @@ export default function EditEventPage(props) {
         file.type ===
           "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
       ) {
-        console.log(`הועלה ${file.name} קובץ`);
         console.log(`File selected: ${file.name}, size: ${file.size} bytes`);
       } else {
         console.error("Invalid file type");
@@ -201,9 +198,7 @@ export default function EditEventPage(props) {
             };
             return newRow;
           });
-        console.log("new rows from excel reader: ");
         const transformedData = mapKeys(newRows, headers, eventId);
-        console.log(transformedData);
 
         navigate(`/table/${eventId}`, {
           state: {

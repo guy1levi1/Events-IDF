@@ -15,7 +15,6 @@ export async function getEvnets() {
 
   try {
     const response = await get(apiUrl, headers);
-    console.log("Server response:", response.data);
     return response.data;
   } catch (error) {
     console.error("Error fetching events:", error);
@@ -55,7 +54,6 @@ export async function createEvent(newEvent) {
   };
   try {
     const response = await post(apiUrl, newEvent, headers);
-    console.log("Server response:", response.data);
     return response.data;
   } catch (error) {
     console.error("Error creating new event:", error);
@@ -76,7 +74,6 @@ export async function updateEvent(eventId, updatedEventData) {
 
   try {
     const response = await patch(apiUrl, updatedEventData, headers);
-    console.log("Server response:", response.data);
     return response.data;
   } catch (error) {
     console.error(`Error updating event with ID ${eventId}:`, error);
@@ -99,7 +96,6 @@ export async function deleteEvent(eventId) {
 
   try {
     const response = await del(apiUrl, headers);
-    console.log("Server response:", response.data);
     return response.data;
   } catch (error) {
     console.error(`Error deleting event with ID ${eventId}:`, error);

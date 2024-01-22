@@ -13,7 +13,7 @@ import { Link } from "react-router-dom";
 import { post } from "../../utils/api/api";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
-import { AuthContext } from '../../utils/contexts/authContext';
+import { AuthContext } from "../../utils/contexts/authContext";
 
 const formStates = {
   privateNumber: {
@@ -89,8 +89,6 @@ export default function LoginPage() {
 
     try {
       const response = await post(apiUrl, body, headers);
-      console.log(response);
-      console.log("Server response:", response.data);
       auth.login(response.data.userId, response.data.token);
       navigate("/manageEventes");
     } catch (error) {
@@ -210,7 +208,7 @@ export default function LoginPage() {
           label="סיסמא"
           helperText={
             !formData.initialInputs.password.error
-              ? "סיסמא עם מינימום 6 תווים, אותיות באנגלית וספרות בלבד"
+              ? "הכנס סיסמא מתאימה"
               : "סיסמא לא תקינה"
           }
           type={!showPassword ? "password" : "text"}
@@ -241,14 +239,14 @@ export default function LoginPage() {
           <Button
             variant="contained"
             color="primary"
-            disabled={!formData.isValid}
+            // disabled={!formData.isValid}
             onClick={() => handleLogin()}
             sx={{
               borderRadius: "5000px",
               fontSize: [
                 "0.2rem",
                 "0.4rem",
-                "0.7rem",
+                +"0.7rem",
                 "1rem",
                 "1.3rem",
                 "1.6rem",

@@ -348,7 +348,6 @@ export default function CrossInformationTable() {
   const eventDate = location.state.eventDate;
   const eventLocation = location.state.eventLocation;
 
-
   const mapKeys = (data, headers, eventId) => {
     return data.map((item) => {
       const newItem = { eventId: eventId };
@@ -378,7 +377,6 @@ export default function CrossInformationTable() {
           "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
       ) {
         setUploadFileInfo(`הועלה ${file.name} קובץ`);
-        console.log(`הועלה ${file.name} קובץ`);
         console.log(`File selected: ${file.name}, size: ${file.size} bytes`);
       } else {
         console.error("Invalid file type");
@@ -402,7 +400,6 @@ export default function CrossInformationTable() {
             };
             return newRow;
           });
-        console.log("new rows from excel reader: ");
 
         setData(newRows);
       };
@@ -430,7 +427,6 @@ export default function CrossInformationTable() {
   });
 
   React.useEffect(() => {
-    console.log("check loop useffect");
     setRows(
       mergedArray.map((row) => {
         const complianceOrder = calculateComplianceOrder(
@@ -441,8 +437,6 @@ export default function CrossInformationTable() {
       })
     );
   }, [filename, mergedArray]);
-
-  console.log("check loop");
 
   const getStatusCellStyle = (status) => {
     let backgroundColor, textColor;
@@ -527,7 +521,6 @@ export default function CrossInformationTable() {
   };
 
   const handleCancelButtonClick = () => {
-    console.log("cancel table clicked");
     setFilename("");
   };
 
@@ -674,13 +667,13 @@ export default function CrossInformationTable() {
         marginTop: "2rem",
       }}
     >
-     <h1 style={{ marginTop: "1rem" }}>
+      <h1 style={{ marginTop: "1rem" }}>
         {eventName && eventLocation && eventDate
           ? `${eventName}, ${eventLocation}, ${eventDate}`
           : eventName && eventDate
           ? `${eventName}, ${eventDate}`
           : eventLocation && eventDate
-          ?`${eventLocation}, ${eventDate}`
+          ? `${eventLocation}, ${eventDate}`
           : eventDate}
       </h1>
       <Box

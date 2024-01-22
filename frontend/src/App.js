@@ -18,90 +18,216 @@ import { FilenameProvider } from "./utils/contexts/FilenameContext";
 import { AuthContext } from "./utils/contexts/authContext";
 import { useAuth } from "./utils/hooks/useAuth";
 import ErrorNotFoundPage from "./pages/ErrorNotFound/ErrorNotFoundPage";
+import { getCommandNameByUserId } from "./utils/api/usersApi";
+import { useEffect, useState } from "react";
 
-const routerNotAuth = createBrowserRouter([
-  {
-    path: "/",
-    element: <RootLayout />,
-    children: [
-      { path: "/", element: <Navigate to="/login" replace /> }, // will be changes to about
-      { path: "/login", element: <LoginPage /> },
-      { path: "/signup", element: <SignUpPage /> },
-      { path: "about", element: <AboutPage /> },
-      { path: "*", element: <ErrorNotFoundPage /> },
-    ],
-  },
-]);
+const handleRouter = (token, command) => {
+  let router;
 
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <RootLayout />,
-    children: [
-      { path: "/", element: <Navigate to="/login" replace /> }, // will be changes to about
-      { path: "/login", element: <LoginPage /> },
-      { path: "/signup", element: <SignUpPage /> },
-      { path: "about", element: <AboutPage /> },
+  if (token && command === "סגל") {
+    router = createBrowserRouter([
       {
-        path: "/createEvent",
-        element: (
-          <FilenameProvider>
-            <CreateEventPage />
-          </FilenameProvider>
-        ),
+        path: "/",
+        element: <RootLayout />,
+        children: [
+          { path: "/", element: <Navigate to="/login" replace /> },
+          { path: "/login", element: <LoginPage /> },
+          { path: "/signup", element: <SignUpPage /> },
+          { path: "about", element: <AboutPage /> },
+          {
+            path: "/createEvent",
+            element: (
+              <FilenameProvider>
+                <CreateEventPage />
+              </FilenameProvider>
+            ),
+          },
+          {
+            path: "/editEvent/:eventId",
+            element: (
+              <FilenameProvider>
+                <EditEventPage />
+              </FilenameProvider>
+            ),
+          },
+          {
+            path: "/manageEventes",
+            element: (
+              <FilenameProvider>
+                <ManageEventsPage />
+              </FilenameProvider>
+            ),
+          },
+          {
+            path: "/table/new",
+            element: (
+              <FilenameProvider>
+                <TablePage />
+              </FilenameProvider>
+            ),
+          },
+          {
+            path: "/table/:eventId",
+            element: (
+              <FilenameProvider>
+                <TablePage />
+              </FilenameProvider>
+            ),
+          },
+          {
+            path: "/crossInformation/:eventId",
+            element: (
+              <FilenameProvider>
+                <CrossInformationTable />
+              </FilenameProvider>
+            ),
+          },
+          { path: "/manageUsers", element: <ManageUsersPage /> },
+          { path: "*", element: <ErrorNotFoundPage /> },
+        ],
       },
+    ]);
+  } else if (token) {
+    router = createBrowserRouter([
       {
-        path: "/editEvent/:eventId",
-        element: (
-          <FilenameProvider>
-            <EditEventPage />
-          </FilenameProvider>
-        ),
-      },
-      {
-        path: "/manageEventes",
-        element: (
-          <FilenameProvider>
-            <ManageEventsPage />
-          </FilenameProvider>
-        ),
-      },
-      {
-        path: "/table/new",
-        element: (
-          <FilenameProvider>
-            <TablePage />
-          </FilenameProvider>
-        ),
-      },
-      {
-        path: "/table/:eventId",
-        element: (
-          <FilenameProvider>
-            <TablePage />
-          </FilenameProvider>
-        ),
-      },
-      {
-        path: "/crossInformation/:eventId",
-        element: (
-          <FilenameProvider>
-            <CrossInformationTable />
-          </FilenameProvider>
-        ),
-      },
+        path: "/",
+        element: <RootLayout />,
+        children: [
+          { path: "/", element: <Navigate to="/login" replace /> },
+          { path: "/login", element: <LoginPage /> },
+          { path: "/signup", element: <SignUpPage /> },
+          { path: "about", element: <AboutPage /> },
+          {
+            path: "/manageEventes",
+            element: (
+              <FilenameProvider>
+                <ManageEventsPage />
+              </FilenameProvider>
+            ),
+          },
+          {
+            path: "/table/:eventId",
+            element: (
+              <FilenameProvider>
+                <TablePage />
+              </FilenameProvider>
+            ),
+          },
 
-      { path: "/manageUsers", element: <ManageUsersPage /> },
-      { path: "*", element: <ErrorNotFoundPage /> },
-    ],
-  },
-]);
+          { path: "*", element: <ErrorNotFoundPage /> },
+        ],
+      },
+    ]);
+  } else {
+    router = createBrowserRouter([
+      {
+        path: "/",
+        element: <RootLayout />,
+        children: [
+          { path: "/", element: <Navigate to="/login" replace /> },
+          { path: "/login", element: <LoginPage /> },
+          { path: "/signup", element: <SignUpPage /> },
+          { path: "about", element: <AboutPage /> },
+          { path: "*", element: <ErrorNotFoundPage /> },
+        ],
+      },
+    ]);
+  }
+
+  return router;
+};
+// const routerNotAuth = createBrowserRouter([
+//   {
+//     path: "/",
+//     element: <RootLayout />,
+//     children: [
+//       { path: "/", element: <Navigate to="/login" replace /> }, // will be changes to about
+//       { path: "/login", element: <LoginPage /> },
+//       { path: "/signup", element: <SignUpPage /> },
+//       { path: "about", element: <AboutPage /> },
+//       { path: "*", element: <ErrorNotFoundPage /> },
+//     ],
+//   },
+// ]);
+
+// const router = createBrowserRouter([
+//   {
+//     path: "/",
+//     element: <RootLayout />,
+//     children: [
+//       { path: "/", element: <Navigate to="/login" replace /> }, // will be changes to about
+//       { path: "/login", element: <LoginPage /> },
+//       { path: "/signup", element: <SignUpPage /> },
+//       { path: "about", element: <AboutPage /> },
+//       {
+//         path: "/createEvent",
+//         element: (
+//           <FilenameProvider>
+//             <CreateEventPage />
+//           </FilenameProvider>
+//         ),
+//       },
+//       {
+//         path: "/editEvent/:eventId",
+//         element: (
+//           <FilenameProvider>
+//             <EditEventPage />
+//           </FilenameProvider>
+//         ),
+//       },
+//       {
+//         path: "/manageEventes",
+//         element: (
+//           <FilenameProvider>
+//             <ManageEventsPage />
+//           </FilenameProvider>
+//         ),
+//       },
+//       {
+//         path: "/table/new",
+//         element: (
+//           <FilenameProvider>
+//             <TablePage />
+//           </FilenameProvider>
+//         ),
+//       },
+//       {
+//         path: "/table/:eventId",
+//         element: (
+//           <FilenameProvider>
+//             <TablePage />
+//           </FilenameProvider>
+//         ),
+//       },
+//       {
+//         path: "/crossInformation/:eventId",
+//         element: (
+//           <FilenameProvider>
+//             <CrossInformationTable />
+//           </FilenameProvider>
+//         ),
+//       },
+
+//       { path: "/manageUsers", element: <ManageUsersPage /> },
+//       { path: "*", element: <ErrorNotFoundPage /> },
+//     ],
+//   },
+// ]);
 
 function App() {
   const { token, login, logout, userId } = useAuth();
-  console.log(token ? router : routerNotAuth);
+  const [command, setCommand] = useState("");
+  useEffect(() => {
+    const fetchData = async () => {
+      if (userId) {
+        const commandUser = await getCommandNameByUserId(userId);
+        setCommand(commandUser);
+      }
+    };
 
-  console.log("token: " + token);
+    fetchData();
+  }, [userId]);
+
   return (
     <AuthContext.Provider
       value={{
@@ -112,7 +238,8 @@ function App() {
         logout: logout,
       }}
     >
-      <RouterProvider router={token ? router : routerNotAuth} />
+      {/* <RouterProvider router={token ? router : routerNotAuth} /> */}
+      <RouterProvider router={handleRouter(token, command)} />
     </AuthContext.Provider>
   );
 }

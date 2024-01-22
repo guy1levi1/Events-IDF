@@ -13,7 +13,6 @@ export async function getCommands() {
 
   try {
     const response = await get(apiUrl, headers);
-    console.log("Server response:", response.data);
     return response.data;
   } catch (error) {
     console.error("Error fetching commands:", error);

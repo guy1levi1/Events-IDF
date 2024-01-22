@@ -123,22 +123,7 @@ export default function CreateEventPage() {
     // };
 
     try {
-      const response = await createEvent(newEvent);
-      console.log(response);
-
-      // Create an array of promises for creating event commands
-      const eventCommandPromises = commandsEvent.map(async (commandName) => {
-        const newEventCommand = {
-          id: uuidv4(),
-          commandId: await getCommandIdByName(commandName),
-          eventId: newEvent.id,
-        };
-        return createEventCommand(newEventCommand);
-      });
-
-      // Wait for all event command creation promises to resolve
-      await Promise.all(eventCommandPromises);
-
+      await createEvent(newEvent);
       // Animation success
     } catch (error) {
       console.log(error);
@@ -151,20 +136,45 @@ export default function CreateEventPage() {
         // Handle error if needed
       });
     } finally {
-      Swal.fire({
-        title: "אירוע נוצר בהצלחה",
-        text: "",
-        icon: "success",
-        confirmButtonText: "בוצע",
-      }).finally((result) => {
-        console.log("move to manage events");
-        navigate("/manageEventes");
+      try {
+        // Create an array of promises for creating event commands
+        const eventCommandPromises = commandsEvent.map(async (commandName) => {
+          const newEventCommand = {
+            id: uuidv4(),
+            commandId: await getCommandIdByName(commandName),
+            eventId: newEvent.id,
+          };
+          return createEventCommand(newEventCommand);
+        });
 
-        // Clean up local storage and setFilename
-        localStorage.removeItem("newFormstates");
-        localStorage.removeItem("newFormIsValid");
-        setFilename("");
-      });
+        // Wait for all event command creation promises to resolve
+        await Promise.all(eventCommandPromises);
+      } catch (error) {
+        console.log(error);
+        Swal.fire({
+          title: "לא ניתן ליצור אירוע",
+          text: error.message,
+          icon: "error",
+          confirmButtonText: "נסה שנית",
+        }).then((result) => {
+          // Handle error if needed
+        });
+      } finally {
+        Swal.fire({
+          title: "אירוע נוצר בהצלחה",
+          text: "",
+          icon: "success",
+          confirmButtonText: "בוצע",
+        }).finally((result) => {
+          console.log("move to manage events");
+          navigate("/manageEventes");
+
+          // Clean up local storage and setFilename
+          localStorage.removeItem("newFormstates");
+          localStorage.removeItem("newFormIsValid");
+          setFilename("");
+        });
+      }
     }
   };
 

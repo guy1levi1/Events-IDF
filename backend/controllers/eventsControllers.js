@@ -13,8 +13,6 @@ const getEvents = async (req, res, next) => {
 
     res.json(Events);
   } catch (err) {
-    console.log("Validation errors:");
-
     console.log("Validation errors:", err.errors);
     const error = new HttpError("Get all events failed.", 500);
 
@@ -28,7 +26,6 @@ const getEventById = async (req, res, next) => {
 
   try {
     const event = await Event.findByPk(eventId);
-    console.log(event);
 
     if (!event) {
       const error = new HttpError(`Event with ID ${eventId} not found.`, 404);
@@ -82,10 +79,8 @@ const deleteEvent = async (req, res, next) => {
 
 const updateEvent = async (req, res, next) => {
   const eventId = req.params.eventId;
-  console.log(eventId);
 
   const { name, description, date, place } = req.body;
-  console.log(req.body);
 
   try {
     // Find the user by ID

@@ -51,16 +51,13 @@ const createUnapprovedUser = async (req, res, next) => {
 
   const { id, privateNumber, fullName, password, commandId, isAdmin } =
     req.body;
-  console.log(req.body);
 
   let existingUnapprovedUser;
   try {
     existingUnapprovedUser = await UnapprovedUser.findOne({
       where: { privateNumber },
     });
-    console.log("existingUnapprovedUser: " + existingUnapprovedUser);
   } catch (err) {
-    console.log("ERROR");
     const error = new HttpError(
       "Signing up failed, please try again later.",
       500
@@ -72,9 +69,7 @@ const createUnapprovedUser = async (req, res, next) => {
     existingUser = await User.findOne({
       where: { privateNumber },
     });
-    console.log("existingUser: ");
 
-    console.log(existingUser);
   } catch (err) {
     const error = new HttpError(
       "Signing up failed, please try again later.",
@@ -133,14 +128,12 @@ const deleteUnapprovedUser = async (req, res, next) => {
     }
 
     const userId = req.params.unapprovedUserId;
-    console.log(userId);
 
     let userById;
     try {
       userById = await UnapprovedUser.findOne({
         where: { id: userId },
       });
-      console.log(userById);
     } catch (err) {
       throw new HttpError("failed to get the user by id", 500);
     }

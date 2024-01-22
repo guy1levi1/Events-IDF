@@ -14,7 +14,6 @@ export async function getUsers() {
 
   try {
     const response = await get(apiUrl, headers);
-    console.log("Server response:", response.data);
     return response.data;
   } catch (error) {
     console.error("Error fetching users:", error);
@@ -109,7 +108,6 @@ export async function createUser(newUser) {
 
   try {
     const response = await post(apiUrl, newUser, headers);
-    console.log("Server response:", response.data);
     return response.data;
   } catch (error) {
     console.error("Error creating new user:", error);
@@ -130,7 +128,6 @@ export async function updateUser(userId, updatedUserData) {
 
   try {
     const response = await patch(apiUrl, updatedUserData, headers);
-    console.log("Server response:", response.data);
     return response.data;
   } catch (error) {
     console.error(`Error updating user with ID ${userId}:`, error);
@@ -151,7 +148,6 @@ export async function deleteUser(userId) {
 
   try {
     const response = await del(apiUrl, headers);
-    console.log("Server response:", response.data);
     return response.data;
   } catch (error) {
     console.error(`Error deleting user with ID ${userId}:`, error);

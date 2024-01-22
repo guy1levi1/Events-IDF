@@ -83,8 +83,6 @@ export async function getCommandNameByUserId(userId) {
 
     for (let i = 0; i < users.length; i++) {
       if (users[i].id === userId) {
-        console.log(users[i].id);
-        console.log(users[i].commandId);
         commantName = await getCommandNameById(users[i].commandId);
         return commantName;
       }

@@ -63,7 +63,6 @@ const Menu = () => {
       try {
         const fullName = await getFullNameById(loggedUserId);
         const command = await getCommandNameByUserId(loggedUserId);
-        console.log("command: " + command);
         setLoggedUserFullName(fullName);
         setLoggedUserCommand(command);
       } catch (error) {
@@ -100,7 +99,7 @@ const Menu = () => {
               {loggedUserFullName}
             </h3>
             <h6 className="CommandMenu" style={{ padding: 0, margin: 0 }}>
-            פיקוד {loggedUserCommand} 
+              פיקוד {loggedUserCommand}
             </h6>
           </div>
         </div>

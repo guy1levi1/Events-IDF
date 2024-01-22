@@ -13,6 +13,11 @@ import * as XLSX from "xlsx";
 
 import "./CardEvent.css";
 import { getFullNameById, getUserById } from "../../utils/api/usersApi";
+import {
+  getAllEventCommands,
+  getEventCommandsByEventId,
+} from "../../utils/api/eventCommandsApi";
+import { getCommandNameById } from "../../utils/api/commandsApi";
 // import dayjs from "dayjs";
 
 export default function CardEvent({
@@ -22,7 +27,7 @@ export default function CardEvent({
   eventLocation,
   description,
   eventCreator,
-  commandsSelector,
+  // commandsSelector,
   onDelete,
 }) {
   const handleClickDeleteButton = () => {
@@ -120,10 +125,27 @@ export default function CardEvent({
 
   const [fullName, setFullName] = useState("");
   const [eventDayJs, setEventDayJs] = useState(null);
+  const [arrayOfCommandsNames, setArrayOfCommandsNames] = useState([]);
   useEffect(() => {
     const fetchFullName = async () => {
       try {
         const fullName = await getFullNameById(eventCreator);
+        const eventCommands = await getEventCommandsByEventId(eventId);
+        console.log(eventCommands);
+        // Use Promise.all to wait for all promises to resolve
+        const commandNamesPromises = eventCommands.map(
+          async (commandObject) => {
+            const commandName = await getCommandNameById(
+              commandObject.commandId
+            );
+            return commandName;
+          }
+        );
+
+        const commandNames = await Promise.all(commandNamesPromises);
+
+        setArrayOfCommandsNames((prev) => [...prev, ...commandNames]);
+
         setEventDayJs(
           new Date(eventDate)
             .toLocaleString("he-IL", options)
@@ -136,7 +158,12 @@ export default function CardEvent({
     };
 
     fetchFullName();
-  }, [eventCreator]);
+  }, [eventCreator, eventId]);
+
+  useEffect(() => {
+    console.log(arrayOfCommandsNames);
+  }, [arrayOfCommandsNames]);
+
   return (
     <div
       style={{
@@ -251,7 +278,7 @@ export default function CardEvent({
               overflowY: "hidden",
             }}
           >
-            {commandsSelector.map((command, index) => (
+            {arrayOfCommandsNames.map((command, index) => (
               <div style={{ margin: "0 0 0 0.2rem" }}>
                 <CommandCell command={command} key={index}></CommandCell>
               </div>

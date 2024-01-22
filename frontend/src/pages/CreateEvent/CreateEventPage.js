@@ -15,6 +15,8 @@ import * as XLSX from "xlsx";
 import CommandsMultiSelect from "../../components/CommandsMultiSelect";
 import { createEvent } from "../../utils/api/eventsApi";
 import Swal from "sweetalert2";
+import { createEventCommand } from "../../utils/api/eventCommandsApi";
+import { getCommandIdByName } from "../../utils/api/commandsApi";
 const { v4: uuidv4 } = require("uuid");
 
 const formStates = {
@@ -113,35 +115,57 @@ export default function CreateEventPage() {
       description: formData.initialInputs.description.value,
       userId: JSON.parse(localStorage.getItem("userData"))?.userId || null,
     };
+    const commandsEvent = formData.initialInputs.commandsSelector.value;
+    // const getEventCommandName = async (commandEventName) => {
+    //   const res = await getCommandIdByName(commandEventName);
+    //   console.log(typeof res);
+    //   return res;
+    // };
+
     try {
       const response = await createEvent(newEvent);
       console.log(response);
-      // console.log("Server response:", response.data);
 
-      // annimation success
+      // Create an array of promises for creating event commands
+      const eventCommandPromises = commandsEvent.map(async (commandName) => {
+        const newEventCommand = {
+          id: uuidv4(),
+          commandId: await getCommandIdByName(commandName),
+          eventId: newEvent.id,
+        };
+        return createEventCommand(newEventCommand);
+      });
+
+      // Wait for all event command creation promises to resolve
+      await Promise.all(eventCommandPromises);
+
+      // Animation success
+    } catch (error) {
+      console.log(error);
+      Swal.fire({
+        title: "לא ניתן ליצור אירוע",
+        text: error.message,
+        icon: "error",
+        confirmButtonText: "נסה שנית",
+      }).then((result) => {
+        // Handle error if needed
+      });
+    } finally {
       Swal.fire({
         title: "אירוע נוצר בהצלחה",
         text: "",
         icon: "success",
         confirmButtonText: "בוצע",
-      }).then((result) => {
+      }).finally((result) => {
+        console.log("move to manage events");
         navigate("/manageEventes");
-      });
-    } catch (error) {
-      console.log(error);
-      Swal.fire({
-        title: "לא ניתן ליצור אירוע",
-        text: error.massage,
-        icon: "error",
-        confirmButtonText: "נסה שנית",
-      }).then((result) => {
-        //
+
+        // Clean up local storage and setFilename
+        localStorage.removeItem("newFormstates");
+        localStorage.removeItem("newFormIsValid");
+        setFilename("");
       });
     }
-
-    localStorage.removeItem("newFormstates");
-    localStorage.removeItem("newFormIsValid");
-    setFilename("");
   };
 
   // Event handlers for form input changes and blurs
@@ -515,15 +539,7 @@ export default function CreateEventPage() {
               justifyContent: "center",
             }}
           >
-            <Link
-              to={!formData.isValid ? "/createEvent" : "/manageEventes"}
-              style={{
-                color: "white",
-                textDecoration: "none",
-                width: "100%",
-                height: "100%",
-              }}
-            >
+            <div>
               <Button
                 variant="contained"
                 color="primary"
@@ -537,7 +553,7 @@ export default function CreateEventPage() {
               >
                 יצירת אירוע
               </Button>
-            </Link>
+            </div>
           </Box>
           <Box
             sx={{

@@ -11,6 +11,8 @@ export async function getAllEventCommands() {
     "Access-Control-Allow-Headers":
       "Origin, X-Requested-With, Content-Type, Accept, Authorization",
     "Access-Control-Allow-Methods": "GET",
+    Authorization:
+      "Bearer " + JSON.parse(localStorage.getItem("userData"))?.token,
   };
 
   try {
@@ -52,6 +54,8 @@ export async function createEventCommand(newEventCommand) {
     "Access-Control-Allow-Headers":
       "Origin, X-Requested-With, Content-Type, Accept, Authorization",
     "Access-Control-Allow-Methods": "POST",
+    Authorization:
+      "Bearer " + JSON.parse(localStorage.getItem("userData"))?.token,
   };
 
   try {

@@ -24,37 +24,37 @@ const description = `נערוך לאורצ'וק פריסת שחרור, באיר�
 const commandsSelector = ["מרכז", "צפון"];
 
 const CHARACTER_LIMIT = 1000;
-const formStates = {
-  eventName: {
-    value: eventName,
-    isValid: true,
-    error: false,
-  },
-  eventDate: {
-    value: currentDate,
-    isValid: true,
-    error: false,
-  },
-  eventLocation: {
-    value: eventLocation,
-    isValid: true,
-    error: false,
-  },
-  commandsSelector: {
-    value: [],
-    isValid: true,
-    error: false,
-  },
-  description: {
-    value: description,
-    isValid: true,
-    error: false,
-  },
-};
+
 export default function EditEventPage(props) {
   const { eventId } = useParams();
   console.log(currentDate);
-
+  const formStates = {
+    eventName: {
+      value: eventName,
+      isValid: true,
+      error: false,
+    },
+    eventDate: {
+      value: currentDate,
+      isValid: true,
+      error: false,
+    },
+    eventLocation: {
+      value: eventLocation,
+      isValid: true,
+      error: false,
+    },
+    commandsSelector: {
+      value: [],
+      isValid: true,
+      error: false,
+    },
+    description: {
+      value: description,
+      isValid: true,
+      error: false,
+    },
+  };
   const headers = [
     "sertialNumber",
     "privateNumber",
@@ -400,7 +400,7 @@ export default function EditEventPage(props) {
                 ? formData.initialInputs.commandsSelector.value
                 : null
             }
-            commandsFromEdit={commandsSelector}
+            commandsFromEdit={formData.initialInputs.commandsSelector.value}
           />
 
           <TextField

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import CardEvent from "../../components/cardEvent/CardEvent";
 import Box from "@mui/material/Box";
 import createCache from "@emotion/cache";
@@ -9,6 +9,11 @@ import { deleteEvent, getEvnets } from "../../utils/api/eventsApi";
 // import { useContext } from "react";
 // import { AuthContext } from "../../utils/contexts/authContext";
 import Swal from "sweetalert2";
+import {
+  deleteAllEventCommandsByEventId,
+  getAllEventCommands,
+} from "../../utils/api/eventCommandsApi";
+import { useLocation } from "react-router-dom";
 
 export default function ManageEventsPage() {
   // const auth = useContext(AuthContext);
@@ -34,115 +39,36 @@ export default function ManageEventsPage() {
 
   // const commandsSelector = ["סגל", "פקער", "מרכז", "תקשוב", "מרכז", "צפון"];
 
+  // State to store eventsFromDB
   const [eventsFromDB, setEventsFromDB] = useState([]);
+  // const location = useLocation();
+  // const IsCreatedNewEvent = location?.state?.createdNewEvent || false;
+  // console.log(IsCreatedNewEvent);
+  // Function to fetch events from the API
+  const getEventsFromAPI = useCallback(async () => {
+    try {
+      setEventsFromDB(await getEvnets());
+    } catch (error) {
+      console.error("Error fetching events:", error);
+    }
+  }, [getEvnets, setEventsFromDB]);
 
+  // useEffect to fetch events when the component mounts
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setEventsFromDB(await getEvnets());
-      } catch (error) {
-        console.error("Error during signup:", error);
-      }
-    };
-
-    const initializePage = async () => {
-      await fetchData();
-    };
-
-    initializePage();
-  }, []);
-
-  useEffect(() => {
-    console.log(eventsFromDB);
-  }, [eventsFromDB]);
-
-  // will get from db
-  // const [events, setEvents] = useState([
-  //   {
-  //     eventId: "1",
-  //     eventName: "תימחק",
-  //     eventDate,
-  //     eventLocation,
-  //     description,
-  //     eventCreator,
-  //     commandsSelector,
-  //   },
-  //   {
-  //     eventId: "2",
-  //     eventName,
-  //     eventDate,
-  //     eventLocation,
-  //     description,
-  //     eventCreator,
-  //     commandsSelector,
-  //   },
-  //   {
-  //     eventId: "3",
-  //     eventName,
-  //     eventDate,
-  //     eventLocation,
-  //     description,
-  //     eventCreator,
-  //     commandsSelector,
-  //   },
-  //   {
-  //     eventId: "4",
-  //     eventName,
-  //     eventDate,
-  //     eventLocation,
-  //     description,
-  //     eventCreator,
-  //     commandsSelector,
-  //   },
-  //   {
-  //     eventId: "5",
-  //     eventName,
-  //     eventDate,
-  //     eventLocation,
-  //     description,
-  //     eventCreator,
-  //     commandsSelector,
-  //   },
-  //   {
-  //     eventId: "6",
-  //     eventName,
-  //     eventDate,
-  //     eventLocation,
-  //     description,
-  //     eventCreator,
-  //     commandsSelector,
-  //   },
-  //   {
-  //     eventId: "7",
-  //     eventName,
-  //     eventDate,
-  //     eventLocation,
-  //     description,
-  //     eventCreator,
-  //     commandsSelector,
-  //   },
-  //   {
-  //     eventId: "8",
-  //     eventName,
-  //     eventDate,
-  //     eventLocation,
-  //     description,
-  //     eventCreator,
-  //     commandsSelector,
-  //   },
-  // ]);
-  // const getFullNameByIdAPI = async (userId) => {
-  //   const fullName = await getFullNameById(userId);
-  //   console.log(fullName);
-  //   return fullName;
-  // };
+    console.log("re-render");
+    getEventsFromAPI();
+  }, [getEventsFromAPI]);
 
   const handleDeleteEvent = async (eventId) => {
     // Update state by filtering out the event with the specified eventId
     try {
+      // await deleteAllEventCommandsByEventId(eventId).then(() => {
+      //   console.log("successed deleting event commands");
+      // });
       await deleteEvent(eventId).then(() => {
         console.log("successed deleting event");
       });
+
       setEventsFromDB(await getEvnets());
       Swal.fire({
         title: "נמחק בהצלחה!",
@@ -208,7 +134,7 @@ export default function ManageEventsPage() {
                 eventLocation={event.place}
                 description={event.description}
                 eventCreator={event.userId}
-                commandsSelector={["צפון"]}
+                // commandsSelector={["צפון"]}
                 onDelete={() => handleDeleteEvent(event.id)}
               />
             ))}

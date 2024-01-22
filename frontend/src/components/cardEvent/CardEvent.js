@@ -127,7 +127,6 @@ export default function CardEvent({
       try {
         const fullName = await getFullNameById(eventCreator);
         const eventCommands = await getEventCommandsByEventId(eventId);
-        console.log(eventCommands);
         // Use Promise.all to wait for all promises to resolve
         const commandNamesPromises = eventCommands.map(
           async (commandObject) => {
@@ -155,10 +154,6 @@ export default function CardEvent({
 
     fetchFullName();
   }, [eventCreator, eventId]);
-
-  useEffect(() => {
-    console.log(arrayOfCommandsNames);
-  }, [arrayOfCommandsNames]);
 
   return (
     <div

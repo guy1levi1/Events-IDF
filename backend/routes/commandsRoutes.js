@@ -12,10 +12,10 @@ router.get("/", commandsController.getAllCommands);
 // ✅
 router.get("/:commandId", commandsController.getCommandById);
 
-router.use(checkAuth);
-
 // ✅
 router.post("/", commandsController.createCommand);
+
+router.use(checkAuth);
 
 // ✅
 router.patch("/:commandId", commandsController.updateCommandById);

@@ -13,12 +13,12 @@ router.get("/:userId", usersController.getUserById);
 
 router.post("/login", usersController.login);
 
+router.post("/signup", usersController.signup);
+
 router.use(checkAuth);
 
 router.patch("/:userId", usersController.updateUser);
 
 router.delete("/:userId", usersController.deleteUser);
-
-router.post("/signup", usersController.signup);
 
 module.exports = router;

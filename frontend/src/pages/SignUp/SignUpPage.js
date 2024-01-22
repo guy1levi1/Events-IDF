@@ -12,6 +12,7 @@ import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { get, post } from "../../utils/api/api";
 import Swal from "sweetalert2";
+import { getCommandIdByName } from "../../utils/api/commandsApi";
 const { v4: uuidv4 } = require("uuid");
 
 // const commands = [
@@ -145,12 +146,12 @@ export default function SignUpPage() {
     }
   }, []);
 
-  const getCommandNameById = (commandName) => {
-    for (let i = 0; i < commands.length; i++) {
-      if (commands[i].commandName === commandName) {
-        return commands[i].id;
-      }
-      // If no matching commandName is found
+  const getCommandNameById = async (commandName) => {
+    try {
+      const res = await getCommandIdByName(commandName);
+      return res;
+    } catch (error) {
+      console.error("could not get command id");
       return null;
     }
   };
@@ -172,13 +173,14 @@ export default function SignUpPage() {
       privateNumber: formData.initialInputs.privateNumber.value,
       fullName: formData.initialInputs.fullName.value,
       password: formData.initialInputs.password.value,
-      commandId: getCommandNameById(
+      commandId: await getCommandNameById(
         formData.initialInputs.commandsSelector.value
       ),
       isAdmin: false,
     };
 
     try {
+      console.log(formData.initialInputs.commandsSelector.value);
       const response = await post(apiUrl, body, headers);
 
       // annimation success

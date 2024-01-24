@@ -7,7 +7,9 @@ const router = express.Router();
 
 const checkAuth = require("../middlewares/checkAuth");
 
-router.use(checkAuth);
+router.get("/byCommand/:commandId", eventsController.getEventsByCommandId);
+
+// router.use(checkAuth);
 
 router.get("/", eventsController.getEvents);
 

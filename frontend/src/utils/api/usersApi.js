@@ -95,6 +95,25 @@ export async function getCommandNameByUserId(userId) {
   }
 }
 
+
+export async function getCommandIdByUserId(userId) {
+  try {
+    const users = await getUsers();
+
+    for (let i = 0; i < users.length; i++) {
+      if (users[i].id === userId) {
+        return users[i].commandId;
+      }
+    }
+
+    // If no matching user/commands is found
+    return null;
+  } catch (error) {
+    console.error("Error getting command ID by user id:", error);
+    throw error; // Rethrow the error to handle it in the calling code
+  }
+}
+
 export async function createUser(newUser) {
   const apiUrl = "http://localhost:5000/api/users/";
 

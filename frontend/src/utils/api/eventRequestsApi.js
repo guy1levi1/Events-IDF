@@ -48,7 +48,7 @@ export async function getEventRequestsByEventId(eventId) {
   }
 }
 
-export async function createEventRequest(newEventRequest) {
+export async function createEventRequest(newEventRequest, eventId) {
   try {
     const apiUrl = "http://localhost:5000/api/eventRequests/";
 

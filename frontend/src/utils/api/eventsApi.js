@@ -1,4 +1,5 @@
 import { del, get, patch, post } from "./api";
+import { getAllEventCommands } from "./eventCommandsApi";
 
 export async function getEvnets() {
   const apiUrl = "http://localhost:5000/api/events/";
@@ -39,6 +40,36 @@ export async function getEventById(eventId) {
     throw error; // Rethrow the error to handle it in the calling code
   }
 }
+
+export async function getEventsByCommandId(commandId) {
+  const apiUrl = `http://localhost:5000/api/events/byCommand/${commandId}`;
+
+  const headers = {
+    "Content-Type": "application/json",
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Headers":
+      "Origin, X-Requested-With, Content-Type, Accept, Authorization",
+    "Access-Control-Allow-Methods": "GET",
+    Authorization:
+      "Bearer " + JSON.parse(localStorage.getItem("userData"))?.token,
+  };
+
+  try {
+    // Fetch all EventCommands with the given commandId
+    const eventCommandsAll = await getAllEventCommands();
+
+    // Extract eventIds from the found EventCommands
+    const eventIds = eventCommandsAll.map((eventCommand) => eventCommand.eventId);
+
+    // Fetch events based on the extracted eventIds
+    const response = await get(apiUrl, headers, { params: { eventIds } });
+    return response.data;
+  } catch (error) {
+    console.error(`Error fetching events for command ID ${commandId}:`, error);
+    throw error;
+  }
+}
+
 
 export async function createEvent(newEvent) {
   const apiUrl = "http://localhost:5000/api/events/";

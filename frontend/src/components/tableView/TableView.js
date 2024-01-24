@@ -24,13 +24,19 @@ import {
   GridActionsCellItem,
   GridRowEditStopReasons,
 } from "@mui/x-data-grid";
-import "./DesignedEventTable.css";
+import "./TableView.css";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 // import { useFilename } from "../tableEditing/FilenameContext";
 import generateGuid from "../../utils/GenereateUUID";
+import { useCommand } from "../../utils/contexts/commandContext";
+const { v4: uuidv4 } = require("uuid");
 
 function CustomToolbar(props) {
   const { setRows, setRowModesModel } = props;
+  const { command, setCommand } = useCommand();
+
+  console.log("hi");
+  console.log(command);
 
   const handleNewRowClick = () => {
     const id = randomId();
@@ -202,28 +208,29 @@ function CustomNoRowsOverlay() {
   );
 }
 
-export default function DesignedEventTable() {
+export default function TableView() {
   const [rows, setRows] = React.useState([]);
   // const { filename } = useFilename();
   const location = useLocation();
-  const data = location.state.transformedData;
+  const { command } = useCommand();
+  console.log(command);
+  const transformedData = location.state.transformedData;
+
+  let data = [];
+  if (command === "סגל") {
+    data = transformedData;
+    console.log(data);
+  } else {
+    data = transformedData.filter((row) => row.command === command);
+    console.log(data);
+  }
   const eventName = location.state.eventName;
   const eventDate = location.state.eventDate;
   const eventLocation = location.state.eventLocation;
 
-  const eventId = "9619557b-c00d-4307-a0a8-017ec253872f";
-
   React.useEffect(() => {
-    setRows(
-      data.map((row) => {
-        return { ...row, id: generateGuid() };
-      })
-    );
-  }, [setRows, data]);
-
-  React.useEffect(() => {
-    console.log(rows);
-  }, [setRows, rows]);
+    setRows(data);
+  }, [setRows]);
 
   const [rowModesModel, setRowModesModel] = React.useState({});
 
@@ -248,6 +255,7 @@ export default function DesignedEventTable() {
   };
 
   const handleDeleteClick = (id) => () => {
+    console.log("delete");
     setRows(rows.filter((row) => row.id !== id));
   };
 
@@ -274,11 +282,10 @@ export default function DesignedEventTable() {
   };
 
   const handleCancelButtonClick = () => {
-    navigate(`/createEvent`, {
-      state: {
-        eventRequests: rows,
-      },
-    });
+    navigate(`/manageEvents`);
+  };
+  const handleSaveButtonClick = () => {
+    navigate(`/manageEvents`);
   };
 
   const statusOptions = [
@@ -293,7 +300,7 @@ export default function DesignedEventTable() {
       headerName: `מס"ד`,
       headerAlign: "center",
       type: "number",
-      // editable: false,
+      editable: command == "סגל" ? true : false,
       flex: 1,
     },
     {
@@ -301,7 +308,7 @@ export default function DesignedEventTable() {
       headerName: "מספר אישי",
       headerAlign: "center",
       type: "string",
-      editable: true,
+      editable: command == "סגל" ? true : false,
       flex: 1.4,
     },
     {
@@ -309,7 +316,7 @@ export default function DesignedEventTable() {
       headerName: "שם פרטי",
       headerAlign: "center",
       type: "string",
-      editable: true,
+      editable: command == "סגל" ? true : false,
       flex: 1.6,
     },
     {
@@ -317,7 +324,7 @@ export default function DesignedEventTable() {
       headerName: "שם משפחה",
       headerAlign: "center",
       type: "string",
-      editable: true,
+      editable: command == "סגל" ? true : false,
       flex: 1.6,
     },
     {
@@ -325,7 +332,7 @@ export default function DesignedEventTable() {
       headerName: "פיקוד",
       headerAlign: "center",
       type: "string",
-      editable: true,
+      editable: command == "סגל" ? true : false,
       flex: 1.4,
     },
     {
@@ -333,7 +340,7 @@ export default function DesignedEventTable() {
       headerName: "אוגדה",
       headerAlign: "center",
       type: "string",
-      editable: true,
+      editable: command == "סגל" ? true : false,
       flex: 1,
     },
     {
@@ -341,7 +348,7 @@ export default function DesignedEventTable() {
       headerName: "יחידה",
       headerAlign: "center",
       type: "string",
-      editable: true,
+      editable: command == "סגל" ? true : false,
       flex: 1,
     },
     {
@@ -349,7 +356,7 @@ export default function DesignedEventTable() {
       headerName: "דרגה",
       headerAlign: "center",
       type: "string",
-      editable: true,
+      editable: command == "סגל" ? true : false,
       flex: 1,
     },
     {
@@ -357,7 +364,7 @@ export default function DesignedEventTable() {
       headerName: "דרגת מינוי",
       headerAlign: "center",
       type: "string",
-      editable: true,
+      editable: command == "סגל" ? true : false,
       flex: 1.2,
     },
     {
@@ -366,7 +373,7 @@ export default function DesignedEventTable() {
       headerAlign: "center",
       type: "string",
       width: 80,
-      editable: true,
+      editable: command == "סגל" ? true : false,
       flex: 1.4,
     },
     {
@@ -384,7 +391,7 @@ export default function DesignedEventTable() {
       headerAlign: "center",
       width: 140,
       tfontColor: "white",
-      editable: true,
+      editable: command == "סגל" ? true : false,
       type: "singleSelect",
       flex: 2.5,
       valueOptions: statusOptions,
@@ -447,15 +454,19 @@ export default function DesignedEventTable() {
             icon={<EditIcon />}
             label="Edit"
             className="textPrimary"
-            onClick={handleEditClick(id)}
+            onClick={() => handleEditClick(id)}
             color="inherit"
           />,
-          <GridActionsCellItem
-            icon={<DeleteIcon />}
-            label="Delete"
-            onClick={handleDeleteClick(id)}
-            color="inherit"
-          />,
+          command === "סגל" ? (
+            <GridActionsCellItem
+              icon={<DeleteIcon />}
+              label="Delete"
+              onClick={() => handleDeleteClick(id)}
+              color="inherit"
+            />
+          ) : (
+            <></>
+          ),
         ];
       },
     },
@@ -588,6 +599,15 @@ export default function DesignedEventTable() {
               right: 0,
             }}
           >
+            <button
+              onClick={handleSaveButtonClick}
+              className="SaveButtonTablePage"
+              style={{
+                marginRight: "0.5rem",
+              }}
+            >
+              שמור
+            </button>
             <button
               onClick={handleCancelButtonClick}
               className="CancelButtonTablePage"

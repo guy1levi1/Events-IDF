@@ -71,13 +71,6 @@ const getEventRequestsByEventId = async (req, res, next) => {
 };
 
 const createEventRequest = async (req, res, next) => {
-  // Validate request body
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    const error = new HttpError("Invalid input. Please check your data.", 422);
-    return next(error);
-  }
-
   const {
     id,
     eventId,
@@ -85,7 +78,7 @@ const createEventRequest = async (req, res, next) => {
     privateNumber,
     firstName,
     lastName,
-    commandId,
+    command,
     division,
     unit,
     rank,
@@ -94,6 +87,8 @@ const createEventRequest = async (req, res, next) => {
     reasonNonArrival,
     status,
   } = req.body;
+
+  console.log(serialNumber)
 
   try {
     // Create a new event request
@@ -104,7 +99,7 @@ const createEventRequest = async (req, res, next) => {
       privateNumber,
       firstName,
       lastName,
-      commandId,
+      command,
       division,
       unit,
       rank,

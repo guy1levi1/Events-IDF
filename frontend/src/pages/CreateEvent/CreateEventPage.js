@@ -9,7 +9,7 @@ import InputsWrapper from "../../utils/InputsWrapper";
 import TableModeIcon from "../../images/tableModeIcon.png";
 import { DateTimePicker, renderTimeViewClock } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useFilename } from "../../utils/contexts/FilenameContext";
 import * as XLSX from "xlsx";
 import CommandsMultiSelect from "../../components/CommandsMultiSelect";
@@ -17,6 +17,7 @@ import { createEvent } from "../../utils/api/eventsApi";
 import Swal from "sweetalert2";
 import { createEventCommand } from "../../utils/api/eventCommandsApi";
 import { getCommandIdByName } from "../../utils/api/commandsApi";
+import { createEventRequest } from "../../utils/api/eventRequestsApi";
 const { v4: uuidv4 } = require("uuid");
 
 const formStates = {
@@ -56,6 +57,12 @@ export default function CreateEventPage() {
     ? JSON.parse(localStorage.getItem("newFormstates"))
     : null;
 
+  const location = useLocation();
+
+  const eventRequests = location.state?.eventRequests || [];
+
+  console.log(eventRequests);
+
   // Convert the stored event date value to a dayjs object if it exists
   if (
     formDataFromLocalStorage &&
@@ -80,7 +87,7 @@ export default function CreateEventPage() {
   // Static eventId and headers for the form
   const eventId = 1;
   const headers = [
-    "sertialNumber",
+    "serialNumber",
     "privateNumber",
     "firstName",
     "lastName",
@@ -124,7 +131,6 @@ export default function CreateEventPage() {
 
     try {
       await createEvent(newEvent);
-      // Animation success
     } catch (error) {
       console.log(error);
       Swal.fire({
@@ -137,6 +143,17 @@ export default function CreateEventPage() {
       });
     } finally {
       try {
+        // console.log("eventRequest");
+
+        // const eventRequestPromises = eventRequests.map(async (eventRequest) => {
+        //   console.log(eventRequest);
+
+        //   await createEventRequest(eventRequest);
+        // });
+
+        // // Wait for all event request promises to resolve
+        // await Promise.all(eventRequestPromises);
+
         // Create an array of promises for creating event commands
         const eventCommandPromises = commandsEvent.map(async (commandName) => {
           const newEventCommand = {
@@ -167,7 +184,7 @@ export default function CreateEventPage() {
           confirmButtonText: "בוצע",
         }).finally((result) => {
           console.log("move to manage events");
-          navigate("/manageEventes");
+          navigate("/manageEvents");
 
           // Clean up local storage and setFilename
           localStorage.removeItem("newFormstates");
@@ -175,6 +192,25 @@ export default function CreateEventPage() {
           setFilename("");
         });
       }
+    }
+
+    try {
+      eventRequests.map(async (eventRequest) => {
+        console.log(eventRequest);
+        eventRequest.eventId = newEvent.id;
+        await createEventRequest(eventRequest);
+        // newEvent.id
+      });
+    } catch (error) {
+      console.log(error);
+      Swal.fire({
+        title: "לא ניתן ליצור טבלת בקשות",
+        text: error.message,
+        icon: "error",
+        confirmButtonText: "נסה שנית",
+      }).then((result) => {
+        // Handle error if needed
+      });
     }
   };
 

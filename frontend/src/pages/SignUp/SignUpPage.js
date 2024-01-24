@@ -493,7 +493,7 @@ export default function SignUpPage() {
           }}
         >
           {/* <Link
-            to={!formData.isValid ? "/signup" : "/manageEventes"} // of course we have to check if user exists and password is correct
+            to={!formData.isValid ? "/signup" : "/manageEvents"} // of course we have to check if user exists and password is correct
             style={{
               color: "white",
               textDecoration: "none",

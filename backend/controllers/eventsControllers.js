@@ -5,6 +5,7 @@ const jwt = require("jsonwebtoken");
 const HttpError = require("../models/httpError");
 const Event = require("../models/schemas/Event");
 const User = require("../models/schemas/User");
+const EventCommands = require("../models/schemas/EventCommands");
 
 // for manage users page
 const getEvents = async (req, res, next) => {
@@ -159,8 +160,37 @@ const createEvent = async (req, res, next) => {
   }
 };
 
+const getEventsByCommandId = async (req, res, next) => {
+  const commandId = req.params.commandId;
+
+  try {
+
+    // Find all EventCommands with the given commandId
+    const eventCommands = await EventCommands.findAll({
+      where: { commandId: commandId },
+    });
+    // Extract eventIds from the found EventCommands
+    const eventIds = eventCommands.map((eventCommand) => eventCommand.eventId);
+
+    // Fetch events based on the extracted eventIds
+    const events = await Event.findAll({
+      where: { id: eventIds },
+    });
+
+    res.json(events);
+  } catch (err) {
+    console.error(`Error fetching events for command ID ${commandId}:`, err);
+    const error = new HttpError(
+      `Get events by command ID ${commandId} failed.`,
+      500
+    );
+    next(error);
+  }
+};
+
 exports.getEvents = getEvents;
 exports.getEventById = getEventById;
 exports.deleteEvent = deleteEvent;
 exports.updateEvent = updateEvent;
 exports.createEvent = createEvent;
+exports.getEventsByCommandId = getEventsByCommandId;

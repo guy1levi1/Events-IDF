@@ -15,11 +15,14 @@ import ManageUsersPage from "./pages/ManageUsers/ManageUsersPage";
 import CrossInformationTable from "./components/crossInformationTable/CrossInformationTable";
 import EditEventPage from "./pages/EditEvent/EditEventPage";
 import { FilenameProvider } from "./utils/contexts/FilenameContext";
+import { CommandProvider } from "./utils/contexts/commandContext";
+
 import { AuthContext } from "./utils/contexts/authContext";
 import { useAuth } from "./utils/hooks/useAuth";
 import ErrorNotFoundPage from "./pages/ErrorNotFound/ErrorNotFoundPage";
 import { getCommandNameByUserId } from "./utils/api/usersApi";
 import { useEffect, useState } from "react";
+import TableView from "./components/tableView/TableView";
 
 const handleRouter = (token, command) => {
   let router;
@@ -51,10 +54,12 @@ const handleRouter = (token, command) => {
             ),
           },
           {
-            path: "/manageEventes",
+            path: "/manageEvents",
             element: (
               <FilenameProvider>
-                <ManageEventsPage />
+                <CommandProvider>
+                  <ManageEventsPage />
+                </CommandProvider>
               </FilenameProvider>
             ),
           },
@@ -70,7 +75,9 @@ const handleRouter = (token, command) => {
             path: "/table/:eventId",
             element: (
               <FilenameProvider>
-                <TablePage />
+                <CommandProvider>
+                  <TableView />
+                </CommandProvider>
               </FilenameProvider>
             ),
           },
@@ -98,10 +105,12 @@ const handleRouter = (token, command) => {
           { path: "/signup", element: <SignUpPage /> },
           { path: "about", element: <AboutPage /> },
           {
-            path: "/manageEventes",
+            path: "/manageEvents",
             element: (
               <FilenameProvider>
-                <ManageEventsPage />
+                <CommandProvider>
+                  <ManageEventsPage />
+                </CommandProvider>
               </FilenameProvider>
             ),
           },
@@ -109,7 +118,9 @@ const handleRouter = (token, command) => {
             path: "/table/:eventId",
             element: (
               <FilenameProvider>
-                <TablePage />
+                <CommandProvider>
+                  <TableView />
+                </CommandProvider>
               </FilenameProvider>
             ),
           },
@@ -136,83 +147,6 @@ const handleRouter = (token, command) => {
 
   return router;
 };
-// const routerNotAuth = createBrowserRouter([
-//   {
-//     path: "/",
-//     element: <RootLayout />,
-//     children: [
-//       { path: "/", element: <Navigate to="/login" replace /> }, // will be changes to about
-//       { path: "/login", element: <LoginPage /> },
-//       { path: "/signup", element: <SignUpPage /> },
-//       { path: "about", element: <AboutPage /> },
-//       { path: "*", element: <ErrorNotFoundPage /> },
-//     ],
-//   },
-// ]);
-
-// const router = createBrowserRouter([
-//   {
-//     path: "/",
-//     element: <RootLayout />,
-//     children: [
-//       { path: "/", element: <Navigate to="/login" replace /> }, // will be changes to about
-//       { path: "/login", element: <LoginPage /> },
-//       { path: "/signup", element: <SignUpPage /> },
-//       { path: "about", element: <AboutPage /> },
-//       {
-//         path: "/createEvent",
-//         element: (
-//           <FilenameProvider>
-//             <CreateEventPage />
-//           </FilenameProvider>
-//         ),
-//       },
-//       {
-//         path: "/editEvent/:eventId",
-//         element: (
-//           <FilenameProvider>
-//             <EditEventPage />
-//           </FilenameProvider>
-//         ),
-//       },
-//       {
-//         path: "/manageEventes",
-//         element: (
-//           <FilenameProvider>
-//             <ManageEventsPage />
-//           </FilenameProvider>
-//         ),
-//       },
-//       {
-//         path: "/table/new",
-//         element: (
-//           <FilenameProvider>
-//             <TablePage />
-//           </FilenameProvider>
-//         ),
-//       },
-//       {
-//         path: "/table/:eventId",
-//         element: (
-//           <FilenameProvider>
-//             <TablePage />
-//           </FilenameProvider>
-//         ),
-//       },
-//       {
-//         path: "/crossInformation/:eventId",
-//         element: (
-//           <FilenameProvider>
-//             <CrossInformationTable />
-//           </FilenameProvider>
-//         ),
-//       },
-
-//       { path: "/manageUsers", element: <ManageUsersPage /> },
-//       { path: "*", element: <ErrorNotFoundPage /> },
-//     ],
-//   },
-// ]);
 
 function App() {
   const { token, login, logout, userId } = useAuth();

@@ -33,14 +33,14 @@ const Menu = () => {
   if (auth.isLoggedIn && loggedUserCommand === "סגל") {
     linksArray = [
       { name: "אודות המערכת", url: "/about" },
-      { name: "ניהול אירועים", url: "/manageEventes" },
+      { name: "ניהול אירועים", url: "/manageEvents" },
       { name: "יצירת אירוע", url: "/createEvent" },
       { name: "ניהול משתמשים", url: "/manageUsers" },
     ];
   } else if (auth.isLoggedIn) {
     linksArray = [
       { name: "אודות המערכת", url: "/about" },
-      { name: "ניהול אירועים", url: "/manageEventes" },
+      { name: "ניהול אירועים", url: "/manageEvents" },
     ];
   } else {
     linksArray = [{ name: "אודות המערכת", url: "/about" }];
@@ -49,7 +49,7 @@ const Menu = () => {
   const getRouteIndex = (pathname) => {
     if (pathname === "/about") {
       return 0;
-    } else if (pathname === "/manageEventes") {
+    } else if (pathname === "/manageEvents") {
       return 1;
     } else if (pathname === "/createEvent") {
       return 2;

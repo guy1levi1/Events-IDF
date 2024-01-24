@@ -90,7 +90,7 @@ export default function LoginPage() {
     try {
       const response = await post(apiUrl, body, headers);
       auth.login(response.data.userId, response.data.token);
-      navigate("/manageEventes");
+      navigate("/manageEvents");
     } catch (error) {
       // console.error("Error during signup:", error);
       console.log(error);

@@ -161,7 +161,7 @@ function CustomNoRowsOverlay() {
 const eventTableFromDB = [
   {
     eventId: "3",
-    sertialNumber: 1,
+    serialNumber: 1,
     privateNumber: "010",
     firstName: "מאיר",
     lastName: "גולן",
@@ -177,7 +177,7 @@ const eventTableFromDB = [
   },
   {
     eventId: "3",
-    sertialNumber: 2,
+    serialNumber: 2,
     privateNumber: "020",
     firstName: "ליאור ",
     lastName: "מרכז",
@@ -193,7 +193,7 @@ const eventTableFromDB = [
   },
   {
     eventId: "3",
-    sertialNumber: 3,
+    serialNumber: 3,
     privateNumber: "030",
     firstName: "עידן",
     lastName: "עמדי",
@@ -209,7 +209,7 @@ const eventTableFromDB = [
   },
   {
     eventId: "3",
-    sertialNumber: 4,
+    serialNumber: 4,
     privateNumber: "040",
     firstName: "נתן",
     lastName: "גושן",
@@ -225,7 +225,7 @@ const eventTableFromDB = [
   },
   {
     eventId: "3",
-    sertialNumber: 5,
+    serialNumber: 5,
     privateNumber: "050",
     firstName: "רונן",
     lastName: "המותג",
@@ -241,7 +241,7 @@ const eventTableFromDB = [
   },
   {
     eventId: "3",
-    sertialNumber: 6,
+    serialNumber: 6,
     privateNumber: "060",
     firstName: "אלעד",
     lastName: "כהן",
@@ -257,7 +257,7 @@ const eventTableFromDB = [
   },
   {
     eventId: "3",
-    sertialNumber: 7,
+    serialNumber: 7,
     privateNumber: "070",
     firstName: "אודיה",
     lastName: "לוי",
@@ -273,7 +273,7 @@ const eventTableFromDB = [
   },
   {
     eventId: "3",
-    sertialNumber: 8,
+    serialNumber: 8,
     privateNumber: "080",
     firstName: "אושר",
     lastName: "ישראלי",
@@ -289,7 +289,7 @@ const eventTableFromDB = [
   },
   {
     eventId: "3",
-    sertialNumber: 9,
+    serialNumber: 9,
     privateNumber: "090",
     firstName: "מתן",
     lastName: "שמעוני",
@@ -305,7 +305,7 @@ const eventTableFromDB = [
   },
   {
     eventId: "3",
-    sertialNumber: 10,
+    serialNumber: 10,
     privateNumber: "0100",
     firstName: "אור",
     lastName: "אביב",
@@ -530,7 +530,7 @@ export default function CrossInformationTable() {
 
   const columns = [
     {
-      field: "sertialNumber",
+      field: "serialNumber",
       headerName: `מס"ד`,
       headerAlign: "center",
       type: "number",
@@ -808,7 +808,7 @@ export default function CrossInformationTable() {
             }}
           >
             <Link
-              to="/manageEventes"
+              to="/manageEvents"
               style={{ color: "white", textDecoration: "none" }}
             >
               <button

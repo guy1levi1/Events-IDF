@@ -13,7 +13,6 @@ const db = require("./dbConfig");
 require("./models/relations"); // Import the relations file
 const swaggerUi = require("swagger-ui-express");
 const swaggerDocument = require("./swagger.json");
-const checkAuth = require("../backend/middlewares/checkAuth");
 require("dotenv").config();
 
 const app = express();

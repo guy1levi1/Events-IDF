@@ -14,10 +14,11 @@ import * as XLSX from "xlsx";
 import "./CardEvent.css";
 import { getFullNameById, getUserById } from "../../utils/api/usersApi";
 import {
-  getAllEventCommands,
   getEventCommandsByEventId,
 } from "../../utils/api/eventCommandsApi";
 import { getCommandNameById } from "../../utils/api/commandsApi";
+import dayjs from "dayjs";
+import { getEventRequestsByEventId } from "../../utils/api/eventRequestsApi";
 // import dayjs from "dayjs";
 
 export default function CardEvent({
@@ -27,12 +28,13 @@ export default function CardEvent({
   eventLocation,
   description,
   eventCreator,
+  isAdmin,
   // commandsSelector,
   onDelete,
 }) {
   const handleClickDeleteButton = () => {
     Swal.fire({
-      title: "האם את/ה בטוח/ה שתרצה/י למחוק את האירוע  {שם האירוע}",
+      title: `האם את/ה בטוח/ה שתרצה/י למחוק את האירוע "${eventName}"`,
       text: "פעולה זאת איננה ניתנת לשחזור",
       icon: "warning",
       showCancelButton: true,
@@ -95,7 +97,7 @@ export default function CardEvent({
             presentRows: newRows,
             eventName: eventName,
             eventDate: eventDate,
-            eventLocation: eventLocation,
+            description: description,
           },
         });
 
@@ -110,6 +112,32 @@ export default function CardEvent({
     fileInputRef.current.click();
   };
 
+  const handleViewData = () => {
+    console.log("transformedData: ");
+    console.log(transformedData);
+    navigate(`/table/${eventId}`, {
+      state: {
+        transformedData: transformedData,
+        eventName: eventName,
+        eventDate: dayjs(eventDate).format("HH:mm DD.MM.YY"),
+        eventLocation: eventLocation,
+      },
+    });
+  };
+
+  const handleEditClick = () => {
+    navigate(`/editEvent/${eventId}`, {
+      state: {
+        eventName: eventName,
+        eventDate: dayjs(eventDate).format("HH:mm DD.MM.YY"),
+        eventLocation: eventLocation,
+        description: description,
+        commands: arrayOfCommandsNames,
+      },
+    });
+  };
+  
+
   const options = {
     day: "2-digit",
     month: "2-digit",
@@ -122,6 +150,8 @@ export default function CardEvent({
   const [fullName, setFullName] = useState("");
   const [eventDayJs, setEventDayJs] = useState(null);
   const [arrayOfCommandsNames, setArrayOfCommandsNames] = useState([]);
+  const [transformedData, setTransformedData] = useState([]);
+
   useEffect(() => {
     const fetchFullName = async () => {
       try {
@@ -147,6 +177,7 @@ export default function CardEvent({
             .replace(/\//g, ".")
         );
         setFullName(fullName);
+        setTransformedData(await getEventRequestsByEventId(eventId));
       } catch (error) {
         console.error("Error fetching full name:", error);
       }
@@ -214,6 +245,7 @@ export default function CardEvent({
                     width: "3.268rem",
                     height: "3.6rem",
                     cursor: "pointer",
+                    display: isAdmin ? "inline" : "none",
                   }}
                 />
               </label>
@@ -299,26 +331,26 @@ export default function CardEvent({
             <div>
               {/* need to send him with props of the current fields from db */}
               {/* will be table/:eventId */}
-              <Link
-                to={`/table/${eventId}`}
-                style={{ color: "white", textDecoration: "none" }}
-              >
-                <img
-                  src={TableModeIcon}
-                  alt=""
-                  style={{
-                    width: "3.268rem",
-                    height: "3.5rem",
-                    cursor: "pointer",
-                  }}
-                />
-              </Link>
+
+              <img
+                src={TableModeIcon}
+                alt=""
+                style={{
+                  width: "3.268rem",
+                  height: "3.5rem",
+                  cursor: "pointer",
+                }}
+                onClick={handleViewData}
+              />
               {/* need to send him to new page call editEvent with props of the current fields from db */}
               {/* will be editEvent/:eventId */}
-              <Link
+              {/* <Link
                 to={`/editEvent/${eventId}`}
-                style={{ color: "white", textDecoration: "none" }}
-              >
+                style={{
+                  color: "white",
+                  textDecoration: "none",
+                }}
+              > */}
                 <img
                   src={EditTextsIcon}
                   alt=""
@@ -326,9 +358,12 @@ export default function CardEvent({
                     width: "3.268rem",
                     height: "3.5rem",
                     cursor: "pointer",
+                    display: isAdmin ? "inline" : "none",
                   }}
+                onClick={handleEditClick}
+
                 />
-              </Link>
+              {/* </Link> */}
               <img
                 src={DeleteIcon}
                 onClick={handleClickDeleteButton}
@@ -337,6 +372,7 @@ export default function CardEvent({
                   width: "3.268rem",
                   height: "3.6rem",
                   cursor: "pointer",
+                  display: isAdmin ? "inline" : "none",
                 }}
               />
             </div>

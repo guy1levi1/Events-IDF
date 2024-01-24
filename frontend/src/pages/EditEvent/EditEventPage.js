@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import { Link, useParams, useNavigate } from "react-router-dom";
+import { Link, useParams, useNavigate, useLocation } from "react-router-dom";
 import { Box, TextField, Button } from "@mui/material";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
@@ -12,6 +12,8 @@ import TableModeIcon from "../../images/tableModeIcon.png";
 import { useFilename } from "../../utils/contexts/FilenameContext";
 import CommandsMultiSelect from "../../components/CommandsMultiSelect";
 import "./EditEventPage.css";
+import { getEventById } from "../../utils/api/eventsApi";
+const { v4: uuidv4 } = require("uuid");
 
 const eventName = "פריסת שחרור לאור";
 
@@ -27,7 +29,22 @@ const CHARACTER_LIMIT = 1000;
 
 export default function EditEventPage(props) {
   const { eventId } = useParams();
-  console.log(currentDate);
+  const location = useLocation();
+
+  const eventName = location.state.eventName;
+  const eventDate = location.state.eventDate;
+  const eventLocation = location.state.eventLocation;
+  const eventDescription = location.state.description;
+  const eventCommands = location.state.commands;
+
+  console.log(
+    eventName,
+    eventDate,
+    eventLocation,
+    eventDescription,
+    eventCommands
+  );
+
   const formStates = {
     eventName: {
       value: eventName,
@@ -35,7 +52,7 @@ export default function EditEventPage(props) {
       error: false,
     },
     eventDate: {
-      value: currentDate,
+      value: dayjs(eventDate).format("HH:mm DD.MM.YY"),
       isValid: true,
       error: false,
     },
@@ -45,18 +62,18 @@ export default function EditEventPage(props) {
       error: false,
     },
     commandsSelector: {
-      value: [],
+      value: eventCommands,
       isValid: true,
       error: false,
     },
     description: {
-      value: description,
+      value: eventDescription,
       isValid: true,
       error: false,
     },
   };
   const headers = [
-    "sertialNumber",
+    "serialNumber",
     "privateNumber",
     "firstName",
     "lastName",
@@ -132,7 +149,20 @@ export default function EditEventPage(props) {
       }
     };
 
-    handleResize();
+    const fetchData = async () => {
+      try {
+        await getEventById(eventId);
+      } catch (error) {
+        console.error("Error getting event by id : ", error);
+      }
+    };
+
+    const initializePage = async () => {
+      handleResize();
+      await fetchData();
+    };
+
+    initializePage();
 
     if (typeof window !== "undefined") {
       window.addEventListener("resize", handleResize);
@@ -141,7 +171,7 @@ export default function EditEventPage(props) {
         window.removeEventListener("resize", handleResize);
       };
     }
-  }, []);
+  }, [getEventById, eventId]);
 
   const { filename, setFilename } = useFilename();
 
@@ -470,7 +500,7 @@ export default function EditEventPage(props) {
             }}
           >
             <Link
-              to={!formData.isValid ? "/createEvent" : "/manageEventes"}
+              to={!formData.isValid ? "/createEvent" : "/manageEvents"}
               style={{
                 color: "white",
                 textDecoration: "none",

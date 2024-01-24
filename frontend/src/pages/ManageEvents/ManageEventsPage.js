@@ -5,59 +5,47 @@ import createCache from "@emotion/cache";
 import rtlPlugin from "stylis-plugin-rtl";
 import { CacheProvider } from "@emotion/react";
 import "./ManageEventsPage.css";
-import { deleteEvent, getEvnets } from "../../utils/api/eventsApi";
-// import { useContext } from "react";
-// import { AuthContext } from "../../utils/contexts/authContext";
-import Swal from "sweetalert2";
 import {
-  deleteAllEventCommandsByEventId,
-  getAllEventCommands,
-} from "../../utils/api/eventCommandsApi";
-import { useLocation } from "react-router-dom";
+  deleteEvent,
+  getEventsByCommandId,
+  getEvnets,
+} from "../../utils/api/eventsApi";
+import Swal from "sweetalert2";
+import { getCommandIdByUserId, getCommandNameByUserId } from "../../utils/api/usersApi";
+import { getCommandIdByName, getCommandNameById } from "../../utils/api/commandsApi";
+import { useCommand } from "../../utils/contexts/commandContext";
 
 export default function ManageEventsPage() {
-  // const auth = useContext(AuthContext);
-
-  // const options = {
-  //   day: "2-digit",
-  //   month: "2-digit",
-  //   year: "2-digit",
-  //   hour: "2-digit",
-  //   minute: "2-digit",
-  //   hour12: false,
-  // };
-
-  // const eventId = "1";
-  // const eventName = "פריסת שחרור לאור";
-  // const eventDate = new Date()
-  //   .toLocaleString("he-IL", options)
-  //   .replace(/\//g, ".");
-  // const eventLocation = 'תל השומר מקל"ר';
-  // const description = `נערוך לאורצ'וק פריסת שחרור, באירוע נחגוג את היציאה לאזרחות של
-  // אור(אפילו שהוא תוך שנייה חוזר למילואים), מוזמנים! 😀`;
-  // const eventCreator = "גיא לוי";
-
-  // const commandsSelector = ["סגל", "פקער", "מרכז", "תקשוב", "מרכז", "צפון"];
-
-  // State to store eventsFromDB
   const [eventsFromDB, setEventsFromDB] = useState([]);
-  // const location = useLocation();
-  // const IsCreatedNewEvent = location?.state?.createdNewEvent || false;
-  // console.log(IsCreatedNewEvent);
+  const userData = JSON.parse(localStorage.getItem("userData"));
+  const loggedUserId = userData ? userData.userId : "";
+  const [isAdmin, setIsAdmin] = useState(false);
+  const { setCommand } = useCommand();
+
   // Function to fetch events from the API
   const getEventsFromAPI = useCallback(async () => {
     try {
-      setEventsFromDB(await getEvnets());
+      const commandId = await getCommandIdByUserId(loggedUserId);
+
+      setCommand(await getCommandNameById(commandId))
+
+      if (commandId === (await getCommandIdByName("סגל"))) {
+        setIsAdmin(true)
+        setEventsFromDB(await getEvnets(commandId));
+      } else {
+        setIsAdmin(false);
+
+        // Use the updated value of userCommandId directly
+        setEventsFromDB(await getEventsByCommandId(commandId));
+      }
     } catch (error) {
       console.error("Error fetching events:", error);
     }
-  }, [getEvnets, setEventsFromDB]);
+  }, [getEvnets, getEventsByCommandId, setEventsFromDB, getCommandIdByUserId]);
 
-  // useEffect to fetch events when the component mounts
   useEffect(() => {
-    console.log("re-render");
     getEventsFromAPI();
-  }, [getEventsFromAPI]);
+  }, [getEventsFromAPI, loggedUserId]);
 
   const handleDeleteEvent = async (eventId) => {
     // Update state by filtering out the event with the specified eventId
@@ -134,6 +122,7 @@ export default function ManageEventsPage() {
                 eventLocation={event.place}
                 description={event.description}
                 eventCreator={event.userId}
+                isAdmin={isAdmin}
                 // commandsSelector={["צפון"]}
                 onDelete={() => handleDeleteEvent(event.id)}
               />

@@ -3,7 +3,7 @@ const db = require("../../dbConfig");
 
 class EventRequests extends Model {}
 
-const statusOptions = ["מאושר", 'ממתין לאישור רמ"ח', "נדחה"];
+const statusOptions = ["approved", "pending", "declined"];
 
 EventRequests.init(
   {
@@ -18,17 +18,17 @@ EventRequests.init(
     serialNumber: {
       type: DataTypes.STRING,
       allowNull: false,
-      validate: {
-        isNumeric: true,
-      },
+      // validate: {
+      //   isNumeric: true,
+      // },
     },
     privateNumber: {
       type: DataTypes.STRING,
       allowNull: false,
-      validate: {
-        isNumeric: true,
-        len: 7,
-      },
+      // validate: {
+      //   isNumeric: true,
+      //   len: 7,
+      // },
     },
     firstName: {
       type: DataTypes.STRING,
@@ -38,8 +38,8 @@ EventRequests.init(
       type: DataTypes.STRING,
       allowNull: false,
     },
-    commandId: {
-      type: DataTypes.UUID,
+    command: {
+      type: DataTypes.STRING,
       allowNull: false,
     },
     division: {

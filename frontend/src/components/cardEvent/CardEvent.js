@@ -13,13 +13,12 @@ import * as XLSX from "xlsx";
 
 import "./CardEvent.css";
 import { getFullNameById, getUserById } from "../../utils/api/usersApi";
-import {
-  getEventCommandsByEventId,
-} from "../../utils/api/eventCommandsApi";
+import { getEventCommandsByEventId } from "../../utils/api/eventCommandsApi";
 import { getCommandNameById } from "../../utils/api/commandsApi";
 import dayjs from "dayjs";
 import { getEventRequestsByEventId } from "../../utils/api/eventRequestsApi";
 // import dayjs from "dayjs";
+import { useEventId } from "../../utils/contexts/eventIdContext";
 
 export default function CardEvent({
   eventId,
@@ -52,6 +51,7 @@ export default function CardEvent({
   };
 
   const { setFilename } = useFilename();
+  // const [eventIdCtx, setEventIdCtx] = useEventId();
 
   const fileInputRef = useRef(null);
   const navigate = useNavigate();
@@ -94,10 +94,11 @@ export default function CardEvent({
 
         navigate(`/crossInformation/${eventId}`, {
           state: {
+            id: eventId,
             presentRows: newRows,
             eventName: eventName,
-            eventDate: eventDate,
-            description: description,
+            eventDate: dayjs(eventDate).format("HH:mm DD.MM.YY"),
+            eventLocation: eventLocation,
           },
         });
 
@@ -136,7 +137,6 @@ export default function CardEvent({
       },
     });
   };
-  
 
   const options = {
     day: "2-digit",
@@ -247,6 +247,7 @@ export default function CardEvent({
                     cursor: "pointer",
                     display: isAdmin ? "inline" : "none",
                   }}
+                  onClick={console.log(eventId)}
                 />
               </label>
               <button onClick={handleButtonClick} style={{ display: "none" }}>
@@ -351,18 +352,17 @@ export default function CardEvent({
                   textDecoration: "none",
                 }}
               > */}
-                <img
-                  src={EditTextsIcon}
-                  alt=""
-                  style={{
-                    width: "3.268rem",
-                    height: "3.5rem",
-                    cursor: "pointer",
-                    display: isAdmin ? "inline" : "none",
-                  }}
+              <img
+                src={EditTextsIcon}
+                alt=""
+                style={{
+                  width: "3.268rem",
+                  height: "3.5rem",
+                  cursor: "pointer",
+                  display: isAdmin ? "inline" : "none",
+                }}
                 onClick={handleEditClick}
-
-                />
+              />
               {/* </Link> */}
               <img
                 src={DeleteIcon}

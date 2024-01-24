@@ -23,6 +23,7 @@ import ErrorNotFoundPage from "./pages/ErrorNotFound/ErrorNotFoundPage";
 import { getCommandNameByUserId } from "./utils/api/usersApi";
 import { useEffect, useState } from "react";
 import TableView from "./components/tableView/TableView";
+import { EventIdProvider } from "./utils/contexts/eventIdContext";
 
 const handleRouter = (token, command) => {
   let router;
@@ -58,7 +59,9 @@ const handleRouter = (token, command) => {
             element: (
               <FilenameProvider>
                 <CommandProvider>
-                  <ManageEventsPage />
+                  <EventIdProvider>
+                    <ManageEventsPage />
+                  </EventIdProvider>
                 </CommandProvider>
               </FilenameProvider>
             ),
@@ -85,7 +88,9 @@ const handleRouter = (token, command) => {
             path: "/crossInformation/:eventId",
             element: (
               <FilenameProvider>
-                <CrossInformationTable />
+                <EventIdProvider>
+                  <CrossInformationTable />
+                </EventIdProvider>
               </FilenameProvider>
             ),
           },

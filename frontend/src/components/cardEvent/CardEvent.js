@@ -11,12 +11,13 @@ import { useFilename } from "../../utils/contexts/FilenameContext";
 import * as XLSX from "xlsx";
 
 import "./CardEvent.css";
-import { getFullNameById } from "../../utils/api/usersApi";
+import { getFullNameById, getUserById } from "../../utils/api/usersApi";
 import { getEventCommandsByEventId } from "../../utils/api/eventCommandsApi";
 import { getCommandNameById } from "../../utils/api/commandsApi";
 import dayjs from "dayjs";
 import { getEventRequestsByEventId } from "../../utils/api/eventRequestsApi";
 // import dayjs from "dayjs";
+import { useEventId } from "../../utils/contexts/eventIdContext";
 
 export default function CardEvent({
   eventId,
@@ -49,6 +50,7 @@ export default function CardEvent({
   };
 
   const { setFilename } = useFilename();
+  // const [eventIdCtx, setEventIdCtx] = useEventId();
 
   const fileInputRef = useRef(null);
   const navigate = useNavigate();
@@ -91,10 +93,11 @@ export default function CardEvent({
 
         navigate(`/crossInformation/${eventId}`, {
           state: {
+            id: eventId,
             presentRows: newRows,
             eventName: eventName,
-            eventDate: eventDate,
-            description: description,
+            eventDate: dayjs(eventDate).format("HH:mm DD.MM.YY"),
+            eventLocation: eventLocation,
           },
         });
 
@@ -244,6 +247,7 @@ export default function CardEvent({
                     cursor: "pointer",
                     display: isAdmin ? "inline" : "none",
                   }}
+                  onClick={console.log(eventId)}
                 />
               </label>
               <button onClick={handleButtonClick} style={{ display: "none" }}>

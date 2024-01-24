@@ -13,11 +13,13 @@ import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import { GridRowEditStopReasons } from "@mui/x-data-grid";
 import "./CrossInformationTable.css";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 import { useFilename } from "../../utils/contexts/FilenameContext";
 import * as XLSX from "xlsx";
 import { useRef } from "react";
 import { useState } from "react";
+import { getEventRequestsByEventId } from "../../utils/api/eventRequestsApi";
+import { useEventId } from "../../utils/contexts/eventIdContext";
 
 function CustomToolbar(props) {
   return (
@@ -158,175 +160,12 @@ function CustomNoRowsOverlay() {
   );
 }
 
-const eventTableFromDB = [
-  {
-    eventId: "3",
-    serialNumber: 1,
-    privateNumber: "010",
-    firstName: "מאיר",
-    lastName: "גולן",
-    command: "מרכז",
-    division: "1",
-    unit: "10",
-    rank: 'סא"ל',
-    appointmentRank: "טקסט",
-    appointmentLetter: "מלל",
-    reasonNonArrival: "הבן לא מרגיש טוב",
-    status: `ממתין להחלטת רמ"ח`,
-    id: "C9B53B35-51A1-0F1E-F6B5-EEB961CA26D7",
-  },
-  {
-    eventId: "3",
-    serialNumber: 2,
-    privateNumber: "020",
-    firstName: "ליאור ",
-    lastName: "מרכז",
-    command: "צפון",
-    division: "2",
-    unit: "20",
-    rank: 'רס"ר',
-    appointmentRank: "טקסט1",
-    appointmentLetter: "מלל1",
-    reasonNonArrival: 'חו"ל',
-    status: "מאושר",
-    id: "B606596B-F1B6-189C-F4F1-0FB9BF1A129B",
-  },
-  {
-    eventId: "3",
-    serialNumber: 3,
-    privateNumber: "030",
-    firstName: "עידן",
-    lastName: "עמדי",
-    command: "דרום",
-    division: "5",
-    unit: "50",
-    rank: 'רנ"ג',
-    appointmentRank: "טקסט2",
-    appointmentLetter: "מלל2",
-    reasonNonArrival: 'חו"ל',
-    status: "מאושר",
-    id: "D84C70DC-94BD-F8B5-C847-BE5482C6E585",
-  },
-  {
-    eventId: "3",
-    serialNumber: 4,
-    privateNumber: "040",
-    firstName: "נתן",
-    lastName: "גושן",
-    command: 'פקע"ר',
-    division: "3",
-    unit: "30",
-    rank: 'סמ"ר',
-    appointmentRank: "טקסט3",
-    appointmentLetter: "מלל3",
-    reasonNonArrival: "תקופת אבל",
-    status: "מאושר",
-    id: "FF95B9B2-ACA3-1ECE-93FF-EE81041A5814",
-  },
-  {
-    eventId: "3",
-    serialNumber: 5,
-    privateNumber: "050",
-    firstName: "רונן",
-    lastName: "המותג",
-    command: 'פקע"ר',
-    division: "3",
-    unit: "33",
-    rank: 'תא"ל',
-    appointmentRank: "טקסט4",
-    appointmentLetter: "מלל4",
-    reasonNonArrival: "מבחן בתואר",
-    status: `ממתין להחלטת רמ"ח`,
-    id: "735021A2-3024-2E5F-2C80-7CDAED88E446",
-  },
-  {
-    eventId: "3",
-    serialNumber: 6,
-    privateNumber: "060",
-    firstName: "אלעד",
-    lastName: "כהן",
-    command: "צפון",
-    division: "2",
-    unit: "20",
-    rank: 'אל"מ',
-    appointmentRank: "טקסט5",
-    appointmentLetter: "מלל5",
-    reasonNonArrival: "נלחם בעזה",
-    status: "מאושר",
-    id: "D00D71D9-5F31-C39C-A2EA-632FBA1C2639",
-  },
-  {
-    eventId: "3",
-    serialNumber: 7,
-    privateNumber: "070",
-    firstName: "אודיה",
-    lastName: "לוי",
-    command: "דרום",
-    division: "5",
-    unit: "51",
-    rank: "סרן",
-    appointmentRank: "טקסט6",
-    appointmentLetter: "מלל6",
-    reasonNonArrival: "ברית לילד",
-    status: "מאושר",
-    id: "676D8835-7E25-F84B-F1A5-549E4B0AF6EA",
-  },
-  {
-    eventId: "3",
-    serialNumber: 8,
-    privateNumber: "080",
-    firstName: "אושר",
-    lastName: "ישראלי",
-    command: "תקשוב",
-    division: "6",
-    unit: "66",
-    rank: 'רס"ב',
-    appointmentRank: "טקסט7",
-    appointmentLetter: "מלל7",
-    reasonNonArrival: "אשתו יולדת",
-    status: "נדחה",
-    id: "687000A4-1628-DB1B-0E41-022C44A281D6",
-  },
-  {
-    eventId: "3",
-    serialNumber: 9,
-    privateNumber: "090",
-    firstName: "מתן",
-    lastName: "שמעוני",
-    command: "מרכז",
-    division: "7",
-    unit: "70",
-    rank: 'רס"מ',
-    appointmentRank: "טקסט8",
-    appointmentLetter: "מלל8",
-    reasonNonArrival: "אין לי כוח",
-    status: "נדחה",
-    id: "2F3F24D8-05C5-F045-89B0-897170170AA5",
-  },
-  {
-    eventId: "3",
-    serialNumber: 10,
-    privateNumber: "0100",
-    firstName: "אור",
-    lastName: "אביב",
-    command: "מרכז",
-    division: "7",
-    unit: "70",
-    rank: 'סא"ל',
-    appointmentRank: "טקסט9",
-    appointmentLetter: "מלל9",
-    reasonNonArrival: "חולה",
-    status: "נדחה",
-    id: "4002C2F9-164C-2630-A951-12CA6CE4D8AA",
-  },
-];
-
 const headers = ["privateNumber", "fullname"];
 
 function calculateComplianceOrder(status, present) {
-  if (status === `ממתין להחלטת רמ"ח`) {
+  if (status === `pending`) {
     return "חריג";
-  } else if (status === "נדחה" && present === "לא") {
+  } else if (status === "declined" && present === "לא") {
     return "לא";
   } else {
     return "כן";
@@ -336,12 +175,19 @@ function calculateComplianceOrder(status, present) {
 export default function CrossInformationTable() {
   const [rows, setRows] = useState([]);
   const [rowModesModel, setRowModesModel] = useState({});
-  const eventId = 1;
   const { filename, setFilename } = useFilename();
   const [uploadFileInfo, setUploadFileInfo] = useState(
     filename != null ? `הועלה ${filename} קובץ` : ""
   );
   const location = useLocation();
+  const eventIdCtx = useEventId();
+  console.log(eventIdCtx)
+  
+  const { eventId } = useParams();
+
+  console.log(eventId)
+  
+  console.log(location.state.id);
 
   const [data, setData] = useState(location.state.presentRows);
   const eventName = location.state.eventName;
@@ -359,6 +205,54 @@ export default function CrossInformationTable() {
   };
 
   const transformedData = mapKeys(data, headers, eventId);
+  console.log("transformedData:");
+  console.log(transformedData);
+
+  const [eventRequests, setEventRequests] = useState([]);
+
+  React.useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const eventRequestsData = await getEventRequestsByEventId(eventId);
+        setEventRequests(eventRequestsData);
+
+        console.log(eventRequestsData);
+        // Merge data here after fetching event requests
+        const mergedArray = eventRequestsData.map((item2) => {
+          const matchingItem = transformedData.find(
+            (item1) => item1.privateNumber === item2.privateNumber
+          );
+
+          if (matchingItem) {
+            // Update the "present" field if a match is found
+            return { ...item2, present: "כן" };
+          } else {
+            // Set "לא" if there is no match
+            return { ...item2, present: "לא" };
+          }
+        });
+        console.log(mergedArray);
+
+        setRows(
+          mergedArray.map((row) => {
+            const complianceOrder = calculateComplianceOrder(
+              row.status,
+              row.present
+            );
+            return { ...row, complianceOrder };
+          })
+        );
+      } catch (error) {
+        console.error("Error getting event requests:", error);
+      }
+    };
+
+    const initializePage = async () => {
+      await fetchData();
+    };
+
+    initializePage();
+  }, [calculateComplianceOrder, filename, eventId]);
 
   // this code is for upload a new present list in crossInformation page
 
@@ -412,7 +306,7 @@ export default function CrossInformationTable() {
     fileInputRef.current.click();
   };
 
-  const mergedArray = eventTableFromDB.map((item2) => {
+  const mergedArray = eventRequests.map((item2) => {
     const matchingItem = transformedData.find(
       (item1) => item1.privateNumber === item2.privateNumber
     );
@@ -426,31 +320,44 @@ export default function CrossInformationTable() {
     }
   });
 
-  React.useEffect(() => {
-    setRows(
-      mergedArray.map((row) => {
-        const complianceOrder = calculateComplianceOrder(
-          row.status,
-          row.present
-        );
-        return { ...row, complianceOrder };
-      })
-    );
-  }, [filename, mergedArray]);
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       setEventRequests(await getEventRequestsByEventId(eventId));
+  //     } catch (error) {
+  //       console.error("Error getting event requests:", error);
+  //     }
+  //   };
+
+  //   const initializePage = async () => {
+  //     await fetchData();
+  //   };
+
+  //   initializePage();
+
+  //   if (eventRequests) {
+  //     setRows(
+  //       mergedArray.map((row) => {
+  //         const complianceOrder = calculateComplianceOrder(row.status, row.present);
+  //         return { ...row, complianceOrder };
+  //       })
+  //     );
+  //   }
+  // }, [filename, mergedArray, eventId, eventRequests]);
 
   const getStatusCellStyle = (status) => {
     let backgroundColor, textColor;
 
     switch (status) {
-      case "מאושר":
+      case "approved":
         backgroundColor = "#32c55f";
         textColor = "white";
         break;
-      case "נדחה":
+      case "declined":
         backgroundColor = "#fd3535";
         textColor = "white";
         break;
-      case "ממתין להחלטת רמח":
+      case "pending":
         backgroundColor = "#ffa200";
         textColor = "black";
         break;
@@ -624,12 +531,17 @@ export default function CrossInformationTable() {
       headerAlign: "center",
       editable: false,
       width: 150,
-      // flex: 2.5,
-      // should be taken from db instead of hard coded
       renderCell: (params) => (
-        <div style={getStatusCellStyle(params.value)}>{params.value}</div>
+        <div style={getStatusCellStyle(params.value)}>
+          {params.value === "pending"
+            ? "ממתין להחלטת רמח"
+            : params.value === "approved"
+            ? "מאושר"
+            : "נדחה"}
+        </div>
       ),
     },
+    
     {
       field: "present",
       headerName: "נוכחות באירוע",

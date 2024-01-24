@@ -59,7 +59,9 @@ export async function getEventsByCommandId(commandId) {
     const eventCommandsAll = await getAllEventCommands();
 
     // Extract eventIds from the found EventCommands
-    const eventIds = eventCommandsAll.map((eventCommand) => eventCommand.eventId);
+    const eventIds = eventCommandsAll.map(
+      (eventCommand) => eventCommand.eventId
+    );
 
     // Fetch events based on the extracted eventIds
     const response = await get(apiUrl, headers, { params: { eventIds } });
@@ -69,7 +71,6 @@ export async function getEventsByCommandId(commandId) {
     throw error;
   }
 }
-
 
 export async function createEvent(newEvent) {
   const apiUrl = "http://localhost:5000/api/events/";
@@ -101,11 +102,13 @@ export async function updateEvent(eventId, updatedEventData) {
     "Access-Control-Allow-Headers":
       "Origin, X-Requested-With, Content-Type, Accept, Authorization",
     "Access-Control-Allow-Methods": "PATCH",
+    Authorization:
+      "Bearer " + JSON.parse(localStorage.getItem("userData"))?.token,
   };
 
   try {
     const response = await patch(apiUrl, updatedEventData, headers);
-    return response.data;
+    return response;
   } catch (error) {
     console.error(`Error updating event with ID ${eventId}:`, error);
     throw error;

@@ -84,19 +84,19 @@ const updateEvent = async (req, res, next) => {
   const { name, description, date, place } = req.body;
 
   try {
-    // Find the user by ID
+    // Find the event by ID
     const event = await Event.findByPk(eventId);
 
     // If user not found, return null or handle accordingly
     if (!event) {
       const error = new HttpError(
-        `Could not update user ${eventId} , user does'nt exist.`,
+        `Could not update event ${eventId} , event does'nt exist.`,
         403
       );
       return next(error);
     }
 
-    // Update the user fields
+    // Update the event fields
     if (name !== undefined) {
       event.name = name;
     }
@@ -123,7 +123,7 @@ const updateEvent = async (req, res, next) => {
     // Handle errors
     console.error(error);
     const error = new HttpError(
-      `Could not update user ${eventId} , please try again later.`,
+      `Could not update event ${eventId} , please try again later.`,
       500
     );
     next(error);
@@ -164,7 +164,6 @@ const getEventsByCommandId = async (req, res, next) => {
   const commandId = req.params.commandId;
 
   try {
-
     // Find all EventCommands with the given commandId
     const eventCommands = await EventCommands.findAll({
       where: { commandId: commandId },

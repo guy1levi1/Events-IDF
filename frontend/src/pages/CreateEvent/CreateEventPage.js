@@ -61,8 +61,6 @@ export default function CreateEventPage() {
 
   const eventRequests = location.state?.eventRequests || [];
 
-  console.log(eventRequests);
-
   // Convert the stored event date value to a dayjs object if it exists
   if (
     formDataFromLocalStorage &&

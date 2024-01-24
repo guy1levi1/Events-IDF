@@ -12,38 +12,36 @@ import TableModeIcon from "../../images/tableModeIcon.png";
 import { useFilename } from "../../utils/contexts/FilenameContext";
 import CommandsMultiSelect from "../../components/CommandsMultiSelect";
 import "./EditEventPage.css";
-import { getEventById } from "../../utils/api/eventsApi";
+import { getEventById, updateEvent } from "../../utils/api/eventsApi";
+import {
+  createEventCommand,
+  deleteAllEventCommandsByEventId,
+} from "../../utils/api/eventCommandsApi";
+import { getCommandIdByName } from "../../utils/api/commandsApi";
+import Swal from "sweetalert2";
 const { v4: uuidv4 } = require("uuid");
 
-const eventName = "פריסת שחרור לאור";
+// const eventName = "פריסת שחרור לאור";
 
-const currentDate = dayjs();
-const eventLocation = 'תל השומר מקל"ר';
-const description = `נערוך לאורצ'וק פריסת שחרור, באירוע נחגוג את היציאה לאזרחות של
-אור(אפילו שהוא תוך שנייה חוזר למילואים), מוזמנים! 😀`;
-// const eventCreator = "גיא לוי";
+// const currentDate = dayjs();
+// const eventLocation = 'תל השומר מקל"ר';
+// const description = `נערוך לאורצ'וק פריסת שחרור, באירוע נחגוג את היציאה לאזרחות של
+// אור(אפילו שהוא תוך שנייה חוזר למילואים), מוזמנים! 😀`;
+// // const eventCreator = "גיא לוי";
 
-const commandsSelector = ["מרכז", "צפון"];
+// const commandsSelector = ["מרכז", "צפון"];
 
 const CHARACTER_LIMIT = 1000;
 
 export default function EditEventPage(props) {
   const { eventId } = useParams();
   const location = useLocation();
-
+  const dateformat = "HH:mm DD.MM.YY";
   const eventName = location.state.eventName;
-  const eventDate = location.state.eventDate;
+  const eventDate = dayjs(location.state.eventDate, dateformat).format();
   const eventLocation = location.state.eventLocation;
   const eventDescription = location.state.description;
   const eventCommands = location.state.commands;
-
-  console.log(
-    eventName,
-    eventDate,
-    eventLocation,
-    eventDescription,
-    eventCommands
-  );
 
   const formStates = {
     eventName: {
@@ -52,7 +50,7 @@ export default function EditEventPage(props) {
       error: false,
     },
     eventDate: {
-      value: dayjs(eventDate).format("HH:mm DD.MM.YY"),
+      value: dayjs(eventDate),
       isValid: true,
       error: false,
     },
@@ -119,10 +117,68 @@ export default function EditEventPage(props) {
   const [vhAsPixels, setVhAsPixels] = useState(0);
   const [initialFontSize, setInitialFontSize] = useState(0); // Add initialFontSize state
 
-  const handleEditEventClick = () => {
-    localStorage.removeItem("newEditFormstates");
-    localStorage.removeItem("newEditFormIsValid");
-    setFilename("");
+  const handleEditEventClick = async () => {
+    const updatedEvent = {
+      name: formData.initialInputs.eventName.value,
+      date: formData.initialInputs.eventDate.value,
+      place: formData.initialInputs.eventLocation.value,
+      description: formData.initialInputs.description.value,
+    };
+    const commandsEvent = formData.initialInputs.commandsSelector.value;
+
+    console.log(updatedEvent);
+    try {
+      await updateEvent(eventId, updatedEvent);
+    } catch (error) {
+      console.log(error);
+      Swal.fire({
+        title: "לא ניתן לעדכן אירוע",
+        text: error.message,
+        icon: "error",
+        confirmButtonText: "נסה שנית",
+      }).then((result) => {
+        // Handle error if needed
+      });
+    } finally {
+      try {
+        // await deleteAllEventCommandsByEventId(eventId);
+        // const eventCommandPromises = commandsEvent.map(async (commandName) => {
+        //   const newEventCommand = {
+        //     id: uuidv4(),
+        //     commandId: await getCommandIdByName(commandName),
+        //     eventId: eventId,
+        //   };
+        //   return createEventCommand(newEventCommand);
+        // });
+        // // Wait for all event command creation promises to resolve
+        // await Promise.all(eventCommandPromises);
+      } catch (error) {
+        console.log(error);
+        Swal.fire({
+          title: "לא ניתן לעדכן אירוע",
+          text: error.message,
+          icon: "error",
+          confirmButtonText: "נסה שנית",
+        }).then((result) => {
+          // Handle error if needed
+        });
+      } finally {
+        Swal.fire({
+          title: "אירוע עודכן בהצלחה",
+          text: "",
+          icon: "success",
+          confirmButtonText: "בוצע",
+        }).finally((result) => {
+          console.log("move to manage events");
+          navigate("/manageEvents");
+
+          // Clean up local storage and setFilename
+          localStorage.removeItem("newEditFormstates");
+          localStorage.removeItem("newEditFormIsValid");
+          setFilename("");
+        });
+      }
+    }
   };
 
   const handleInputChange = (e) => {
@@ -499,8 +555,7 @@ export default function EditEventPage(props) {
               justifyContent: "center",
             }}
           >
-            <Link
-              to={!formData.isValid ? "/createEvent" : "/manageEvents"}
+            <div
               style={{
                 color: "white",
                 textDecoration: "none",
@@ -521,7 +576,7 @@ export default function EditEventPage(props) {
               >
                 עריכת אירוע
               </Button>
-            </Link>
+            </div>
           </Box>
 
           <Box

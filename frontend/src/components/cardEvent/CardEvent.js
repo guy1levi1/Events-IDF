@@ -1,6 +1,5 @@
 import { Box } from "@mui/material";
 import React, { useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
 import CompareIcon from "../../images/compareIcon.png";
 import DeleteIcon from "../../images/DeleteIcon.png";
 import EditTextsIcon from "../../images/EditTextsIcon.png";
@@ -12,10 +11,8 @@ import { useFilename } from "../../utils/contexts/FilenameContext";
 import * as XLSX from "xlsx";
 
 import "./CardEvent.css";
-import { getFullNameById, getUserById } from "../../utils/api/usersApi";
-import {
-  getEventCommandsByEventId,
-} from "../../utils/api/eventCommandsApi";
+import { getFullNameById } from "../../utils/api/usersApi";
+import { getEventCommandsByEventId } from "../../utils/api/eventCommandsApi";
 import { getCommandNameById } from "../../utils/api/commandsApi";
 import dayjs from "dayjs";
 import { getEventRequestsByEventId } from "../../utils/api/eventRequestsApi";
@@ -126,17 +123,17 @@ export default function CardEvent({
   };
 
   const handleEditClick = () => {
+    console.log(eventDate);
     navigate(`/editEvent/${eventId}`, {
       state: {
         eventName: eventName,
-        eventDate: dayjs(eventDate).format("HH:mm DD.MM.YY"),
+        eventDate: eventDate,
         eventLocation: eventLocation,
         description: description,
         commands: arrayOfCommandsNames,
       },
     });
   };
-  
 
   const options = {
     day: "2-digit",
@@ -351,18 +348,17 @@ export default function CardEvent({
                   textDecoration: "none",
                 }}
               > */}
-                <img
-                  src={EditTextsIcon}
-                  alt=""
-                  style={{
-                    width: "3.268rem",
-                    height: "3.5rem",
-                    cursor: "pointer",
-                    display: isAdmin ? "inline" : "none",
-                  }}
+              <img
+                src={EditTextsIcon}
+                alt=""
+                style={{
+                  width: "3.268rem",
+                  height: "3.5rem",
+                  cursor: "pointer",
+                  display: isAdmin ? "inline" : "none",
+                }}
                 onClick={handleEditClick}
-
-                />
+              />
               {/* </Link> */}
               <img
                 src={DeleteIcon}

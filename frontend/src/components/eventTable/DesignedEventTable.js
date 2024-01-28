@@ -277,6 +277,7 @@ export default function DesignedEventTable() {
     navigate(`/createEvent`, {
       state: {
         eventRequests: rows,
+        navigateFromTable: true,
       },
     });
   };

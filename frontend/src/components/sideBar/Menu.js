@@ -67,6 +67,7 @@ const Menu = () => {
 
   const handleLogout = () => {
     auth.logout();
+    localStorage.clear();
     navigate("/login");
   };
 

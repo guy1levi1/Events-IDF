@@ -50,7 +50,9 @@ const handleRouter = (token, command) => {
             path: "/editEvent/:eventId",
             element: (
               <FilenameProvider>
-                <EditEventPage />
+                <CommandProvider>
+                  <EditEventPage />
+                </CommandProvider>
               </FilenameProvider>
             ),
           },

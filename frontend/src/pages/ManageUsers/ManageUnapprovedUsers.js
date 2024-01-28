@@ -15,6 +15,13 @@ import CancelIcon from "@mui/icons-material/Close";
 import CheckIcon from "@mui/icons-material/Check";
 
 import { GridActionsCellItem, GridRowEditStopReasons } from "@mui/x-data-grid";
+import {
+  deleteUnapprovedUserById,
+  getUnapprovedFullNameById,
+  getUnapprovedUserById,
+} from "../../utils/api/unapprovedUsersApi";
+import Swal from "sweetalert2";
+import { createUser } from "../../utils/api/usersApi";
 
 function CustomToolbar() {
   return (
@@ -202,32 +209,67 @@ export default function ManageUnapprovedUsers({
   const [rows, setRows] = React.useState(unapprovedUsers);
   const [rowModesModel, setRowModesModel] = useState({});
 
+  useEffect(() => {
+    setRows(unapprovedUsers);
+  }, [unapprovedUsers]);
+
   const handleRowEditStop = (params, event) => {
     if (params.reason === GridRowEditStopReasons.rowFocusOut) {
       event.defaultMuiPrevented = true;
     }
   };
 
-  const handleApprovedClick = (id) => () => {
-    const updatedRow = rows.find((row) => row.id === id);
-    console.log("Updated Row in Child1:", updatedRow);
+  const handleApprovedClick = (id) => async () => {
+    try {
+      const user = await getUnapprovedUserById(id);
+      const unApprovedFullName = user.fullName;
+      await createUser(user);
+      await deleteUnapprovedUserById(id);
+      setRows((prevRows) => prevRows.filter((row) => row.id !== id));
+      updateApprovedUser(rows.find((row) => row.id === id));
 
-    // Update the data in the parent component
-    updateApprovedUser(updatedRow);
-
-    // Update the local state to remove the row
-    setRows((prevRows) => prevRows.filter((row) => row.id !== id));
-
-    console.log("New Data in Child1:", updatedRow);
-
-    // Log the state of approvedUser after the update
-    console.log("Current approvedUser in Child1:", approvedUser);
-
-    console.log("end child1");
+      console.log(user);
+      Swal.fire({
+        title: `המשתמש "${unApprovedFullName}" אושר`,
+        text: "כעת המשתמש יוכל להתחבר למערכת",
+        icon: "success",
+        confirmButtonColor: "#3085d6",
+        confirmButtonText: "אישור",
+        reverseButtons: true,
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          console.log("New Data in Child1:", user);
+        }
+      });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleUnApprovedClick = (id) => () => {
-    setRows(rows.filter((row) => row.id !== id));
+    try {
+      const unApprovedFullName = rows.find((row) => row.id === id).fullName;
+
+      console.log(unApprovedFullName);
+      Swal.fire({
+        title: `האם את/ה בטוח/ה שתרצה/י לדחות את המשתמש "${unApprovedFullName}"`,
+        text: "פעולה זאת איננה ניתנת לשחזור",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#d33",
+        cancelButtonColor: "#3085d6",
+        confirmButtonText: "דחה משתמש",
+        cancelButtonText: "בטל",
+        reverseButtons: true,
+      }).then((result) => {
+        if (result.isConfirmed) {
+          deleteUnapprovedUserById(id);
+          setRows(rows.filter((row) => row.id !== id));
+        }
+      });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const processRowUpdate = (newRow) => {

@@ -162,9 +162,13 @@ function CustomNoRowsOverlay() {
   );
 }
 
-export default function ManageExistsUsers({existUsers}) {
+export default function ManageExistsUsers({ existUsers }) {
   const [rows, setRows] = React.useState(existUsers);
   const [rowModesModel, setRowModesModel] = React.useState({});
+
+  React.useEffect(() => {
+    setRows(existUsers);
+  }, [existUsers]);
 
   const handleRowEditStop = (params, event) => {
     if (params.reason === GridRowEditStopReasons.rowFocusOut) {
@@ -181,7 +185,10 @@ export default function ManageExistsUsers({existUsers}) {
   };
 
   const handleDeleteClick = (id) => () => {
-    setRows(rows.filter((row) => row.id !== id));
+    try {
+      setRows(rows.filter((row) => row.id !== id));
+      console.log("object");
+    } catch (error) {}
   };
 
   const handleCancelClick = (id) => () => {

@@ -19,6 +19,7 @@ import {
 } from "../../utils/api/eventCommandsApi";
 import { getCommandIdByName } from "../../utils/api/commandsApi";
 import Swal from "sweetalert2";
+import { getEventRequestsByEventId } from "../../utils/api/eventRequestsApi";
 const { v4: uuidv4 } = require("uuid");
 
 // const eventName = "פריסת שחרור לאור";
@@ -246,60 +247,30 @@ export default function EditEventPage(props) {
     fileInputRef.current.click();
   };
 
-  const handleFileUpload = (e) => {
-    handleButtonClick();
-    const file = e.target.files[0];
-    setFilename(file.name);
+  const [transformedData, setTransformedData] = useState([]);
 
-    if (file) {
-      const reader = new FileReader();
-
-      if (
-        file.type === "application/vnd.ms-excel" ||
-        file.type ===
-          "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-      ) {
-        console.log(`File selected: ${file.name}, size: ${file.size} bytes`);
-      } else {
-        console.error("Invalid file type");
-        throw new Error(
-          "Invalid file type. Please upload a valid Excel file (xlsx or xls)."
-        );
+  useEffect(() => {
+    const fetchTransformedData = async () => {
+      try {
+        setTransformedData(await getEventRequestsByEventId(eventId));
+      } catch (error) {
+        console.error("Error fetching full name:", error);
       }
+    };
 
-      reader.onload = (e) => {
-        const data = e.target.result;
-        const workbook = XLSX.read(data, { type: "binary" });
-        const sheetName = workbook.SheetNames[0];
-        const sheet = workbook.Sheets[sheetName];
+    fetchTransformedData();
+  }, [eventId]);
 
-        const newRows = XLSX.utils
-          .sheet_to_json(sheet, { header: 1 })
-          .slice(1)
-          .map((row) => {
-            const newRow = {
-              eventId: "EVENTID",
-              ...row,
-              status: "pending",
-            };
-            return newRow;
-          });
-        const transformedData = mapKeys(newRows, headers, eventId);
-
-        navigate(`/table/${eventId}`, {
-          state: {
-            transformedData: transformedData,
-            eventName: formData.initialInputs.eventName.value,
-            eventDate: dayjs(formData.initialInputs.eventDate.value).format(
-              "HH:mm DD.MM.YY"
-            ),
-            eventLocation: formData.initialInputs.eventLocation.value,
-          },
-        });
-      };
-
-      reader.readAsBinaryString(file);
-    }
+  const handleViewData = () => {
+    console.log(transformedData);
+    navigate(`/table/${eventId}`, {
+      state: {
+        transformedData: transformedData,
+        eventName: eventName,
+        eventDate: dayjs(eventDate).format("HH:mm DD.MM.YY"),
+        eventLocation: eventLocation,
+      },
+    });
   };
 
   return (
@@ -598,27 +569,18 @@ export default function EditEventPage(props) {
                 direction: "ltr",
               }}
             >
-              <input
-                type="file"
-                onChange={handleFileUpload}
-                ref={fileInputRef}
-                style={{ display: "none" }}
-                id="fileInput"
+              <img
+                onClick={handleViewData}
+                src={TableModeIcon}
+                alt=""
+                style={{
+                  width: `${vhAsPixels * 1.35 * 0.95}px`,
+                  height: "100%",
+                  cursor: "pointer",
+                }}
               />
-              <label htmlFor="fileInput">
-                <img
-                  src={TableModeIcon}
-                  alt=""
-                  style={{
-                    width: `${vhAsPixels * 1.35 * 0.95}px`,
-                    height: "100%",
-                    cursor: "pointer",
-                  }}
-                />
-              </label>
-
               <button style={{ display: "none" }}>Upload File</button>
-              <div style={{ marginTop: "-0.6rem" }}>
+              {/* <div style={{ marginTop: "-0.6rem" }}>
                 <p
                   style={{
                     fontSize: `${clamp(
@@ -631,7 +593,7 @@ export default function EditEventPage(props) {
                 >
                   {filename}
                 </p>
-              </div>
+              </div> */}
             </div>
           </Box>
         </Box>

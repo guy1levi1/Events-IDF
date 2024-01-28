@@ -33,7 +33,7 @@ const { v4: uuidv4 } = require("uuid");
 
 function CustomToolbar(props) {
   const { setRows, setRowModesModel } = props;
-  const { command, setCommand } = useCommand();
+  const { command } = useCommand();
 
   console.log("hi");
   console.log(command);

@@ -56,6 +56,7 @@ export default function CardEvent({
   const navigate = useNavigate();
 
   const handleFileUpload = (e) => {
+    console.log(eventId);
     const file = e.target.files[0];
     setFilename(file.name);
 

@@ -11,9 +11,16 @@ import {
   getEvnets,
 } from "../../utils/api/eventsApi";
 import Swal from "sweetalert2";
-import { getCommandIdByUserId, getCommandNameByUserId } from "../../utils/api/usersApi";
-import { getCommandIdByName, getCommandNameById } from "../../utils/api/commandsApi";
+import {
+  getCommandIdByUserId,
+  getCommandNameByUserId,
+} from "../../utils/api/usersApi";
+import {
+  getCommandIdByName,
+  getCommandNameById,
+} from "../../utils/api/commandsApi";
 import { useCommand } from "../../utils/contexts/commandContext";
+import { deleteAllEventCommandsByEventId } from "../../utils/api/eventCommandsApi";
 
 export default function ManageEventsPage() {
   const [eventsFromDB, setEventsFromDB] = useState([]);
@@ -27,10 +34,10 @@ export default function ManageEventsPage() {
     try {
       const commandId = await getCommandIdByUserId(loggedUserId);
 
-      setCommand(await getCommandNameById(commandId))
+      setCommand(await getCommandNameById(commandId));
 
       if (commandId === (await getCommandIdByName("סגל"))) {
-        setIsAdmin(true)
+        setIsAdmin(true);
         setEventsFromDB(await getEvnets(commandId));
       } else {
         setIsAdmin(false);
@@ -50,9 +57,9 @@ export default function ManageEventsPage() {
   const handleDeleteEvent = async (eventId) => {
     // Update state by filtering out the event with the specified eventId
     try {
-      // await deleteAllEventCommandsByEventId(eventId).then(() => {
-      //   console.log("successed deleting event commands");
-      // });
+      await deleteAllEventCommandsByEventId(eventId).then(() => {
+        console.log("successed deleting event commands");
+      });
       await deleteEvent(eventId).then(() => {
         console.log("successed deleting event");
       });

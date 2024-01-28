@@ -141,17 +141,17 @@ export default function EditEventPage(props) {
       });
     } finally {
       try {
-        // await deleteAllEventCommandsByEventId(eventId);
-        // const eventCommandPromises = commandsEvent.map(async (commandName) => {
-        //   const newEventCommand = {
-        //     id: uuidv4(),
-        //     commandId: await getCommandIdByName(commandName),
-        //     eventId: eventId,
-        //   };
-        //   return createEventCommand(newEventCommand);
-        // });
-        // // Wait for all event command creation promises to resolve
-        // await Promise.all(eventCommandPromises);
+        await deleteAllEventCommandsByEventId(eventId);
+        const eventCommandPromises = commandsEvent.map(async (commandName) => {
+          const newEventCommand = {
+            id: uuidv4(),
+            commandId: await getCommandIdByName(commandName),
+            eventId: eventId,
+          };
+          return createEventCommand(newEventCommand);
+        });
+        // Wait for all event command creation promises to resolve
+        await Promise.all(eventCommandPromises);
       } catch (error) {
         console.log(error);
         Swal.fire({

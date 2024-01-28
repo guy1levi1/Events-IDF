@@ -24,7 +24,10 @@ export default function useForm(initialInputs, isValid) {
         case "fullName":
           return VALIDATOR_FULLNAME(value);
         case "secPassword":
-          return value === formData.initialInputs["password"].value;
+          return (
+            VALIDATOR_PASSWORD(value) &&
+            value === formData.initialInputs["password"].value
+          );
         case "commandsSelector":
           return value.length !== 0;
         case "eventName":

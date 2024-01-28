@@ -52,7 +52,7 @@ export default function CardEvent({
   const { setFilename } = useFilename();
   // const [eventIdCtx, setEventIdCtx] = useEventId();
 
-  const fileInputRef = useRef(null);
+  const fileInputRef = useRef();
   const navigate = useNavigate();
 
   const handleFileUpload = (e) => {
@@ -94,7 +94,6 @@ export default function CardEvent({
 
         navigate(`/crossInformation/${eventId}`, {
           state: {
-            id: eventId,
             presentRows: newRows,
             eventName: eventName,
             eventDate: dayjs(eventDate).format("HH:mm DD.MM.YY"),
@@ -109,9 +108,10 @@ export default function CardEvent({
     }
   };
 
-  const handleButtonClick = () => {
-    fileInputRef.current.click();
-  };
+  // const handleButtonClick = () => {
+  //   console.log("ggg");
+  //   fileInputRef.current.click();
+  // };
 
   const handleViewData = () => {
     console.log("transformedData: ");
@@ -127,7 +127,6 @@ export default function CardEvent({
   };
 
   const handleEditClick = () => {
-    console.log(eventDate);
     navigate(`/editEvent/${eventId}`, {
       state: {
         eventName: eventName,
@@ -233,13 +232,19 @@ export default function CardEvent({
             <div>
               <input
                 type="file"
+                onClick={() => {
+                  console.log(eventId);
+                }}
                 onChange={handleFileUpload}
                 ref={fileInputRef}
                 style={{ display: "none" }}
-                id="fileInput"
+                id={"fileInput" + eventId}
               />
-              <label htmlFor="fileInput">
+              <label htmlFor={"fileInput" + eventId}>
                 <img
+                  onClick={() => {
+                    console.log(eventId);
+                  }}
                   src={CompareIcon}
                   alt="Compare Icon"
                   style={{
@@ -248,12 +253,8 @@ export default function CardEvent({
                     cursor: "pointer",
                     display: isAdmin ? "inline" : "none",
                   }}
-                  onClick={console.log(eventId)}
                 />
               </label>
-              <button onClick={handleButtonClick} style={{ display: "none" }}>
-                Upload File
-              </button>
             </div>
           </div>
           <h5
@@ -303,9 +304,9 @@ export default function CardEvent({
               overflowY: "hidden",
             }}
           >
-            {arrayOfCommandsNames.map((command, index) => (
-              <div style={{ margin: "0 0 0 0.2rem" }}>
-                <CommandCell command={command} key={index}></CommandCell>
+            {arrayOfCommandsNames.map((command) => (
+              <div style={{ margin: "0 0 0 0.2rem" }} key={command.id}>
+                <CommandCell command={command}></CommandCell>
               </div>
             ))}
           </div>

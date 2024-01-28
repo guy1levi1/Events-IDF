@@ -17,7 +17,7 @@ router.post(
   unapprovedUsersController.createUnapprovedUser
 );
 
-router.use(checkAuth);
+// router.use(checkAuth);
 
 router.delete(
   "/:unapprovedUserId",

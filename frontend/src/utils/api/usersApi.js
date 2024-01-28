@@ -115,7 +115,7 @@ export async function getCommandIdByUserId(userId) {
 }
 
 export async function createUser(newUser) {
-  const apiUrl = "http://localhost:5000/api/users/";
+  const apiUrl = "http://localhost:5000/api/users/signup/";
 
   const headers = {
     "Content-Type": "application/json",

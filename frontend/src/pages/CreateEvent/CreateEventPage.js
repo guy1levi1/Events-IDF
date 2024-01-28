@@ -59,7 +59,14 @@ export default function CreateEventPage() {
 
   const location = useLocation();
 
+  const navigateFromTable = location.state?.navigateFromTable || false;
   const eventRequests = location.state?.eventRequests || [];
+  console.log(navigateFromTable);
+
+  useEffect(() => {
+    localStorage.removeItem("newFormstates");
+    localStorage.removeItem("newFormIsValid");
+  }, [navigateFromTable]);
 
   // Convert the stored event date value to a dayjs object if it exists
   if (
@@ -185,8 +192,7 @@ export default function CreateEventPage() {
           navigate("/manageEvents");
 
           // Clean up local storage and setFilename
-          localStorage.removeItem("newFormstates");
-          localStorage.removeItem("newFormIsValid");
+
           setFilename("");
         });
       }

@@ -29,6 +29,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 // import { useFilename } from "../tableEditing/FilenameContext";
 import generateGuid from "../../utils/GenereateUUID";
 import { useCommand } from "../../utils/contexts/commandContext";
+import { deleteEventRequest } from "../../utils/api/eventRequestsApi";
 const { v4: uuidv4 } = require("uuid");
 
 function CustomToolbar(props) {
@@ -247,6 +248,7 @@ export default function TableView() {
   };
 
   const handleEditClick = (id) => () => {
+    console.log("edit row clicked");
     setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.Edit } });
   };
 
@@ -254,9 +256,14 @@ export default function TableView() {
     setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.View } });
   };
 
-  const handleDeleteClick = (id) => () => {
-    console.log("delete");
-    setRows(rows.filter((row) => row.id !== id));
+  const handleDeleteClick = (id) => async () => {
+    try {
+      await deleteEventRequest(id);
+      setRows(rows.filter((row) => row.id !== id));
+      console.log("delete row succsefuly");
+    } catch (error) {
+      console.error("could not delete row");
+    }
   };
 
   const handleCancelClick = (id) => () => {
@@ -272,6 +279,7 @@ export default function TableView() {
   };
 
   const processRowUpdate = (newRow) => {
+    console.log("new row");
     const updatedRow = { ...newRow, isNew: false };
     setRows(rows.map((row) => (row.id === newRow.id ? updatedRow : row)));
     return updatedRow;
@@ -454,14 +462,14 @@ export default function TableView() {
             icon={<EditIcon />}
             label="Edit"
             className="textPrimary"
-            onClick={() => handleEditClick(id)}
+            onClick={handleEditClick(id)}
             color="inherit"
           />,
           command === "סגל" ? (
             <GridActionsCellItem
               icon={<DeleteIcon />}
               label="Delete"
-              onClick={() => handleDeleteClick(id)}
+              onClick={handleDeleteClick(id)}
               color="inherit"
             />
           ) : (

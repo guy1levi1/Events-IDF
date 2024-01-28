@@ -168,6 +168,8 @@ const login = async (req, res, next) => {
 const updateUser = async (req, res, next) => {
   const userId = req.params.userId;
 
+  console.log("req.body:");
+  console.log(req.body);
   const { privateNumber, fullName, commandId } = req.body;
 
   try {

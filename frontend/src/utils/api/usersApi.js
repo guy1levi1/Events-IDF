@@ -95,7 +95,6 @@ export async function getCommandNameByUserId(userId) {
   }
 }
 
-
 export async function getCommandIdByUserId(userId) {
   try {
     const users = await getUsers();
@@ -135,7 +134,8 @@ export async function createUser(newUser) {
 }
 
 export async function updateUser(userId, updatedUserData) {
-  const apiUrl = `http://localhost:5000/api/events/${userId}`;
+  console.log(updatedUserData);
+  const apiUrl = `http://localhost:5000/api/users/${userId}`;
 
   const headers = {
     "Content-Type": "application/json",
@@ -147,7 +147,8 @@ export async function updateUser(userId, updatedUserData) {
 
   try {
     const response = await patch(apiUrl, updatedUserData, headers);
-    return response.data;
+    console.log(response);
+    return response;
   } catch (error) {
     console.error(`Error updating user with ID ${userId}:`, error);
     throw error;

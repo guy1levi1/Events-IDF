@@ -20,6 +20,12 @@ import {
   GridActionsCellItem,
   GridRowEditStopReasons,
 } from "@mui/x-data-grid";
+import Swal from "sweetalert2";
+import { deleteUser, updateUser } from "../../utils/api/usersApi";
+import {
+  getAllCommandsNames,
+  getCommandIdByName,
+} from "../../utils/api/commandsApi";
 
 function CustomToolbar(props) {
   return (
@@ -165,10 +171,31 @@ function CustomNoRowsOverlay() {
 export default function ManageExistsUsers({ existUsers }) {
   const [rows, setRows] = React.useState(existUsers);
   const [rowModesModel, setRowModesModel] = React.useState({});
+  const [commands, setCommands] = React.useState([]);
 
   React.useEffect(() => {
     setRows(existUsers);
   }, [existUsers]);
+
+  React.useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const commandsNames = await getAllCommandsNames();
+
+        setCommands(commandsNames);
+      } catch (error) {
+        console.error("Error during get commands:", error);
+      }
+    };
+
+    // const initializePage = async () => {
+    //   await fetchData();
+    // };
+
+    // initializePage();
+
+    fetchData();
+  }, []);
 
   const handleRowEditStop = (params, event) => {
     if (params.reason === GridRowEditStopReasons.rowFocusOut) {
@@ -186,9 +213,47 @@ export default function ManageExistsUsers({ existUsers }) {
 
   const handleDeleteClick = (id) => () => {
     try {
-      setRows(rows.filter((row) => row.id !== id));
-      console.log("object");
-    } catch (error) {}
+      const loggedUserId = JSON.parse(localStorage.getItem("userData")).userId;
+
+      if (id !== loggedUserId) {
+        const userFullName = rows.find((row) => row.id === id).fullName;
+
+        console.log(userFullName);
+        Swal.fire({
+          title: `האם את/ה בטוח/ה שתרצה/י למחוק את המשתמש "${userFullName}"`,
+          text: "פעולה זאת איננה ניתנת לשחזור",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#d33",
+          cancelButtonColor: "#3085d6",
+          confirmButtonText: "מחק משתמש",
+          cancelButtonText: "בטל",
+          reverseButtons: true,
+        }).then((result) => {
+          if (result.isConfirmed) {
+            deleteUser(id);
+            setRows(rows.filter((row) => row.id !== id));
+          }
+        });
+      } else {
+        Swal.fire({
+          title: `לא ניתן למחוק את המשתמש`,
+          text: "משתמש אינו יכול למחוק את עצמו",
+          icon: "error",
+          // showCancelButton: true,
+          confirmButtonColor: "#3085d6",
+          // cancelButtonColor: "#3085d6",
+          confirmButtonText: "אישור",
+          // cancelButtonText: "בטל",
+          reverseButtons: true,
+        }).then((result) => {
+          if (result.isConfirmed) {
+          }
+        });
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleCancelClick = (id) => () => {
@@ -203,10 +268,44 @@ export default function ManageExistsUsers({ existUsers }) {
     }
   };
 
-  const processRowUpdate = (newRow) => {
+  const processRowUpdate = async (newRow) => {
     const updatedRow = { ...newRow, isNew: false };
-    setRows(rows.map((row) => (row.id === newRow.id ? updatedRow : row)));
-    return updatedRow;
+
+    const { id, privateNumber, fullName, command } = updatedRow;
+
+    try {
+      const commandId = await getCommandIdByName(command);
+      const filteredUser = {
+        privateNumber,
+        fullName,
+        commandId,
+      };
+      console.log(filteredUser);
+
+      await updateUser(id, filteredUser);
+
+      // Update the rowModesModel after updating the user
+
+      console.log(filteredUser);
+
+      setRows(rows.map((row) => (row.id === newRow.id ? updatedRow : row)));
+
+      return updatedRow;
+    } catch (error) {
+      console.log("Error processing row update:", error);
+      Swal.fire({
+        title: `אחד מהנתונים שהזנת אינו תקין, נסה שנית`,
+        text: "",
+        icon: "error",
+        // showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        // cancelButtonColor: "#3085d6",
+        confirmButtonText: "אישור",
+        // cancelButtonText: "בטל",
+        reverseButtons: true,
+      }).then((result) => {});
+      throw error;
+    }
   };
 
   const handleRowModesModelChange = (newRowModesModel) => {
@@ -242,11 +341,35 @@ export default function ManageExistsUsers({ existUsers }) {
       field: "command",
       headerName: "פיקוד",
       headerAlign: "center",
-      align: "center",
-      type: "string",
+      tfontColor: "white",
+      type: "singleSelect",
       editable: true,
       flex: 1,
+      valueOptions: commands,
+      valueFormatter: ({ value }) => {
+        const option = commands.find(
+          ({ value: optionValue }) => optionValue === value
+        );
+        return option ? option.label : value; // Return the label if found, otherwise return the original value
+      },
+      cellClassName: (params) => {
+        const option = commands.find(
+          ({ value: optionValue }) => optionValue === params.value
+        );
+
+        switch (option?.value) {
+          case "declined":
+            return "red-background";
+          case "approved":
+            return "green-background";
+          case "pending":
+            return "orange-background";
+          default:
+            return "";
+        }
+      },
     },
+
     {
       field: "actions",
       type: "actions",
@@ -338,7 +461,7 @@ export default function ManageExistsUsers({ existUsers }) {
         }}
       >
         <DataGrid
-          rows={existUsers}
+          rows={rows}
           columns={columns}
           editMode="row"
           rowModesModel={rowModesModel}

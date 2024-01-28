@@ -49,8 +49,14 @@ export const patch = async (url, body, headers) => {
     const res = await axios.patch(url, body, { headers });
     if (res) {
     }
+    return res;
   } catch (e) {
-    console.log(e);
+    const massage = handelErrorCode(e.response.status);
+    const code = e.response.status;
+    throw {
+      massage: massage || "unocurred error",
+      code: code || 500,
+    };
   }
 };
 

@@ -25,32 +25,54 @@ import {
   GridRowEditStopReasons,
 } from "@mui/x-data-grid";
 import "./TableView.css";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 // import { useFilename } from "../tableEditing/FilenameContext";
 import generateGuid from "../../utils/GenereateUUID";
-import { useCommand } from "../../utils/contexts/commandContext";
-import { deleteEventRequest } from "../../utils/api/eventRequestsApi";
+// import { useCommand } from "../../utils/contexts/commandContext";
+import {
+  createEventRequest,
+  deleteAllEventRequestsByEventId,
+  deleteEventRequest,
+  getEventRequestsByEventId,
+  updateRow,
+} from "../../utils/api/eventRequestsApi";
+import Swal from "sweetalert2";
+import { getCommandNameByUserId } from "../../utils/api/usersApi";
 const { v4: uuidv4 } = require("uuid");
 
 function CustomToolbar(props) {
   const { setRows, setRowModesModel } = props;
-  const { command } = useCommand();
+  // const { command } = useCommand();
+  const { eventId } = useParams();
 
-  console.log("hi");
-  console.log(command);
-
-  const handleNewRowClick = () => {
-    const id = randomId();
-    setRows((oldRows) => [
-      ...oldRows,
-      {
-        id,
-        status: "pending",
-      },
-    ]);
+  const handleNewRowClick = async () => {
+    const rowId = uuidv4();
+    const newRow = {
+      id: rowId,
+      eventId: eventId,
+      serialNumber: "",
+      privateNumber: "",
+      firstName: "",
+      lastName: "",
+      command: "",
+      division: "",
+      unit: "",
+      rank: "",
+      appointmentLetter: "",
+      appointmentRank: "",
+      reasonNonArrival: "",
+      status: "pending",
+    };
+    try {
+      await createEventRequest(newRow);
+      console.log("create row sucsses");
+    } catch (error) {
+      console.error("could not create new row: " + error);
+    }
+    setRows((oldRows) => [...oldRows, newRow]);
     setRowModesModel((oldModel) => ({
       ...oldModel,
-      [id]: { mode: GridRowModes.Edit },
+      [rowId]: { mode: GridRowModes.Edit },
     }));
   };
 
@@ -213,17 +235,32 @@ export default function TableView() {
   const [rows, setRows] = React.useState([]);
   // const { filename } = useFilename();
   const location = useLocation();
-  const { command } = useCommand();
-  console.log(command);
-  const transformedData = location.state.transformedData;
+  // const { command } = useCommand();
+  const [command, setCommand] = React.useState("");
 
+  const { eventId } = useParams();
+  const transformedData = location.state.transformedData;
   let data = [];
+  const userData = JSON.parse(localStorage.getItem("userData"));
+  const loggedUserId = userData ? userData.userId : "";
+
+  React.useEffect(() => {
+    const fetchFullName = async () => {
+      try {
+        const commandName = await getCommandNameByUserId(loggedUserId);
+        setCommand(commandName);
+      } catch (error) {
+        console.error("Error fetching full name:", error);
+      }
+    };
+
+    fetchFullName();
+  }, [loggedUserId, getCommandNameByUserId]);
+
   if (command === "סגל") {
     data = transformedData;
-    console.log(data);
   } else {
     data = transformedData.filter((row) => row.command === command);
-    console.log(data);
   }
   const eventName = location.state.eventName;
   const eventDate = location.state.eventDate;
@@ -231,13 +268,49 @@ export default function TableView() {
 
   React.useEffect(() => {
     setRows(data);
-  }, [setRows]);
+  }, [data]);
 
   const [rowModesModel, setRowModesModel] = React.useState({});
 
   const navigate = useNavigate();
 
-  const handleRowsChange = (newRows) => {
+  const handleRowsChange = async (newRows) => {
+    try {
+      let eventRequestsLength = 0;
+      console.log(eventId);
+
+      let eventRequests = await getEventRequestsByEventId(eventId);
+      eventRequestsLength = eventRequests.length;
+
+      console.log(eventRequestsLength);
+
+      if (eventRequestsLength > 0) {
+        // delete all eventRequestsByEventId and add all new rows
+        await deleteAllEventRequestsByEventId(eventId);
+      }
+      try {
+        const requests = newRows.map((request) => ({
+          ...request,
+          eventId: eventId,
+        }));
+
+        for (let i = 0; i < requests.length; i++) {
+          console.log(requests[i]);
+
+          await createEventRequest(requests[i]);
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+
+    // for (let i = 0; i < newRows.length; i++) {
+    //   // await createEventRequest(newRows[i]);
+    // }
+
+    console.log(newRows);
     setRows(newRows);
   };
 
@@ -257,13 +330,27 @@ export default function TableView() {
   };
 
   const handleDeleteClick = (id) => async () => {
-    try {
-      await deleteEventRequest(id);
-      setRows(rows.filter((row) => row.id !== id));
-      console.log("delete row succsefuly");
-    } catch (error) {
-      console.error("could not delete row");
-    }
+    Swal.fire({
+      title: `האם את/ה בטוח/ה שתרצה/י למחוק את השורה`,
+      text: "פעולה זאת איננה ניתנת לשחזור",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "מחק שורה",
+      cancelButtonText: "בטל",
+      reverseButtons: true,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        try {
+          deleteEventRequest(id);
+          setRows(rows.filter((row) => row.id !== id));
+          console.log("delete row succsefuly");
+        } catch (error) {
+          console.error("could not delete row");
+        }
+      }
+    });
   };
 
   const handleCancelClick = (id) => () => {
@@ -278,11 +365,32 @@ export default function TableView() {
     }
   };
 
-  const processRowUpdate = (newRow) => {
-    console.log("new row");
+  const processRowUpdate = async (newRow) => {
     const updatedRow = { ...newRow, isNew: false };
-    setRows(rows.map((row) => (row.id === newRow.id ? updatedRow : row)));
-    return updatedRow;
+
+    try {
+      await updateRow(newRow.id, updatedRow);
+
+      // Update the rowModesModel after updating the user
+
+      setRows(rows.map((row) => (row.id === newRow.id ? updatedRow : row)));
+      console.log("delete row succsefuly");
+      return updatedRow;
+    } catch (error) {
+      console.log("Error processing row update:", error);
+      Swal.fire({
+        title: `אחד מהנתונים שהזנת אינו תקין, נסה שנית`,
+        text: "",
+        icon: "error",
+        // showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        // cancelButtonColor: "#3085d6",
+        confirmButtonText: "אישור",
+        // cancelButtonText: "בטל",
+        reverseButtons: true,
+      }).then((result) => {});
+      throw error;
+    }
   };
 
   const handleRowModesModelChange = (newRowModesModel) => {
@@ -290,10 +398,7 @@ export default function TableView() {
   };
 
   const handleCancelButtonClick = () => {
-    navigate(`/manageEvents`);
-  };
-  const handleSaveButtonClick = () => {
-    navigate(`/manageEvents`);
+    navigate(-1);
   };
 
   const statusOptions = [
@@ -597,7 +702,7 @@ export default function TableView() {
           >
             <ExcelReader
               onRowsChange={handleRowsChange}
-              eventId={"5a4529c5-5790-4b24-ab1a-18bd6c61d3eb"}
+              eventId={generateGuid()}
             />
           </div>
           <div
@@ -607,15 +712,6 @@ export default function TableView() {
               right: 0,
             }}
           >
-            <button
-              onClick={handleSaveButtonClick}
-              className="SaveButtonTablePage"
-              style={{
-                marginRight: "0.5rem",
-              }}
-            >
-              שמור
-            </button>
             <button
               onClick={handleCancelButtonClick}
               className="CancelButtonTablePage"

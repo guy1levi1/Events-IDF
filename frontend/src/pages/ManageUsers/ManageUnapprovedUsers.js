@@ -228,7 +228,6 @@ export default function ManageUnapprovedUsers({
       setRows((prevRows) => prevRows.filter((row) => row.id !== id));
       updateApprovedUser(rows.find((row) => row.id === id));
 
-      console.log(user);
       Swal.fire({
         title: `המשתמש "${unApprovedFullName}" אושר`,
         text: "כעת המשתמש יוכל להתחבר למערכת",
@@ -236,11 +235,7 @@ export default function ManageUnapprovedUsers({
         confirmButtonColor: "#3085d6",
         confirmButtonText: "אישור",
         reverseButtons: true,
-      }).then(async (result) => {
-        if (result.isConfirmed) {
-          console.log("New Data in Child1:", user);
-        }
-      });
+      }).then(async (result) => {});
     } catch (error) {
       console.log(error);
     }
@@ -250,7 +245,6 @@ export default function ManageUnapprovedUsers({
     try {
       const unApprovedFullName = rows.find((row) => row.id === id).fullName;
 
-      console.log(unApprovedFullName);
       Swal.fire({
         title: `האם את/ה בטוח/ה שתרצה/י לדחות את המשתמש "${unApprovedFullName}"`,
         text: "פעולה זאת איננה ניתנת לשחזור",

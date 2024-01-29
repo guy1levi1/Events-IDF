@@ -19,7 +19,7 @@ import {
   getCommandIdByName,
   getCommandNameById,
 } from "../../utils/api/commandsApi";
-import { useCommand } from "../../utils/contexts/commandContext";
+// import { useCommand } from "../../utils/contexts/commandContext";
 import { deleteAllEventCommandsByEventId } from "../../utils/api/eventCommandsApi";
 
 export default function ManageEventsPage() {
@@ -27,14 +27,14 @@ export default function ManageEventsPage() {
   const userData = JSON.parse(localStorage.getItem("userData"));
   const loggedUserId = userData ? userData.userId : "";
   const [isAdmin, setIsAdmin] = useState(false);
-  const { setCommand } = useCommand();
+  // const { setCommand } = useCommand();
 
   // Function to fetch events from the API
   const getEventsFromAPI = useCallback(async () => {
     try {
       const commandId = await getCommandIdByUserId(loggedUserId);
 
-      setCommand(await getCommandNameById(commandId));
+      // setCommand(await getCommandNameById(commandId));
 
       if (commandId === (await getCommandIdByName("סגל"))) {
         setIsAdmin(true);

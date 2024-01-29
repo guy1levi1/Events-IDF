@@ -181,13 +181,8 @@ export default function CrossInformationTable() {
   );
   const location = useLocation();
   const eventIdCtx = useEventId();
-  console.log(eventIdCtx)
-  
-  const { eventId } = useParams();
 
-  console.log(eventId)
-  
-  console.log(location.state.id);
+  const { eventId } = useParams();
 
   const [data, setData] = useState(location.state.presentRows);
   const eventName = location.state.eventName;
@@ -205,8 +200,6 @@ export default function CrossInformationTable() {
   };
 
   const transformedData = mapKeys(data, headers, eventId);
-  console.log("transformedData:");
-  console.log(transformedData);
 
   const [eventRequests, setEventRequests] = useState([]);
 
@@ -216,7 +209,6 @@ export default function CrossInformationTable() {
         const eventRequestsData = await getEventRequestsByEventId(eventId);
         setEventRequests(eventRequestsData);
 
-        console.log(eventRequestsData);
         // Merge data here after fetching event requests
         const mergedArray = eventRequestsData.map((item2) => {
           const matchingItem = transformedData.find(
@@ -231,7 +223,6 @@ export default function CrossInformationTable() {
             return { ...item2, present: "לא" };
           }
         });
-        console.log(mergedArray);
 
         setRows(
           mergedArray.map((row) => {
@@ -541,7 +532,7 @@ export default function CrossInformationTable() {
         </div>
       ),
     },
-    
+
     {
       field: "present",
       headerName: "נוכחות באירוע",

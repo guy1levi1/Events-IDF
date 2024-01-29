@@ -31,8 +31,6 @@ export default function ManageUsersPage() {
         const transformedUsers = await Promise.all(userPromises);
 
         setUsers(transformedUsers);
-
-        console.log(transformedUsers);
       } catch (error) {
         console.error("Error fetching or transforming users:", error);
       }
@@ -54,8 +52,6 @@ export default function ManageUsersPage() {
           unpprovedUserPromises
         );
 
-        console.log(transformedUnapprovedUsers);
-
         setUnapprovedUsers(transformedUnapprovedUsers);
       } catch (error) {
         console.error("Error fetching or transforming users:", error);
@@ -68,10 +64,6 @@ export default function ManageUsersPage() {
 
   const updateApprovedUser = (newApprovedUser) => {
     setUsers([{ ...newApprovedUser, id: generateUuid() }, ...users]);
-    console.log("New Data in Parent Component:", {
-      ...newApprovedUser,
-      // id: generateUuid(),
-    });
   };
 
   return (

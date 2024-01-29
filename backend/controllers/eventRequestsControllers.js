@@ -88,8 +88,6 @@ const createEventRequest = async (req, res, next) => {
     status,
   } = req.body;
 
-  console.log(serialNumber)
-
   try {
     // Create a new event request
     const newEventRequest = await EventRequests.create({
@@ -158,6 +156,91 @@ const deleteEventRequest = async (req, res, next) => {
   }
 };
 
+const updateEventRequest = async (req, res, next) => {
+  const rowId = req.params.rowId;
+  const {
+    serialNumber,
+    privateNumber,
+    firstName,
+    lastName,
+    command,
+    division,
+    unit,
+    rank,
+    appointmentLetter,
+    appointmentRank,
+    reasonNonArrival,
+    status,
+  } = req.body;
+
+  try {
+    // Find the user by ID
+    const row = await EventRequests.findByPk(rowId);
+
+    // If user not found, return null or handle accordingly
+    if (!row) {
+      const error = new HttpError(
+        `Could not update row ${rowId}, row doesn't exist.`,
+        403
+      );
+      return next(error);
+    }
+
+    // Update the user fields
+    if (serialNumber !== undefined) {
+      row.serialNumber = serialNumber;
+    }
+    if (privateNumber !== undefined) {
+      row.privateNumber = privateNumber;
+    }
+    if (firstName !== undefined) {
+      row.firstName = firstName;
+    }
+    if (lastName !== undefined) {
+      row.lastName = lastName;
+    }
+    if (command !== undefined) {
+      row.command = command;
+    }
+    if (division !== undefined) {
+      row.division = division;
+    }
+    if (unit !== undefined) {
+      row.unit = unit;
+    }
+    if (rank !== undefined) {
+      row.rank = rank;
+    }
+    if (appointmentLetter !== undefined) {
+      row.appointmentLetter = appointmentLetter;
+    }
+    if (appointmentRank !== undefined) {
+      row.appointmentRank = appointmentRank;
+    }
+    if (reasonNonArrival !== undefined) {
+      row.reasonNonArrival = reasonNonArrival;
+    }
+    if (status !== undefined) {
+      row.status = status;
+    }
+
+    // Save the updated user
+    await row.save();
+
+    // Return the updated user
+    res
+      .status(200)
+      .json({ message: `row ${rowId} updated successfully.`, row });
+  } catch (err) {
+    // Handle errors
+    console.error(err);
+    const error = new HttpError(
+      `Could not update row ${rowId}, please try again later.`,
+      500
+    );
+    next(error);
+  }
+};
 // Delete all event commands with a specific eventId
 const deleteAllEventRequestsByEventId = async (req, res, next) => {
   const eventId = req.params.eventId;
@@ -189,3 +272,4 @@ exports.createEventRequest = createEventRequest;
 exports.deleteEventRequest = deleteEventRequest;
 exports.geteventRequestsById = geteventRequestsById;
 exports.deleteAllEventRequestsByEventId = deleteAllEventRequestsByEventId;
+exports.updateEventRequest = updateEventRequest;

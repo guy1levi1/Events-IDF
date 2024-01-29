@@ -20,7 +20,6 @@ const headers = [
 ];
 
 const ExcelReader = ({ onRowsChange, eventId }) => {
-  console.log(eventId)
   const fileInputRef = useRef(null);
   const [errorMessage, setErrorMessage] = useState("");
   const { filename, setFilename } = useFilename();
@@ -79,8 +78,6 @@ const ExcelReader = ({ onRowsChange, eventId }) => {
           });
         const transformedData = mapKeys(newRows, headers, eventId);
 
-
-        console.log(transformedData)
         onRowsChange(
           transformedData.map((row) => {
             return { ...row, id: uuidv4() };

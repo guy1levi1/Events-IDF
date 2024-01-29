@@ -221,9 +221,9 @@ export default function DesignedEventTable() {
     );
   }, [setRows, data]);
 
-  React.useEffect(() => {
-    console.log(rows);
-  }, [setRows, rows]);
+  // React.useEffect(() => {
+  //   console.log(rows);
+  // }, [setRows, rows]);
 
   const [rowModesModel, setRowModesModel] = React.useState({});
 
@@ -579,7 +579,7 @@ export default function DesignedEventTable() {
           >
             <ExcelReader
               onRowsChange={handleRowsChange}
-              eventId={"5a4529c5-5790-4b24-ab1a-18bd6c61d3eb"}
+              eventId={generateGuid()}
             />
           </div>
           <div

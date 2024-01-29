@@ -18,6 +18,7 @@ import dayjs from "dayjs";
 import { getEventRequestsByEventId } from "../../utils/api/eventRequestsApi";
 // import dayjs from "dayjs";
 import { useEventId } from "../../utils/contexts/eventIdContext";
+import generateGuid from "../../utils/GenereateUUID";
 
 export default function CardEvent({
   eventId,
@@ -56,7 +57,6 @@ export default function CardEvent({
   const navigate = useNavigate();
 
   const handleFileUpload = (e) => {
-    console.log(eventId);
     const file = e.target.files[0];
     setFilename(file.name);
 
@@ -108,14 +108,7 @@ export default function CardEvent({
     }
   };
 
-  // const handleButtonClick = () => {
-  //   console.log("ggg");
-  //   fileInputRef.current.click();
-  // };
-
   const handleViewData = () => {
-    console.log("transformedData: ");
-    console.log(transformedData);
     navigate(`/table/${eventId}`, {
       state: {
         transformedData: transformedData,
@@ -188,6 +181,7 @@ export default function CardEvent({
 
   return (
     <div
+      key={generateGuid()}
       style={{
         display: "flex",
         justifyContent: "center",
@@ -232,9 +226,6 @@ export default function CardEvent({
             <div>
               <input
                 type="file"
-                onClick={() => {
-                  console.log(eventId);
-                }}
                 onChange={handleFileUpload}
                 ref={fileInputRef}
                 style={{ display: "none" }}
@@ -242,9 +233,6 @@ export default function CardEvent({
               />
               <label htmlFor={"fileInput" + eventId}>
                 <img
-                  onClick={() => {
-                    console.log(eventId);
-                  }}
                   src={CompareIcon}
                   alt="Compare Icon"
                   style={{
@@ -306,7 +294,7 @@ export default function CardEvent({
           >
             {arrayOfCommandsNames.map((command) => (
               <div style={{ margin: "0 0 0 0.2rem" }} key={command.id}>
-                <CommandCell command={command}></CommandCell>
+                <CommandCell key={command.id} command={command}></CommandCell>
               </div>
             ))}
           </div>

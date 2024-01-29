@@ -180,7 +180,6 @@ export default function SignUpPage() {
     };
 
     try {
-      console.log(formData.initialInputs.commandsSelector.value);
       const response = await post(apiUrl, body, headers);
 
       // annimation success

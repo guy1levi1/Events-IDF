@@ -61,7 +61,6 @@ export default function CreateEventPage() {
 
   const navigateFromTable = location.state?.navigateFromTable || false;
   const eventRequests = location.state?.eventRequests || [];
-  console.log(navigateFromTable);
 
   useEffect(() => {
     localStorage.removeItem("newFormstates");
@@ -128,11 +127,6 @@ export default function CreateEventPage() {
       userId: JSON.parse(localStorage.getItem("userData"))?.userId || null,
     };
     const commandsEvent = formData.initialInputs.commandsSelector.value;
-    // const getEventCommandName = async (commandEventName) => {
-    //   const res = await getCommandIdByName(commandEventName);
-    //   console.log(typeof res);
-    //   return res;
-    // };
 
     try {
       await createEvent(newEvent);
@@ -148,17 +142,6 @@ export default function CreateEventPage() {
       });
     } finally {
       try {
-        // console.log("eventRequest");
-
-        // const eventRequestPromises = eventRequests.map(async (eventRequest) => {
-        //   console.log(eventRequest);
-
-        //   await createEventRequest(eventRequest);
-        // });
-
-        // // Wait for all event request promises to resolve
-        // await Promise.all(eventRequestPromises);
-
         // Create an array of promises for creating event commands
         const eventCommandPromises = commandsEvent.map(async (commandName) => {
           const newEventCommand = {
@@ -188,7 +171,6 @@ export default function CreateEventPage() {
           icon: "success",
           confirmButtonText: "בוצע",
         }).finally((result) => {
-          console.log("move to manage events");
           navigate("/manageEvents");
 
           // Clean up local storage and setFilename
@@ -200,7 +182,6 @@ export default function CreateEventPage() {
 
     try {
       eventRequests.map(async (eventRequest) => {
-        console.log(eventRequest);
         eventRequest.eventId = newEvent.id;
         await createEventRequest(eventRequest);
         // newEvent.id

@@ -218,7 +218,6 @@ export default function ManageExistsUsers({ existUsers }) {
       if (id !== loggedUserId) {
         const userFullName = rows.find((row) => row.id === id).fullName;
 
-        console.log(userFullName);
         Swal.fire({
           title: `האם את/ה בטוח/ה שתרצה/י למחוק את המשתמש "${userFullName}"`,
           text: "פעולה זאת איננה ניתנת לשחזור",
@@ -280,13 +279,10 @@ export default function ManageExistsUsers({ existUsers }) {
         fullName,
         commandId,
       };
-      console.log(filteredUser);
 
       await updateUser(id, filteredUser);
 
       // Update the rowModesModel after updating the user
-
-      console.log(filteredUser);
 
       setRows(rows.map((row) => (row.id === newRow.id ? updatedRow : row)));
 

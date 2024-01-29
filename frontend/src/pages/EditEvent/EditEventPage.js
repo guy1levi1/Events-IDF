@@ -127,7 +127,6 @@ export default function EditEventPage(props) {
     };
     const commandsEvent = formData.initialInputs.commandsSelector.value;
 
-    console.log(updatedEvent);
     try {
       await updateEvent(eventId, updatedEvent);
     } catch (error) {
@@ -170,7 +169,6 @@ export default function EditEventPage(props) {
           icon: "success",
           confirmButtonText: "בוצע",
         }).finally((result) => {
-          console.log("move to manage events");
           navigate("/manageEvents");
 
           // Clean up local storage and setFilename
@@ -244,7 +242,6 @@ export default function EditEventPage(props) {
       "newEditFormIsValid",
       JSON.stringify(formData.isValid)
     );
-    fileInputRef.current.click();
   };
 
   const [transformedData, setTransformedData] = useState([]);
@@ -262,7 +259,7 @@ export default function EditEventPage(props) {
   }, [eventId]);
 
   const handleViewData = () => {
-    console.log(transformedData);
+    handleButtonClick();
     navigate(`/table/${eventId}`, {
       state: {
         transformedData: transformedData,

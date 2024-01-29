@@ -33,18 +33,22 @@ export default function ManageEventsPage() {
   const getEventsFromAPI = useCallback(async () => {
     try {
       const commandId = await getCommandIdByUserId(loggedUserId);
+      let events = [];
 
       // setCommand(await getCommandNameById(commandId));
 
       if (commandId === (await getCommandIdByName("סגל"))) {
         setIsAdmin(true);
-        setEventsFromDB(await getEvnets(commandId));
+        events = await getEvnets(commandId);
       } else {
         setIsAdmin(false);
 
         // Use the updated value of userCommandId directly
-        setEventsFromDB(await getEventsByCommandId(commandId));
+        events = await getEventsByCommandId(commandId);
       }
+      events.sort((a, b) => new Date(a.date) - new Date(b.date));
+
+      setEventsFromDB(events);
     } catch (error) {
       console.error("Error fetching events:", error);
     }
@@ -64,7 +68,11 @@ export default function ManageEventsPage() {
         console.log("successed deleting event");
       });
 
-      setEventsFromDB(await getEvnets());
+      const events = await getEvnets();
+      events.sort((a, b) => new Date(a.date) - new Date(b.date));
+
+      setEventsFromDB(events);
+
       Swal.fire({
         title: "נמחק בהצלחה!",
         text: "האירוע {שם האירוע} נמחק בהצלחה.",

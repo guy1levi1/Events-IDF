@@ -158,6 +158,7 @@ const handleRouter = (token, command) => {
 function App() {
   const { token, login, logout, userId } = useAuth();
   const [command, setCommand] = useState("");
+
   useEffect(() => {
     const fetchData = async () => {
       if (userId) {

@@ -148,7 +148,7 @@ const login = async (req, res, next) => {
     token = jwt.sign(
       { userId: existingUser.id, privateNumber: existingUser.privateNumber },
       secretKey,
-      { expiresIn: "7d" }
+      { expiresIn: "168h" }
     );
   } catch (err) {
     const error = new HttpError(

@@ -33,18 +33,49 @@ import Swal from "sweetalert2";
 function CustomToolbar(props) {
   const { setRows, setRowModesModel } = props;
 
-  const handleNewRowClick = () => {
-    const id = randomId();
-    setRows((oldRows) => [
-      ...oldRows,
-      {
-        id,
-        status: "pending",
-      },
-    ]);
+  // const handleNewRowClick = () => {
+  //   const id = randomId();
+  //   setRows((oldRows) => [
+  //     ...oldRows,
+  //     {
+  //       id,
+  //       status: "pending",
+  //     },
+  //   ]);
+  //   setRowModesModel((oldModel) => ({
+  //     ...oldModel,
+  //     [id]: { mode: GridRowModes.Edit },
+  //   }));
+  // };
+
+  const handleNewRowClick = async () => {
+    const rowId = generateGuid();
+    const newRow = {
+      id: rowId,
+      eventId: generateGuid(),
+      serialNumber: "",
+      privateNumber: "",
+      firstName: "",
+      lastName: "",
+      command: "",
+      division: "",
+      unit: "",
+      rank: "",
+      appointmentLetter: "",
+      appointmentRank: "",
+      reasonNonArrival: "",
+      status: "pending",
+    };
+    // try {
+    //   await createEventRequest(newRow);
+    //   console.log("create row sucsses");
+    // } catch (error) {
+    //   console.error("could not create new row: " + error);
+    // }
+    setRows((oldRows) => [...oldRows, newRow]);
     setRowModesModel((oldModel) => ({
       ...oldModel,
-      [id]: { mode: GridRowModes.Edit },
+      [rowId]: { mode: GridRowModes.Edit },
     }));
   };
 
@@ -210,6 +241,7 @@ export default function DesignedEventTable() {
   const eventName = location.state.eventName;
   const eventDate = location.state.eventDate;
   const eventLocation = location.state.eventLocation;
+  const eventId = "9619557b-c00d-4307-a0a8-017ec253872f";
 
   React.useEffect(() => {
     localStorage.removeItem("newEditFormstates");

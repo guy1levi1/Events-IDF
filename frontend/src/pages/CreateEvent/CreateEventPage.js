@@ -180,6 +180,24 @@ export default function CreateEventPage() {
         });
       }
     }
+
+    try {
+      console.log(eventRequests);
+      eventRequests.map(async (eventRequest) => {
+        eventRequest.eventId = newEvent.id;
+        await createEventRequest(eventRequest);
+      });
+    } catch (error) {
+      console.log(error);
+      Swal.fire({
+        title: "לא ניתן ליצור טבלת בקשות",
+        text: error.message,
+        icon: "error",
+        confirmButtonText: "נסה שנית",
+      }).then((result) => {
+        // Handle error if needed
+      });
+    }
   };
 
   // Event handlers for form input changes and blurs

@@ -43,7 +43,7 @@ function CustomToolbar(props) {
   const { eventId } = useParams();
 
   const handleNewRowClick = async () => {
-    const rowId = uuidv4();
+    const rowId = generateGuid();
     const newRow = {
       id: rowId,
       eventId: eventId,
@@ -60,12 +60,12 @@ function CustomToolbar(props) {
       reasonNonArrival: "",
       status: "pending",
     };
-    // try {
-    //   await createEventRequest(newRow);
-    //   console.log("create row sucsses");
-    // } catch (error) {
-    //   console.error("could not create new row: " + error);
-    // }
+    try {
+      await createEventRequest(newRow);
+      console.log("create row sucsses");
+    } catch (error) {
+      console.error("could not create new row: " + error);
+    }
     setRows((oldRows) => [...oldRows, newRow]);
     setRowModesModel((oldModel) => ({
       ...oldModel,
@@ -364,6 +364,8 @@ export default function TableView() {
   };
 
   const processRowUpdate = async (newRow) => {
+    console.log("newRow: ")
+    console.log(newRow)
     const updatedRow = { ...newRow, isNew: false };
 
     try {

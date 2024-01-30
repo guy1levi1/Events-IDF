@@ -1,7 +1,6 @@
 import React, { useRef, useState } from "react";
 import * as XLSX from "xlsx";
 import "./ExcelReader.css";
-import generateGuid from "../../utils/GenereateUUID";
 import { useFilename } from "../../utils/contexts/FilenameContext";
 const { v4: uuidv4 } = require("uuid");
 
@@ -20,12 +19,12 @@ const headers = [
 ];
 
 const ExcelReader = ({ onRowsChange, eventId }) => {
-  console.log(eventId)
   const fileInputRef = useRef(null);
   const [errorMessage, setErrorMessage] = useState("");
   const { filename, setFilename } = useFilename();
+  console.log(filename == "");
   const [uploadFileInfo, setUploadFileInfo] = useState(
-    filename != null ? `הועלה ${filename} קובץ` : ""
+    filename !== null && filename != "" ? `הועלה ${filename} קובץ` : ""
   );
 
   const mapKeys = (data, headers, eventId) => {
@@ -79,8 +78,6 @@ const ExcelReader = ({ onRowsChange, eventId }) => {
           });
         const transformedData = mapKeys(newRows, headers, eventId);
 
-
-        console.log(transformedData)
         onRowsChange(
           transformedData.map((row) => {
             return { ...row, id: uuidv4() };

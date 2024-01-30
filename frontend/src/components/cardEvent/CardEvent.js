@@ -9,15 +9,14 @@ import { useNavigate } from "react-router-dom";
 import CommandCell from "../commandCell/CommandCell";
 import { useFilename } from "../../utils/contexts/FilenameContext";
 import * as XLSX from "xlsx";
-
 import "./CardEvent.css";
 import { getFullNameById, getUserById } from "../../utils/api/usersApi";
 import { getEventCommandsByEventId } from "../../utils/api/eventCommandsApi";
 import { getCommandNameById } from "../../utils/api/commandsApi";
 import dayjs from "dayjs";
 import { getEventRequestsByEventId } from "../../utils/api/eventRequestsApi";
-// import dayjs from "dayjs";
 import { useEventId } from "../../utils/contexts/eventIdContext";
+import generateGuid from "../../utils/GenereateUUID";
 
 export default function CardEvent({
   eventId,
@@ -27,7 +26,6 @@ export default function CardEvent({
   description,
   eventCreator,
   isAdmin,
-  // commandsSelector,
   onDelete,
 }) {
   const handleClickDeleteButton = () => {
@@ -50,13 +48,11 @@ export default function CardEvent({
   };
 
   const { setFilename } = useFilename();
-  // const [eventIdCtx, setEventIdCtx] = useEventId();
 
   const fileInputRef = useRef();
   const navigate = useNavigate();
 
   const handleFileUpload = (e) => {
-    console.log(eventId);
     const file = e.target.files[0];
     setFilename(file.name);
 
@@ -100,22 +96,13 @@ export default function CardEvent({
             eventLocation: eventLocation,
           },
         });
-
-        // onRowsChange(newRows);
       };
 
       reader.readAsBinaryString(file);
     }
   };
 
-  // const handleButtonClick = () => {
-  //   console.log("ggg");
-  //   fileInputRef.current.click();
-  // };
-
   const handleViewData = () => {
-    console.log("transformedData: ");
-    console.log(transformedData);
     navigate(`/table/${eventId}`, {
       state: {
         transformedData: transformedData,
@@ -157,7 +144,6 @@ export default function CardEvent({
       try {
         const fullName = await getFullNameById(eventCreator);
         const eventCommands = await getEventCommandsByEventId(eventId);
-        // Use Promise.all to wait for all promises to resolve
         const commandNamesPromises = eventCommands.map(
           async (commandObject) => {
             const commandName = await getCommandNameById(
@@ -167,6 +153,7 @@ export default function CardEvent({
           }
         );
 
+        // Use Promise.all to wait for all promises to resolve
         const commandNames = await Promise.all(commandNamesPromises);
 
         setArrayOfCommandsNames((prev) => [...prev, ...commandNames]);
@@ -188,6 +175,7 @@ export default function CardEvent({
 
   return (
     <div
+      key={generateGuid()}
       style={{
         display: "flex",
         justifyContent: "center",
@@ -232,9 +220,6 @@ export default function CardEvent({
             <div>
               <input
                 type="file"
-                onClick={() => {
-                  console.log(eventId);
-                }}
                 onChange={handleFileUpload}
                 ref={fileInputRef}
                 style={{ display: "none" }}
@@ -242,9 +227,6 @@ export default function CardEvent({
               />
               <label htmlFor={"fileInput" + eventId}>
                 <img
-                  onClick={() => {
-                    console.log(eventId);
-                  }}
                   src={CompareIcon}
                   alt="Compare Icon"
                   style={{
@@ -306,7 +288,7 @@ export default function CardEvent({
           >
             {arrayOfCommandsNames.map((command) => (
               <div style={{ margin: "0 0 0 0.2rem" }} key={command.id}>
-                <CommandCell command={command}></CommandCell>
+                <CommandCell key={command.id} command={command}></CommandCell>
               </div>
             ))}
           </div>
@@ -332,9 +314,6 @@ export default function CardEvent({
               נוצר ע"י {fullName}
             </h5>
             <div>
-              {/* need to send him with props of the current fields from db */}
-              {/* will be table/:eventId */}
-
               <img
                 src={TableModeIcon}
                 alt=""
@@ -345,15 +324,6 @@ export default function CardEvent({
                 }}
                 onClick={handleViewData}
               />
-              {/* need to send him to new page call editEvent with props of the current fields from db */}
-              {/* will be editEvent/:eventId */}
-              {/* <Link
-                to={`/editEvent/${eventId}`}
-                style={{
-                  color: "white",
-                  textDecoration: "none",
-                }}
-              > */}
               <img
                 src={EditTextsIcon}
                 alt=""
@@ -365,7 +335,6 @@ export default function CardEvent({
                 }}
                 onClick={handleEditClick}
               />
-              {/* </Link> */}
               <img
                 src={DeleteIcon}
                 onClick={handleClickDeleteButton}

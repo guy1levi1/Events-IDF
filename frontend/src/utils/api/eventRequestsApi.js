@@ -83,6 +83,26 @@ export async function deleteEventRequest(eventRequestId) {
   }
 }
 
+export async function updateRow(rowId, updatedRow) {
+  const apiUrl = `http://localhost:5000/api/eventRequests/${rowId}`;
+
+  const headers = {
+    "Content-Type": "application/json",
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Headers":
+      "Origin, X-Requested-With, Content-Type, Accept, Authorization",
+    "Access-Control-Allow-Methods": "PATCH",
+  };
+
+  try {
+    const response = await patch(apiUrl, updatedRow, headers);
+    return response;
+  } catch (error) {
+    console.error(`Error updating row with ID ${rowId}:`, error);
+    throw error;
+  }
+}
+
 export async function deleteAllEventRequestsByEventId(eventId) {
   try {
     const apiUrl = `http://localhost:5000/api/eventRequests/byEventId/${eventId}`;

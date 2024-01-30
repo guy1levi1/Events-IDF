@@ -6,13 +6,13 @@ const EventCommands = require("./schemas/EventCommands");
 const EventRequests = require("./schemas/EventRequests");
 const UnapprovedUser = require("./schemas/UnapprovedUser");
 
-//one to many relation (user as many events)
+// one to many relation (user as many events)
 User.hasMany(Event, {
   foreignKey: { type: DataTypes.UUID, allowNull: false },
 });
 Event.belongsTo(User);
 
-//one to many relation (command as many users)
+// one to many relation (command as many users)
 Command.hasMany(User, {
   foreignKey: {
     type: DataTypes.UUID,
@@ -21,7 +21,7 @@ Command.hasMany(User, {
 });
 User.belongsTo(Command);
 
-//one to many relation (command as many eventCommands)
+// one to many relation (command as many eventCommands)
 Command.hasMany(EventCommands, {
   foreignKey: {
     type: DataTypes.UUID,
@@ -30,7 +30,7 @@ Command.hasMany(EventCommands, {
 });
 EventCommands.belongsTo(Command);
 
-//one to many relation (event as many eventCommands {eventId})
+// one to many relation (event as many eventCommands {eventId})
 Event.hasMany(EventCommands, {
   foreignKey: {
     type: DataTypes.UUID,
@@ -39,7 +39,7 @@ Event.hasMany(EventCommands, {
 });
 EventCommands.belongsTo(Event);
 
-//one to many relation (event as many eventsRequest)
+// one to many relation (event as many eventsRequest)
 Event.hasMany(EventRequests, {
   foreignKey: {
     type: DataTypes.UUID,
@@ -48,7 +48,7 @@ Event.hasMany(EventRequests, {
 });
 EventRequests.belongsTo(Event);
 
-//one to many relation (command as many UnapprovedUsers)
+// one to many relation (command as many UnapprovedUsers)
 Command.hasMany(UnapprovedUser, {
   foreignKey: {
     type: DataTypes.UUID,

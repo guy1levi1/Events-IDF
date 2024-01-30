@@ -1,11 +1,10 @@
-import React, { useEffect, useState, useRef } from "react";
-import { Link, useParams, useNavigate, useLocation } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { Box, TextField, Button } from "@mui/material";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DateTimePicker, renderTimeViewClock } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
-import * as XLSX from "xlsx";
 import useForm from "../../utils/hooks/useForm";
 import InputsWrapper from "../../utils/InputsWrapper";
 import TableModeIcon from "../../images/tableModeIcon.png";
@@ -22,16 +21,6 @@ import Swal from "sweetalert2";
 import { getEventRequestsByEventId } from "../../utils/api/eventRequestsApi";
 const { v4: uuidv4 } = require("uuid");
 
-// const eventName = "פריסת שחרור לאור";
-
-// const currentDate = dayjs();
-// const eventLocation = 'תל השומר מקל"ר';
-// const description = `נערוך לאורצ'וק פריסת שחרור, באירוע נחגוג את היציאה לאזרחות של
-// אור(אפילו שהוא תוך שנייה חוזר למילואים), מוזמנים! 😀`;
-// // const eventCreator = "גיא לוי";
-
-// const commandsSelector = ["מרכז", "צפון"];
-
 const CHARACTER_LIMIT = 1000;
 
 export default function EditEventPage(props) {
@@ -43,6 +32,11 @@ export default function EditEventPage(props) {
   const eventLocation = location.state.eventLocation;
   const eventDescription = location.state.description;
   const eventCommands = location.state.commands;
+
+  useEffect(() => {
+    localStorage.removeItem("newEditFormstates");
+    localStorage.removeItem("newEditFormIsValid");
+  }, []);
 
   const formStates = {
     eventName: {
@@ -70,30 +64,6 @@ export default function EditEventPage(props) {
       isValid: true,
       error: false,
     },
-  };
-  const headers = [
-    "serialNumber",
-    "privateNumber",
-    "firstName",
-    "lastName",
-    "command",
-    "division",
-    "unit",
-    "rank",
-    "appointmentRank",
-    "appointmentLetter",
-    "reasonNonArrival",
-  ];
-
-  const mapKeys = (data, headers, eventId) => {
-    return data.map((item) => {
-      const newItem = { eventId: eventId };
-      headers.forEach((key, index) => {
-        newItem[key] = item[index];
-      });
-      newItem.status = "pending";
-      return newItem;
-    });
   };
 
   // Parse the JSON stored in localStorage
@@ -127,7 +97,6 @@ export default function EditEventPage(props) {
     };
     const commandsEvent = formData.initialInputs.commandsSelector.value;
 
-    console.log(updatedEvent);
     try {
       await updateEvent(eventId, updatedEvent);
     } catch (error) {
@@ -170,7 +139,6 @@ export default function EditEventPage(props) {
           icon: "success",
           confirmButtonText: "בוצע",
         }).finally((result) => {
-          console.log("move to manage events");
           navigate("/manageEvents");
 
           // Clean up local storage and setFilename
@@ -188,10 +156,6 @@ export default function EditEventPage(props) {
 
   const handleBlurChange = (e) => {
     handleBlur(e.target.id);
-  };
-
-  const clamp = (min, value, max) => {
-    return `clamp(${min}, ${value}, ${max})`;
   };
 
   useEffect(() => {
@@ -230,9 +194,8 @@ export default function EditEventPage(props) {
     }
   }, [getEventById, eventId]);
 
-  const { filename, setFilename } = useFilename();
+  const { setFilename } = useFilename();
 
-  const fileInputRef = useRef(null);
   const navigate = useNavigate();
 
   const handleButtonClick = () => {
@@ -244,7 +207,6 @@ export default function EditEventPage(props) {
       "newEditFormIsValid",
       JSON.stringify(formData.isValid)
     );
-    fileInputRef.current.click();
   };
 
   const [transformedData, setTransformedData] = useState([]);
@@ -262,7 +224,7 @@ export default function EditEventPage(props) {
   }, [eventId]);
 
   const handleViewData = () => {
-    console.log(transformedData);
+    handleButtonClick();
     navigate(`/table/${eventId}`, {
       state: {
         transformedData: transformedData,
@@ -580,20 +542,6 @@ export default function EditEventPage(props) {
                 }}
               />
               <button style={{ display: "none" }}>Upload File</button>
-              {/* <div style={{ marginTop: "-0.6rem" }}>
-                <p
-                  style={{
-                    fontSize: `${clamp(
-                      "0.25rem",
-                      "calc(0.25rem + 0.5vw)",
-                      "1.2rem"
-                    )}`,
-                    margin: 0,
-                  }}
-                >
-                  {filename}
-                </p>
-              </div> */}
             </div>
           </Box>
         </Box>

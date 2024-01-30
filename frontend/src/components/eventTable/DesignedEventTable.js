@@ -28,6 +28,7 @@ import "./DesignedEventTable.css";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 // import { useFilename } from "../tableEditing/FilenameContext";
 import generateGuid from "../../utils/GenereateUUID";
+import Swal from "sweetalert2";
 
 function CustomToolbar(props) {
   const { setRows, setRowModesModel } = props;
@@ -204,7 +205,6 @@ function CustomNoRowsOverlay() {
 
 export default function DesignedEventTable() {
   const [rows, setRows] = React.useState([]);
-  // const { filename } = useFilename();
   const location = useLocation();
   const data = location.state.transformedData;
   const eventName = location.state.eventName;
@@ -214,16 +214,17 @@ export default function DesignedEventTable() {
   const eventId = "9619557b-c00d-4307-a0a8-017ec253872f";
 
   React.useEffect(() => {
+    localStorage.removeItem("newEditFormstates");
+    localStorage.removeItem("newEditFormIsValid");
+  }, []);
+
+  React.useEffect(() => {
     setRows(
       data.map((row) => {
         return { ...row, id: generateGuid() };
       })
     );
   }, [setRows, data]);
-
-  React.useEffect(() => {
-    console.log(rows);
-  }, [setRows, rows]);
 
   const [rowModesModel, setRowModesModel] = React.useState({});
 
@@ -248,7 +249,26 @@ export default function DesignedEventTable() {
   };
 
   const handleDeleteClick = (id) => () => {
-    setRows(rows.filter((row) => row.id !== id));
+    Swal.fire({
+      title: `האם את/ה בטוח/ה שתרצה/י למחוק את השורה`,
+      text: "פעולה זאת איננה ניתנת לשחזור",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "מחק שורה",
+      cancelButtonText: "בטל",
+      reverseButtons: true,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        try {
+          setRows(rows.filter((row) => row.id !== id));
+          console.log("delete row succsefuly");
+        } catch (error) {
+          console.log("could not delete row");
+        }
+      }
+    });
   };
 
   const handleCancelClick = (id) => () => {
@@ -294,7 +314,7 @@ export default function DesignedEventTable() {
       headerName: `מס"ד`,
       headerAlign: "center",
       type: "number",
-      // editable: false,
+      editable: true,
       flex: 1,
     },
     {
@@ -412,7 +432,6 @@ export default function DesignedEventTable() {
         }
       },
     },
-
     {
       field: "actions",
       type: "actions",
@@ -484,8 +503,6 @@ export default function DesignedEventTable() {
           ? `${eventLocation}, ${eventDate}`
           : eventDate}
       </h1>
-      {/* h1 will be get from lst page (create new event/edit an exisiting) */}
-
       <Box
         sx={{
           width: "75vw",
@@ -579,7 +596,7 @@ export default function DesignedEventTable() {
           >
             <ExcelReader
               onRowsChange={handleRowsChange}
-              eventId={"5a4529c5-5790-4b24-ab1a-18bd6c61d3eb"}
+              eventId={generateGuid()}
             />
           </div>
           <div

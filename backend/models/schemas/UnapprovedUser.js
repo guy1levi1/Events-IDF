@@ -1,6 +1,5 @@
 const { Model, DataTypes } = require("sequelize");
 const db = require("../../dbConfig");
-const Command = require("./Command");
 
 class UnapprovedUser extends Model {}
 

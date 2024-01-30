@@ -18,17 +18,10 @@ EventRequests.init(
     serialNumber: {
       type: DataTypes.STRING,
       allowNull: false,
-      // validate: {
-      //   isNumeric: true,
-      // },
     },
     privateNumber: {
       type: DataTypes.STRING,
       allowNull: false,
-      // validate: {
-      //   isNumeric: true,
-      //   len: 7,
-      // },
     },
     firstName: {
       type: DataTypes.STRING,
@@ -78,11 +71,5 @@ EventRequests.init(
     createdAt: true,
   }
 );
-
-// EventRequests.belongsTo(Event, {
-//   foreignKey: "eventId",
-//   as: "event",
-//   onDelete: "CASCADE",
-// });
 
 module.exports = EventRequests;

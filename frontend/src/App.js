@@ -180,7 +180,6 @@ function App() {
         logout: logout,
       }}
     >
-      {/* <RouterProvider router={token ? router : routerNotAuth} /> */}
       <RouterProvider router={handleRouter(token, command)} />
     </AuthContext.Provider>
   );

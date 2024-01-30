@@ -181,18 +181,18 @@ export default function CrossInformationTable() {
   );
   const location = useLocation();
   const eventIdCtx = useEventId();
-  console.log(eventIdCtx)
-  
-  const { eventId } = useParams();
 
-  console.log(eventId)
-  
-  console.log(location.state.id);
+  const { eventId } = useParams();
 
   const [data, setData] = useState(location.state.presentRows);
   const eventName = location.state.eventName;
   const eventDate = location.state.eventDate;
   const eventLocation = location.state.eventLocation;
+
+  React.useEffect(() => {
+    localStorage.removeItem("newEditFormstates");
+    localStorage.removeItem("newEditFormIsValid");
+  }, []);
 
   const mapKeys = (data, headers, eventId) => {
     return data.map((item) => {
@@ -205,8 +205,6 @@ export default function CrossInformationTable() {
   };
 
   const transformedData = mapKeys(data, headers, eventId);
-  console.log("transformedData:");
-  console.log(transformedData);
 
   const [eventRequests, setEventRequests] = useState([]);
 
@@ -216,7 +214,6 @@ export default function CrossInformationTable() {
         const eventRequestsData = await getEventRequestsByEventId(eventId);
         setEventRequests(eventRequestsData);
 
-        console.log(eventRequestsData);
         // Merge data here after fetching event requests
         const mergedArray = eventRequestsData.map((item2) => {
           const matchingItem = transformedData.find(
@@ -231,7 +228,6 @@ export default function CrossInformationTable() {
             return { ...item2, present: "לא" };
           }
         });
-        console.log(mergedArray);
 
         setRows(
           mergedArray.map((row) => {
@@ -319,31 +315,6 @@ export default function CrossInformationTable() {
       return { ...item2, present: "לא" };
     }
   });
-
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       setEventRequests(await getEventRequestsByEventId(eventId));
-  //     } catch (error) {
-  //       console.error("Error getting event requests:", error);
-  //     }
-  //   };
-
-  //   const initializePage = async () => {
-  //     await fetchData();
-  //   };
-
-  //   initializePage();
-
-  //   if (eventRequests) {
-  //     setRows(
-  //       mergedArray.map((row) => {
-  //         const complianceOrder = calculateComplianceOrder(row.status, row.present);
-  //         return { ...row, complianceOrder };
-  //       })
-  //     );
-  //   }
-  // }, [filename, mergedArray, eventId, eventRequests]);
 
   const getStatusCellStyle = (status) => {
     let backgroundColor, textColor;
@@ -442,7 +413,6 @@ export default function CrossInformationTable() {
       headerAlign: "center",
       type: "number",
       editable: false,
-      // flex: 1,
       width: 60,
     },
     {
@@ -451,7 +421,6 @@ export default function CrossInformationTable() {
       headerAlign: "center",
       type: "string",
       editable: false,
-      // flex: 1.4,
     },
     {
       field: "firstName",
@@ -459,7 +428,6 @@ export default function CrossInformationTable() {
       headerAlign: "center",
       type: "string",
       editable: false,
-      // flex: 1.6,
     },
     {
       field: "lastName",
@@ -467,7 +435,6 @@ export default function CrossInformationTable() {
       headerAlign: "center",
       type: "string",
       editable: false,
-      // flex: 1.6,
     },
     {
       field: "command",
@@ -475,7 +442,6 @@ export default function CrossInformationTable() {
       headerAlign: "center",
       type: "string",
       editable: false,
-      // flex: 1.4,
     },
     {
       field: "division",
@@ -483,7 +449,6 @@ export default function CrossInformationTable() {
       headerAlign: "center",
       type: "string",
       editable: false,
-      // flex: 1,
     },
     {
       field: "unit",
@@ -491,7 +456,6 @@ export default function CrossInformationTable() {
       headerAlign: "center",
       type: "string",
       editable: false,
-      // flex: 1,
     },
     {
       field: "rank",
@@ -499,7 +463,6 @@ export default function CrossInformationTable() {
       headerAlign: "center",
       type: "string",
       editable: false,
-      // flex: 1,
     },
     {
       field: "appointmentRank",
@@ -507,7 +470,6 @@ export default function CrossInformationTable() {
       headerAlign: "center",
       type: "string",
       editable: false,
-      // flex: 1.9,
     },
     {
       field: "appointmentLetter",
@@ -515,7 +477,6 @@ export default function CrossInformationTable() {
       headerAlign: "center",
       type: "string",
       editable: false,
-      // flex: 1.4,
     },
     {
       field: "reasonNonArrival",
@@ -523,7 +484,6 @@ export default function CrossInformationTable() {
       headerAlign: "center",
       type: "string",
       editable: false,
-      // flex: 2,
     },
     {
       field: "status",
@@ -541,13 +501,12 @@ export default function CrossInformationTable() {
         </div>
       ),
     },
-    
+
     {
       field: "present",
       headerName: "נוכחות באירוע",
       headerAlign: "center",
       editable: false,
-      // flex: 1.8,
       renderCell: (params) => (
         <div style={getPresentsCellStyle(params.value)}>{params.value} </div>
       ),
@@ -558,8 +517,6 @@ export default function CrossInformationTable() {
       headerAlign: "center",
       editable: false,
       width: 120,
-      // flex: 2,
-      // should be a calculated field  if !field: "11" && !field: "12" return לא else כן (case "ממתין להחלטת רצח" should be a case to)
       renderCell: (params) => (
         <div style={getPresentsCellStyle(params.value)}>{params.value} </div>
       ),
@@ -673,13 +630,11 @@ export default function CrossInformationTable() {
             display: "flex",
             justifyContent: "space-between",
             margin: "auto",
-            // direction: "rtl",
           }}
         >
           <div
             style={{
               display: "flex",
-              // flex: 1,
               marginTop: "0.7rem",
               textAlign: "center",
             }}

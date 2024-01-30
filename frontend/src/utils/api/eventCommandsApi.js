@@ -1,4 +1,3 @@
-// Import necessary functions for making API requests
 import { get, post, del } from "./api";
 
 // Get all event commands

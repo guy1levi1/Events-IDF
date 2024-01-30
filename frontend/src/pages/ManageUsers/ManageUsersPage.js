@@ -8,12 +8,14 @@ import { getUnapprovedUsers } from "../../utils/api/unapprovedUsersApi";
 import { getCommandNameById } from "../../utils/api/commandsApi";
 
 export default function ManageUsersPage() {
-  const [approvedUser] = useState({});
-
   const [users, setUsers] = useState([]);
-  // const [rows, setRows] = useState(users);
 
   const [unapprovedUsers, setUnapprovedUsers] = useState([]);
+
+  useEffect(() => {
+    localStorage.removeItem("newEditFormstates");
+    localStorage.removeItem("newEditFormIsValid");
+  }, []);
 
   useEffect(() => {
     const fetchDataUsers = async () => {
@@ -31,8 +33,6 @@ export default function ManageUsersPage() {
         const transformedUsers = await Promise.all(userPromises);
 
         setUsers(transformedUsers);
-
-        console.log(transformedUsers);
       } catch (error) {
         console.error("Error fetching or transforming users:", error);
       }
@@ -54,8 +54,6 @@ export default function ManageUsersPage() {
           unpprovedUserPromises
         );
 
-        console.log(transformedUnapprovedUsers);
-
         setUnapprovedUsers(transformedUnapprovedUsers);
       } catch (error) {
         console.error("Error fetching or transforming users:", error);
@@ -68,10 +66,6 @@ export default function ManageUsersPage() {
 
   const updateApprovedUser = (newApprovedUser) => {
     setUsers([{ ...newApprovedUser, id: generateUuid() }, ...users]);
-    console.log("New Data in Parent Component:", {
-      ...newApprovedUser,
-      // id: generateUuid(),
-    });
   };
 
   return (
@@ -114,7 +108,6 @@ export default function ManageUsersPage() {
           <h3>משתמשים שממתינים לאישור</h3>
 
           <ManageUnapprovedUsers
-            approvedUser={approvedUser}
             updateApprovedUser={updateApprovedUser}
             unapprovedUsers={unapprovedUsers}
           ></ManageUnapprovedUsers>

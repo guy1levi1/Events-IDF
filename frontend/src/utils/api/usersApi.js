@@ -134,7 +134,6 @@ export async function createUser(newUser) {
 }
 
 export async function updateUser(userId, updatedUserData) {
-  console.log(updatedUserData);
   const apiUrl = `http://localhost:5000/api/users/${userId}`;
 
   const headers = {
@@ -147,7 +146,6 @@ export async function updateUser(userId, updatedUserData) {
 
   try {
     const response = await patch(apiUrl, updatedUserData, headers);
-    console.log(response);
     return response;
   } catch (error) {
     console.error(`Error updating user with ID ${userId}:`, error);

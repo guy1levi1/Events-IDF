@@ -132,7 +132,6 @@ const updateEvent = async (req, res, next) => {
 
 const createEvent = async (req, res, next) => {
   const { id, name, description, date, place, userId } = req.body;
-  console.log(userId);
   try {
     // Check if the creatorId exists in the User model
     const userExists = await User.findByPk(userId);

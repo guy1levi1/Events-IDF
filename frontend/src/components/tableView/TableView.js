@@ -275,12 +275,9 @@ export default function TableView() {
   const handleRowsChange = async (newRows) => {
     try {
       let eventRequestsLength = 0;
-      console.log(eventId);
 
       let eventRequests = await getEventRequestsByEventId(eventId);
       eventRequestsLength = eventRequests.length;
-
-      console.log(eventRequestsLength);
 
       if (eventRequestsLength > 0) {
         // delete all eventRequestsByEventId and add all new rows
@@ -293,8 +290,6 @@ export default function TableView() {
         }));
 
         for (let i = 0; i < requests.length; i++) {
-          console.log(requests[i]);
-
           await createEventRequest(requests[i]);
         }
       } catch (err) {
@@ -304,11 +299,6 @@ export default function TableView() {
       console.log(error);
     }
 
-    // for (let i = 0; i < newRows.length; i++) {
-    //   // await createEventRequest(newRows[i]);
-    // }
-
-    console.log(newRows);
     setRows(newRows);
   };
 
@@ -319,7 +309,6 @@ export default function TableView() {
   };
 
   const handleEditClick = (id) => () => {
-    console.log("edit row clicked");
     setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.Edit } });
   };
 
@@ -364,15 +353,12 @@ export default function TableView() {
   };
 
   const processRowUpdate = async (newRow) => {
-    console.log("newRow: ");
-    console.log(newRow);
     const updatedRow = { ...newRow, isNew: false };
 
     try {
-      await updateRow(newRow.id, updatedRow);
+      const response = await updateRow(newRow.id, updatedRow);
 
-      // Update the rowModesModel after updating the user
-
+      console.log(updatedRow);
       setRows(rows.map((row) => (row.id === newRow.id ? updatedRow : row)));
       return updatedRow;
     } catch (error) {

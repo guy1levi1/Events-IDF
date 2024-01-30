@@ -120,7 +120,7 @@ export async function updateRow(rowId, updatedRow) {
 
   try {
     const response = await patch(apiUrl, updatedRow, headers);
-    // return response;
+    return response;
   } catch (error) {
     console.error(`Error updating row with ID ${rowId}:`, error);
     throw error;

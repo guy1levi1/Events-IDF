@@ -66,27 +66,21 @@ export const VALIDATE_PASSWORD_AND_SEC_PASSWORD = (value, secValue) => {
 
   if (areIdentical && passwordValidation && secPasswordValidation) {
     // זהים ותקינים
-    // console.log("זהים ותקינים");
     return { password: true, secPassword: true };
   } else if (areIdentical && !passwordValidation) {
     // זהים אך לא תקינים
-    // console.log("זהים אך לא תקינים");
     return { password: false, secPassword: false };
   } else if (!areIdentical && passwordValidation && !secPasswordValidation) {
     // לא זהים אימות סיסמא לא תקין
-    // console.log("לא זהים אימות סיסמא לא תקין");
     return { password: true, secPassword: false };
   } else if (!areIdentical && secPasswordValidation && !passwordValidation) {
     // לא זהים סיסמא לא תקינה
-    // console.log("לא זהים סיסמא לא תקינה");
     return { password: false, secPassword: false };
   } else if (!areIdentical && !secPasswordValidation && !passwordValidation) {
     // לא זהים שניהם לא תקינים
-    // console.log("לא זהים שניהם לא תקינים");
     return { password: false, secPassword: false };
   } else if (!areIdentical && secPasswordValidation && passwordValidation) {
     // לא זהים שניהם תקינים
-    // console.log("לא זהים שניהם תקינים");
     return { password: true, secPassword: false };
   }
 };

@@ -1,5 +1,6 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import {
+  VALIDATE_PASSWORD_AND_SEC_PASSWORD,
   VALIDATOR_DATE_EVENT,
   VALIDATOR_FULLNAME,
   VALIDATOR_MAXLENGTH,
@@ -20,14 +21,70 @@ export default function useForm(initialInputs, isValid) {
         case "privateNumber":
           return VALIDATOR_PRIVATE_NUMBER(value);
         case "password":
-          return VALIDATOR_PASSWORD(value);
+          const ans = VALIDATE_PASSWORD_AND_SEC_PASSWORD(
+            value,
+            formData.initialInputs["secPassword"].value
+          );
+          // if (ans.secPassword) {
+          //   setFormData((prevFormData) => ({
+          //     ...prevFormData,
+          //     initialInputs: {
+          //       ...prevFormData.initialInputs,
+          //       secPassword: {
+          //         ...prevFormData.initialInputs.secPassword,
+          //         error: false,
+          //         isValid: true,
+          //       },
+          //     },
+          //   }));
+          // } else {
+          //   setFormData((prevFormData) => ({
+          //     ...prevFormData,
+          //     initialInputs: {
+          //       ...prevFormData.initialInputs,
+          //       secPassword: {
+          //         ...prevFormData.initialInputs.secPassword,
+          //         error: true,
+          //         isValid: false,
+          //       },
+          //     },
+          //   }));
+          // }
+
+          return ans.password;
         case "fullName":
           return VALIDATOR_FULLNAME(value);
         case "secPassword":
-          return (
-            VALIDATOR_PASSWORD(value) &&
-            value === formData.initialInputs["password"].value
+          const ansSec = VALIDATE_PASSWORD_AND_SEC_PASSWORD(
+            formData.initialInputs["password"].value,
+            value
           );
+          // if (ansSec.password) {
+          //   setFormData((prevFormData) => ({
+          //     ...prevFormData,
+          //     initialInputs: {
+          //       ...prevFormData.initialInputs,
+          //       password: {
+          //         ...prevFormData.initialInputs.password,
+          //         error: false,
+          //         isValid: true,
+          //       },
+          //     },
+          //   }));
+          // } else {
+          //   setFormData((prevFormData) => ({
+          //     ...prevFormData,
+          //     initialInputs: {
+          //       ...prevFormData.initialInputs,
+          //       password: {
+          //         ...prevFormData.initialInputs.password,
+          //         error: true,
+          //         isValid: false,
+          //       },
+          //     },
+          //   }));
+          // }
+          return ansSec.secPassword;
         case "commandsSelector":
           return value.length !== 0;
         case "eventName":
@@ -67,35 +124,100 @@ export default function useForm(initialInputs, isValid) {
       newValue = e.target.value;
       inputId = e.target.id || e.target.name;
     }
+    let secValueIsValidAfterChange = "";
+    let secInputId = "";
 
-    // Validate the input using the validation functions
+
     const isValidAfterChange = validateInput(inputId, newValue);
+    console.log(newValue)
+    console.log(inputId)
+    console.log(isValidAfterChange)
+    // Validate the input using the validation functions
+    // if (inputId === "password") {
+    //   secValueIsValidAfterChange = validateInput(
+    //     "secPassword",
+    //     formData.initialInputs["secPassword"].value
+    //   );
+    //   console.log(secValueIsValidAfterChange);
+
+    //   secInputId = "secPassword";
+    // } else if (inputId === "secPassword") {
+    //   secValueIsValidAfterChange = validateInput(
+    //     "password",
+    //     formData.initialInputs["password"].value
+    //   );
+    //   console.log(secValueIsValidAfterChange);
+
+    //   secInputId = "password";
+    // } else {
+    //   secInputId = "";
+    //   secValueIsValidAfterChange = "";
+    //   console.log(secValueIsValidAfterChange)
+
+    // }
 
     const keyArray = Object.keys(formData.initialInputs);
 
     let hasError = false;
 
     keyArray.forEach((key) => {
+      // if (secInputId === "password" || secInputId === "secPassword") {
+      //   console.log(
+      //     "secInputId: " +
+      //       secInputId +
+      //       " secInputIsValid: " +
+      //       secValueIsValidAfterChange +
+      //       " firstInputIsValid: " +
+      //       isValidAfterChange
+      //   );
+
+      //   hasError = !secValueIsValidAfterChange || hasError;
+      // }
       if (key === inputId) {
         hasError = !isValidAfterChange || hasError;
       } else {
         hasError = !formData.initialInputs[key].isValid || hasError;
       }
     });
+    console.log("has error: " + hasError);
 
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      initialInputs: {
-        ...prevFormData.initialInputs,
-        [inputId]: {
-          value: newValue,
-          isValid: isValidAfterChange,
-          error: false,
+    if (secInputId === "") {
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        initialInputs: {
+          ...prevFormData.initialInputs,
+          [inputId]: {
+            value: newValue,
+            isValid: isValidAfterChange,
+            error: false,
+          },
         },
-      },
-      isValid: !hasError,
-    }));
+        isValid: !hasError,
+      }));
+    }
+    //  else {
+    //   setFormData((prevFormData) => ({
+    //     ...prevFormData,
+    //     initialInputs: {
+    //       ...prevFormData.initialInputs,
+    //       [inputId]: {
+    //         value: newValue,
+    //         isValid: isValidAfterChange,
+    //         error: false,
+    //       },
+    //       [secInputId]: {
+    //         ...prevFormData.initialInputs[secInputId],
+    //         isValid: secValueIsValidAfterChange,
+    //         error: !secValueIsValidAfterChange,
+    //       },
+    //     },
+    //     isValid: !hasError,
+    //   }));
+    // }
   };
+  useEffect(() => {
+    console.log(formData);
+  }, [formData]);
 
   const handleBlur = (inputId) => {
     setFormData((prevFormData) => ({

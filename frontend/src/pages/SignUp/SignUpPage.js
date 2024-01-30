@@ -103,10 +103,28 @@ export default function SignUpPage() {
   };
 
   const handleInputChange = (e) => {
+    if (e.target.id === "password") {
+      handleInput({
+        type: "update",
+        id: "secPassword",
+        value: formData.initialInputs.secPassword.value,
+      });
+    } else if (e.target.id === "secPassword") {
+      handleInput({
+        type: "update",
+        id: "password",
+        value: formData.initialInputs.password.value,
+      });
+    }
     handleInput(e);
   };
 
   const handleBlurChange = (e) => {
+    if (e.target.id === "password") {
+      handleBlur("secPassword");
+    } else if (e.target.id === "secPassword") {
+      handleBlur("password");
+    }
     handleBlur(e.target.id);
   };
 
@@ -417,7 +435,7 @@ export default function SignUpPage() {
           helperText={
             !formData.initialInputs.secPassword.error
               ? "הזן שנית את הסיסמא"
-              : "הסיסמאות אינן זהות"
+              : "הסיסמאות אינן זהות ו/או אינן תקינות"
           }
           type={!showSecPassword ? "password" : "text"}
           InputProps={{

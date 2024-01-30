@@ -22,7 +22,6 @@ const ExcelReader = ({ onRowsChange, eventId }) => {
   const fileInputRef = useRef(null);
   const [errorMessage, setErrorMessage] = useState("");
   const { filename, setFilename } = useFilename();
-  console.log(filename == "");
   const [uploadFileInfo, setUploadFileInfo] = useState(
     filename !== null && filename != "" ? `הועלה ${filename} קובץ` : ""
   );

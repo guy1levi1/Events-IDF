@@ -103,6 +103,8 @@ export async function deleteUnapprovedUserById(unApprovedUserId) {
     "Access-Control-Allow-Headers":
       "Origin, X-Requested-With, Content-Type, Accept, Authorization",
     "Access-Control-Allow-Methods": "DELETE",
+    Authorization:
+      "Bearer " + JSON.parse(localStorage.getItem("userData"))?.token,
   };
 
   try {

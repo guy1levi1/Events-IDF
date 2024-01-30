@@ -211,8 +211,6 @@ export default function DesignedEventTable() {
   const eventDate = location.state.eventDate;
   const eventLocation = location.state.eventLocation;
 
-  const eventId = "9619557b-c00d-4307-a0a8-017ec253872f";
-
   React.useEffect(() => {
     localStorage.removeItem("newEditFormstates");
     localStorage.removeItem("newEditFormIsValid");

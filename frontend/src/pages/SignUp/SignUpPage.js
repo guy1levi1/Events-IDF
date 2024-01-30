@@ -191,6 +191,8 @@ export default function SignUpPage() {
       }).then((result) => {
         navigate("/login");
 
+        // return response;
+
         //
       });
     } catch (error) {

@@ -3,8 +3,18 @@ import { get, post, patch, del } from "./api"; // Assuming you have these functi
 export async function getEventRequests() {
   const apiUrl = "http://localhost:5000/api/eventRequests/";
 
+  const headers = {
+    "Content-Type": "application/json",
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Headers":
+      "Origin, X-Requested-With, Content-Type, Accept, Authorization",
+    "Access-Control-Allow-Methods": "GET",
+    Authorization:
+      "Bearer " + JSON.parse(localStorage.getItem("userData"))?.token,
+  };
+
   try {
-    const response = await get(apiUrl);
+    const response = await get(apiUrl, headers);
     return response.data;
   } catch (error) {
     console.error("Error fetching event requests:", error);
@@ -52,7 +62,17 @@ export async function createEventRequest(newEventRequest, eventId) {
   try {
     const apiUrl = "http://localhost:5000/api/eventRequests/";
 
-    const response = await post(apiUrl, newEventRequest);
+    const headers = {
+      "Content-Type": "application/json",
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Headers":
+        "Origin, X-Requested-With, Content-Type, Accept, Authorization",
+      "Access-Control-Allow-Methods": "POST",
+      Authorization:
+        "Bearer " + JSON.parse(localStorage.getItem("userData"))?.token,
+    };
+
+    const response = await post(apiUrl, newEventRequest, headers);
     return response.data;
   } catch (error) {
     console.error("Error creating new event request:", error);
@@ -70,6 +90,8 @@ export async function deleteEventRequest(eventRequestId) {
       "Access-Control-Allow-Headers":
         "Origin, X-Requested-With, Content-Type, Accept, Authorization",
       "Access-Control-Allow-Methods": "DELETE",
+      Authorization:
+        "Bearer " + JSON.parse(localStorage.getItem("userData"))?.token,
     };
 
     const response = await del(apiUrl, headers);
@@ -92,11 +114,13 @@ export async function updateRow(rowId, updatedRow) {
     "Access-Control-Allow-Headers":
       "Origin, X-Requested-With, Content-Type, Accept, Authorization",
     "Access-Control-Allow-Methods": "PATCH",
+    Authorization:
+      "Bearer " + JSON.parse(localStorage.getItem("userData"))?.token,
   };
 
   try {
     const response = await patch(apiUrl, updatedRow, headers);
-    return response;
+    // return response;
   } catch (error) {
     console.error(`Error updating row with ID ${rowId}:`, error);
     throw error;
@@ -113,6 +137,8 @@ export async function deleteAllEventRequestsByEventId(eventId) {
       "Access-Control-Allow-Headers":
         "Origin, X-Requested-With, Content-Type, Accept, Authorization",
       "Access-Control-Allow-Methods": "DELETE",
+      Authorization:
+        "Bearer " + JSON.parse(localStorage.getItem("userData"))?.token,
     };
 
     const response = await del(apiUrl, headers);

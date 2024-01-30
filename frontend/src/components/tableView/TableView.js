@@ -27,7 +27,6 @@ import {
 import "./TableView.css";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import generateGuid from "../../utils/GenereateUUID";
-// import { useCommand } from "../../utils/contexts/commandContext";
 import {
   createEventRequest,
   deleteAllEventRequestsByEventId,
@@ -40,8 +39,7 @@ import { getCommandNameByUserId } from "../../utils/api/usersApi";
 const { v4: uuidv4 } = require("uuid");
 
 function CustomToolbar(props) {
-  const { setRows, setRowModesModel } = props;
-  // const { command } = useCommand();
+  const { setRows, setRowModesModel, command } = props;
   const { eventId } = useParams();
 
   const handleNewRowClick = async () => {
@@ -62,12 +60,12 @@ function CustomToolbar(props) {
       reasonNonArrival: "",
       status: "pending",
     };
-    try {
-      await createEventRequest(newRow);
-      console.log("create row sucsses");
-    } catch (error) {
-      console.error("could not create new row: " + error);
-    }
+    // try {
+    //   await createEventRequest(newRow);
+    //   console.log("create row sucsses");
+    // } catch (error) {
+    //   console.error("could not create new row: " + error);
+    // }
     setRows((oldRows) => [...oldRows, newRow]);
     setRowModesModel((oldModel) => ({
       ...oldModel,
@@ -77,23 +75,25 @@ function CustomToolbar(props) {
 
   return (
     <>
-      <Button
-        color="primary"
-        startIcon={<AddIcon />}
-        onClick={handleNewRowClick}
-        sx={{
-          borderRadius: "5000px 5000px 0 0",
+      {command === "סגל" && (
+        <Button
+          color="primary"
+          startIcon={<AddIcon />}
+          onClick={handleNewRowClick}
+          sx={{
+            borderRadius: "5000px 5000px 0 0",
 
-          "& .MuiButton-startIcon": {
-            marginLeft: "-85px",
-          },
-          "&:hover": {
-            backgroundColor: "#EDF3F8",
-          },
-        }}
-      >
-        הוסף שורה
-      </Button>
+            "& .MuiButton-startIcon": {
+              marginLeft: "-85px",
+            },
+            "&:hover": {
+              backgroundColor: "#EDF3F8",
+            },
+          }}
+        >
+          הוסף שורה
+        </Button>
+      )}
       <GridToolbarContainer
         style={{
           direction: "rtl",
@@ -101,7 +101,6 @@ function CustomToolbar(props) {
           justifyContent: "space-between",
         }}
       >
-        {" "}
         <div>
           <GridToolbarColumnsButton
             sx={{
@@ -373,7 +372,6 @@ export default function TableView() {
       // Update the rowModesModel after updating the user
 
       setRows(rows.map((row) => (row.id === newRow.id ? updatedRow : row)));
-      console.log("delete row succsefuly");
       return updatedRow;
     } catch (error) {
       console.log("Error processing row update:", error);
@@ -685,7 +683,7 @@ export default function TableView() {
             noRowsOverlay: CustomNoRowsOverlay,
           }}
           slotProps={{
-            toolbar: { setRows, setRowModesModel },
+            toolbar: { setRows, setRowModesModel, command },
           }}
         />
         <div

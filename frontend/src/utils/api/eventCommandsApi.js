@@ -75,10 +75,13 @@ export async function deleteEventCommand(eventId, commandId) {
     "Access-Control-Allow-Headers":
       "Origin, X-Requested-With, Content-Type, Accept, Authorization",
     "Access-Control-Allow-Methods": "DELETE",
+    Authorization:
+      "Bearer " + JSON.parse(localStorage.getItem("userData"))?.token,
   };
 
   try {
     const response = await del(`${apiUrl}`, { data: { commandId }, headers });
+    return response;
   } catch (error) {
     console.error(
       `Error deleting event command with eventId ${eventId} and commandId ${commandId}:`,
@@ -104,6 +107,7 @@ export async function deleteAllEventCommandsByEventId(eventId) {
 
   try {
     const response = await del(apiUrl, headers);
+    return response;
   } catch (error) {
     console.error(
       `Error deleting all event commands for event with id ${eventId}:`,

@@ -17,7 +17,6 @@ import CheckIcon from "@mui/icons-material/Check";
 import { GridActionsCellItem, GridRowEditStopReasons } from "@mui/x-data-grid";
 import {
   deleteUnapprovedUserById,
-  getUnapprovedFullNameById,
   getUnapprovedUserById,
 } from "../../utils/api/unapprovedUsersApi";
 import Swal from "sweetalert2";
@@ -34,7 +33,6 @@ function CustomToolbar() {
           justifyContent: "space-between",
         }}
       >
-        {" "}
         <div>
           <GridToolbarColumnsButton
             sx={{
@@ -163,47 +161,8 @@ function CustomNoRowsOverlay() {
   );
 }
 
-const initialRows = [
-  {
-    id: 1,
-    privateNumber: "8394753",
-    fullName: "עידן עמדי",
-    command: "דרום",
-    password: "password12345",
-  },
-  {
-    id: 2,
-    privateNumber: "2837465",
-    fullName: "מאור אדרי",
-    command: "מרכז",
-    password: "password12345",
-  },
-  {
-    id: 3,
-    privateNumber: "0154637",
-    fullName: "נתן גושן",
-    command: 'פקע"ר',
-    password: "password12345",
-  },
-  {
-    id: 4,
-    privateNumber: "3214567",
-    fullName: "רביד פלוטניק",
-    command: 'פקע"ר',
-    password: "password12345",
-  },
-  {
-    id: 5,
-    privateNumber: "6758490",
-    fullName: "קולדפליי",
-    command: "צפון",
-    password: "password12345",
-  },
-];
-
 export default function ManageUnapprovedUsers({
   unapprovedUsers,
-  approvedUser,
   updateApprovedUser,
 }) {
   const [rows, setRows] = React.useState(unapprovedUsers);

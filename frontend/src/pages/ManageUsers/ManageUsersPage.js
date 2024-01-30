@@ -8,12 +8,14 @@ import { getUnapprovedUsers } from "../../utils/api/unapprovedUsersApi";
 import { getCommandNameById } from "../../utils/api/commandsApi";
 
 export default function ManageUsersPage() {
-  const [approvedUser] = useState({});
-
   const [users, setUsers] = useState([]);
-  // const [rows, setRows] = useState(users);
 
   const [unapprovedUsers, setUnapprovedUsers] = useState([]);
+
+  useEffect(() => {
+    localStorage.removeItem("newEditFormstates");
+    localStorage.removeItem("newEditFormIsValid");
+  }, []);
 
   useEffect(() => {
     const fetchDataUsers = async () => {
@@ -106,7 +108,6 @@ export default function ManageUsersPage() {
           <h3>משתמשים שממתינים לאישור</h3>
 
           <ManageUnapprovedUsers
-            approvedUser={approvedUser}
             updateApprovedUser={updateApprovedUser}
             unapprovedUsers={unapprovedUsers}
           ></ManageUnapprovedUsers>

@@ -26,7 +26,6 @@ import {
 } from "@mui/x-data-grid";
 import "./TableView.css";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
-// import { useFilename } from "../tableEditing/FilenameContext";
 import generateGuid from "../../utils/GenereateUUID";
 // import { useCommand } from "../../utils/contexts/commandContext";
 import {
@@ -347,7 +346,7 @@ export default function TableView() {
           setRows(rows.filter((row) => row.id !== id));
           console.log("delete row succsefuly");
         } catch (error) {
-          console.error("could not delete row");
+          console.log("could not delete row");
         }
       }
     });
@@ -398,7 +397,11 @@ export default function TableView() {
   };
 
   const handleCancelButtonClick = () => {
-    navigate(-1);
+    navigate(-1, {
+      state: {
+        navigateFromTable: true,
+      },
+    });
   };
 
   const statusOptions = [

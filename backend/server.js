@@ -1,16 +1,14 @@
-// Import required modules
 const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const usersRoutes = require("./routes/usersRoutes");
 const eventsRoutes = require("./routes/eventsRoutes");
-// const EventCommands = require('./models/schemas/EventCommands');
 const unapprovedUsersRoutes = require("./routes/unapprovedUsersRoutes");
 const eventRequestsRoutes = require("./routes/eventRequestsRoutes");
 const commandsRoutes = require("./routes//commandsRoutes");
 const eventCommandsRoutes = require("./routes//eventCommandsRoutes");
 const db = require("./dbConfig");
-require("./models/relations"); // Import the relations file
+require("./models/relations");
 const swaggerUi = require("swagger-ui-express");
 const swaggerDocument = require("./swagger.json");
 require("dotenv").config();
@@ -34,7 +32,7 @@ app.use((req, res, next) => {
 });
 
 app.get("/", (req, res) => {
-  res.send("Hello, World!");
+  res.send("Hello World From Mekalar!");
 });
 
 app.use("/api/users", usersRoutes);

@@ -39,7 +39,6 @@ function CustomToolbar(props) {
           justifyContent: "space-between",
         }}
       >
-        {" "}
         <div>
           <GridToolbarColumnsButton
             sx={{
@@ -188,12 +187,6 @@ export default function ManageExistsUsers({ existUsers }) {
       }
     };
 
-    // const initializePage = async () => {
-    //   await fetchData();
-    // };
-
-    // initializePage();
-
     fetchData();
   }, []);
 
@@ -239,11 +232,8 @@ export default function ManageExistsUsers({ existUsers }) {
           title: `לא ניתן למחוק את המשתמש`,
           text: "משתמש אינו יכול למחוק את עצמו",
           icon: "error",
-          // showCancelButton: true,
           confirmButtonColor: "#3085d6",
-          // cancelButtonColor: "#3085d6",
           confirmButtonText: "אישור",
-          // cancelButtonText: "בטל",
           reverseButtons: true,
         }).then((result) => {
           if (result.isConfirmed) {
@@ -282,8 +272,6 @@ export default function ManageExistsUsers({ existUsers }) {
 
       await updateUser(id, filteredUser);
 
-      // Update the rowModesModel after updating the user
-
       setRows(rows.map((row) => (row.id === newRow.id ? updatedRow : row)));
 
       return updatedRow;
@@ -293,11 +281,8 @@ export default function ManageExistsUsers({ existUsers }) {
         title: `אחד מהנתונים שהזנת אינו תקין, נסה שנית`,
         text: "",
         icon: "error",
-        // showCancelButton: true,
         confirmButtonColor: "#3085d6",
-        // cancelButtonColor: "#3085d6",
         confirmButtonText: "אישור",
-        // cancelButtonText: "בטל",
         reverseButtons: true,
       }).then((result) => {});
       throw error;

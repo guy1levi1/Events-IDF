@@ -15,29 +15,6 @@ import Swal from "sweetalert2";
 import { getCommandIdByName } from "../../utils/api/commandsApi";
 const { v4: uuidv4 } = require("uuid");
 
-// const commands = [
-//   {
-//     commandId: 0,
-//     commandName: "",
-//   },
-//   {
-//     commandId: 1,
-//     commandName: "מרכז",
-//   },
-//   {
-//     commandId: 2,
-//     commandName: "צפון",
-//   },
-//   {
-//     commandId: 3,
-//     commandName: "דרום",
-//   },
-//   {
-//     commandId: 4,
-//     commandName: `פקע"ר`,
-//   },
-// ];
-
 const formStates = {
   privateNumber: {
     value: "",
@@ -74,6 +51,11 @@ export default function SignUpPage() {
   const [initialFontSize, setInitialFontSize] = useState(0);
   const [commands, setCommands] = useState([]);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    localStorage.removeItem("newEditFormstates");
+    localStorage.removeItem("newEditFormIsValid");
+  }, []);
 
   const getCommands = async () => {
     const apiUrl = "http://localhost:5000/api/commands/";
@@ -491,15 +473,6 @@ export default function SignUpPage() {
             justifyContent: "center",
           }}
         >
-          {/* <Link
-            to={!formData.isValid ? "/signup" : "/manageEvents"} // of course we have to check if user exists and password is correct
-            style={{
-              color: "white",
-              textDecoration: "none",
-              width: "100%",
-              height: "100%",
-            }}
-          > */}
           <Button
             variant="contained"
             color="primary"
@@ -521,7 +494,6 @@ export default function SignUpPage() {
           >
             הירשם/י
           </Button>
-          {/* </Link> */}
         </Box>
         <Box
           sx={{

@@ -15,7 +15,7 @@ router.get("/:commandId", commandsController.getCommandById);
 // ✅
 router.post("/", commandsController.createCommand);
 
-// router.use(checkAuth);
+router.use(checkAuth);
 
 // ✅
 router.patch("/:commandId", commandsController.updateCommandById);

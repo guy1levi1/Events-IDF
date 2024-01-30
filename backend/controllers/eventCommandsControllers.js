@@ -91,16 +91,6 @@ const deleteAllEventCommandsByEventId = async (req, res, next) => {
       where: { eventId },
     });
 
-    // console.log("eventCommands: " + eventCommands);
-    // if (!eventCommands) {
-    //   return next(
-    //     new HttpError(
-    //       `No EventCommands found for event with id ${eventId}.`,
-    //       404
-    //     )
-    //   );
-    // }
-
     res.status(204).end();
   } catch (err) {
     console.log(err);

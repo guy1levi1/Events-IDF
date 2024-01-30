@@ -99,7 +99,6 @@ const Menu = () => {
             display: "flex",
             flexDirection: "row",
             alignItems: "center",
-            // paddingTop: "1vh"
           }}
         >
           <img className="profileImage" src={profile_img} alt="progile_logo" />
@@ -121,7 +120,7 @@ const Menu = () => {
                 פיקוד {loggedUserCommand}
               </h6>
             ) : (
-              <div></div> // You can replace this with any content or leave it empty
+              <div></div>
             )}
           </div>
         </div>
@@ -178,7 +177,6 @@ const Menu = () => {
               cursor: "pointer",
               textDecoration: "underline",
             }}
-            // href={`/login`}
           >
             התחבר/י
           </a>

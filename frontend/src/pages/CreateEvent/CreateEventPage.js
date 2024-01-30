@@ -59,13 +59,14 @@ export default function CreateEventPage() {
 
   const location = useLocation();
 
-  const navigateFromTable = location.state?.navigateFromTable || false;
   const eventRequests = location.state?.eventRequests || [];
 
   useEffect(() => {
     localStorage.removeItem("newFormstates");
     localStorage.removeItem("newFormIsValid");
-  }, [navigateFromTable]);
+    localStorage.removeItem("newEditFormstates");
+    localStorage.removeItem("newEditFormIsValid");
+  }, []);
 
   // Convert the stored event date value to a dayjs object if it exists
   if (
@@ -184,7 +185,6 @@ export default function CreateEventPage() {
       eventRequests.map(async (eventRequest) => {
         eventRequest.eventId = newEvent.id;
         await createEventRequest(eventRequest);
-        // newEvent.id
       });
     } catch (error) {
       console.log(error);
@@ -492,7 +492,6 @@ export default function CreateEventPage() {
             onChange={handleInput}
             onBlur={handleBlur}
             commandsFromLocalStorage={
-              // {["מרכז", "צפון"]}
               formData.initialInputs.commandsSelector.value.length > 0
                 ? formData.initialInputs.commandsSelector.value
                 : null

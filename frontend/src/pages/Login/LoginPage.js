@@ -35,6 +35,11 @@ export default function LoginPage() {
   const auth = useContext(AuthContext);
   const navigate = useNavigate();
 
+  useEffect(() => {
+    localStorage.removeItem("newEditFormstates");
+    localStorage.removeItem("newEditFormIsValid");
+  }, []);
+
   const handleTogglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
@@ -71,7 +76,6 @@ export default function LoginPage() {
   }, []);
 
   const handleLogin = async () => {
-    // Replace 'YOUR_SERVER_API_URL' with the actual URL of your signup endpoint
     const apiUrl = "http://localhost:5000/api/users/login";
 
     const headers = {
@@ -92,21 +96,13 @@ export default function LoginPage() {
       auth.login(response.data.userId, response.data.token);
       navigate("/manageEvents");
     } catch (error) {
-      // console.error("Error during signup:", error);
       console.log(error);
       Swal.fire({
         title: "התחברות נכשלה",
         text: error.massage,
         icon: "error",
-        // showCancelButton: true,
-        // confirmButtonColor: "#",
-        // cancelButtonColor: "#3085d6",
         confirmButtonText: "בוצע",
-        // cancelButtonText: "בטל",
-        // reverseButtons: true,
-      }).then(() => {
-        //
-      });
+      }).then(() => {});
     }
   };
 
@@ -239,7 +235,6 @@ export default function LoginPage() {
           <Button
             variant="contained"
             color="primary"
-            // disabled={!formData.isValid}
             onClick={() => handleLogin()}
             sx={{
               borderRadius: "5000px",

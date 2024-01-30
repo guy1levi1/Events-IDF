@@ -364,8 +364,8 @@ export default function TableView() {
   };
 
   const processRowUpdate = async (newRow) => {
-    console.log("newRow: ")
-    console.log(newRow)
+    console.log("newRow: ");
+    console.log(newRow);
     const updatedRow = { ...newRow, isNew: false };
 
     try {

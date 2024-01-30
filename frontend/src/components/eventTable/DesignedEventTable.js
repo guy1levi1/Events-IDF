@@ -33,21 +33,6 @@ import Swal from "sweetalert2";
 function CustomToolbar(props) {
   const { setRows, setRowModesModel } = props;
 
-  // const handleNewRowClick = () => {
-  //   const id = randomId();
-  //   setRows((oldRows) => [
-  //     ...oldRows,
-  //     {
-  //       id,
-  //       status: "pending",
-  //     },
-  //   ]);
-  //   setRowModesModel((oldModel) => ({
-  //     ...oldModel,
-  //     [id]: { mode: GridRowModes.Edit },
-  //   }));
-  // };
-
   const handleNewRowClick = async () => {
     const rowId = generateGuid();
     const newRow = {
@@ -66,12 +51,7 @@ function CustomToolbar(props) {
       reasonNonArrival: "",
       status: "pending",
     };
-    // try {
-    //   await createEventRequest(newRow);
-    //   console.log("create row sucsses");
-    // } catch (error) {
-    //   console.error("could not create new row: " + error);
-    // }
+
     setRows((oldRows) => [...oldRows, newRow]);
     setRowModesModel((oldModel) => ({
       ...oldModel,

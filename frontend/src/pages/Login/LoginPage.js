@@ -21,7 +21,7 @@ const formStates = {
     isValid: false,
     error: false,
   },
-  password: {
+  passwordLogin: {
     value: "",
     isValid: false,
     error: false,
@@ -88,7 +88,7 @@ export default function LoginPage() {
 
     const body = {
       privateNumber: formData.initialInputs.privateNumber.value,
-      password: formData.initialInputs.password.value,
+      passwordLogin: formData.initialInputs.passwordLogin.value,
     };
 
     try {
@@ -160,7 +160,7 @@ export default function LoginPage() {
           }
         />
         <TextField
-          id="password"
+          id="passwordLogin"
           size="small"
           sx={{
             width: "85%",
@@ -170,15 +170,15 @@ export default function LoginPage() {
               height: `${vhAsPixels}px`,
               color: "white !important",
               borderRadius: "5000px",
-              backgroundColor: !formData.initialInputs.password.error
+              backgroundColor: !formData.initialInputs.passwordLogin.error
                 ? "#8EAEDE"
                 : "#d9d9d9",
             },
             "& .MuiInputLabel-root": {
-              color: !formData.initialInputs.password.error
+              color: !formData.initialInputs.passwordLogin.error
                 ? "white !important"
                 : "red !important",
-              backgroundColor: !formData.initialInputs.password.error
+              backgroundColor: !formData.initialInputs.passwordLogin.error
                 ? "#8EAEDE"
                 : "#d9d9d9",
               borderRadius: "500px",
@@ -187,7 +187,7 @@ export default function LoginPage() {
             },
 
             "& .MuiOutlinedInput-input": {
-              color: !formData.initialInputs.password.error
+              color: !formData.initialInputs.passwordLogin.error
                 ? "white !important"
                 : "red !important",
               fontSize: `${initialFontSize}px`,
@@ -197,13 +197,13 @@ export default function LoginPage() {
             },
           }}
           required={true}
-          error={formData.initialInputs.password.error}
-          value={formData.initialInputs.password.value}
+          error={formData.initialInputs.passwordLogin.error}
+          value={formData.initialInputs.passwordLogin.value}
           onChange={handleInputChange}
           onBlur={handleBlurChange}
           label="סיסמא"
           helperText={
-            !formData.initialInputs.password.error
+            !formData.initialInputs.passwordLogin.error
               ? "הכנס סיסמא מתאימה"
               : "סיסמא לא תקינה"
           }

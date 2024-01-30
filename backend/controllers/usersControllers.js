@@ -96,7 +96,10 @@ const signup = async (req, res, next) => {
 };
 
 const login = async (req, res, next) => {
-  const { privateNumber, password } = req.body;
+  const { privateNumber, passwordLogin } = req.body;
+
+  console.log(privateNumber)
+  console.log(passwordLogin)
 
   const secretKey = process.env.SECRET_KEY;
 
@@ -124,9 +127,10 @@ const login = async (req, res, next) => {
 
   let isValidPassword = false;
   try {
-    const hashedPassowrd = await sha256(password);
+    const hashedPassowrd = await sha256(passwordLogin);
 
     isValidPassword = hashedPassowrd === existingUser.password;
+    console.log(isValidPassword)
   } catch (err) {
     const error = new HttpError(
       "Could not log you in, please check your credentials and try again.",

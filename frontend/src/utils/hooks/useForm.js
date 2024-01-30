@@ -20,6 +20,8 @@ export default function useForm(initialInputs, isValid) {
       switch (inputId) {
         case "privateNumber":
           return VALIDATOR_PRIVATE_NUMBER(value);
+        case "passwordLogin":
+          return true;
         case "password":
           const ans = VALIDATE_PASSWORD_AND_SEC_PASSWORD(
             value,
@@ -124,14 +126,13 @@ export default function useForm(initialInputs, isValid) {
       newValue = e.target.value;
       inputId = e.target.id || e.target.name;
     }
-    let secValueIsValidAfterChange = "";
+    // let secValueIsValidAfterChange = "";
     let secInputId = "";
 
-
     const isValidAfterChange = validateInput(inputId, newValue);
-    console.log(newValue)
-    console.log(inputId)
-    console.log(isValidAfterChange)
+    console.log(newValue);
+    console.log(inputId);
+    console.log(isValidAfterChange);
     // Validate the input using the validation functions
     // if (inputId === "password") {
     //   secValueIsValidAfterChange = validateInput(

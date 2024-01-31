@@ -186,6 +186,7 @@ export default function CrossInformationTable() {
   const eventName = location.state.eventName;
   const eventDate = location.state.eventDate;
   const eventLocation = location.state.eventLocation;
+  const [loading, setLoading] = useState(true);
 
   React.useEffect(() => {
     localStorage.removeItem("newEditFormstates");
@@ -233,6 +234,7 @@ export default function CrossInformationTable() {
             return { ...row, complianceOrder };
           })
         );
+        setLoading(false);
       } catch (error) {
         console.error("Error getting event requests:", error);
       }
@@ -550,7 +552,7 @@ export default function CrossInformationTable() {
       >
         <DataGrid
           rows={rows}
-          loading={rows.length === 0}
+          loading={loading}
           columns={columns}
           editMode="row"
           rowModesModel={rowModesModel}

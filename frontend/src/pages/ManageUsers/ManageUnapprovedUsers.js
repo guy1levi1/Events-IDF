@@ -167,9 +167,12 @@ export default function ManageUnapprovedUsers({
 }) {
   const [rows, setRows] = React.useState(unapprovedUsers);
   const [rowModesModel, setRowModesModel] = useState({});
+  const [loading, setLoading] = React.useState(true);
 
   useEffect(() => {
     setRows(unapprovedUsers);
+    setLoading(false);
+
   }, [unapprovedUsers]);
 
   const handleRowEditStop = (params, event) => {
@@ -342,7 +345,7 @@ export default function ManageUnapprovedUsers({
       >
         <DataGrid
           rows={rows}
-          loading={rows.length === 0}
+          loading={loading}
           columns={columns}
           editMode="row"
           rowModesModel={rowModesModel}

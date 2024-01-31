@@ -14,7 +14,10 @@ const swaggerDocument = require("./swagger.json");
 require("dotenv").config();
 
 const app = express();
+
+// security middlewares
 app.use(cors());
+
 app.use(express.json());
 app.use(bodyParser.json());
 

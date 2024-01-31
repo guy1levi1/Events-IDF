@@ -237,6 +237,7 @@ export default function TableView() {
   const { eventId } = useParams();
   const userData = JSON.parse(localStorage.getItem("userData"));
   const loggedUserId = userData ? userData.userId : "";
+  const [loading, setLoading] = React.useState(true);
 
   React.useEffect(() => {
     const fetchCommandName = async () => {
@@ -257,6 +258,9 @@ export default function TableView() {
     } else {
       setRows(tempData);
     }
+
+    setLoading(false);
+
   }, [tempData, command]);
 
 
@@ -631,7 +635,7 @@ export default function TableView() {
       >
         <DataGrid
           rows={rows}
-          loading={rows.length === 0}
+          loading={loading}
           columns={columns}
           editMode="row"
           rowModesModel={rowModesModel}

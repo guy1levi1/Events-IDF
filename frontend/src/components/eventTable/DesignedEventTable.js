@@ -219,6 +219,7 @@ export default function DesignedEventTable() {
   const eventName = location.state.eventName;
   const eventDate = location.state.eventDate;
   const eventLocation = location.state.eventLocation;
+  const [loading, setLoading] = React.useState(true);
 
   React.useEffect(() => {
     localStorage.removeItem("newEditFormstates");
@@ -231,6 +232,7 @@ export default function DesignedEventTable() {
         return { ...row, id: generateGuid() };
       })
     );
+    setLoading(false);
   }, [setRows, data]);
 
   const [rowModesModel, setRowModesModel] = React.useState({});
@@ -530,7 +532,7 @@ export default function DesignedEventTable() {
       >
         <DataGrid
           rows={rows}
-          loading={rows.length === 0}
+          loading={loading}
           columns={columns}
           editMode="row"
           rowModesModel={rowModesModel}

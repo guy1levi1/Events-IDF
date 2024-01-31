@@ -171,9 +171,12 @@ export default function ManageExistsUsers({ existUsers }) {
   const [rows, setRows] = React.useState(existUsers);
   const [rowModesModel, setRowModesModel] = React.useState({});
   const [commands, setCommands] = React.useState([]);
+  const [loading, setLoading] = React.useState(true);
+
 
   React.useEffect(() => {
     setRows(existUsers);
+    setLoading(false);
   }, [existUsers]);
 
   React.useEffect(() => {
@@ -443,7 +446,7 @@ export default function ManageExistsUsers({ existUsers }) {
       >
         <DataGrid
           rows={rows}
-          loading={rows.length === 0}
+          loading={loading}
           columns={columns}
           editMode="row"
           rowModesModel={rowModesModel}

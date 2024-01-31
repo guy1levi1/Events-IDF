@@ -66,8 +66,7 @@ export default function CardEvent({
       ) {
         console.log(`File selected: ${file.name}, size: ${file.size} bytes`);
       } else {
-        console.error("Invalid file type");
-        throw new Error(
+        console.log(
           "Invalid file type. Please upload a valid Excel file (xlsx or xls)."
         );
       }

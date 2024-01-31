@@ -443,6 +443,7 @@ export default function ManageExistsUsers({ existUsers }) {
       >
         <DataGrid
           rows={rows}
+          loading={rows.length === 0}
           columns={columns}
           editMode="row"
           rowModesModel={rowModesModel}

@@ -12,7 +12,6 @@ import { heIL } from "@mui/x-data-grid";
 import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import ExcelReader from "../tableEditing/ExcelReader";
-import { randomId } from "@mui/x-data-grid-generator";
 import Button from "@mui/material/Button";
 import AddIcon from "@mui/icons-material/Add";
 import EditIcon from "@mui/icons-material/Edit";
@@ -25,8 +24,7 @@ import {
   GridRowEditStopReasons,
 } from "@mui/x-data-grid";
 import "./DesignedEventTable.css";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-// import { useFilename } from "../tableEditing/FilenameContext";
+import { useLocation, useNavigate } from "react-router-dom";
 import generateGuid from "../../utils/GenereateUUID";
 import Swal from "sweetalert2";
 
@@ -221,7 +219,6 @@ export default function DesignedEventTable() {
   const eventName = location.state.eventName;
   const eventDate = location.state.eventDate;
   const eventLocation = location.state.eventLocation;
-  const eventId = "9619557b-c00d-4307-a0a8-017ec253872f";
 
   React.useEffect(() => {
     localStorage.removeItem("newEditFormstates");
@@ -533,6 +530,7 @@ export default function DesignedEventTable() {
       >
         <DataGrid
           rows={rows}
+          loading={rows.length === 0}
           columns={columns}
           editMode="row"
           rowModesModel={rowModesModel}

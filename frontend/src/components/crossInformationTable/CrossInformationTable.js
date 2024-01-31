@@ -19,7 +19,6 @@ import * as XLSX from "xlsx";
 import { useRef } from "react";
 import { useState } from "react";
 import { getEventRequestsByEventId } from "../../utils/api/eventRequestsApi";
-import { useEventId } from "../../utils/contexts/eventIdContext";
 
 function CustomToolbar(props) {
   return (
@@ -180,7 +179,6 @@ export default function CrossInformationTable() {
     filename != null ? `הועלה ${filename} קובץ` : ""
   );
   const location = useLocation();
-  const eventIdCtx = useEventId();
 
   const { eventId } = useParams();
 
@@ -206,13 +204,10 @@ export default function CrossInformationTable() {
 
   const transformedData = mapKeys(data, headers, eventId);
 
-  const [eventRequests, setEventRequests] = useState([]);
-
   React.useEffect(() => {
     const fetchData = async () => {
       try {
         const eventRequestsData = await getEventRequestsByEventId(eventId);
-        setEventRequests(eventRequestsData);
 
         // Merge data here after fetching event requests
         const mergedArray = eventRequestsData.map((item2) => {
@@ -248,7 +243,7 @@ export default function CrossInformationTable() {
     };
 
     initializePage();
-  }, [calculateComplianceOrder, filename, eventId]);
+  }, [filename, eventId, transformedData]);
 
   // this code is for upload a new present list in crossInformation page
 
@@ -301,20 +296,6 @@ export default function CrossInformationTable() {
   const handleButtonClick = () => {
     fileInputRef.current.click();
   };
-
-  const mergedArray = eventRequests.map((item2) => {
-    const matchingItem = transformedData.find(
-      (item1) => item1.privateNumber === item2.privateNumber
-    );
-
-    if (matchingItem) {
-      // Update the "present" field if a match is found
-      return { ...item2, present: "כן" };
-    } else {
-      // Set "לא" if there is no match
-      return { ...item2, present: "לא" };
-    }
-  });
 
   const getStatusCellStyle = (status) => {
     let backgroundColor, textColor;
@@ -569,6 +550,7 @@ export default function CrossInformationTable() {
       >
         <DataGrid
           rows={rows}
+          loading={rows.length === 0}
           columns={columns}
           editMode="row"
           rowModesModel={rowModesModel}

@@ -55,7 +55,7 @@ const ExcelReader = ({ onRowsChange, eventId }) => {
         setErrorMessage(
           "Invalid file type. Please upload a valid Excel file (xlsx or xls)."
         );
-        console.error("Invalid file type");
+        console.log("Invalid file type");
       }
 
       reader.onload = (e) => {

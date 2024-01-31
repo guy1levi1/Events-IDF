@@ -342,6 +342,7 @@ export default function ManageUnapprovedUsers({
       >
         <DataGrid
           rows={rows}
+          loading={rows.length === 0}
           columns={columns}
           editMode="row"
           rowModesModel={rowModesModel}

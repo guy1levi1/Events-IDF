@@ -307,11 +307,15 @@ export default function CreateEventPage() {
 
         reader.readAsBinaryString(file);
       } else {
-        console.error("Invalid file type");
-
-        throw new Error(
+        console.log(
           "Invalid file type. Please upload a valid Excel file (xlsx or xls)."
         );
+
+        Swal.fire({
+          icon: "error",
+          title: "סוג קובץ אינו תקין",
+          text: "ניתן להעלות קצבי אקסל בלבד",
+        });
       }
     }
   };
@@ -611,9 +615,9 @@ export default function CreateEventPage() {
                 onChange={handleFileUpload}
                 ref={fileInputRef}
                 style={{ display: "none" }}
-                id="fileInput"
+                id={"fileInputCreateEvent"}
               />
-              <label htmlFor="fileInput">
+              <label htmlFor={"fileInputCreateEvent"}>
                 <img
                   src={TableModeIcon}
                   alt=""

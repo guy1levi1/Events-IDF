@@ -2,6 +2,7 @@ import React, { useRef, useState } from "react";
 import * as XLSX from "xlsx";
 import "./ExcelReader.css";
 import { useFilename } from "../../utils/contexts/FilenameContext";
+import Swal from "sweetalert2";
 const { v4: uuidv4 } = require("uuid");
 
 const headers = [
@@ -51,40 +52,48 @@ const ExcelReader = ({ onRowsChange, eventId }) => {
       ) {
         setUploadFileInfo(`הועלה ${file.name} קובץ`);
         console.log(`File selected: ${file.name}, size: ${file.size} bytes`);
+
+        reader.onload = (e) => {
+          const data = e.target.result;
+          const workbook = XLSX.read(data, { type: "binary" });
+          const sheetName = workbook.SheetNames[0];
+          const sheet = workbook.Sheets[sheetName];
+
+          const newRows = XLSX.utils
+            .sheet_to_json(sheet, { header: 1 })
+            .slice(1)
+            .map((row) => {
+              const newRow = {
+                id: uuidv4(),
+                status: "pending",
+                ...row,
+              };
+              return newRow;
+            });
+          const transformedData = mapKeys(newRows, headers, eventId);
+
+          onRowsChange(
+            transformedData.map((row) => {
+              return { ...row, id: uuidv4() };
+            })
+          );
+        };
+
+        reader.readAsBinaryString(file);
       } else {
         setErrorMessage(
           "Invalid file type. Please upload a valid Excel file (xlsx or xls)."
         );
-        console.log("Invalid file type");
-      }
-
-      reader.onload = (e) => {
-        const data = e.target.result;
-        const workbook = XLSX.read(data, { type: "binary" });
-        const sheetName = workbook.SheetNames[0];
-        const sheet = workbook.Sheets[sheetName];
-
-        const newRows = XLSX.utils
-          .sheet_to_json(sheet, { header: 1 })
-          .slice(1)
-          .map((row) => {
-            const newRow = {
-              id: uuidv4(),
-              status: "pending",
-              ...row,
-            };
-            return newRow;
-          });
-        const transformedData = mapKeys(newRows, headers, eventId);
-
-        onRowsChange(
-          transformedData.map((row) => {
-            return { ...row, id: uuidv4() };
-          })
+        console.log(
+          "Invalid file type. Please upload a valid Excel file (xlsx or xls)."
         );
-      };
 
-      reader.readAsBinaryString(file);
+        Swal.fire({
+          icon: "error",
+          title: "סוג קובץ אינו תקין",
+          text: "ניתן להעלות קצבי אקסל בלבד",
+        });
+      }
     }
   };
 

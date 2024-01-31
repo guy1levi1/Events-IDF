@@ -265,33 +265,33 @@ export default function CrossInformationTable() {
       ) {
         setUploadFileInfo(`הועלה ${file.name} קובץ`);
         console.log(`File selected: ${file.name}, size: ${file.size} bytes`);
+
+        reader.onload = (e) => {
+          const data = e.target.result;
+          const workbook = XLSX.read(data, { type: "binary" });
+          const sheetName = workbook.SheetNames[0];
+          const sheet = workbook.Sheets[sheetName];
+  
+          const newRows = XLSX.utils
+            .sheet_to_json(sheet, { header: 1 })
+            .slice(1)
+            .map((row) => {
+              const newRow = {
+                ...row,
+              };
+              return newRow;
+            });
+  
+          setData(newRows);
+        };
+  
+        reader.readAsBinaryString(file);
       } else {
         console.error("Invalid file type");
         throw new Error(
           "Invalid file type. Please upload a valid Excel file (xlsx or xls)."
         );
       }
-
-      reader.onload = (e) => {
-        const data = e.target.result;
-        const workbook = XLSX.read(data, { type: "binary" });
-        const sheetName = workbook.SheetNames[0];
-        const sheet = workbook.Sheets[sheetName];
-
-        const newRows = XLSX.utils
-          .sheet_to_json(sheet, { header: 1 })
-          .slice(1)
-          .map((row) => {
-            const newRow = {
-              ...row,
-            };
-            return newRow;
-          });
-
-        setData(newRows);
-      };
-
-      reader.readAsBinaryString(file);
     }
   };
 

@@ -59,45 +59,52 @@ export default function CardEvent({
     if (file) {
       const reader = new FileReader();
 
+      console.log(file.type);
       if (
         file.type === "application/vnd.ms-excel" ||
         file.type ===
           "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
       ) {
         console.log(`File selected: ${file.name}, size: ${file.size} bytes`);
+
+        reader.onload = (e) => {
+          const data = e.target.result;
+          const workbook = XLSX.read(data, { type: "binary" });
+          const sheetName = workbook.SheetNames[0];
+          const sheet = workbook.Sheets[sheetName];
+
+          const newRows = XLSX.utils
+            .sheet_to_json(sheet, { header: 1 })
+            .slice(1)
+            .map((row) => {
+              const newRow = {
+                ...row,
+              };
+              return newRow;
+            });
+
+          navigate(`/crossInformation/${eventId}`, {
+            state: {
+              presentRows: newRows,
+              eventName: eventName,
+              eventDate: dayjs(eventDate).format("HH:mm DD.MM.YY"),
+              eventLocation: eventLocation,
+            },
+          });
+        };
+
+        reader.readAsBinaryString(file);
       } else {
         console.log(
           "Invalid file type. Please upload a valid Excel file (xlsx or xls)."
         );
-      }
 
-      reader.onload = (e) => {
-        const data = e.target.result;
-        const workbook = XLSX.read(data, { type: "binary" });
-        const sheetName = workbook.SheetNames[0];
-        const sheet = workbook.Sheets[sheetName];
-
-        const newRows = XLSX.utils
-          .sheet_to_json(sheet, { header: 1 })
-          .slice(1)
-          .map((row) => {
-            const newRow = {
-              ...row,
-            };
-            return newRow;
-          });
-
-        navigate(`/crossInformation/${eventId}`, {
-          state: {
-            presentRows: newRows,
-            eventName: eventName,
-            eventDate: dayjs(eventDate).format("HH:mm DD.MM.YY"),
-            eventLocation: eventLocation,
-          },
+        Swal.fire({
+          icon: "error",
+          title: "סוג קובץ אינו תקין",
+          text: "ניתן להעלות קצבי אקסל בלבד",
         });
-      };
-
-      reader.readAsBinaryString(file);
+      }
     }
   };
 

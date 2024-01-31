@@ -48,6 +48,8 @@ export default function CardEvent({
   };
 
   const { setFilename } = useFilename();
+  const [isHovered, setIsHovered] = useState(false);
+  const [isHoveredDescription, setIsHoveredDescription] = useState(false);
 
   const fileInputRef = useRef();
   const navigate = useNavigate();
@@ -220,9 +222,41 @@ export default function CardEvent({
               alignItems: "center",
             }}
           >
-            <h4 style={{ fontSize: "1.7rem", padding: 0, margin: 0 }}>
-              {eventName}
-            </h4>
+            <div style={{ position: "relative" }}>
+              <h4
+                style={{
+                  fontSize: "1.7rem",
+                  padding: 0,
+                  margin: 0,
+                  overflow: "hidden",
+                  whiteSpace: "nowrap",
+                  textOverflow: "ellipsis",
+                  width: "23rem",
+                  maxWidth: "23rem",
+                }}
+                onMouseEnter={() => setIsHovered(true)}
+                onMouseLeave={() => setIsHovered(false)}
+              >
+                {eventName}
+              </h4>
+
+              {isHovered && eventName.length > 26 && (
+                <div
+                  style={{
+                    position: "absolute",
+                    backgroundColor: "#f0f0f0", // Customize background color
+                    padding: "5px",
+                    border: "1px solid #ccc", // Customize border style
+                    borderRadius: "5px", // Customize border radius
+                    maxWidth: "300px", // Customize maximum width
+                    zIndex: 1,
+                  }}
+                >
+                  {eventName}
+                </div>
+              )}
+            </div>
+
             <div>
               <input
                 type="file"
@@ -245,28 +279,47 @@ export default function CardEvent({
               </label>
             </div>
           </div>
-          <h5
-            style={{
-              overflow: "hidden",
-              display: "-webkit-box",
-              WebkitBoxOrient: "vertical",
-              WebkitLineClamp: 3,
-              whiteSpace: "normal",
-              textOverflow: "ellipsis",
-              fontWeight: "normal",
-              fontSize: "1.2rem",
-              padding: 0,
-              marginTop: 0,
-              marginBottom: 0,
-              height: "4.4rem",
-              width: "85%",
-              maxWidth: "85%",
-              lineHeight: "1.4rem",
-            }}
-          >
-            {description}
-          </h5>
+          <div style={{ position: "relative" }}>
+            <h5
+              style={{
+                overflow: "hidden",
+                display: "-webkit-box",
+                WebkitBoxOrient: "vertical",
+                WebkitLineClamp: 3,
+                whiteSpace: "normal",
+                textOverflow: "ellipsis",
+                fontWeight: "normal",
+                fontSize: "1.2rem",
+                padding: 0,
+                marginTop: 0,
+                marginBottom: 0,
+                height: "4.4rem",
+                width: "85%",
+                maxWidth: "85%",
+                lineHeight: "1.4rem",
+              }}
+              onMouseEnter={() => setIsHoveredDescription(true)}
+              onMouseLeave={() => setIsHoveredDescription(false)}
+            >
+              {description}
+            </h5>
 
+            {isHoveredDescription && description.length > 110 && (
+              <div
+                style={{
+                  position: "absolute",
+                  backgroundColor: "#f0f0f0", // Customize background color
+                  padding: "5px",
+                  border: "1px solid #ccc", // Customize border style
+                  borderRadius: "5px", // Customize border radius
+                  zIndex: 1,
+                  maxWidth: "300px", // Customize maximum width
+                }}
+              >
+                {description}
+              </div>
+            )}
+          </div>
           <h6
             style={{
               fontWeight: "Bold",

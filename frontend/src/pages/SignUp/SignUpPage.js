@@ -180,7 +180,7 @@ export default function SignUpPage() {
     };
 
     try {
-      const response = await post(apiUrl, body, headers);
+      await post(apiUrl, body, headers);
 
       // annimation success
       Swal.fire({
@@ -196,9 +196,10 @@ export default function SignUpPage() {
         //
       });
     } catch (error) {
+      console.log(error);
       Swal.fire({
         title: "לא ניתן להירשם",
-        text: error.massage,
+        text: error,
         icon: "error",
         confirmButtonText: "בוצע",
       }).then((result) => {
@@ -373,6 +374,7 @@ export default function SignUpPage() {
         />
         <TextField
           id="secPassword"
+          disabled={!formData.initialInputs.password.isValid}
           size="small"
           sx={{
             width: "85%",

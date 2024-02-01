@@ -260,9 +260,7 @@ export default function TableView() {
     }
 
     setLoading(false);
-
   }, [tempData, command]);
-
 
   const eventName = location.state.eventName;
   const eventDate = location.state.eventDate;

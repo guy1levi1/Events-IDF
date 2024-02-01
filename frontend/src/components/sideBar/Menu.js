@@ -88,7 +88,7 @@ const Menu = () => {
     };
 
     fetchFullName();
-  }, [loggedUserId, getFullNameById]);
+  }, [loggedUserId]);
 
   return (
     <div>
@@ -147,7 +147,7 @@ const Menu = () => {
         </div>
 
         {auth.isLoggedIn ? (
-          <a
+          <button
             className="signoutbutton"
             onClick={handleLogout}
             style={{
@@ -159,12 +159,14 @@ const Menu = () => {
               color: "black",
               cursor: "pointer",
               textDecoration: "underline",
+              border: "none",
+              background: "none",
             }}
           >
             התנתק/י
-          </a>
+          </button>
         ) : (
-          <a
+          <button
             className="signoutbutton"
             onClick={handleLogin}
             style={{
@@ -176,10 +178,12 @@ const Menu = () => {
               color: "black",
               cursor: "pointer",
               textDecoration: "underline",
+              border: "none",
+              background: "none",
             }}
           >
             התחבר/י
-          </a>
+          </button>
         )}
       </div>
       <button

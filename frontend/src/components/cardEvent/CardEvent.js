@@ -10,12 +10,11 @@ import CommandCell from "../commandCell/CommandCell";
 import { useFilename } from "../../utils/contexts/FilenameContext";
 import * as XLSX from "xlsx";
 import "./CardEvent.css";
-import { getFullNameById, getUserById } from "../../utils/api/usersApi";
+import { getFullNameById } from "../../utils/api/usersApi";
 import { getEventCommandsByEventId } from "../../utils/api/eventCommandsApi";
 import { getCommandNameById } from "../../utils/api/commandsApi";
 import dayjs from "dayjs";
 import { getEventRequestsByEventId } from "../../utils/api/eventRequestsApi";
-import { useEventId } from "../../utils/contexts/eventIdContext";
 import generateGuid from "../../utils/GenereateUUID";
 
 export default function CardEvent({
@@ -42,7 +41,7 @@ export default function CardEvent({
     }).then((result) => {
       if (result.isConfirmed) {
         // delete the event from db and update in the fronted
-        onDelete(eventId);
+        onDelete(eventId, eventName);
       }
     });
   };
@@ -133,21 +132,21 @@ export default function CardEvent({
     });
   };
 
-  const options = {
-    day: "2-digit",
-    month: "2-digit",
-    year: "2-digit",
-    hour: "2-digit",
-    minute: "2-digit",
-    hour12: false,
-  };
-
   const [fullName, setFullName] = useState("");
   const [eventDayJs, setEventDayJs] = useState(null);
   const [arrayOfCommandsNames, setArrayOfCommandsNames] = useState([]);
   const [transformedData, setTransformedData] = useState([]);
 
   useEffect(() => {
+    const options = {
+      day: "2-digit",
+      month: "2-digit",
+      year: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: false,
+    };
+
     const fetchFullName = async () => {
       try {
         const fullName = await getFullNameById(eventCreator);
@@ -179,7 +178,7 @@ export default function CardEvent({
     };
 
     fetchFullName();
-  }, [eventCreator, eventId]);
+  }, [eventCreator, eventId, eventDate]);
 
   return (
     <div
@@ -294,7 +293,7 @@ export default function CardEvent({
                 marginTop: 0,
                 marginBottom: 0,
                 height: "4.4rem",
-                width: "85%",
+                width: "80%",
                 maxWidth: "85%",
                 lineHeight: "1.4rem",
               }}

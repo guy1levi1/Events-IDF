@@ -135,7 +135,7 @@ export default function CreateEventPage() {
       console.log(error);
       Swal.fire({
         title: "לא ניתן ליצור אירוע",
-        text: error.message,
+        text: error,
         icon: "error",
         confirmButtonText: "נסה שנית",
       }).then((result) => {
@@ -159,7 +159,7 @@ export default function CreateEventPage() {
         console.log(error);
         Swal.fire({
           title: "לא ניתן ליצור אירוע",
-          text: error.message,
+          text: error,
           icon: "error",
           confirmButtonText: "נסה שנית",
         }).then((result) => {

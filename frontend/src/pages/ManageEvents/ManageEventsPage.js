@@ -46,13 +46,13 @@ export default function ManageEventsPage() {
     } catch (error) {
       console.error("Error fetching events:", error);
     }
-  }, [getEvnets, getEventsByCommandId, setEventsFromDB, getCommandIdByUserId]);
+  }, [setEventsFromDB, loggedUserId]);
 
   useEffect(() => {
     getEventsFromAPI();
-  }, [getEventsFromAPI, loggedUserId]);
+  }, [getEventsFromAPI]);
 
-  const handleDeleteEvent = async (eventId) => {
+  const handleDeleteEvent = async (eventId, eventName) => {
     // Update state by filtering out the event with the specified eventId
     try {
       await deleteAllEventCommandsByEventId(eventId).then(() => {
@@ -69,7 +69,7 @@ export default function ManageEventsPage() {
 
       Swal.fire({
         title: "נמחק בהצלחה!",
-        text: "האירוע {שם האירוע} נמחק בהצלחה.",
+        text: `האירוע ${eventName} נמחק בהצלחה.`,
         icon: "success",
         confirmButtonText: "אישור",
       }).then((result) => {});
@@ -133,7 +133,7 @@ export default function ManageEventsPage() {
                 eventCreator={event.userId}
                 isAdmin={isAdmin}
                 loggedUserId={loggedUserId}
-                onDelete={() => handleDeleteEvent(event.id)}
+                onDelete={() => handleDeleteEvent(event.id, event.name)}
               />
             ))}
           </Box>

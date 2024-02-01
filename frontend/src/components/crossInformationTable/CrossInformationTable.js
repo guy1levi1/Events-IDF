@@ -203,9 +203,8 @@ export default function CrossInformationTable() {
     });
   };
 
-  const transformedData = mapKeys(data, headers, eventId);
-
   React.useEffect(() => {
+    const transformedData = mapKeys(data, headers, eventId);
     const fetchData = async () => {
       try {
         const eventRequestsData = await getEventRequestsByEventId(eventId);
@@ -245,7 +244,7 @@ export default function CrossInformationTable() {
     };
 
     initializePage();
-  }, [filename, eventId, transformedData]);
+  }, [filename, eventId, data]);
 
   // this code is for upload a new present list in crossInformation page
 
@@ -271,7 +270,7 @@ export default function CrossInformationTable() {
           const workbook = XLSX.read(data, { type: "binary" });
           const sheetName = workbook.SheetNames[0];
           const sheet = workbook.Sheets[sheetName];
-  
+
           const newRows = XLSX.utils
             .sheet_to_json(sheet, { header: 1 })
             .slice(1)
@@ -281,10 +280,10 @@ export default function CrossInformationTable() {
               };
               return newRow;
             });
-  
+
           setData(newRows);
         };
-  
+
         reader.readAsBinaryString(file);
       } else {
         console.error("Invalid file type");

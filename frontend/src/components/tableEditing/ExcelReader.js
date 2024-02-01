@@ -24,7 +24,7 @@ const ExcelReader = ({ onRowsChange, eventId }) => {
   const [errorMessage, setErrorMessage] = useState("");
   const { filename, setFilename } = useFilename();
   const [uploadFileInfo, setUploadFileInfo] = useState(
-    filename !== null && filename != "" ? `הועלה ${filename} קובץ` : ""
+    filename !== null && filename !== "" ? `הועלה ${filename} קובץ` : ""
   );
 
   const mapKeys = (data, headers, eventId) => {

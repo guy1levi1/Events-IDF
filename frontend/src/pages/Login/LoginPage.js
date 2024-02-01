@@ -9,7 +9,6 @@ import InputAdornment from "@mui/material/InputAdornment";
 import IconButton from "@mui/material/IconButton";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import { Link } from "react-router-dom";
 import { post } from "../../utils/api/api";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
@@ -99,7 +98,7 @@ export default function LoginPage() {
       console.log(error);
       Swal.fire({
         title: "התחברות נכשלה",
-        text: error.massage,
+        text: error,
         icon: "error",
         confirmButtonText: "בוצע",
       }).then(() => {});

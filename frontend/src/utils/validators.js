@@ -61,7 +61,6 @@ export const VALIDATOR_DATE_EVENT = (value) => {
   }
 };
 
-
 export const VALIDATOR_PASSWORD = (value) => {
   return /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]{6,}$/.test(value);
 };

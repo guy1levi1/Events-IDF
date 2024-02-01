@@ -8,6 +8,7 @@ export default function AboutPage() {
 
   useEffect(() => {
     localStorage.removeItem("newEditFormstates");
+
     localStorage.removeItem("newEditFormIsValid");
   }, []);
 

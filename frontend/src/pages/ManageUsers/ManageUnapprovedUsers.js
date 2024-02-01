@@ -172,7 +172,6 @@ export default function ManageUnapprovedUsers({
   useEffect(() => {
     setRows(unapprovedUsers);
     setLoading(false);
-
   }, [unapprovedUsers]);
 
   const handleRowEditStop = (params, event) => {
@@ -185,13 +184,13 @@ export default function ManageUnapprovedUsers({
     try {
       const user = await getUnapprovedUserById(id);
       const unApprovedFullName = user.fullName;
-      await createUser(user);
+      await createUser(user).finally(console.log("approve user sucssesfully"));
       await deleteUnapprovedUserById(id);
       setRows((prevRows) => prevRows.filter((row) => row.id !== id));
       updateApprovedUser(rows.find((row) => row.id === id));
 
       Swal.fire({
-        title: `המשתמש "${unApprovedFullName}" אושר`,
+        title: `המשתמש "${unApprovedFullName}" אושר `,
         text: "כעת המשתמש יוכל להתחבר למערכת",
         icon: "success",
         confirmButtonColor: "#3085d6",

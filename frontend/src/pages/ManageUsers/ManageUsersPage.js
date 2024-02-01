@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import ManageExistsUsers from "./ManageExistsUsers";
 import ManageUnapprovedUsers from "./ManageUnapprovedUsers";
-import generateUuid from "../../utils/GenereateUUID";
 import "./ManageUsersPage.css";
 import { getUsers } from "../../utils/api/usersApi";
 import { getUnapprovedUsers } from "../../utils/api/unapprovedUsersApi";
@@ -62,10 +61,17 @@ export default function ManageUsersPage() {
 
     fetchDataUsers();
     fetchDataUnapprovedUsers();
-  }, [getUsers, getUnapprovedUsers, getCommandNameById]);
+  }, []);
+  const updatedeletedUser = (deletedUserId) => {
+    const updatedUsers = users.filter((user) => user.id !== deletedUserId);
+
+    // Update the state with the new array
+    setUsers(updatedUsers);
+  };
 
   const updateApprovedUser = (newApprovedUser) => {
-    setUsers([{ ...newApprovedUser, id: generateUuid() }, ...users]);
+    console.log(newApprovedUser);
+    setUsers([{ ...newApprovedUser }, ...users]);
   };
 
   return (
@@ -95,7 +101,10 @@ export default function ManageUsersPage() {
         >
           <h3>משתמשים קיימים</h3>
 
-          <ManageExistsUsers existUsers={users}></ManageExistsUsers>
+          <ManageExistsUsers
+            existUsers={users}
+            updatedeletedUser={updatedeletedUser}
+          ></ManageExistsUsers>
         </div>
         <div
           className="waitingForBeingApprovedUsersTable"

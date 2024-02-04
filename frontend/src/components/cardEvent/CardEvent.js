@@ -292,10 +292,9 @@ export default function CardEvent({
                 padding: 0,
                 marginTop: 0,
                 marginBottom: 0,
-                height: "4.4rem",
-                width: "80%",
-                maxWidth: "85%",
-                lineHeight: "1.4rem",
+                height: "4.6rem",
+                width: "23rem",
+                maxWidth: "23rem",
               }}
               onMouseEnter={() => setIsHoveredDescription(true)}
               onMouseLeave={() => setIsHoveredDescription(false)}

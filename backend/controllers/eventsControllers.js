@@ -121,7 +121,7 @@ const updateEvent = async (req, res, next) => {
       .json({ message: `Event ${eventId} updated successfully.`, event });
   } catch (err) {
     // Handle errors
-    console.error(error);
+    console.error(err);
     const error = new HttpError(
       `Could not update event ${eventId} , please try again later.`,
       500

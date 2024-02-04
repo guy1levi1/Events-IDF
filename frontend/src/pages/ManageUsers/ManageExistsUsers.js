@@ -167,13 +167,15 @@ function CustomNoRowsOverlay() {
   );
 }
 
-export default function ManageExistsUsers({ existUsers }) {
+export default function ManageExistsUsers({ existUsers, updatedeletedUser }) {
   const [rows, setRows] = React.useState(existUsers);
   const [rowModesModel, setRowModesModel] = React.useState({});
   const [commands, setCommands] = React.useState([]);
+  const [loading, setLoading] = React.useState(true);
 
   React.useEffect(() => {
     setRows(existUsers);
+    setLoading(false);
   }, [existUsers]);
 
   React.useEffect(() => {
@@ -221,10 +223,28 @@ export default function ManageExistsUsers({ existUsers }) {
           confirmButtonText: "מחק משתמש",
           cancelButtonText: "בטל",
           reverseButtons: true,
-        }).then((result) => {
+        }).then(async (result) => {
           if (result.isConfirmed) {
-            deleteUser(id);
-            setRows(rows.filter((row) => row.id !== id));
+            try {
+              await deleteUser(id);
+              setRows(rows.filter((row) => row.id !== id));
+              updatedeletedUser(id);
+              Swal.fire({
+                title: `משתמש "${userFullName}" נמחק בהצלחה!`,
+                text: "",
+                icon: "success",
+                confirmButtonText: "אישור",
+              }).then((result) => {});
+            } catch (error) {
+              Swal.fire({
+                title: `לא ניתן למחוק את המשתמש`,
+                text: error,
+                icon: "error",
+                confirmButtonColor: "#3085d6",
+                confirmButtonText: "אישור",
+                reverseButtons: true,
+              }).then((result) => {});
+            }
           }
         });
       } else {
@@ -443,6 +463,7 @@ export default function ManageExistsUsers({ existUsers }) {
       >
         <DataGrid
           rows={rows}
+          loading={loading}
           columns={columns}
           editMode="row"
           rowModesModel={rowModesModel}

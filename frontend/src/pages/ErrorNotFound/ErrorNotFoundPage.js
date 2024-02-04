@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import Box from "@mui/material/Box";
 import "./ErrorNotFoundPage.css";
-import { NavLink } from "react-router-dom";
 
 const ErrorNotFoundPage = () => {
   useEffect(() => {

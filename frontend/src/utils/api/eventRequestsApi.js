@@ -1,4 +1,5 @@
 import { get, post, patch, del } from "./api"; // Assuming you have these functions for making HTTP requests
+import { getCommandIdByName } from "./commandsApi";
 
 export async function getEventRequests() {
   const apiUrl = "http://localhost:5000/api/eventRequests/";
@@ -52,6 +53,30 @@ export async function getEventRequestsByEventId(eventId) {
     }
 
     return eventRequestsByEventId;
+  } catch (error) {
+    console.error("Error getting all event commands by event id:", error);
+    throw error; // Rethrow the error to handle it in the calling code
+  }
+}
+
+export async function getEventRequestsByEventIdAndCommandId(
+  eventId,
+  commandId
+) {
+  try {
+    const eventRequests = await getEventRequestsByEventId(eventId);
+    const commandSegelId = await getCommandIdByName("סגל");
+    console.log(commandSegelId);
+
+    console.log(eventRequests);
+
+    if (commandId === commandSegelId) {
+      return eventRequests;
+    } else {
+      const ans = eventRequests.filter((row) => row.command === commandId);
+      console.log(ans);
+      return ans;
+    }
   } catch (error) {
     console.error("Error getting all event commands by event id:", error);
     throw error; // Rethrow the error to handle it in the calling code

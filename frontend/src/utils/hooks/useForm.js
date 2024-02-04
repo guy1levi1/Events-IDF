@@ -26,31 +26,6 @@ export default function useForm(initialInputs, isValid) {
             value,
             formData.initialInputs["secPassword"].value
           );
-          // if (ans.secPassword) {
-          //   setFormData((prevFormData) => ({
-          //     ...prevFormData,
-          //     initialInputs: {
-          //       ...prevFormData.initialInputs,
-          //       secPassword: {
-          //         ...prevFormData.initialInputs.secPassword,
-          //         error: false,
-          //         isValid: true,
-          //       },
-          //     },
-          //   }));
-          // } else {
-          //   setFormData((prevFormData) => ({
-          //     ...prevFormData,
-          //     initialInputs: {
-          //       ...prevFormData.initialInputs,
-          //       secPassword: {
-          //         ...prevFormData.initialInputs.secPassword,
-          //         error: true,
-          //         isValid: false,
-          //       },
-          //     },
-          //   }));
-          // }
 
           return ans.password;
         case "fullName":
@@ -60,31 +35,7 @@ export default function useForm(initialInputs, isValid) {
             formData.initialInputs["password"].value,
             value
           );
-          // if (ansSec.password) {
-          //   setFormData((prevFormData) => ({
-          //     ...prevFormData,
-          //     initialInputs: {
-          //       ...prevFormData.initialInputs,
-          //       password: {
-          //         ...prevFormData.initialInputs.password,
-          //         error: false,
-          //         isValid: true,
-          //       },
-          //     },
-          //   }));
-          // } else {
-          //   setFormData((prevFormData) => ({
-          //     ...prevFormData,
-          //     initialInputs: {
-          //       ...prevFormData.initialInputs,
-          //       password: {
-          //         ...prevFormData.initialInputs.password,
-          //         error: true,
-          //         isValid: false,
-          //       },
-          //     },
-          //   }));
-          // }
+
           return ansSec.secPassword;
         case "commandsSelector":
           return value.length !== 0;
@@ -125,54 +76,17 @@ export default function useForm(initialInputs, isValid) {
       newValue = e.target.value;
       inputId = e.target.id || e.target.name;
     }
-    // let secValueIsValidAfterChange = "";
-    let secInputId = "";
 
     const isValidAfterChange = validateInput(inputId, newValue);
     console.log(newValue);
     console.log(inputId);
     console.log(isValidAfterChange);
-    // Validate the input using the validation functions
-    // if (inputId === "password") {
-    //   secValueIsValidAfterChange = validateInput(
-    //     "secPassword",
-    //     formData.initialInputs["secPassword"].value
-    //   );
-    //   console.log(secValueIsValidAfterChange);
-
-    //   secInputId = "secPassword";
-    // } else if (inputId === "secPassword") {
-    //   secValueIsValidAfterChange = validateInput(
-    //     "password",
-    //     formData.initialInputs["password"].value
-    //   );
-    //   console.log(secValueIsValidAfterChange);
-
-    //   secInputId = "password";
-    // } else {
-    //   secInputId = "";
-    //   secValueIsValidAfterChange = "";
-    //   console.log(secValueIsValidAfterChange)
-
-    // }
 
     const keyArray = Object.keys(formData.initialInputs);
 
     let hasError = false;
 
     keyArray.forEach((key) => {
-      // if (secInputId === "password" || secInputId === "secPassword") {
-      //   console.log(
-      //     "secInputId: " +
-      //       secInputId +
-      //       " secInputIsValid: " +
-      //       secValueIsValidAfterChange +
-      //       " firstInputIsValid: " +
-      //       isValidAfterChange
-      //   );
-
-      //   hasError = !secValueIsValidAfterChange || hasError;
-      // }
       if (key === inputId) {
         hasError = !isValidAfterChange || hasError;
       } else {
@@ -181,39 +95,18 @@ export default function useForm(initialInputs, isValid) {
     });
     console.log("has error: " + hasError);
 
-    if (secInputId === "") {
-      setFormData((prevFormData) => ({
-        ...prevFormData,
-        initialInputs: {
-          ...prevFormData.initialInputs,
-          [inputId]: {
-            value: newValue,
-            isValid: isValidAfterChange,
-            error: false,
-          },
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      initialInputs: {
+        ...prevFormData.initialInputs,
+        [inputId]: {
+          value: newValue,
+          isValid: isValidAfterChange,
+          error: false,
         },
-        isValid: !hasError,
-      }));
-    }
-    //  else {
-    //   setFormData((prevFormData) => ({
-    //     ...prevFormData,
-    //     initialInputs: {
-    //       ...prevFormData.initialInputs,
-    //       [inputId]: {
-    //         value: newValue,
-    //         isValid: isValidAfterChange,
-    //         error: false,
-    //       },
-    //       [secInputId]: {
-    //         ...prevFormData.initialInputs[secInputId],
-    //         isValid: secValueIsValidAfterChange,
-    //         error: !secValueIsValidAfterChange,
-    //       },
-    //     },
-    //     isValid: !hasError,
-    //   }));
-    // }
+      },
+      isValid: !hasError,
+    }));
   };
   useEffect(() => {
     console.log(formData);

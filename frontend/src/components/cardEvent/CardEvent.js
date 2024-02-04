@@ -10,12 +10,11 @@ import CommandCell from "../commandCell/CommandCell";
 import { useFilename } from "../../utils/contexts/FilenameContext";
 import * as XLSX from "xlsx";
 import "./CardEvent.css";
-import { getFullNameById, getUserById } from "../../utils/api/usersApi";
+import { getFullNameById } from "../../utils/api/usersApi";
 import { getEventCommandsByEventId } from "../../utils/api/eventCommandsApi";
 import { getCommandNameById } from "../../utils/api/commandsApi";
 import dayjs from "dayjs";
 import { getEventRequestsByEventId } from "../../utils/api/eventRequestsApi";
-import { useEventId } from "../../utils/contexts/eventIdContext";
 import generateGuid from "../../utils/GenereateUUID";
 
 export default function CardEvent({
@@ -42,12 +41,14 @@ export default function CardEvent({
     }).then((result) => {
       if (result.isConfirmed) {
         // delete the event from db and update in the fronted
-        onDelete(eventId);
+        onDelete(eventId, eventName);
       }
     });
   };
 
   const { setFilename } = useFilename();
+  const [isHovered, setIsHovered] = useState(false);
+  const [isHoveredDescription, setIsHoveredDescription] = useState(false);
 
   const fileInputRef = useRef();
   const navigate = useNavigate();
@@ -59,46 +60,52 @@ export default function CardEvent({
     if (file) {
       const reader = new FileReader();
 
+      console.log(file.type);
       if (
         file.type === "application/vnd.ms-excel" ||
         file.type ===
           "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
       ) {
         console.log(`File selected: ${file.name}, size: ${file.size} bytes`);
+
+        reader.onload = (e) => {
+          const data = e.target.result;
+          const workbook = XLSX.read(data, { type: "binary" });
+          const sheetName = workbook.SheetNames[0];
+          const sheet = workbook.Sheets[sheetName];
+
+          const newRows = XLSX.utils
+            .sheet_to_json(sheet, { header: 1 })
+            .slice(1)
+            .map((row) => {
+              const newRow = {
+                ...row,
+              };
+              return newRow;
+            });
+
+          navigate(`/crossInformation/${eventId}`, {
+            state: {
+              presentRows: newRows,
+              eventName: eventName,
+              eventDate: dayjs(eventDate).format("HH:mm DD.MM.YY"),
+              eventLocation: eventLocation,
+            },
+          });
+        };
+
+        reader.readAsBinaryString(file);
       } else {
-        console.error("Invalid file type");
-        throw new Error(
+        console.log(
           "Invalid file type. Please upload a valid Excel file (xlsx or xls)."
         );
-      }
 
-      reader.onload = (e) => {
-        const data = e.target.result;
-        const workbook = XLSX.read(data, { type: "binary" });
-        const sheetName = workbook.SheetNames[0];
-        const sheet = workbook.Sheets[sheetName];
-
-        const newRows = XLSX.utils
-          .sheet_to_json(sheet, { header: 1 })
-          .slice(1)
-          .map((row) => {
-            const newRow = {
-              ...row,
-            };
-            return newRow;
-          });
-
-        navigate(`/crossInformation/${eventId}`, {
-          state: {
-            presentRows: newRows,
-            eventName: eventName,
-            eventDate: dayjs(eventDate).format("HH:mm DD.MM.YY"),
-            eventLocation: eventLocation,
-          },
+        Swal.fire({
+          icon: "error",
+          title: "סוג קובץ אינו תקין",
+          text: "ניתן להעלות קצבי אקסל בלבד",
         });
-      };
-
-      reader.readAsBinaryString(file);
+      }
     }
   };
 
@@ -125,21 +132,21 @@ export default function CardEvent({
     });
   };
 
-  const options = {
-    day: "2-digit",
-    month: "2-digit",
-    year: "2-digit",
-    hour: "2-digit",
-    minute: "2-digit",
-    hour12: false,
-  };
-
   const [fullName, setFullName] = useState("");
   const [eventDayJs, setEventDayJs] = useState(null);
   const [arrayOfCommandsNames, setArrayOfCommandsNames] = useState([]);
   const [transformedData, setTransformedData] = useState([]);
 
   useEffect(() => {
+    const options = {
+      day: "2-digit",
+      month: "2-digit",
+      year: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: false,
+    };
+
     const fetchFullName = async () => {
       try {
         const fullName = await getFullNameById(eventCreator);
@@ -171,7 +178,7 @@ export default function CardEvent({
     };
 
     fetchFullName();
-  }, [eventCreator, eventId]);
+  }, [eventCreator, eventId, eventDate]);
 
   return (
     <div
@@ -214,9 +221,41 @@ export default function CardEvent({
               alignItems: "center",
             }}
           >
-            <h4 style={{ fontSize: "1.7rem", padding: 0, margin: 0 }}>
-              {eventName}
-            </h4>
+            <div style={{ position: "relative" }}>
+              <h4
+                style={{
+                  fontSize: "1.7rem",
+                  padding: 0,
+                  margin: 0,
+                  overflow: "hidden",
+                  whiteSpace: "nowrap",
+                  textOverflow: "ellipsis",
+                  width: "23rem",
+                  maxWidth: "23rem",
+                }}
+                onMouseEnter={() => setIsHovered(true)}
+                onMouseLeave={() => setIsHovered(false)}
+              >
+                {eventName}
+              </h4>
+
+              {isHovered && eventName.length > 26 && (
+                <div
+                  style={{
+                    position: "absolute",
+                    backgroundColor: "#f0f0f0", // Customize background color
+                    padding: "5px",
+                    border: "1px solid #ccc", // Customize border style
+                    borderRadius: "5px", // Customize border radius
+                    maxWidth: "300px", // Customize maximum width
+                    zIndex: 1,
+                  }}
+                >
+                  {eventName}
+                </div>
+              )}
+            </div>
+
             <div>
               <input
                 type="file"
@@ -239,28 +278,46 @@ export default function CardEvent({
               </label>
             </div>
           </div>
-          <h5
-            style={{
-              overflow: "hidden",
-              display: "-webkit-box",
-              WebkitBoxOrient: "vertical",
-              WebkitLineClamp: 3,
-              whiteSpace: "normal",
-              textOverflow: "ellipsis",
-              fontWeight: "normal",
-              fontSize: "1.2rem",
-              padding: 0,
-              marginTop: 0,
-              marginBottom: 0,
-              height: "4.4rem",
-              width: "85%",
-              maxWidth: "85%",
-              lineHeight: "1.4rem",
-            }}
-          >
-            {description}
-          </h5>
+          <div style={{ position: "relative" }}>
+            <h5
+              style={{
+                overflow: "hidden",
+                display: "-webkit-box",
+                WebkitBoxOrient: "vertical",
+                WebkitLineClamp: 3,
+                whiteSpace: "normal",
+                textOverflow: "ellipsis",
+                fontWeight: "normal",
+                fontSize: "1.2rem",
+                padding: 0,
+                marginTop: 0,
+                marginBottom: 0,
+                height: "4.6rem",
+                width: "23rem",
+                maxWidth: "23rem",
+              }}
+              onMouseEnter={() => setIsHoveredDescription(true)}
+              onMouseLeave={() => setIsHoveredDescription(false)}
+            >
+              {description}
+            </h5>
 
+            {isHoveredDescription && description.length > 110 && (
+              <div
+                style={{
+                  position: "absolute",
+                  backgroundColor: "#f0f0f0", // Customize background color
+                  padding: "5px",
+                  border: "1px solid #ccc", // Customize border style
+                  borderRadius: "5px", // Customize border radius
+                  zIndex: 1,
+                  maxWidth: "300px", // Customize maximum width
+                }}
+              >
+                {description}
+              </div>
+            )}
+          </div>
           <h6
             style={{
               fontWeight: "Bold",

@@ -36,11 +36,7 @@ export const post = async (url, body, headers) => {
     return res;
   } catch (e) {
     const massage = handelErrorCode(e.response.status);
-    const code = e.response.status;
-    throw {
-      massage: massage || "unocurred error",
-      code: code || 500,
-    };
+    throw new Error(massage || "unocurred error");
   }
 };
 
@@ -52,11 +48,7 @@ export const patch = async (url, body, headers) => {
     return res;
   } catch (e) {
     const massage = handelErrorCode(e.response.status);
-    const code = e.response.status;
-    throw {
-      massage: massage || "unocurred error",
-      code: code || 500,
-    };
+    throw new Error(massage || "unocurred error");
   }
 };
 
@@ -69,10 +61,6 @@ export const del = async (url, headers) => {
   } catch (e) {
     console.log(e.response.status);
     const massage = handelErrorCode(e.response.status);
-    const code = e.response.status;
-    throw {
-      massage: massage || "unocurred error",
-      code: code || 500,
-    };
+    throw new Error(massage || "unocurred error");
   }
 };

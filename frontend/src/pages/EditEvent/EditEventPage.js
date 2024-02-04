@@ -192,7 +192,7 @@ export default function EditEventPage(props) {
         window.removeEventListener("resize", handleResize);
       };
     }
-  }, [getEventById, eventId]);
+  }, [eventId]);
 
   const { setFilename } = useFilename();
 

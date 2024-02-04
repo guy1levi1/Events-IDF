@@ -19,7 +19,6 @@ import * as XLSX from "xlsx";
 import { useRef } from "react";
 import { useState } from "react";
 import { getEventRequestsByEventId } from "../../utils/api/eventRequestsApi";
-import { useEventId } from "../../utils/contexts/eventIdContext";
 
 function CustomToolbar(props) {
   return (
@@ -180,7 +179,6 @@ export default function CrossInformationTable() {
     filename != null ? `הועלה ${filename} קובץ` : ""
   );
   const location = useLocation();
-  const eventIdCtx = useEventId();
 
   const { eventId } = useParams();
 
@@ -188,6 +186,7 @@ export default function CrossInformationTable() {
   const eventName = location.state.eventName;
   const eventDate = location.state.eventDate;
   const eventLocation = location.state.eventLocation;
+  const [loading, setLoading] = useState(true);
 
   React.useEffect(() => {
     localStorage.removeItem("newEditFormstates");
@@ -204,15 +203,11 @@ export default function CrossInformationTable() {
     });
   };
 
-  const transformedData = mapKeys(data, headers, eventId);
-
-  const [eventRequests, setEventRequests] = useState([]);
-
   React.useEffect(() => {
+    const transformedData = mapKeys(data, headers, eventId);
     const fetchData = async () => {
       try {
         const eventRequestsData = await getEventRequestsByEventId(eventId);
-        setEventRequests(eventRequestsData);
 
         // Merge data here after fetching event requests
         const mergedArray = eventRequestsData.map((item2) => {
@@ -238,6 +233,7 @@ export default function CrossInformationTable() {
             return { ...row, complianceOrder };
           })
         );
+        setLoading(false);
       } catch (error) {
         console.error("Error getting event requests:", error);
       }
@@ -248,7 +244,7 @@ export default function CrossInformationTable() {
     };
 
     initializePage();
-  }, [calculateComplianceOrder, filename, eventId]);
+  }, [filename, eventId, data]);
 
   // this code is for upload a new present list in crossInformation page
 
@@ -268,53 +264,39 @@ export default function CrossInformationTable() {
       ) {
         setUploadFileInfo(`הועלה ${file.name} קובץ`);
         console.log(`File selected: ${file.name}, size: ${file.size} bytes`);
+
+        reader.onload = (e) => {
+          const data = e.target.result;
+          const workbook = XLSX.read(data, { type: "binary" });
+          const sheetName = workbook.SheetNames[0];
+          const sheet = workbook.Sheets[sheetName];
+
+          const newRows = XLSX.utils
+            .sheet_to_json(sheet, { header: 1 })
+            .slice(1)
+            .map((row) => {
+              const newRow = {
+                ...row,
+              };
+              return newRow;
+            });
+
+          setData(newRows);
+        };
+
+        reader.readAsBinaryString(file);
       } else {
         console.error("Invalid file type");
         throw new Error(
           "Invalid file type. Please upload a valid Excel file (xlsx or xls)."
         );
       }
-
-      reader.onload = (e) => {
-        const data = e.target.result;
-        const workbook = XLSX.read(data, { type: "binary" });
-        const sheetName = workbook.SheetNames[0];
-        const sheet = workbook.Sheets[sheetName];
-
-        const newRows = XLSX.utils
-          .sheet_to_json(sheet, { header: 1 })
-          .slice(1)
-          .map((row) => {
-            const newRow = {
-              ...row,
-            };
-            return newRow;
-          });
-
-        setData(newRows);
-      };
-
-      reader.readAsBinaryString(file);
     }
   };
 
   const handleButtonClick = () => {
     fileInputRef.current.click();
   };
-
-  const mergedArray = eventRequests.map((item2) => {
-    const matchingItem = transformedData.find(
-      (item1) => item1.privateNumber === item2.privateNumber
-    );
-
-    if (matchingItem) {
-      // Update the "present" field if a match is found
-      return { ...item2, present: "כן" };
-    } else {
-      // Set "לא" if there is no match
-      return { ...item2, present: "לא" };
-    }
-  });
 
   const getStatusCellStyle = (status) => {
     let backgroundColor, textColor;
@@ -569,6 +551,7 @@ export default function CrossInformationTable() {
       >
         <DataGrid
           rows={rows}
+          loading={loading}
           columns={columns}
           editMode="row"
           rowModesModel={rowModesModel}

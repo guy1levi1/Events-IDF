@@ -48,7 +48,17 @@ export const VALIDATOR_FULLNAME = (value) => {
 };
 
 export const VALIDATOR_DATE_EVENT = (value) => {
-  return true;
+  const inputDate = new Date(value);
+  const currentDate = new Date();
+
+  // Check if the input date is greater than the current date
+  if (inputDate > currentDate) {
+    console.log(`${value} is a valid future date`);
+    return true;
+  } else {
+    console.log(`${value} is not a valid future date`);
+    return false;
+  }
 };
 
 export const VALIDATOR_PASSWORD = (value) => {

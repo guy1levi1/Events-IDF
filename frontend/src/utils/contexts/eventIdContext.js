@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState } from "react";
 
 const eventIdContext = createContext();
 
@@ -15,7 +15,7 @@ export const EventIdProvider = ({ children }) => {
 export const useEventId = () => {
   const context = useContext(eventIdContext);
   if (!context) {
-    throw new Error('useEventId must be used within a EventIdProvider');
+    throw new Error("useEventId must be used within a EventIdProvider");
   }
   return context;
 };

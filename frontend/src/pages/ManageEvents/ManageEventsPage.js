@@ -11,14 +11,8 @@ import {
   getEvnets,
 } from "../../utils/api/eventsApi";
 import Swal from "sweetalert2";
-import {
-  getCommandIdByUserId,
-  getCommandNameByUserId,
-} from "../../utils/api/usersApi";
-import {
-  getCommandIdByName,
-  getCommandNameById,
-} from "../../utils/api/commandsApi";
+import { getCommandIdByUserId } from "../../utils/api/usersApi";
+import { getCommandIdByName } from "../../utils/api/commandsApi";
 import { deleteAllEventCommandsByEventId } from "../../utils/api/eventCommandsApi";
 
 export default function ManageEventsPage() {
@@ -52,13 +46,13 @@ export default function ManageEventsPage() {
     } catch (error) {
       console.error("Error fetching events:", error);
     }
-  }, [getEvnets, getEventsByCommandId, setEventsFromDB, getCommandIdByUserId]);
+  }, [setEventsFromDB, loggedUserId]);
 
   useEffect(() => {
     getEventsFromAPI();
-  }, [getEventsFromAPI, loggedUserId]);
+  }, [getEventsFromAPI]);
 
-  const handleDeleteEvent = async (eventId) => {
+  const handleDeleteEvent = async (eventId, eventName) => {
     // Update state by filtering out the event with the specified eventId
     try {
       await deleteAllEventCommandsByEventId(eventId).then(() => {
@@ -75,7 +69,7 @@ export default function ManageEventsPage() {
 
       Swal.fire({
         title: "נמחק בהצלחה!",
-        text: "האירוע {שם האירוע} נמחק בהצלחה.",
+        text: `האירוע ${eventName} נמחק בהצלחה.`,
         icon: "success",
         confirmButtonText: "אישור",
       }).then((result) => {});
@@ -138,7 +132,8 @@ export default function ManageEventsPage() {
                 description={event.description}
                 eventCreator={event.userId}
                 isAdmin={isAdmin}
-                onDelete={() => handleDeleteEvent(event.id)}
+                loggedUserId={loggedUserId}
+                onDelete={() => handleDeleteEvent(event.id, event.name)}
               />
             ))}
           </Box>

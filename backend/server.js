@@ -12,9 +12,14 @@ require("./models/relations");
 const swaggerUi = require("swagger-ui-express");
 const swaggerDocument = require("./swagger.json");
 require("dotenv").config();
+const helmet = require("helmet");
 
 const app = express();
+
+// security middlewares
 app.use(cors());
+app.use(helmet());
+
 app.use(express.json());
 app.use(bodyParser.json());
 

@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState } from "react";
 
 const FilenameContext = createContext();
 
@@ -15,7 +15,7 @@ export const FilenameProvider = ({ children }) => {
 export const useFilename = () => {
   const context = useContext(FilenameContext);
   if (!context) {
-    throw new Error('useFilename must be used within a FilenameProvider');
+    throw new Error("useFilename must be used within a FilenameProvider");
   }
   return context;
 };

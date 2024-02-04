@@ -12,7 +12,6 @@ import { heIL } from "@mui/x-data-grid";
 import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import ExcelReader from "../tableEditing/ExcelReader";
-import { randomId } from "@mui/x-data-grid-generator";
 import Button from "@mui/material/Button";
 import AddIcon from "@mui/icons-material/Add";
 import EditIcon from "@mui/icons-material/Edit";
@@ -25,7 +24,7 @@ import {
   GridRowEditStopReasons,
 } from "@mui/x-data-grid";
 import "./TableView.css";
-import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import generateGuid from "../../utils/GenereateUUID";
 import {
   createEventRequest,
@@ -36,7 +35,6 @@ import {
 } from "../../utils/api/eventRequestsApi";
 import Swal from "sweetalert2";
 import { getCommandNameByUserId } from "../../utils/api/usersApi";
-const { v4: uuidv4 } = require("uuid");
 
 function CustomToolbar(props) {
   const { setRows, setRowModesModel, command } = props;
@@ -230,20 +228,19 @@ function CustomNoRowsOverlay() {
 }
 
 export default function TableView() {
-  const [rows, setRows] = React.useState([]);
-  // const { filename } = useFilename();
   const location = useLocation();
-  // const { command } = useCommand();
+  const tempData = location.state.transformedData;
+
+  const [rows, setRows] = React.useState([]);
   const [command, setCommand] = React.useState("");
 
   const { eventId } = useParams();
-  const transformedData = location.state.transformedData;
-  let data = [];
   const userData = JSON.parse(localStorage.getItem("userData"));
   const loggedUserId = userData ? userData.userId : "";
+  const [loading, setLoading] = React.useState(true);
 
   React.useEffect(() => {
-    const fetchFullName = async () => {
+    const fetchCommandName = async () => {
       try {
         const commandName = await getCommandNameByUserId(loggedUserId);
         setCommand(commandName);
@@ -252,21 +249,22 @@ export default function TableView() {
       }
     };
 
-    fetchFullName();
-  }, [loggedUserId, getCommandNameByUserId]);
+    fetchCommandName();
+  }, [loggedUserId]);
 
-  if (command === "סגל") {
-    data = transformedData;
-  } else {
-    data = transformedData.filter((row) => row.command === command);
-  }
+  React.useEffect(() => {
+    if (command && command !== "סגל") {
+      setRows(tempData.filter((row) => row.command === command));
+    } else {
+      setRows(tempData);
+    }
+
+    setLoading(false);
+  }, [tempData, command]);
+
   const eventName = location.state.eventName;
   const eventDate = location.state.eventDate;
   const eventLocation = location.state.eventLocation;
-
-  React.useEffect(() => {
-    setRows(data);
-  }, [data]);
 
   const [rowModesModel, setRowModesModel] = React.useState({});
 
@@ -358,8 +356,15 @@ export default function TableView() {
     try {
       const response = await updateRow(newRow.id, updatedRow);
 
+      console.log(response);
       console.log(updatedRow);
-      setRows(rows.map((row) => (row.id === newRow.id ? updatedRow : row)));
+      setRows(
+        rows.map((row) => {
+          console.log(row.id === newRow.id || newRow.id);
+          return row.id === newRow.id ? updatedRow : row;
+        })
+      );
+
       return updatedRow;
     } catch (error) {
       console.log("Error processing row update:", error);
@@ -367,11 +372,8 @@ export default function TableView() {
         title: `אחד מהנתונים שהזנת אינו תקין, נסה שנית`,
         text: "",
         icon: "error",
-        // showCancelButton: true,
         confirmButtonColor: "#3085d6",
-        // cancelButtonColor: "#3085d6",
         confirmButtonText: "אישור",
-        // cancelButtonText: "בטל",
         reverseButtons: true,
       }).then((result) => {});
       throw error;
@@ -402,7 +404,7 @@ export default function TableView() {
       headerName: `מס"ד`,
       headerAlign: "center",
       type: "number",
-      editable: command == "סגל" ? true : false,
+      editable: command === "סגל" ? true : false,
       flex: 1,
     },
     {
@@ -410,7 +412,7 @@ export default function TableView() {
       headerName: "מספר אישי",
       headerAlign: "center",
       type: "string",
-      editable: command == "סגל" ? true : false,
+      editable: command === "סגל" ? true : false,
       flex: 1.4,
     },
     {
@@ -418,7 +420,7 @@ export default function TableView() {
       headerName: "שם פרטי",
       headerAlign: "center",
       type: "string",
-      editable: command == "סגל" ? true : false,
+      editable: command === "סגל" ? true : false,
       flex: 1.6,
     },
     {
@@ -426,7 +428,7 @@ export default function TableView() {
       headerName: "שם משפחה",
       headerAlign: "center",
       type: "string",
-      editable: command == "סגל" ? true : false,
+      editable: command === "סגל" ? true : false,
       flex: 1.6,
     },
     {
@@ -434,7 +436,7 @@ export default function TableView() {
       headerName: "פיקוד",
       headerAlign: "center",
       type: "string",
-      editable: command == "סגל" ? true : false,
+      editable: command === "סגל" ? true : false,
       flex: 1.4,
     },
     {
@@ -442,7 +444,7 @@ export default function TableView() {
       headerName: "אוגדה",
       headerAlign: "center",
       type: "string",
-      editable: command == "סגל" ? true : false,
+      editable: command === "סגל" ? true : false,
       flex: 1,
     },
     {
@@ -450,7 +452,7 @@ export default function TableView() {
       headerName: "יחידה",
       headerAlign: "center",
       type: "string",
-      editable: command == "סגל" ? true : false,
+      editable: command === "סגל" ? true : false,
       flex: 1,
     },
     {
@@ -458,7 +460,7 @@ export default function TableView() {
       headerName: "דרגה",
       headerAlign: "center",
       type: "string",
-      editable: command == "סגל" ? true : false,
+      editable: command === "סגל" ? true : false,
       flex: 1,
     },
     {
@@ -466,7 +468,7 @@ export default function TableView() {
       headerName: "דרגת מינוי",
       headerAlign: "center",
       type: "string",
-      editable: command == "סגל" ? true : false,
+      editable: command === "סגל" ? true : false,
       flex: 1.2,
     },
     {
@@ -475,7 +477,7 @@ export default function TableView() {
       headerAlign: "center",
       type: "string",
       width: 80,
-      editable: command == "סגל" ? true : false,
+      editable: command === "סגל" ? true : false,
       flex: 1.4,
     },
     {
@@ -493,7 +495,7 @@ export default function TableView() {
       headerAlign: "center",
       width: 140,
       tfontColor: "white",
-      editable: command == "סגל" ? true : false,
+      editable: command === "סגל" ? true : false,
       type: "singleSelect",
       flex: 2.5,
       valueOptions: statusOptions,
@@ -508,15 +510,28 @@ export default function TableView() {
           ({ value: optionValue }) => optionValue === params.value
         );
 
-        switch (option?.value) {
-          case "declined":
-            return "red-background";
-          case "approved":
-            return "green-background";
-          case "pending":
-            return "orange-background";
-          default:
-            return "";
+        if (command === "סגל") {
+          switch (option?.value) {
+            case "declined":
+              return "red-background";
+            case "approved":
+              return "green-background";
+            case "pending":
+              return "orange-background";
+            default:
+              return "";
+          }
+        } else {
+          switch (option?.value) {
+            case "declined":
+              return "red-background-command";
+            case "approved":
+              return "green-background-command";
+            case "pending":
+              return "orange-background-command";
+            default:
+              return "";
+          }
         }
       },
     },
@@ -618,6 +633,7 @@ export default function TableView() {
       >
         <DataGrid
           rows={rows}
+          loading={loading}
           columns={columns}
           editMode="row"
           rowModesModel={rowModesModel}
@@ -689,10 +705,12 @@ export default function TableView() {
               textAlign: "center",
             }}
           >
-            <ExcelReader
-              onRowsChange={handleRowsChange}
-              eventId={generateGuid()}
-            />
+            {command === "סגל" && (
+              <ExcelReader
+                onRowsChange={handleRowsChange}
+                eventId={generateGuid()}
+              />
+            )}
           </div>
           <div
             style={{

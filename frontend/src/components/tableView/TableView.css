@@ -1,85 +1,99 @@
 .app h1 {
-    font-size: clamp(1rem, 1rem + 1.2vw, 5rem);
-    width: 65vw;
-    text-align: center;
-  }
-  
-  .red-background {
-    background-color: #fc4a4a;
-    color: white;
-  }
-  
-  .green-background {
-    background-color: #4dcf75;
-    color: white;
-  }
-  
-  .orange-background {
-    background-color: #fcbd4a;
-    color: black;
-  }
-  
-  .CancelButtonTablePage {
-    display: flex;
-    width: 5vw;
-    height: 1.5vw;
-    font-size: clamp(0.3rem, 0.3rem + 0.75vw, 1.5rem);
-    border-radius: 10px;
-    color: white;
-    background-color: #f94a4a;
-    border: none;
-    text-align: center;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    border-radius: 5000px;
-  }
-  
-  .CancelButtonTablePage:hover {
-    background-color: #fd3535;
-  }
-  
-  .CancelButtonTablePage:active {
-    background-color: #ff1313;
-  }
-  
-  .SaveButtonTablePage {
-    display: flex;
-    width: 5vw;
-    height: 1.5vw;
-    font-size: clamp(0.3rem, 0.3rem + 0.75vw, 1.5rem);
-    border-radius: 10px;
-    color: white;
-    background-color: #4dcc74;
-    border: none;
-    text-align: center;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    border-radius: 5000px;
-  }
-  
-  .SaveButtonTablePage:hover {
-    background-color: #24ce57;
-  }
-  
-  .SaveButtonTablePage:active {
-    background-color: #10b642;
-  }
-  
-  .roundedButton {
-    width: 6rem;
-    height: 1.8rem;
-    border-radius: 10px;
-    background-color: #3069be;
-    color: white;
-    border: none;
-    text-align: center;
-    font-size: 1rem;
-    cursor: pointer;
-    border-radius: 5000px;
-    align-items: center;
-    justify-content: center;
-    line-height: 1.5rem;
-  }
-  
+  font-size: clamp(1rem, 1rem + 1.2vw, 5rem);
+  width: 65vw;
+  text-align: center;
+}
+
+.red-background {
+  background-color: #fc4a4a;
+  color: white;
+}
+
+.green-background {
+  background-color: #4dcf75;
+  color: white;
+}
+
+.orange-background {
+  background-color: #fcbd4a;
+  color: black;
+}
+
+.red-background-command {
+  background-color: #fc4a4a;
+  color: black;
+}
+
+.green-background-command {
+  background-color: #4dcf75;
+  color: black;
+}
+
+.orange-background-command {
+  background-color: #fcbd4a;
+  color: black;
+}
+
+.CancelButtonTablePage {
+  display: flex;
+  width: 5vw;
+  height: 1.5vw;
+  font-size: clamp(0.3rem, 0.3rem + 0.75vw, 1.5rem);
+  border-radius: 10px;
+  color: white;
+  background-color: #f94a4a;
+  border: none;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border-radius: 5000px;
+}
+
+.CancelButtonTablePage:hover {
+  background-color: #fd3535;
+}
+
+.CancelButtonTablePage:active {
+  background-color: #ff1313;
+}
+
+.SaveButtonTablePage {
+  display: flex;
+  width: 5vw;
+  height: 1.5vw;
+  font-size: clamp(0.3rem, 0.3rem + 0.75vw, 1.5rem);
+  border-radius: 10px;
+  color: white;
+  background-color: #4dcc74;
+  border: none;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border-radius: 5000px;
+}
+
+.SaveButtonTablePage:hover {
+  background-color: #24ce57;
+}
+
+.SaveButtonTablePage:active {
+  background-color: #10b642;
+}
+
+.roundedButton {
+  width: 6rem;
+  height: 1.8rem;
+  border-radius: 10px;
+  background-color: #3069be;
+  color: white;
+  border: none;
+  text-align: center;
+  font-size: 1rem;
+  cursor: pointer;
+  border-radius: 5000px;
+  align-items: center;
+  justify-content: center;
+  line-height: 1.5rem;
+}

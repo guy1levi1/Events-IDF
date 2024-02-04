@@ -9,7 +9,7 @@ import InputsWrapper from "../../utils/InputsWrapper";
 import TableModeIcon from "../../images/tableModeIcon.png";
 import { DateTimePicker, renderTimeViewClock } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useFilename } from "../../utils/contexts/FilenameContext";
 import * as XLSX from "xlsx";
 import CommandsMultiSelect from "../../components/CommandsMultiSelect";
@@ -135,7 +135,7 @@ export default function CreateEventPage() {
       console.log(error);
       Swal.fire({
         title: "לא ניתן ליצור אירוע",
-        text: error.message,
+        text: error,
         icon: "error",
         confirmButtonText: "נסה שנית",
       }).then((result) => {
@@ -159,7 +159,7 @@ export default function CreateEventPage() {
         console.log(error);
         Swal.fire({
           title: "לא ניתן ליצור אירוע",
-          text: error.message,
+          text: error,
           icon: "error",
           confirmButtonText: "נסה שנית",
         }).then((result) => {
@@ -307,10 +307,15 @@ export default function CreateEventPage() {
 
         reader.readAsBinaryString(file);
       } else {
-        console.error("Invalid file type");
-        throw new Error(
+        console.log(
           "Invalid file type. Please upload a valid Excel file (xlsx or xls)."
         );
+
+        Swal.fire({
+          icon: "error",
+          title: "סוג קובץ אינו תקין",
+          text: "ניתן להעלות קצבי אקסל בלבד",
+        });
       }
     }
   };
@@ -610,9 +615,9 @@ export default function CreateEventPage() {
                 onChange={handleFileUpload}
                 ref={fileInputRef}
                 style={{ display: "none" }}
-                id="fileInput"
+                id={"fileInputCreateEvent"}
               />
-              <label htmlFor="fileInput">
+              <label htmlFor={"fileInputCreateEvent"}>
                 <img
                   src={TableModeIcon}
                   alt=""

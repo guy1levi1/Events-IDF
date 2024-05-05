@@ -20,6 +20,7 @@ export default function ManageEventsPage() {
   const userData = JSON.parse(localStorage.getItem("userData"));
   const loggedUserId = userData ? userData.userId : "";
   const [isAdmin, setIsAdmin] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     localStorage.removeItem("newEditFormstates");
@@ -28,6 +29,8 @@ export default function ManageEventsPage() {
   // Function to fetch events from the API
   const getEventsFromAPI = useCallback(async () => {
     try {
+      setIsLoading(true);
+
       const commandId = await getCommandIdByUserId(loggedUserId);
       let events = [];
 
@@ -43,6 +46,7 @@ export default function ManageEventsPage() {
       events.sort((a, b) => new Date(a.date) - new Date(b.date));
 
       setEventsFromDB(events);
+      setIsLoading(false);
     } catch (error) {
       console.error("Error fetching events:", error);
     }
@@ -104,6 +108,7 @@ export default function ManageEventsPage() {
       <div className="headerManageEvent">
         <h1>ניהול אירועים</h1>
       </div>
+
       <div className="eventsList">
         <CacheProvider value={cacheRtl}>
           <Box
@@ -122,20 +127,24 @@ export default function ManageEventsPage() {
               overflowY: "auto",
             }}
           >
-            {eventsFromDB.map((event, index) => (
-              <CardEvent
-                key={event.id} // Use a unique key, in this case, the array index
-                eventId={event.id}
-                eventName={event.name}
-                eventDate={event.date}
-                eventLocation={event.place}
-                description={event.description}
-                eventCreator={event.userId}
-                isAdmin={isAdmin}
-                loggedUserId={loggedUserId}
-                onDelete={() => handleDeleteEvent(event.id, event.name)}
-              />
-            ))}
+            {!isLoading ? (
+              eventsFromDB.map((event) => (
+                <CardEvent
+                  key={event.id} // Use a unique key, in this case, the array index
+                  eventId={event.id}
+                  eventName={event.name}
+                  eventDate={event.date}
+                  eventLocation={event.place}
+                  description={event.description}
+                  eventCreator={event.userId}
+                  isAdmin={isAdmin}
+                  loggedUserId={loggedUserId}
+                  onDelete={() => handleDeleteEvent(event.id, event.name)}
+                />
+              ))
+            ) : (
+              <p>loading...</p>
+            )}
           </Box>
         </CacheProvider>
       </div>

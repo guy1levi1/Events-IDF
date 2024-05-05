@@ -86,6 +86,7 @@ export default function SignUpPage() {
 
   const handleInputChange = (e) => {
     if (e.target.id === "password") {
+      console.log("first");
       handleInput({
         type: "update",
         id: "secPassword",
@@ -374,7 +375,7 @@ export default function SignUpPage() {
         />
         <TextField
           id="secPassword"
-          disabled={!formData.initialInputs.password.isValid}
+          // disabled={!formData.initialInputs.password.isValid}
           size="small"
           sx={{
             width: "85%",
